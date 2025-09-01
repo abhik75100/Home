@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+Someone asked for source code: 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Neumorphic Register</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: #e0e5ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background: #e0e5ec;
+      padding: 2rem;
+      border-radius: 25px;
+      box-shadow: 10px 10px 30px #bec3c9, -10px -10px 30px #ffffff;
+      width: 300px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .tabs button {
+      flex: 1;
+      padding: 0.5rem;
+      margin: 0 5px;
+      border: none;
+      border-radius: 15px;
+      background: #e0e5ec;
+      box-shadow: inset 5px 5px 10px #bec3c9,
+                  inset -5px -5px 10px #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .tabs .active {
+      background: linear-gradient(145deg, #d1d9e6, #ffffff);
+      box-shadow: inset 2px 2px 5px #bec3c9,
+                  inset -2px -2px 5px #ffffff;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 10px;
+      border: none;
+      background: #e0e5ec;
+      box-shadow: inset 3px 3px 6px #bec3c9,
+                  inset -3px -3px 6px #ffffff;
+      font-size: 14px;
+    }
+
+    .register-btn {
+      width: 100%;
+      padding: 0.7rem;
+      border: none;
+      margin-top: 0.5rem;
+      border-radius: 15px;
+      background: #e0e5ec;
+      box-shadow: 5px 5px 10px #bec3c9,
+                  -5px -5px 10px #ffffff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .register-btn i {
+      margin-right: 5px;
+    }
+
+    .social {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .social-icon {
+      width: 40px;
+      height: 40px;
+      background: #e0e5ec;
+      border-radius: 50%;
+      box-shadow: 5px 5px 10px #bec3c9,
+                  -5px -5px 10px #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .or {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 14px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+      <button id="loginBtn">Login</button>
+      <button class="active" id="registerBtn">Register</button>
+    </div>
+
+    <div class="input-group">
+      <label>Full Name</label>
+      <input type="text" placeholder="John Doe" id="name" />
+    </div>
+
+    <div class="input-group">
+      <label>Email</label>
+      <input type="email" placeholder="you@example.com" id="email" />
+    </div>
+
+    <div class="input-group">
+      <label>Password</label>
+      <input type="password" id="password" />
+    </div>
+
+    <div class="input-group">
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" />
+    </div>
+
+    <button class="register-btn" onclick="registerUser()">
+      <i>👤➕</i> Register
+    </button>
+
+    <div class="or">Or sign up with</div>
+    <div class="social">
+      <div class="social-icon">G</div>
+      <div class="social-icon">f</div>
+      <div class="social-icon">🐦</div>
+    </div>
+  </div>
+
+  <script>
+    function registerUser() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (!name || !email || !password || !confirmPassword) {
+        alert("Please fill out all fields.");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      alert(`Welcome ${name}! Registration successful.`);
+      // You can replace this with actual backend code or Firebase integration.
+    }
+  </script>
+</body>
+</html>
+
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+"
+</body>
+
+</html>
+
+
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Attendance Sheet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
+
+        @import url('https://fonts.googleapis.com/css2?family=Laila:wght@500&family=Lora:wght@700&family=Philosopher&family=Yeseva+One&display=swap');
+
+        .hi {
+            font-family: 'Tiro Devanagari Sanskrit', serif;
+        }
+
+        .en {
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        body {
+            font-family: auto;
+            font-size: 10px;
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script src="/apps/Content/js/jquery-1.10.2.min.js"></script>
+</head>
+
+<body>
+    <div style="text-align: right; padding: 10px 0; width: 800px; margin: 0 auto;">
+        
+        <button type="button" class="btn btn-success" data-print="modal" onclick="PrintDoc()">Print</button>
+    </div>
+    <div style="width: 800px; margin: 0 auto; position: relative;">
+        <div id="prodiv">
+            
+            <table border="1" cellpadding="5" style="border-collapse: collapse; width: 800px; margin: 0 auto; font-family: Arial; font-size: 14px;">
+                <tbody>
+                            <tr style="border-bottom:0;">
+                                <td style="width: 17%; border-right: 0; padding: 5px !important;">
+
+                                    <img src="/apps/Content/images/logo-univ.png" style="width: 82px; padding: 0;" />
+                                    
+                                </td>
+                                <td colspan="3" style="text-align: center; border-right: 0; border-left: 0">
+                                    <h1 style="margin: 0">
+                                        University of Lucknow<br>
+                                        <span style="font-size:70%;"> (Accredited A++ by NAAC)</span>
+                                        <br />
+                                        <span style="font-size: 80%;">Provisional Admit Card</span>
+                                    </h1>
+                                    <h2 style="margin: 0; font-size: 1.15em;">Odd Semester Examination for the Session 2024-25</h2>
+                                </td>
+                                <td style="width: 15%; border-left: 0; padding: 5px !important; text-align: right">
+                                    
+                                    <img src="/apps/Content/images/Category-I.png" style="height:70px;width:100px;border-width:0px;" />
+                                </td>
+                            </tr>
+                            <tr style=" border-top:0;">
+                                <td colspan="5" style="text-align:right; ">Print Date : 10/01/2025</td>
+                            </tr>
+                            <tr>
+                                <td style="font-size: 18px;"><b>Roll Number</b></td>
+                                <td style="font-size: 16px; text-align:left;"><b>2430641010052</b></td>
+                                <td style="font-size: 18px;"><b>Enrollment No</b></td>
+                                <td style="font-size: 16px; text-align: left;"><b></b></td>
+                                <td rowspan="5" style="text-align: center; vertical-align: top;">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentPhoto/LU2400202027_562755_P.jpg" style="width: 110px; height: 110px; border: 1px solid #ccc;">
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Course Name</b></td>
+                                <td colspan="3">BA (NEP)</td>
+                            </tr>
+                            <tr>
+                                <td><b>Student Name</b></td>
+                                <td colspan="3">GANGA SAGAR</td>
+                            </tr>
+                            <tr>
+                                <td><b>Father's Name</b></td>
+                                <td colspan="3">RAM RAHISH</td>
+                            </tr>
+                            <tr>
+                                <td><b>Mother's Name</b></td>
+                                <td colspan="3">RAM DEVI</td>
+                            </tr>
+                            <tr>
+                                <td><b>Gender</b></td>
+                                <td>Male</td>
+                                <td><b>Category</b></td>
+                                <td>OBC Non Creamy Layer</td>
+                                <td rowspan="2" style="text-align: center">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentSign/LU2400202027_562755_S.jpg" style="width: 110px; height: 40px; border: 1px solid #ccc;">
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Semester</b></td>
+                                <td>1</td>
+                                <td><b>Exam Type</b></td>
+                                <td>Regular</td>
+
+
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <b>College Name [College Code]</b>
+                                    <p style="font-size: 15px; margin-bottom: 5px;"><b>CHANDRIKA SINGH SUNDER SINGH MAHAVIDYALAYA, LAKHIMPUR KHERI - [3064]</b></p>
+                                    <span id="spnSubcat" style="display:none">
+                                        (<b>Note:-</b>
+                                        <span id="lblSubcat"></span>
+                                    </span>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td colspan="5">
+                                    <b>Name &amp; Address of Examination Centre[Centre Code]</b>
+                                    <p style="font-size: 17px; margin-bottom: 5px;"><b>CHANDRIKA SINGH SUNDER SINGH MAHAVIDYALAYA, LAKHIMPUR KHERI - [3064]</b></p>
+
+                                    <span id="spnSubcat" style="display:none">
+                                        (<b>Note:-</b>
+                                        <span id="lblSubcat"></span>
+                                    </span>
+                                </td>
+
+                            </tr>
+                    <tr>
+                        <td colspan="5">
+                            <table border="1" cellpadding="5" style="border-collapse: collapse; width: 800px; margin: 0 auto; font-family: Arial; font-size: 14px;">
+                                <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Subject Name</th>
+                                        <th>Paper Code</th>
+                                        <th>Paper Name</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td>HINDI (Major 1)</td>
+                                                <td>21171</td>
+                                                <td>HINDI SAAHITYA KA ITIHAAS (AADIKAL SE REETIKAL TAK)</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>HINDI (Major 1)</td>
+                                                <td>21172</td>
+                                                <td>BHAKTIKALEEN HINDI KAVYA</td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td>EDUCATION (Major 2)</td>
+                                                <td>21104</td>
+                                                <td>CONCEPTUAL FRAMEWORK OF EDUCATION - I</td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td>EDUCATION (Major 2)</td>
+                                                <td>21105</td>
+                                                <td>DEVELOPMENT AND CHALLENGES OF INDIAN EDUCATION SYSTEM - I</td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td>SOCIOLOGY (Minor)</td>
+                                                <td>21373</td>
+                                                <td>INTRODUCTION TO SOCIOLOGY</td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td>CO-CURRICULAR (NEP)</td>
+                                                <td>11189</td>
+                                                <td>BASICS OF COMPUTER</td>
+                                            </tr>
+
+                                </tbody>
+                </tbody>
+            </table>
+            </td>
+            </tr>
+            
+            <tr>
+                <td colspan="3" style="vertical-align: bottom; border-bottom: 0;">
+                    <b>Note : आपके द्वारा परीक्षा फार्म में दिये गये अर्हता विवरण में भविष्य में कोई अनियमितता या कूटरचित तथ्य पाए जाने पर आपका परीक्षा फल निरस्त कर दिया जाएगा। Students failing to bring this Admit Card alongwith a valid Government issued photo identity proof shall not be allowed to appear in the examination. This Admit Card is provisional. The result shall be declared subject to eligibility of the candidate.</b>
+                </td>
+                <td colspan="2" style="vertical-align: bottom; border-bottom: 0; border-right: 0; text-align: center;">
+                    <p>
+                        <img src="/apps/Content/images/COE_LU.png" width="200px" height="40px" />
+                        <br />
+                        <b>(Controller of Examinations)</b>
+                    </p>
+
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="5">
+                    <p style="margin: 5px;"><strong>Important  Instructions :</strong></p>
+                    <ol style="margin-top: 4px;">
+                        <li><strong>अभ्यर्थी को परीक्षा केंद्र में प्रवेश पत्र के साथ भारत सरकार द्वारा जारी फोटो पहचान पत्र रखना अनिवार्य है।</strong></li>
+                        <li>
+                            उत्तर पुस्तिका पर अपने अनुक्रमांक निम्नवत लिखें –
+                            <br />
+                            <span style="float:left;">अनुक्रमांक (अंकों में)&emsp;</span>
+
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            2
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            4
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            3
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            0
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            6
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            4
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            1
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            0
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            1
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            0
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            0
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            5
+                                        </span>
+                                        <span style="border: 1px solid black;width: 20px;height: 15px;text-align: center;float: left;margin-top: 0.3%;">
+                                            2
+                                        </span>
+                            <br />
+                            <br />
+                        </li>
+                        <li style="margin-top:-1.5%;" id="removeMargin"><strong>छात्रों को प्रवेश पत्र पर अंकित विश्वविद्यालय द्वारा निर्धारित परीक्षा केंद्र पर परीक्षा शुरू होने के 30 मिनट पूर्व आना अनिवार्य है।</strong></li>
+
+                        
+
+                    <li>उत्तर पुस्तिका का वितरण परीक्षा शुरू होने के15 मिनट पूर्व किया जायेगा, ताकि छात्र परीक्षा शुरू होने से पहले OMR आवरण को पूर्ण रूप से भर लें। तत्पश्चात प्रश्न पत्र का वितरण किया जायेगा।</li>
+
+                        <li>स्नातक स्तर पर प्रेक्टिकल/वाइवा एवं स्नातकोत्तर स्तर पर वाइवा की तिथि/समय महाविद्यालय/विभाग द्वारा निर्धारित की जाएँगी।</li>
+
+                        <li>
+                            यदि अभ्यर्थी की फोटो अस्पष्ट/त्रुटि युक्त है, तो यह Admit Card किसी भी  अवस्था में मान्य नहीं होगा।
+                        </li>
+                        <li>
+                            अभ्यर्थी को केंद्र के केन्द्राध्यक्ष, सहायक केन्द्राध्यक्ष एवं कक्ष निरीक्षकों के निर्देशों का सर्वथा अनुपालन करना होगा।
+                        </li>
+                        <li>
+                            उत्तर पुस्तिका पर आवरण पृष्ठ पर अंकित सूचनाओं के अतिरिक्त अन्य किसी पृष्ठ पर नाम, अनुक्रमांक या अन्य चिन्ह अंकित करना अनुचित साधन की श्रेणी (UFM) में माना जायेगा।
+                        </li>
+                        <li>
+                            अभ्यर्थी अपनी उत्तर पुस्तिका कक्ष निरीक्षक के हाथ में सौंपें बिना परीक्षा कक्ष के बाहर नहीं जा सकेगा।
+                        </li>
+                        <li>
+                            <b>
+                                परीक्षा कक्ष में किसी प्रकार की पाठ्य पुस्तक/सहायक पुस्तक/मोबाइल/केलकुलेटर/स्मार्ट वॉच/इलेक्ट्रिक उपकरण इत्यादि नहीं लायी जा सकती है। ऐसा पाए जाने पर अनुचित साधन की श्रेणी (UFM) समझा जायेगा एवं केन्द्राध्यक्ष को परीक्षार्थी के विरूद्ध नियमानुसार कार्यवाही करने का अधिकार होगा।
+                            </b>
+                        </li>
+                        <li>
+                            परीक्षा कक्ष में अशांति उत्पन्न करने वाले अभ्यर्थी नियमानुसार दंड के भागी होंगे परीक्षा बहिष्कार करने/छूट जाने पर उस परीक्षा को पुनः संपन्न कराने का विश्वविद्यालय का कोई उत्तरदायित्व नहीं होगा।
+                        </li>
+                        
+                        <li>
+                            परीक्षार्थी को परीक्षा कार्यक्रम (Exam Schedule) में किसी भी प्रकार की जानकारी अथवा बदलाव के लिए विश्वविद्यालय की वेबसाइट www.lkouniv.ac.in पर परीक्षा कार्यक्रम देखते रहने की सलाह दी जाती है।
+                        </li>
+                    </ol>
+                </td>
+            </tr>
+
+            
+            </tbody>
+            </table>
+            
+        </div>
+    </div>
+    <script>
+
+        function PrintDoc() {
+            $('#removeMargin').attr('style', 'margin-top:-1%;')
+            var toPrint = document.getElementById('prodiv');
+
+            var popupWin = window.open('', '_blank', 'left=100,top=100,width=1100,height=600,tollbar=0,scrollbars=1,status=0,resizable=1');
+
+            popupWin.document.open();
+
+            popupWin.document.write('<html><title>::Preview::</title><head><style>body{font-family:Arial} .noprint{display: none;} table{width:100%; border-collapse:collapse;} table tr th, table tr td{border:2px solid #000; padding:2px 5px; font-size: 12px;} table tr td ol{font-size: 12px;} .note{font-size: 11px;}</style></head><body onload="window.print()">')
+
+            popupWin.document.write(toPrint.innerHTML);
+
+            popupWin.document.write('</body></html>');
+
+            popupWin.document.close();
+            $('#removeMargin').attr('style', 'margin-top:-1.5%;')
+        }
+    </script>
+</body>
+</html>

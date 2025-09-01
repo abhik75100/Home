@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+<title>UPSC</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="stylesheet" href="css/bootstrap.min.css" />
+<link rel="stylesheet" href="css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="css/fullcalendar.css" />
+<link rel="stylesheet" href="css/colorpicker.css" />
+<link rel="stylesheet" href="css/datepicker.css" />
+<link rel="stylesheet" href="css/uniform.css" />
+<link rel="stylesheet" href="css/select2.css">
+<link rel="stylesheet" href="css/maruti-style.css" />
+<link rel="stylesheet" href="css/maruti-media.css" class="skin-color" />
+<style>
+    img.azadi{
+        width: 120px;
+        height: 80px;
+    }
+ </style>
+<noscript>
+        <meta http-equiv="refresh" runat="server" id="mtaJSCheck" content="0;nojs.php" />
+</noscript>
+<script type="text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+
+</head>
+<body >
+<div id="hello">
+<style type="text/css">
+	header.upsc-header{
+		display: flex;
+		background: linear-gradient(90deg, rgba(254,254,255,1) 0%, rgba(182 205 245) 100%);
+        width: 100%;
+        
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+    @media(max-width: 500px){        
+        .left-container .site-title {
+            font-size: 16px;
+        }
+    }
+	.left-container{
+	    background: url(./images/logo.png) no-repeat 3px 0;
+	    float: left;
+        width: 100%;
+	    font-size: 155%;
+	    line-height: 90%;
+	    min-height: 72px;
+	    padding: 15px 0 0 65px;
+	    text-transform: uppercase;
+	    margin-top: 16px;
+	    margin-left: 1%;
+	}
+    .right-container{
+       
+        float: right;
+        text-transform: uppercase;
+        margin-top: 16px;
+	}
+	.left-container .site-title {
+	    line-height: 1.2;
+	    color: #111;
+	    text-decoration: none;
+	    font-size:24.8px;
+		font-weight:600;
+		font-family: "Lucida Console", "Courier New", monospace;
+	}
+	.left-container .site-title strong {
+	    font-weight: 600;
+	    display: inline-block;
+	    font-size: 100%;
+	}
+	.left-container .site-title span {
+		display: block;
+	}
+	.lang {
+		margin-top: 2%;
+ 	 	margin-left: 50%;
+	}
+
+
+
+.float-right{
+	float:right;
+	margin-right: 2%;
+	margin-top: 0.3%;
+}
+
+
+.btn {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: #fd1919ad;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+
+
+  text-decoration: none;
+  text-align: center;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+
+.first {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px $red inset;
+  }
+}
+
+
+.topMenuBar {
+    background: #e47f18;
+    border-bottom: 1px solid #ebebeb;
+	padding: 10px 0px 0px 65px;
+}
+.topmenupart {
+    padding: 5px 5px;
+    color: rgb(27, 27, 27);
+    position: relative;
+}
+
+.topmenupart .menulist ul {
+    padding-left: 0px;
+    padding-top: 3px;
+    margin-bottom: 0px;
+    list-style-type: none;
+    display: inline-block;
+}
+.pull-right {
+    float: right!important;
+}
+
+.forzoominoutFonts a {
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font: 14px/24px 'Roboto', sans-serif !important;
+        margin: 4px 0px 1px;
+    padding: 0px 5px;
+    background: transparent;
+    width: 25px;
+    height: 24px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.accordion .widget-box {
+	width: 90%;
+    margin-top: 20px;
+	margin-left: 15px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+label{
+	display:inline;
+}
+.color-blue{
+	color:blue;
+}
+
+
+.btn-success-2 {
+    color: #251c1c;
+    margin-bottom: 1%;
+    padding-left: 1%;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top,#62c462,#51a351);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+    background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+    background-image: -o-linear-gradient(top,#62c462,#51a351);
+    background-image: linear-gradient(to bottom,#62c462,#51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462',endColorstr='#ff51a351',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+ .form-horizontal .control-label {
+
+    text-align: left;
+    p
+    adding-left: 2%;
+ }
+ @media print{
+    img.azadi{
+        width: 150px;
+        height: 80px;
+    }
+ }
+</style>
+<header class="topMenuBar">
+	<div class="container">
+		<div class="row">
+			<div class="topmenupart">
+			<nav class="menulist">
+			<div class="langchangeDpdn pull-left">	
+								</div>
+				<div class="langchangeDpdn pull-right">	
+					
+								</div>
+				
+			</nav>
+			</div>
+		</div>
+	</div>
+</header>
+<header class="upsc-header topbar">
+	<div class="left-container"> 
+		<div class="site-title">
+			<strong>संघ  लोक  सेवा  आयोग</strong>
+			<span>UNION PUBLIC SERVICE COMMISSION</span>            
+		</div>
+	</div>
+    <img src="./images/azadi.png" class="azadi" !important alt="" style="float:right; display:inline;padding-top:10px;">
+</header><div id="sidebar">
+<ul>
+	<li><a href="logout.php"><i class="icon icon-home"></i> <span><b>Home</b></span></a></li>
+	<li class="active"><a href="logout.php"><i class="icon icon-print"></i> <span><b>Login</b></span></a> </li>
+	<li class="active"><a href="instr_otr.php"><i class="icon icon-globe"></i> <span><b>Instructions for OTR</b></span></a> </li>
+	<li><a href="candidate/faq.php"><i class="icon icon-fullscreen"></i> <span><b>FAQ</b></a></span></a></li>
+	<li class="active"><a href="candidate/contact.php"><i class="icon icon-book"></i> <span><b>Contact Us</b></span></a> </li>
+	<li class="active"><a href="forotrpass.php"><i class="icon icon-book"></i> <span><b>Forgot Password</b></span></a> </li>
+	<li class="active"><i class="icon icon-book"></i> <span><b>V:126</b></span> </li>
+	
+</ul>
+</div>
+<div id="content">
+  <div id="content-header"></div>
+	<script> location.replace("index.php"); </script>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neumorphic Dynamic Table</title>
+
+<!-- html2canvas & jsPDF CDNs -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+
+<style>
+  :root{
+    --bg:#e0e5ec;
+    --shadow-dark:#bec3c9;
+    --shadow-light:#ffffff;
+    --green:#28a745;
+    --green-hover:#218838;
+    --blue:#007bff;
+    --blue-hover:#0069d9;
+    --red:#dc3545;
+    --red-hover:#b02a37;
+    --teal:#17a2b8;
+  }
+  *{ box-sizing:border-box; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+  body{
+    background:var(--bg);
+    padding:20px;
+  }
+  .container{
+    max-width:1000px;
+    margin:auto;
+    background:var(--bg);
+    padding:1.5rem;
+    border-radius:25px;
+    box-shadow:10px 10px 30px var(--shadow-dark), -10px -10px 30px var(--shadow-light);
+  }
+  h1{
+    text-align:center;
+    margin:0 0 16px;
+  }
+
+  /* Table card */
+  .table-card{
+    background:#f8f8f8;
+    border-radius:20px;
+    padding:14px;
+    box-shadow:3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    overflow-x:auto;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:560px;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+  }
+  thead th{
+    background:var(--blue);
+    color:#fff;
+    padding:10px;
+    text-align:center;
+    position:relative;
+    white-space:nowrap;
+  }
+  tbody td{
+    border:1px solid #ddd;
+    padding:10px 8px;
+    text-align:center;
+  }
+  tbody tr:nth-child(even) td{ background:#f3f5f7; }
+  tbody tr:nth-child(odd)  td{ background:#ffffff; }
+
+  /* Editable cell look */
+  td[contenteditable="true"]{
+    outline:none;
+  }
+
+  /* Row controls (⊕ ⊖) */
+  .row-controls{
+    display:flex;
+    gap:10px;
+    margin:10px 0 14px;
+    justify-content:flex-start;
+  }
+  .icon-btn{
+    width:44px; height:44px; border:none; border-radius:50%;
+    cursor:pointer; font-size:20px; font-weight:700; line-height:44px;
+    text-align:center; color:#fff; background:var(--green);
+    box-shadow:3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light), inset 0 0 0 rgba(0,0,0,0);
+    transition:transform .1s ease, filter .2s ease;
+  }
+  .icon-btn.minus{ background:var(--red); }
+  .icon-btn:hover{ filter:brightness(0.95); }
+  .icon-btn:active{ transform:scale(0.96); }
+
+  /* Column controls live in header right */
+  .col-controls{
+    display:inline-flex; gap:8px; margin-left:8px; vertical-align:middle;
+  }
+  .col-controls .mini{
+    width:34px; height:34px; line-height:34px; font-size:18px; border-radius:50%;
+    box-shadow:inset 3px 3px 6px #d1d6dc, inset -3px -3px 6px #fff, 2px 2px 4px rgba(0,0,0,.08);
+  }
+  .col-controls .plus{ background:var(--green); color:#fff; border:none; }
+  .col-controls .minus{ background:var(--red); color:#fff; border:none; }
+
+  /* Bottom action bar */
+  .action-bar{
+    margin-top:16px;
+    display:flex; flex-wrap:wrap; gap:10px; justify-content:center;
+  }
+  .action-btn{
+    padding:10px 14px; border:none; border-radius:15px; color:#fff; cursor:pointer;
+    background:var(--green); min-width:140px; text-align:center;
+    box-shadow:inset 3px 3px 6px #1f7d34, inset -3px -3px 6px #35d15a,
+               3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+    transition:filter .2s ease, transform .1s ease;
+  }
+  .action-btn.blue{
+    background:var(--blue);
+    box-shadow:inset 3px 3px 6px #045bb4, inset -3px -3px 6px #4aa4ff,
+               3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  }
+  .action-btn.teal{
+    background:var(--teal);
+    box-shadow:inset 3px 3px 6px #10778a, inset -3px -3px 6px #5fe0ef,
+               3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  }
+  .action-btn.red{
+    background:var(--red);
+    box-shadow:inset 3px 3px 6px #8b2330, inset -3px -3px 6px #ff6c7a,
+               3px 3px 6px var(--shadow-dark), -3px -3px 6px var(--shadow-light);
+  }
+  .action-btn:hover{ filter:brightness(.97); }
+  .action-btn:active{ transform:scale(.98); }
+  .file-input{ display:none; }
+
+  /* Print: only table-card content */
+  @media print{
+    body *{ visibility:hidden !important; }
+    .table-card, .table-card *{ visibility:visible !important; }
+    .table-card{ position:absolute; left:0; top:0; width:100%; box-shadow:none; padding:0; background:#fff; }
+    .row-controls, .col-controls, .action-bar{ display:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>डायनामिक टेबल (Neumorphic)</h1>
+
+  <!-- Row controls -->
+  <div class="row-controls">
+    <button class="icon-btn plus" title="Row जोड़ें" onclick="addRow()">⊕</button>
+    <button class="icon-btn minus" title="Row हटाएँ" onclick="removeRow()">⊖</button>
+  </div>
+
+  <!-- Table -->
+  <div class="table-card" id="tableCard">
+    <table id="dataTable">
+      <thead>
+        <tr id="headerRow">
+          <th>Serial</th>
+          <th>कॉलम 1</th>
+          <th>कॉलम 2</th>
+          <!-- Column controls cell -->
+          <th id="colCtrlHead">
+            कॉलम
+            <span class="col-controls">
+              <button class="mini plus" title="Column जोड़ें" onclick="addColumn()">⊕</button>
+              <button class="mini minus" title="Column हटाएँ" onclick="removeColumn()">⊖</button>
+            </span>
+          </th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        <tr>
+          <td>1</td>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+          <td contenteditable="true"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Bottom Action Bar -->
+  <div class="action-bar" id="actions">
+    <button class="action-btn blue" onclick="printTable()">🖨️ Print</button>
+    <button class="action-btn teal" onclick="exportPDF()">📄 PDF</button>
+    <button class="action-btn" onclick="exportCSV()">📤 Export CSV</button>
+
+    <label class="action-btn" for="csvFile">📥 Import CSV</label>
+    <input id="csvFile" class="file-input" type="file" accept=".csv" onchange="importCSV(event)" />
+
+    <button class="action-btn blue" onclick="saveImage()">🖼️ Save Image</button>
+    <button class="action-btn" onclick="shareWhatsApp()">🟢 WhatsApp Share</button>
+  </div>
+</div>
+
+<script>
+  // ===== Helpers =====
+  function headerCellCount(){
+    // excluding the header which holds controls? No, we keep it as regular column
+    return document.querySelector('#dataTable thead tr').cells.length;
+  }
+
+  function updateSerial(){
+    const rows = document.querySelectorAll('#tbody tr');
+    rows.forEach((tr, i)=> tr.cells[0].innerText = i + 1);
+  }
+
+  function ensureControlHeaderAtEnd(){
+    // Keep the "col controls" header cell at the end
+    const headRow = document.getElementById('headerRow');
+    const ctrl = document.getElementById('colCtrlHead');
+    if(headRow.lastElementChild !== ctrl){
+      headRow.appendChild(ctrl);
+    }
+  }
+
+  // ===== Row Ops =====
+  function addRow(){
+    const tbody = document.getElementById('tbody');
+    const cols = headerCellCount();
+    const tr = document.createElement('tr');
+    for(let c=0;c<cols;c++){
+      const td = document.createElement('td');
+      if(c===0){ td.textContent = ''; }  // serial will be set by updateSerial
+      else { td.contentEditable = "true"; }
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+    updateSerial();
+  }
+
+  function removeRow(){
+    const tbody = document.getElementById('tbody');
+    if(tbody.rows.length>0){
+      tbody.deleteRow(-1);
+      updateSerial();
+    }
+  }
+
+  // ===== Column Ops =====
+  function addColumn(){
+    const table = document.getElementById('dataTable');
+    const headRow = document.getElementById('headerRow');
+
+    // Insert new header before the control head cell
+    const ctrlHead = document.getElementById('colCtrlHead');
+    const idxForNew = Array.prototype.indexOf.call(headRow.children, ctrlHead);
+    const th = document.createElement('th');
+    th.textContent = `कॉलम ${idxForNew}`; // nice auto name
+    headRow.insertBefore(th, ctrlHead);
+
+    // Add cells to each body row
+    const rows = document.querySelectorAll('#tbody tr');
+    rows.forEach(r=>{
+      const td = document.createElement('td');
+      td.contentEditable = "true";
+      r.insertBefore(td, r.lastElementChild); // before last cell so counts stay aligned
+    });
+
+    ensureControlHeaderAtEnd();
+  }
+
+  function removeColumn(){
+    const headRow = document.getElementById('headerRow');
+    const ctrlHead = document.getElementById('colCtrlHead');
+
+    // We should never remove Serial (index 0), and also not remove control cell
+    const indexCtrl = Array.prototype.indexOf.call(headRow.children, ctrlHead);
+    if(indexCtrl > 1){ // at least one editable column exists
+      // remove the column just before control head
+      const removeIndex = indexCtrl - 1;
+
+      // remove header cell
+      headRow.removeChild(headRow.children[removeIndex]);
+
+      // remove cell from each row
+      document.querySelectorAll('#tbody tr').forEach(tr=>{
+        tr.removeChild(tr.children[removeIndex]);
+      });
+    }
+  }
+
+  // ===== CSV =====
+  function exportCSV(){
+    const table = document.getElementById('dataTable');
+    const rows = [];
+    for(const tr of table.rows){
+      const cols = [];
+      for(const cell of tr.cells){
+        // Skip the control header text "कॉलम" extras? Keep it, it's fine as header; body last cell is editable too.
+        let val = cell.getAttribute('contenteditable') === 'true'
+                  ? (cell.innerText ?? '').trim()
+                  : (cell.innerText ?? '').trim();
+        // Escape commas/quotes
+        if(val.includes(',') || val.includes('"')){
+          val = '"' + val.replace(/"/g, '""') + '"';
+        }
+        cols.push(val);
+      }
+      rows.push(cols.join(','));
+    }
+    const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'table.csv';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function importCSV(e){
+    const file = e.target.files[0];
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev)=>{
+      const text = ev.target.result;
+      const lines = text.split(/\r?\n/).filter(l=>l.trim()!=='');
+      if(lines.length===0) return;
+
+      // Simple CSV parse (no complex quotes handling beyond basic)
+      const parse = (line)=>{
+        const out=[]; let cur=''; let inQ=false;
+        for(let i=0;i<line.length;i++){
+          const ch=line[i];
+          if(ch==='"'){
+            if(inQ && line[i+1]==='"'){ cur+='"'; i++; }
+            else inQ=!inQ;
+          }else if(ch===',' && !inQ){
+            out.push(cur); cur='';
+          }else cur+=ch;
+        }
+        out.push(cur);
+        return out;
+      };
+
+      const header = parse(lines[0]);
+      const body = lines.slice(1).map(parse);
+
+      // Rebuild table
+      const table = document.getElementById('dataTable');
+      const thead = table.tHead;
+      const tbody = document.getElementById('tbody');
+
+      // Clear head/body
+      thead.innerHTML = '';
+      tbody.innerHTML = '';
+
+      // Build head: Serial + provided headers (except we’ll keep last control head)
+      const hr = thead.insertRow();
+      // If CSV already has "Serial" we keep it, else we add Serial and then CSV headers
+      // Create Serial
+      const thSerial = document.createElement('th');
+      thSerial.textContent = 'Serial';
+      hr.appendChild(thSerial);
+
+      // Add CSV headers
+      header.forEach(h=>{
+        const th=document.createElement('th');
+        th.textContent = h.trim();
+        hr.appendChild(th);
+      });
+
+      // Control head
+      const thCtrl = document.createElement('th');
+      thCtrl.id='colCtrlHead';
+      thCtrl.innerHTML = `कॉलम
+        <span class="col-controls">
+          <button class="mini plus" title="Column जोड़ें" onclick="addColumn()">⊕</button>
+          <button class="mini minus" title="Column हटाएँ" onclick="removeColumn()">⊖</button>
+        </span>`;
+      hr.appendChild(thCtrl);
+
+      // Build body
+      body.forEach(row=>{
+        const tr = tbody.insertRow();
+        // Serial placeholder
+        tr.insertCell().textContent='';
+        // CSV data cells
+        row.forEach(v=>{
+          const td = tr.insertCell();
+          td.contentEditable="true";
+          td.textContent = v;
+        });
+        // control column cell (editable)
+        const tdEnd = tr.insertCell();
+        tdEnd.contentEditable="true";
+      });
+
+      updateSerial();
+    };
+    reader.readAsText(file);
+    // reset input so same file can be re-imported
+    e.target.value = '';
+  }
+
+  // ===== Print =====
+  function printTable(){
+    window.print();
+  }
+
+  // ===== Image (PNG) =====
+  async function saveImage(){
+    const card = document.getElementById('tableCard');
+    const canvas = await html2canvas(card, {scale:2});
+    const link = document.createElement('a');
+    link.download = 'table.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+
+  // ===== PDF =====
+  async function exportPDF(){
+    const { jsPDF } = window.jspdf;
+    const card = document.getElementById('tableCard');
+    const canvas = await html2canvas(card, {scale:2});
+    const imgData = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF('p','mm','a4');
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const pageHeight = pdf.internal.pageSize.getHeight();
+
+    // Fit image to width and keep aspect
+    const imgProps = { w: canvas.width, h: canvas.height };
+    const ratio = imgProps.w / imgProps.h;
+    const pdfW = pageWidth - 20; // 10mm margin each side
+    const pdfH = pdfW / ratio;
+
+    let x = 10, y = 10;
+    if(pdfH > pageHeight - 20){
+      // if too tall, fit by height
+      const h = pageHeight - 20;
+      const w = h * ratio;
+      x = (pageWidth - w)/2;
+      pdf.addImage(imgData, 'PNG', x, 10, w, h, undefined, 'FAST');
+    }else{
+      x = (pageWidth - pdfW)/2;
+      pdf.addImage(imgData, 'PNG', x, 10, pdfW, pdfH, undefined, 'FAST');
+    }
+
+    pdf.save('table.pdf');
+  }
+
+  // ===== WhatsApp =====
+  function tableToText(){
+    const table = document.getElementById('dataTable');
+    const rows = [];
+    for(const tr of table.rows){
+      const cells = [];
+      for(const td of tr.cells){
+        cells.push((td.innerText||'').trim());
+      }
+      rows.push(cells.join(' | '));
+    }
+    return rows.join('\n');
+  }
+
+  async function shareWhatsApp(){
+    // Try sharing image (Web Share Level 2) if supported
+    try{
+      const card = document.getElementById('tableCard');
+      const canvas = await html2canvas(card, {scale:2});
+      const blob = await new Promise(res=>canvas.toBlob(res, 'image/png'));
+      const file = new File([blob], 'table.png', {type: 'image/png'});
+
+      if(navigator.canShare && navigator.canShare({files:[file]})){
+        await navigator.share({ files:[file], title:'Table', text:'मेरी टेबल' });
+        return;
+      }
+    }catch(e){
+      // ignore; fallback to text share
+    }
+
+    // Fallback: share as text via wa.me
+    const text = tableToText();
+    const url = "https://wa.me/?text=" + encodeURIComponent(text);
+    window.open(url, '_blank');
+  }
+
+  // Initial consistency
+  ensureControlHeaderAtEnd();
+  updateSerial();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

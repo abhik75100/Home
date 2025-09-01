@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hindi PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/franc-min/6.0.0/franc.min.js"></script>
+    <style>
+        body { font-family: 'Noto Sans Devanagari', Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        textarea { 
+            width: 100%; 
+            height: 400px; 
+            padding: 15px;
+            font-family: 'Noto Sans Devanagari', Arial, sans-serif;
+            font-size: 16px;
+            direction: ltr;
+        }
+    </style>
+    <!-- Include Noto Sans Devanagari font -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>हिंदी PDF जनरेटर</h1>
+        <textarea id="hindiContent" placeholder="अपनी हिंदी सामग्री यहाँ टाइप करें..."></textarea>
+        <button onclick="generateHindiPDF()">PDF बनाएं</button>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // Add Noto Sans Devanagari font (make sure to use actual font file in production)
+        async function loadFont() {
+            try {
+                const response = await fetch('https://fonts.gstatic.com/ea/notosansdevanagari/v6/NotoSansDevanagari-Regular.woff2');
+                const fontData = await response.arrayBuffer();
+                const fontBase64 = arrayBufferToBase64(fontData);
+                
+                // Register the font
+                jsPDF.API.events.push(['addFonts', function() {
+                    this.addFileToVFS('NotoSansDevanagari-Regular.ttf', fontBase64);
+                    this.addFont('NotoSansDevanagari-Regular.ttf', 'NotoSansDevanagari', 'normal');
+                }]);
+            } catch (error) {
+                console.error('Error loading font:', error);
+            }
+        }
+
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        function detectHindi(text) {
+            const langCode = franc(text);
+            return langCode === 'hin'; // 'hin' is the code for Hindi
+        }
+
+        function generateHindiPDF() {
+            const text = document.getElementById('hindiContent').value;
+            const isHindi = detectHindi(text);
+
+            const doc = new jsPDF();
+            
+            // Set appropriate font
+            if(isHindi) {
+                doc.setFont('NotoSansDevanagari');
+                doc.setFontSize(12);
+            } else {
+                doc.setFont('helvetica');
+                doc.setFontSize(12);
+            }
+
+            // Configure PDF settings for Hindi
+            const options = {
+                lang: isHindi ? 'hi' : 'en',
+                direction: isHindi ? 'ltr' : 'ltr', // Hindi uses left-to-right direction
+                fontSize: 12,
+                lineHeight: 1.5
+            };
+
+            // Split text into pages
+            const splitText = doc.splitTextToSize(text, 180);
+            
+            doc.text(15, 20, splitText);
+            doc.save('hindi-document.pdf');
+        }
+
+        // Initialize font loader
+        loadFont();
+        
+    
+}
+    </script>
+    
+   
+</body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SSC Admission Certificate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            border: 2px solid #000;
+            padding: 30px;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #000;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .govt-emblem {
+            width: 80px;
+            margin-bottom: 10px;
+        }
+        .certificate-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        .content {
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .candidate-name {
+            font-size: 20px;
+            color: #c0392b;
+            font-weight: bold;
+            text-decoration: underline;
+            margin: 15px 0;
+        }
+        .details-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+        .details-table td {
+            padding: 8px;
+            vertical-align: top;
+        }
+        .signature-section {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .signature-box {
+            width: 200px;
+            border-top: 1px solid #000;
+            margin: 20px 0;
+            padding: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="govt-emblem.png" alt="Government Emblem" class="govt-emblem">
+        <div class="certificate-title">Staff Selection Commission</div>
+        <div>Government of India</div>
+    </div>
+
+    <div class="content">
+        <div class="certificate-title">ADMISSION CERTIFICATE</div>
+        
+        <p>This is to certify that</p>
+        <div class="candidate-name">[Candidate's Full Name]</div>
+        <p>S/O/D/O: [Father's/Mother's Name]</p>
+
+        <table class="details-table">
+            <tr>
+                <td>Roll Number:</td>
+                <td>[XXXXXXXXXX]</td>
+            </tr>
+            <tr>
+                <td>Date of Birth:</td>
+                <td>[DD/MM/YYYY]</td>
+            </tr>
+            <tr>
+                <td>Examination Name:</td>
+                <td>[Examination Title]</td>
+            </tr>
+            <tr>
+                <td>Examination Date:</td>
+                <td>[DD/MM/YYYY]</td>
+            </tr>
+            <tr>
+                <td>Examination Center:</td>
+                <td>[Center Name and Address]</td>
+            </tr>
+        </table>
+
+        <p>has been admitted to the above-mentioned examination conducted by the Staff Selection Commission.</p>
+
+        <div class="signature-section">
+            <div>
+                <div class="signature-box">Signature of Candidate</div>
+                <div>Date: [DD/MM/YYYY]</div>
+            </div>
+            <div>
+                <div class="signature-box">Signature of Authority</div>
+                <div>Official Seal</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>** This is computer generated document and does not require physical signature **</p>
+        <p>Bring this admission certificate to the examination center along with valid photo ID proof</p>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>250 Page Flip Book</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .flip-book {
+            position: relative;
+            width: 600px;
+            height: 800px;
+            perspective: 2000px;
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transform-style: preserve-3d;
+            transition: transform 1s;
+            transform-origin: left center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            backface-visibility: hidden;
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: #666;
+        }
+
+        .controls {
+            position: fixed;
+            top: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        button {
+            padding: 8px 16px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <button onclick="prevPage()">Previous</button>
+        <span id="currentPage">Page 1</span>
+        
+        
+        
+        <button onclick="nextPage()">Next</button>
+    </div>
+    <div class="flip-book" id="flipBook"></div>
+
+    <script>
+        const flipBook = document.getElementById('flipBook');
+        const totalPages = 250;
+        let currentPage = 0;
+        const pages = [];
+
+        // Create pages
+        for(let i = 0; i < totalPages; i++) {
+            const page = document.createElement('div');
+            page.className = 'page';
+            page.style.zIndex = totalPages - i;
+            page.innerHTML = `
+                <div>Page ${i + 1}</div>
+                <div class="page-number">${i + 1}</div>
+            `;
+            flipBook.appendChild(page);
+            pages.push(page);
+            
+            // Set initial position
+            page.style.transform = `rotateY(${i === 0 ? 0 : -180}deg)`;
+        }
+
+        function updatePageNumber() {
+            document.getElementById('currentPage').textContent = 
+                `Page ${currentPage + 1}`;
+        }
+
+        function nextPage() {
+            if(currentPage < totalPages - 1) {
+                pages[currentPage].style.transform = 'rotateY(-180deg)';
+                currentPage++;
+                pages[currentPage].style.transform = 'rotateY(0deg)';
+                updatePageNumber();
+            }
+        }
+
+        function prevPage() {
+            if(currentPage > 0) {
+                currentPage--;
+                pages[currentPage].style.transform = 'rotateY(0deg)';
+                pages[currentPage + 1].style.transform = 'rotateY(-180deg)';
+                updatePageNumber();
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight') nextPage();
+            if(e.key === 'ArrowLeft') prevPage();
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+<br>
+  <!--Tab to edit-->
+<br>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flipbook Example</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            margin: 0;
+        }
+
+        #flipbook {
+            width: 600px;
+            height: 400px;
+            margin: 50px auto;
+            position: relative;
+            perspective: 1500px;
+        }
+
+        .page {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border: 1px solid #ccc;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            text-align: center;
+            line-height: 400px;
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 1s ease;
+        }
+
+        .page:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .page.flipped {
+            transform: rotateY(180deg);
+        }
+
+    </style>
+</head>
+<body>
+    <div id="flipbook">
+        <!-- Loop for pages -->
+        <div class="page" id="page-1">Page 1</div>
+        <div class="page" id="page-2">Page 2</div>
+        <div class="page" id="page-3">Page 3</div>
+        <div class="page" id="page-4">Page 4</div>
+        <div class="page" id="page-5">Page 5</div>
+        <div class="page" id="page-6">Page 6</div>
+        <div class="page" id="page-7">Page 7</div>
+        <div class="page" id="page-8">Page 8</div>
+        <div class="page" id="page-9">Page 9</div>
+        <div class="page" id="page-10">Page 10</div>
+        <!-- Add more pages up to page 250 -->
+        <div class="page" id="page-250">Page 250</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const flipbook = document.getElementById('flipbook');
+            let pages = flipbook.querySelectorAll('.page');
+            let currentPage = 0;
+
+            function flipPage() {
+                if (currentPage < pages.length) {
+                    pages[currentPage].classList.add('flipped');
+                    currentPage++;
+                } else {
+                    currentPage = 0;
+                    pages.forEach(page => page.classList.remove('flipped'));
+                }
+            }
+
+            setInterval(flipPage, 000);  // Flipping every 1 second as an example
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

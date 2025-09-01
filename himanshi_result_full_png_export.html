@@ -1,0 +1,557 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Himanshi AKTU Result — Full Editable (PNG Export)</title>
+<style>
+  :root{
+    --pink:#f8bbd0;
+    --pink-strong:#e91e63;
+    --muted:#444;
+    --card:#fff;
+  }
+  body{
+    margin:0;
+    font-family:"Segoe UI", Roboto, Arial, sans-serif;
+    background: #fffafc;
+    color:#222;
+    -webkit-print-color-adjust: exact;
+  }
+  header{
+    background:var(--pink-strong);
+    color:white;
+    padding:14px 16px;
+    font-size:20px;
+    font-weight:700;
+  }
+  .container{
+    max-width:1100px;
+    margin:18px auto;
+    padding:10px 16px;
+  }
+  .controls{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+    align-items:center;
+  }
+  button, .btn {
+    background:var(--pink-strong);
+    color:white;
+    border:0;
+    padding:8px 12px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .btn.secondary {
+    background:transparent;
+    color:var(--pink-strong);
+    border:1px solid rgba(233,30,99,0.12);
+  }
+  .note{ color:var(--muted); font-size:13px; margin-left:8px; }
+  details{
+    margin-bottom:12px;
+    border-radius:8px;
+    overflow:hidden;
+    border:1px solid rgba(233,30,99,0.12);
+    background:white;
+  }
+  summary{
+    background:var(--pink);
+    padding:10px 14px;
+    font-weight:700;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  summary .title { font-size:15px; }
+  summary .meta { font-size:13px; color:var(--muted); }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:0;
+  }
+  th, td{
+    border:1px solid #e9d7df;
+    padding:8px 10px;
+    font-size:14px;
+    vertical-align:middle;
+  }
+  th { background:#fff0f6; font-weight:700; }
+  td[contenteditable="true"]{ outline:none; cursor:text; }
+  td.img-cell{ text-align:center; padding:12px; min-width:108px; }
+  img.passport {
+    width:84px; height:104px; object-fit:cover; border-radius:4px;
+    display:block; margin:0 auto;
+  }
+  .table-actions{ padding:10px; display:flex; gap:8px; align-items:center; }
+  .selected-cell { box-shadow: inset 0 0 0 2px rgba(233,30,99,0.25); }
+  .small{ font-size:13px; color:var(--muted); }
+  .file-input{ display:none; }
+
+  /* Crop modal */
+  .modal {
+    position:fixed; left:0; top:0; right:0; bottom:0;
+    background: rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center;
+  }
+  .modal.open { display:flex; }
+  .crop-area {
+    background:white; padding:12px; border-radius:8px; max-width:90%; max-height:90%; overflow:auto;
+  }
+  .crop-canvas-wrap { position:relative; border:1px solid #ddd; display:inline-block; }
+  .crop-selection {
+    position:absolute; border:2px dashed #e91e63; background: rgba(233,30,99,0.12);
+    cursor:move;
+  }
+  .crop-controls { margin-top:10px; display:flex; gap:8px; justify-content:flex-end; }
+
+  /* Header/Footer for print */
+  .print-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .college-logo { width:84px; height:84px; object-fit:contain; }
+
+  /* Print styles: hide UI except printed content */
+  @media print {
+    body * { visibility: hidden; }
+    .print-root, .print-root * { visibility: visible; }
+    .print-root { position: absolute; left:0; top:0; width:100%; }
+    summary { display:none !important; }
+    button, .controls { display:none; }
+  }
+
+  @media (max-width:800px){
+    img.passport{ width:72px; height:92px; }
+  }
+</style>
+</head>
+<body>
+<header>AKTU One View — HIMANSHI DEVI — Full Editable (PNG Export)</header>
+
+<div class="container">
+  <div class="controls" aria-hidden="false">
+    <button onclick="addDetail()">+ Add Section</button>
+    <button onclick="saveJSON()">Save JSON</button>
+    <label class="btn secondary" title="Load previously saved JSON file"><input id="loadJsonFile" class="file-input" type="file" accept=".json" onchange="loadJSONFile(event)"/>Load JSON</label>
+    <button onclick="printOpenSections()">Print Application</button>
+    <button onclick="exportToPDF()">Export to PDF</button>
+    <button onclick="exportOpenSectionsAsPNG()">Export as PNG</button>
+
+    <div style="margin-left:auto; display:flex; gap:8px; align-items:center;">
+      <button onclick="importImageForSelected()">Import Image</button>
+      <input id="imgFile" type="file" class="file-input" accept="image/*" onchange="handleImageUpload(event)"/>
+      <button onclick="downloadSelectedImage()">Download Selected Image</button>
+      <button onclick="downloadAllImages()">Download All Images</button>
+    </div>
+  </div>
+
+  <div class="small" style="margin-bottom:10px;">
+    निर्देश: किसी table cell पर क्लिक करें — वो selected होगा। टेक्स्ट edit करने के लिए उस cell पर डबल क्लिक या selection करें।
+    इमेज डालने के लिए पहले उस cell को select करें (image-cell होना बेहतर है), फिर <strong>Import Image</strong> करें — आप crop भी कर पाएंगे।
+  </div>
+
+  <div id="sectionsRoot"></div>
+</div>
+
+<!-- Crop modal -->
+<div id="cropModal" class="modal" role="dialog" aria-hidden="true">
+  <div class="crop-area" role="document">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <strong>Crop Image</strong>
+      <button onclick="closeCrop()">✕</button>
+    </div>
+    <div class="crop-canvas-wrap" id="cropWrap">
+      <canvas id="cropCanvas" style="display:block; max-width:90vw; max-height:70vh;"></canvas>
+    </div>
+    <div class="crop-controls">
+      <label class="small" style="margin-right:auto">Use mouse to draw selection rectangle. You can move it after drawing.</label>
+      <button onclick="applyCrop()">Apply Crop (PNG)</button>
+      <button onclick="closeCrop()" class="btn secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- html2canvas from CDN -->
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+<script>
+/* ---------- Initial data (partial) ---------- */
+const initialData = [
+  {
+    title: "Institute: (1097) GAJRAJ SINGH YADAV KARANPAL SINGH YADAV COLLEGE OF PHARMACY, KHERI",
+    subtitle: "Name : HIMANSHI DEVI | RollNo : 2110970500010 | Enrollment : 211097050032291",
+    tableHeaders: ["Subject Code","Subject Name","Marks/Grade","Credit","Photo"],
+    rows: [
+      ["1101","Human Anatomy & Physiology","A","4",""],
+      ["1102","Pharmaceutical Analysis","B+","4",""],
+      ["BP701T","Instrumental Methods","B+","4",""],
+      ["BP702T","Industrial Pharmacy","B","4",""],
+      ["BP703P","Practice School","A","2",""]
+    ]
+  },
+  {
+    title: "Semester 8 — Session 2024-25",
+    subtitle: "SGPA: 6.08 | Note: BP801T - F grade",
+    tableHeaders: ["Subject Code","Subject Name","Marks/Grade","Credit","Photo"],
+    rows: [
+      ["BP801T","Biostatistics","F","4",""],
+      ["BP802T","Pharmacy Practice","B","4",""],
+      ["BP803P","Project","A","2",""]
+    ]
+  }
+];
+
+let selectedCell = null;
+let pendingImageFile = null;
+let pendingImageDataUrl = null;
+let currentCropTargetCell = null;
+
+function createSection(data, idx) {
+  const details = document.createElement('details');
+  if (idx === 0) details.open = true;
+  const summary = document.createElement('summary');
+  summary.innerHTML = `<span class="title">${escapeHtml(data.title)}</span><span class="meta">${escapeHtml(data.subtitle)}</span>`;
+  details.appendChild(summary);
+
+  const container = document.createElement('div');
+
+  const tActions = document.createElement('div');
+  tActions.className = 'table-actions';
+  tActions.innerHTML = `
+    <button onclick="addRow(this)">+ Row</button>
+    <button onclick="deleteRow(this)">Delete Row</button>
+    <button onclick="duplicateSection(this)">Duplicate Section</button>
+    <button onclick="moveSectionUp(this)">▲ Up</button>
+    <button onclick="moveSectionDown(this)">▼ Down</button>
+    <span class="small" style="margin-left:8px">Selected cell highlight shows where images will import.</span>
+  `;
+  container.appendChild(tActions);
+
+  const table = document.createElement('table');
+  const thead = document.createElement('thead');
+  const trh = document.createElement('tr');
+  data.tableHeaders.forEach(h=>{
+    const th = document.createElement('th');
+    th.textContent = h;
+    trh.appendChild(th);
+  });
+  thead.appendChild(trh);
+  table.appendChild(thead);
+
+  const tbody = document.createElement('tbody');
+  data.rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    r.forEach((cellText, ci)=>{
+      const td = document.createElement('td');
+      if (ci === data.tableHeaders.length - 1) {
+        td.classList.add('img-cell');
+        if (cellText) {
+          const img = document.createElement('img');
+          img.className = 'passport';
+          img.src = cellText;
+          img.setAttribute('data-filename', 'photo');
+          td.appendChild(img);
+        } else {
+          td.innerHTML = '<span class="small">(no image)</span>';
+        }
+      } else {
+        td.contentEditable = "true";
+        td.innerText = cellText || '';
+      }
+      td.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        selectCell(td);
+      });
+      tr.appendChild(td);
+    });
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+
+  container.appendChild(table);
+  details.appendChild(container);
+  return details;
+}
+
+function renderInitial() {
+  const root = document.getElementById('sectionsRoot');
+  root.innerHTML = '';
+  initialData.forEach((d,i)=>{
+    root.appendChild(createSection(d,i));
+  });
+}
+renderInitial();
+
+function selectCell(td){
+  if(selectedCell) selectedCell.classList.remove('selected-cell');
+  selectedCell = td;
+  selectedCell.classList.add('selected-cell');
+}
+
+function importImageForSelected(){
+  if(!selectedCell){
+    alert("पहले वो cell चुनें जहाँ image डालनी है।");
+    return;
+  }
+  currentCropTargetCell = selectedCell;
+  document.getElementById('imgFile').click();
+}
+
+function handleImageUpload(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file) return;
+  pendingImageFile = file;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    pendingImageDataUrl = ev.target.result;
+    openCropModal(pendingImageDataUrl);
+  };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+}
+
+/* ---------- Crop modal (PNG output) ---------- */
+const cropModal = document.getElementById('cropModal');
+const cropCanvas = document.getElementById('cropCanvas');
+const cropWrap = document.getElementById('cropWrap');
+let cropCtx = cropCanvas.getContext('2d');
+let imgObj = new Image();
+let selection = null;
+let dragging = false;
+let dragOffset = {x:0,y:0};
+let drawStart = null;
+
+function openCropModal(dataUrl){
+  cropModal.classList.add('open');
+  cropModal.setAttribute('aria-hidden','false');
+  imgObj = new Image();
+  imgObj.onload = function(){
+    const maxW = Math.min(window.innerWidth*0.8, imgObj.width);
+    const maxH = Math.min(window.innerHeight*0.7, imgObj.height);
+    let scale = Math.min(maxW / imgObj.width, maxH / imgObj.height, 1);
+    cropCanvas.width = Math.round(imgObj.width * scale);
+    cropCanvas.height = Math.round(imgObj.height * scale);
+    cropCanvas.style.width = cropCanvas.width + 'px';
+    cropCanvas.style.height = cropCanvas.height + 'px';
+    cropCtx = cropCanvas.getContext('2d');
+    cropCtx.clearRect(0,0,cropCanvas.width,cropCanvas.height);
+    cropCtx.drawImage(imgObj, 0,0, cropCanvas.width, cropCanvas.height);
+    selection = null;
+    const existing = cropWrap.querySelector('.crop-selection');
+    if(existing) existing.remove();
+  };
+  imgObj.src = dataUrl;
+
+  cropWrap.onpointerdown = function(e){
+    e.preventDefault();
+    const rect = cropCanvas.getBoundingClientRect();
+    const x = Math.round((e.clientX - rect.left));
+    const y = Math.round((e.clientY - rect.top));
+    drawStart = {x,y};
+    dragging = 'drawing';
+    const existing = cropWrap.querySelector('.crop-selection');
+    if(existing) existing.remove();
+    selection = {x,y,w:0,h:0};
+    createSelectionOverlay();
+  };
+  cropWrap.onpointermove = function(e){
+    const rect = cropCanvas.getBoundingClientRect();
+    const x = Math.round((e.clientX - rect.left));
+    const y = Math.round((e.clientY - rect.top));
+    if(dragging === 'drawing' && drawStart){
+      selection.x = Math.min(drawStart.x, x);
+      selection.y = Math.min(drawStart.y, y);
+      selection.w = Math.abs(x - drawStart.x);
+      selection.h = Math.abs(y - drawStart.y);
+      updateSelectionOverlay();
+    } else if(dragging === 'moving' && selection){
+      selection.x = x - dragOffset.x;
+      selection.y = y - dragOffset.y;
+      selection.x = Math.max(0, Math.min(selection.x, cropCanvas.width - selection.w));
+      selection.y = Math.max(0, Math.min(selection.y, cropCanvas.height - selection.h));
+      updateSelectionOverlay();
+    }
+  };
+  cropWrap.onpointerup = function(e){
+    if(dragging === 'drawing'){ dragging = false; drawStart = null; }
+    else if(dragging === 'moving'){ dragging = false; }
+  };
+  cropWrap.addEventListener('pointerdown', function(e){
+    const sel = cropWrap.querySelector('.crop-selection');
+    if(!sel) return;
+    const canvasRect = cropCanvas.getBoundingClientRect();
+    const x = Math.round(e.clientX - canvasRect.left);
+    const y = Math.round(e.clientY - canvasRect.top);
+    if(e.target === sel || sel.contains(e.target)){
+      dragOffset.x = x - selection.x;
+      dragOffset.y = y - selection.y;
+      dragging = 'moving';
+    }
+  });
+}
+
+function createSelectionOverlay(){
+  let sel = cropWrap.querySelector('.crop-selection');
+  if(sel) sel.remove();
+  sel = document.createElement('div');
+  sel.className = 'crop-selection';
+  sel.style.left = (selection.x) + 'px';
+  sel.style.top = (selection.y) + 'px';
+  sel.style.width = (selection.w) + 'px';
+  sel.style.height = (selection.h) + 'px';
+  cropWrap.appendChild(sel);
+  sel.ondblclick = applyCrop;
+}
+
+function updateSelectionOverlay(){
+  const sel = cropWrap.querySelector('.crop-selection');
+  if(!sel) return;
+  sel.style.left = selection.x + 'px';
+  sel.style.top = selection.y + 'px';
+  sel.style.width = selection.w + 'px';
+  sel.style.height = selection.h + 'px';
+}
+
+function applyCrop(){
+  if(!selection || selection.w === 0 || selection.h === 0){
+    alert("कृपया पहले selection बनाएं।");
+    return;
+  }
+  const scaleX = imgObj.width / cropCanvas.width;
+  const scaleY = imgObj.height / cropCanvas.height;
+  const sx = Math.round(selection.x * scaleX);
+  const sy = Math.round(selection.y * scaleY);
+  const sw = Math.round(selection.w * scaleX);
+  const sh = Math.round(selection.h * scaleY);
+  // produce high-res PNG target
+  const targetW = 840; // high-res width (10x passport approx)
+  const targetH = Math.round(targetW / (84/104));
+  const oc = document.createElement('canvas');
+  oc.width = targetW;
+  oc.height = targetH;
+  const ocCtx = oc.getContext('2d');
+  ocCtx.fillStyle = "#fff"; ocCtx.fillRect(0,0,oc.width, oc.height);
+  ocCtx.drawImage(imgObj, sx, sy, sw, sh, 0, 0, oc.width, oc.height);
+  const dataUrl = oc.toDataURL('image/png'); // PNG high-quality
+  if(currentCropTargetCell){
+    if(!currentCropTargetCell.classList.contains('img-cell')){
+      currentCropTargetCell.classList.add('img-cell');
+      currentCropTargetCell.removeAttribute('contenteditable');
+      currentCropTargetCell.innerHTML = '';
+    } else currentCropTargetCell.innerHTML = '';
+    const img = document.createElement('img');
+    img.className = 'passport';
+    img.src = dataUrl;
+    img.setAttribute('data-filename', pendingImageFile ? pendingImageFile.name.replace(/\.[a-zA-Z0-9]+$/, '.png') : 'photo.png');
+    img.addEventListener('contextmenu', (e)=>{ e.preventDefault(); downloadImageElement(img); });
+    currentCropTargetCell.appendChild(img);
+  }
+  closeCrop();
+}
+
+function closeCrop(){
+  cropModal.classList.remove('open');
+  cropModal.setAttribute('aria-hidden','true');
+  cropWrap.onpointerdown = cropWrap.onpointermove = cropWrap.onpointerup = null;
+  const sel = cropWrap.querySelector('.crop-selection'); if(sel) sel.remove();
+  selection = null; pendingImageFile = null; pendingImageDataUrl = null; currentCropTargetCell = null;
+}
+
+function downloadImageElement(imgEl){
+  const url = imgEl.src; const name = imgEl.getAttribute('data-filename') || 'image.png';
+  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+}
+function downloadSelectedImage(){
+  if(!selectedCell){ alert("पहले कोई cell select करें जिसमें image हो।"); return; }
+  const img = selectedCell.querySelector('img'); if(!img){ alert("Selected cell में कोई image नहीं है।"); return; }
+  downloadImageElement(img);
+}
+function downloadAllImages(){
+  const imgs = document.querySelectorAll('img.passport'); if(imgs.length === 0){ alert("कोई images नहीं मिलीं।"); return; }
+  imgs.forEach((im, i)=>{ setTimeout(()=> downloadImageElement(im), i*200); });
+}
+
+/* Table actions (same as before) */
+function addRow(btn){ const table = btn.closest('div').querySelector('table'); const cols = table.querySelectorAll('thead th').length; const tr = document.createElement('tr'); for(let i=0;i<cols;i++){ const td = document.createElement('td'); if(i === cols-1){ td.classList.add('img-cell'); td.innerHTML = '<span class="small">(no image)</span>'; } else { td.contentEditable = "true"; td.innerText = ''; } td.addEventListener('click', ()=> selectCell(td)); tr.appendChild(td); } table.querySelector('tbody').appendChild(tr); }
+function deleteRow(btn){ const table = btn.closest('div').querySelector('table'); const tbody = table.querySelector('tbody'); const rows = tbody.querySelectorAll('tr'); if(rows.length <= 0) return; if(selectedCell){ const row = selectedCell.closest('tr'); if(row && row.parentNode === tbody){ row.remove(); selectedCell = null; return; } } rows[rows.length-1].remove(); }
+function duplicateSection(btn){ const details = btn.closest('details'); const clone = details.cloneNode(true); clone.querySelectorAll('td').forEach(td=>{ td.addEventListener('click', ()=> selectCell(td)); }); details.parentNode.insertBefore(clone, details.nextSibling); }
+function moveSectionUp(btn){ const details = btn.closest('details'); const prev = details.previousElementSibling; if(prev) details.parentNode.insertBefore(details, prev); }
+function moveSectionDown(btn){ const details = btn.closest('details'); const next = details.nextElementSibling; if(next) details.parentNode.insertBefore(next, details.nextElementSibling.nextSibling); }
+
+let sectionCounter = 1;
+function addDetail(){ const newData = { title: `New Section ${++sectionCounter}`, subtitle: 'Subtitle here', tableHeaders: ["Subject Code","Subject Name","Marks/Grade","Credit","Photo"], rows: [["","","","", ""],["","","","", ""]] }; const node = createSection(newData, 999); document.getElementById('sectionsRoot').appendChild(node); }
+
+/* Save/Load JSON */
+function saveJSON(){ const allDetails = document.querySelectorAll('#sectionsRoot > details'); const out = []; allDetails.forEach(d=>{ const title = d.querySelector('summary .title').innerText; const subtitle = d.querySelector('summary .meta').innerText; const headers = Array.from(d.querySelectorAll('thead th')).map(th=>th.innerText); const rows = Array.from(d.querySelectorAll('tbody tr')).map(tr=>{ return Array.from(tr.querySelectorAll('td')).map(td=>{ const img = td.querySelector('img'); if(img) return img.src; return td.innerText; }); }); out.push({title, subtitle, headers, rows}); }); const blob = new Blob([JSON.stringify(out, null, 2)], {type:'application/json'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'himanshi_result_full_png.json'; document.body.appendChild(a); a.click(); a.remove(); }
+function loadJSONFile(e){ const f = e.target.files && e.target.files[0]; if(!f) return; const reader = new FileReader(); reader.onload = function(ev){ try{ const data = JSON.parse(ev.target.result); loadFromData(data); } catch(err){ alert("Invalid JSON file."); } e.target.value = ''; }; reader.readAsText(f); }
+function loadFromData(data){ const root = document.getElementById('sectionsRoot'); root.innerHTML = ''; data.forEach((d,i)=>{ const cfg = { title: d.title || '', subtitle: d.subtitle || '', tableHeaders: d.headers || ["C1","C2","C3","Photo"], rows: (d.rows || []).map(r=> r.map(c=> c )) }; const sec = createSection(cfg, i); root.appendChild(sec); }); }
+
+/* Print open sections */
+function printOpenSections(){ const openDetails = document.querySelectorAll('#sectionsRoot > details[open]'); if(openDetails.length === 0){ alert("पहले उन sections को खोलें जिन्हें आप print करना चाहते हैं।"); return; } const docTitle = document.title || 'Print'; let html = `<!doctype html><html><head><meta charset="utf-8"><title>${escapeHtml(docTitle)}</title>`; html += `<style> body{font-family:Segoe UI,Arial, sans-serif; padding:16px; color:#111} .print-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px} .college-logo{width:84px;height:84px;object-fit:contain} h2{background: ${getComputedStyle(document.documentElement).getPropertyValue('--pink') || '#f8bbd0'}; padding:8px; border-radius:6px;} table{border-collapse:collapse;width:100%; margin-bottom:12px} th,td{border:1px solid #caa; padding:6px; font-size:13px} th{background:#fff0f6} img{width:84px;height:104px;object-fit:cover;border-radius:4px;display:block;margin:6px 0} .footer{margin-top:20px;display:flex;justify-content:space-between;align-items:center} .sig{height:60px;border-bottom:1px solid #ccc;width:220px} </style></head><body>`; html += `<div class="print-header"><img class="college-logo" src="" alt="College Logo"/><div><h1>AKTU One View - Student Result</h1><div>${escapeHtml(document.querySelector('header').innerText)}</div></div></div>`; openDetails.forEach((d)=>{ const title = d.querySelector('summary .title')?.innerText || ''; const meta = d.querySelector('summary .meta')?.innerText || ''; html += `<h2>${escapeHtml(title)} <div style="font-size:12px;color:#333;margin-top:4px">${escapeHtml(meta)}</div></h2>`; const table = d.querySelector('table').cloneNode(true); html += table.outerHTML; }); html += `<div class="footer"><div>Prepared on: ${new Date().toLocaleDateString()}</div><div>Signature: <div class="sig"></div></div></div>`; html += `</body></html>`; const w = window.open('', '_blank', 'width=900,height=700'); w.document.open(); w.document.write(html); w.document.close(); setTimeout(()=>{ w.focus(); w.print(); }, 300); }
+
+/* Export open sections as PNG using html2canvas */
+async function exportOpenSectionsAsPNG(){
+  const openDetails = document.querySelectorAll('#sectionsRoot > details[open]');
+  if(openDetails.length === 0){ alert("पहले उन sections को खोलें जिन्हें आप PNG में export करना चाहते हैं।"); return; }
+  // Build a temporary container with print-styled HTML for rendering
+  const container = document.createElement('div');
+  container.style.width = '1200px';
+  container.style.padding = '20px';
+  container.style.background = '#fff';
+  container.style.color = '#000';
+  // header
+  const header = document.createElement('div');
+  header.className = 'print-header';
+  header.innerHTML = `<div><h1>AKTU One View - Student Result</h1><div>${escapeHtml(document.querySelector('header').innerText)}</div></div>`;
+  container.appendChild(header);
+  openDetails.forEach(d=>{
+    const title = d.querySelector('summary .title')?.innerText || '';
+    const meta = d.querySelector('summary .meta')?.innerText || '';
+    const h2 = document.createElement('h2');
+    h2.style.background = getComputedStyle(document.documentElement).getPropertyValue('--pink') || '#f8bbd0';
+    h2.style.padding = '8px';
+    h2.style.borderRadius = '6px';
+    h2.innerHTML = `${escapeHtml(title)}<div style="font-size:12px;color:#333;margin-top:4px">${escapeHtml(meta)}</div>`;
+    container.appendChild(h2);
+    const table = d.querySelector('table').cloneNode(true);
+    // ensure images use data URLs (they already do if imported)
+    container.appendChild(table);
+  });
+  // footer
+  const footer = document.createElement('div');
+  footer.style.marginTop = '20px';
+  footer.innerHTML = `<div style="display:flex;justify-content:space-between"><div>Prepared on: ${new Date().toLocaleDateString()}</div><div>Signature: ____________________</div></div>`;
+  container.appendChild(footer);
+
+  // append to body off-screen
+  container.style.position = 'fixed';
+  container.style.left = '-9999px';
+  document.body.appendChild(container);
+
+  try {
+    // use higher scale for high-quality
+    const canvas = await html2canvas(container, {scale: 3, useCORS: true, allowTaint: true, logging: false});
+    const dataUrl = canvas.toDataURL('image/png');
+    // download
+    const a = document.createElement('a'); a.href = dataUrl; a.download = 'himanshi_result_open_sections.png'; document.body.appendChild(a); a.click(); a.remove();
+  } catch(err){
+    alert("PNG export failed: " + err.message);
+  } finally {
+    container.remove();
+  }
+}
+
+/* Export to PDF simply calls printOpenSections (user uses print-to-PDF) */
+function exportToPDF(){ printOpenSections(); }
+
+function escapeHtml(s){ if(!s) return ''; return s.toString().replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+document.addEventListener('click', (e)=>{ if(!e.target.closest('td')){ if(selectedCell) selectedCell.classList.remove('selected-cell'); selectedCell = null; } });
+
+setTimeout(()=>{ document.querySelectorAll('#sectionsRoot td').forEach(td=>{ td.addEventListener('click', ()=> selectCell(td)); }); }, 200);
+</script>
+</body>
+</html>

@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title>
+	Registration
+</title><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="js/jQuery%20v3.6.0/jQuery_v3.6.0.min.js"></script>
+    <script src="js/jquery-ui-1.13.0/jquery-ui.min.js"></script>
+    <link href="js/jquery-ui-1.13.0/jquery-ui.min.css" rel="stylesheet" /><link id="favicon" rel="icon" type="image/png" href="images/logo.png" />
+    <style type="text/css">
+        body
+        {
+            margin: 0;
+            padding: 0;
+            background-color: #EEEEEE;
+        }
+        
+        /*#sse2 {*/
+        /* background-color: #b62a26; */
+        /*background-color: #0077b6;
+            height: 20px;
+            padding: 10px;
+            border-radius: 6px;
+            box-sizing: content-box;
+            width: 100%;
+            border-color: #0077b6;
+            border-style: solid;
+            border-width: 2px;
+        }
+
+        #sses2 {
+            margin: 0 auto;
+        }*/
+        
+        .hlink2
+        {
+            color: white;
+            font-family: Calibri;
+            font-size: large;
+            font-weight: bold;
+        }
+        
+        .mainWrapper
+        {
+            min-width: 1024px;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .bodyWrapper
+        {
+            width: 100%;
+        }
+        
+        .headerribbon_layers
+        {
+            width: 100%;
+            height: 30px;
+            background-color: #0077B6;
+        }
+        
+        .headerribbon_content
+        {
+            width: 100%;
+        }
+        
+        .headerribbon
+        {
+            width: 100%;
+            background-color: #FFF;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: stretch;
+        }
+        
+        .headerribbon_indiapost_logo
+        {
+            /*width: 380px;
+            height: 100px;*/ /*text-align: left;
+            float: left;*/
+        }
+        
+        .headerribbon_title_text
+        {
+            /*height: 100px;*/
+            display: flex;
+            justify-content: center;
+            align-items: center; /*float: left;*/
+            font-family: Georgia;
+            font-size: min(38px, max(30px, 3vw)); /*font: 3vw Georgia;*/ /*line-height: 100px;*/
+            color: #B02925;
+        }
+        
+        .headerribbon_emblem
+        {
+            /*width: 220px;
+            height: 100px;*/ /*float: right;*/
+        }
+        
+        .instructions_ribbon
+        {
+            width: 100%;
+            background-color: #FFF;
+            margin-top: 20px;
+        }
+        
+        ul
+        {
+            color: Black;
+            list-style: disc;
+        }
+        
+        ul li
+        {
+            font: 18px Calibri;
+            padding: 10px;
+            text-align: justify;
+        }
+        
+        .content_wrapper
+        {
+            width: 100%;
+            text-align: center;
+            font-family: Calibri;
+            background-color: #F4F4F4;
+            margin-top: 20px;
+        }
+        
+        .registration_title
+        {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+            background-color: #0077B6;
+            color: #FFF;
+            font: 24px Calibri;
+            line-height: 40px;
+            text-align: left;
+        }
+        
+        .registration_content
+        {
+            width: 100%;
+            display: inline-block;
+        }
+        
+        .tbldata
+        {
+            width: 100%;
+            font: 16px Calibri;
+            text-align: left;
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border: none;
+        }
+        
+        .tbldata table, tr, td
+        {
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border: none;
+        }
+        
+        .tbldata tr
+        {
+            height: 30px;
+        }
+        
+        .tbldata tr:nth-child(2n + 2)
+        {
+            background-color: #FFFFFF;
+        }
+        
+        .tbldata td:nth-child(1)
+        {
+            width: 40%;
+            padding-left: 20px;
+        }
+        
+        .tbldata td:nth-child(2)
+        {
+            width: 30%;
+        }
+        
+        .tbldata td:nth-child(3)
+        {
+            width: 30%;
+        }
+        
+        .gridContent
+        {
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .preview_wrapper
+        {
+            width: 100%;
+            display: inline-block;
+        }
+        
+        .reg_preview_div
+        {
+            width: 90%;
+            display: none;
+        }
+        
+        .preview_table_heading
+        {
+            width: 100%;
+            background-color: #0077b6;
+            font-family: Calibri;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .previewtabledata
+        {
+            border-collapse: collapse;
+            border-spacing: 0px;
+            border: 1px solid #EFEFEF;
+        }
+        
+        .previewtabledata td:nth-child(1)
+        {
+            width: 45%;
+        }
+        
+        .previewtabledata td:nth-child(2)
+        {
+            font-weight: bold;
+            width: 55%;
+        }
+        
+        .txt
+        {
+            width: 90%;
+            height: 27px;
+            border: 1px solid #AAAAAA;
+            padding: 0px 10px 0px 10px;
+        }
+        
+        .txtotp
+        {
+            width: 50%;
+            height: 27px;
+            border: 1px solid #AAAAAA;
+            padding: 0px 10px 0px 10px;
+        }
+        
+        .ddl
+        {
+            width: 90%;
+            height: 27px;
+            border: 1px solid #AAAAAA;
+            padding: 0px 10px 0px 10px;
+        }
+        
+        .rbl label
+        {
+            width: 50px;
+            display: table-cell;
+        }
+        
+        .rblTransGender label
+        {
+            width: 120px;
+            display: table-cell;
+        }
+        
+        .btn
+        {
+            border-style: none;
+            border-color: inherit;
+            border-width: medium;
+            padding: 10px 20px;
+            background-color: #0077b6;
+            color: White;
+            font: bold 18px Calibri;
+        }
+        
+        .btnotp
+        {
+            border: 1px solid #B02925;
+            color: #B02925;
+            font: 16px calibri;
+            padding: 0px 10px;
+        }
+        
+        ol
+        {
+            color: Black;
+            list-style: decimal;
+        }
+        
+        ol li
+        {
+            font: 18px Calibri;
+            padding: 5px;
+            text-align: justify;
+        }
+        
+        .ui-widget-overlay.ui-front
+        {
+            opacity: .75;
+        }
+        
+        /*Loader div*/
+        .modalwindow
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background-color: black;
+            z-index: 99;
+            opacity: 0.8;
+            filter: alpha(opacity=80);
+            -moz-opacity: 0.8;
+            min-height: 100%;
+            width: 100%;
+        }
+        
+        .loaderDiv
+        {
+            font-family: Arial;
+            font-size: 10pt;
+            border: 5px solid #EFEFEF; /*border: 5px solid #67CFF5;*/ /*width: 200px;
+            height: 100px;*/
+            display: none;
+            position: fixed;
+            background-color: White;
+            z-index: 999;
+        }
+    </style>
+    
+    <script src="js/sumoselect/jquery.sumoselect.min.js"></script>
+    <link href="js/sumoselect/sumoselect.min.css" rel="stylesheet" />
+    <script type="text/javascript">
+        //$(function () {
+        //    $('[id*=lstLanguages]').multiselect({
+        //        includeSelectAllOption: false                
+        //    });
+        //});
+        $(function () {
+            $('[id*=lstLanguages]').SumoSelect({
+                okCancelInMulti: true
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        function setvalue() {
+            document.getElementById('hdnchk').value = '0';
+        }
+
+        function previewClientClick() {
+            if (validation()) {
+                $('#hdnchk').val('1');                                 //Setting preview check value to true
+                return showPreviewDialog();
+                //return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        function submitClientClick() {
+            if (validation()) {
+                if (chkboxValidation()) {
+                    if ($('#hdnchk').val() == '1') {
+                        return true;
+                    }
+                    else {
+                        alert('Please click on preview and verify the details entered before submission.');
+                        return false;
+                    }
+                }
+                else {
+                    return false;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+    </script>
+    <script type="text/javascript">
+
+        //Start of Validation
+        function validation() {
+            var errmsg = "";
+            var obj = {};
+            var nameregex = /^[a-zA-Z ]+$/;
+            if ($('#txtName').val() != "") {
+                if (!nameregex.test($('#txtName').val())) {
+                    errmsg += "Please enter valid Applicant Name \n";
+                }
+            }
+            else {
+                errmsg += "Please enter Applicant Name \n";
+            }
+            if ($('#txtFatherName').val() != "") {
+                if (!nameregex.test($('#txtFatherName').val())) {
+                    errmsg += "Please enter valid Father's Name \n";
+                }
+            }
+            else {
+                errmsg += "Please enter Father's Name \n";
+            }
+
+            var mobileregex = /^[6-9]\d{9}$/;
+            if (!mobileregex.test($('#txtMobileNumber').val())) {
+                errmsg += "Please enter valid Mobile Number \n";
+            }
+
+            var emailregex = /^([a-zA-Z0-9_\-\.]+)\@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z\.]{2,5})$/;
+            if (!emailregex.test($('#txtEmail').val())) {
+                errmsg += "Please enter valid eMail \n";
+            }
+
+            if ($('#txtDOB').val() != "") {
+                //validating minimum age
+                var age = 0;
+
+                //var notification_Date = '23/08/2023';
+                var notification_Date = '05/08/2024';
+                var notification_Date_Split = notification_Date.split('/');
+                var notification_Date_Day = parseInt(notification_Date_Split[0]);
+                var notification_Date_Month = parseInt(notification_Date_Split[1]);
+                var notification_Date_Year = parseInt(notification_Date_Split[2]);
+
+                var DOB_Date = $('#txtDOB').val();
+                var DOB_Date_Split = DOB_Date.split('/');
+                var DOB_Date_Day = parseInt(DOB_Date_Split[0]);
+                var DOB_Date_Month = parseInt(DOB_Date_Split[1]);
+                var DOB_Date_Year = parseInt(DOB_Date_Split[2]);
+
+                if (DOB_Date_Month < notification_Date_Month) {
+                    age = notification_Date_Year - DOB_Date_Year;
+                }
+                else if (DOB_Date_Month == notification_Date_Month) {
+                    if (DOB_Date_Day <= notification_Date_Day) {
+                        age = notification_Date_Year - DOB_Date_Year;
+                    }
+                    else if (DOB_Date_Day > notification_Date_Day) {
+                        age = notification_Date_Year - DOB_Date_Year - 1;
+                    }
+                }
+                else if (DOB_Date_Month > notification_Date_Month) {
+                    age = notification_Date_Year - DOB_Date_Year - 1;
+                }
+
+                if (age < 18) {
+                    errmsg += "You have not attained minimum age to apply. Please check. \n";
+                }
+            }
+            else {
+                errmsg += "Please enter Date of Birth \n";
+            }
+
+            if ($('#ddlGender option:selected').index() == 0) {
+                errmsg += "Please select Gender \n";
+            }
+            else if ($('#ddlGender option:selected').val() == 'TG') {
+                obj.Gender = "TG";
+                if ($('#ddlTransGender option:selected').index() == 0) {
+                    errmsg += "Please select TransGender Category \n";
+                }
+                else {
+                    obj.TransGender = $('#ddlTransGender option:selected').val();
+                }
+            }
+
+            if ($('#ddlCommunity option:selected').index() == 0) {
+                errmsg += "Please select Community \n";
+            }
+
+            if ($('#ddlCircle option:selected').index() == 0) {
+                errmsg += "Please select the Circle in which you have qualified Secondary School \n";
+            }
+
+            if ($('#ddlYearOfPassing option:selected').index() == 0) {
+                errmsg += "Please select Year of Passing Secondary School \n";
+            }
+
+            var aadharregex = /^\d{12}$/;
+            if ($('#txtAadharNumber').val() != "") {
+                if (!aadharregex.test($('#txtAadharNumber').val())) {
+                    errmsg += "Please enter valid Aadhar Number \n";
+                }
+            }
+
+            if ($('#ddlPWD option:selected').index() == 0) {
+                errmsg += "Please select Whether you are a Person with Disability \n";
+            }
+            else if ($('#ddlPWD option:selected').val() == 'Y') {
+                obj.PWD = "Y";
+                if ($('#ddlPWDCategory option:selected').index() == 0) {
+                    errmsg += "Please select Type of Disability \n";
+                }
+                else if ($('#ddlPWDCategory option:selected').text() == 'Category D & E') {
+                    obj.PWDCategory = "DE";
+                    if ($('#cblPWDSubCategory input:checked').length == 0) {
+                        errmsg += "Please select Disability SubCategory \n";
+                    }
+                    else {
+                        var str = "";
+                        $('#cblPWDSubCategory input:checked').each(function () {
+                            str = str + $(this).closest('td').find('label').html() + "-";
+                        });
+                        str = str.slice(0, -1);
+                        obj.PWDSubCategory = str;
+                    }
+                    if ($('#cblPWDSubCategory input:checked').length == 1) {
+                        var dname = "";
+                        $('#cblPWDSubCategory input:checked').each(function () {
+                            dname = $(this).closest('td').find('label').html();
+                        });
+                        if (dname != 'Specific Learning Disability') {
+                            errmsg += "For Multiple Disabilities Category, You have to select morethan one Disability. \n";
+                        }
+                        //errmsg += "For Multiple Disabilities Category, You have to select morethan one Disability. \n";
+                    }
+                }
+                else {
+                    obj.PWDCategory = $('#ddlPWDCategory').val();
+                    if ($('#ddlPWDSubCategory option:selected').index() == 0) {
+                        errmsg += "Please select PWD SubCategory \n";
+                    }
+                    else {
+                        obj.PWDSubCategory = $('#ddlPWDSubCategory option:selected').text();
+                    }
+                }
+            }
+
+            if ($("#lstLanguages option:selected").length == 0) {
+                errmsg += "Please select languages studied in Secondary School \n";
+            }
+
+            if ($('#ddlEmployee option:selected').index() == 0) {
+                errmsg += "Please select whether Employed or not \n";
+            }
+            else if ($('#ddlEmployee option:selected').val() == 'Y') {
+                obj.Employed = 'Y';
+                if ($('#ddlNOC option:selected').index() == 0) {
+                    errmsg += "Please select whether Employer NOC is available or not \n";
+                }
+                else {
+                    obj.NOC = $('#ddlNOC option:selected').val();
+                }
+            }
+
+            if ($('#fupPhoto').val() == '') {
+                errmsg = errmsg + 'Please upload Photo. \n';
+            }
+
+            if ($('#fupSignature').val() == '') {
+                errmsg = errmsg + 'Please upload Signature. \n';
+            }
+
+//            if ($('#txtCaptcha').val() == '') {
+//                errmsg += "Please enter Captcha as shown \n";
+//            }
+
+            $('#hdnInput').val(JSON.stringify(obj));
+
+            if (errmsg != "") {
+                alert(errmsg);
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        //End of Validation()   
+
+        //Start of ChkboxValidation
+        function chkboxValidation() {
+            var errmsg = "";
+            if (!$('#chkDeclaration').prop('checked')) {
+                errmsg += "Please Read and Accept the Declarations \n";
+            }
+            if (errmsg != "") {
+                alert(errmsg);
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        //End of ChkboxValidation        
+
+        //Start of showPreviewDialog()
+        function showPreviewDialog() {
+
+            var valuechangecounter = 0;
+
+            if($('#txtName').val() != 'ABHISEK KUMAR') { valuechangecounter = valuechangecounter + 1; }
+            if($('#txtFatherName').val() != 'KRISHNA KUMAR') { valuechangecounter = valuechangecounter + 1; }
+            if($('#txtMobileNumber').val() != '9336028441') { valuechangecounter = valuechangecounter + 1; }
+            if($('#txtEmail').val() != 'WWWABHISHEKTIWARI52@GMAIL.COM') { valuechangecounter = valuechangecounter + 1; }
+            if($('#txtDOB').val() != '03/05/2002') { valuechangecounter = valuechangecounter + 1; }
+            if($('#ddlGender option:selected').val() != 'M') { valuechangecounter = valuechangecounter + 1; }
+            if($('#ddlTransGender option:selected').val() != 'Select') { valuechangecounter = valuechangecounter + 1; }
+            if($('#ddlCommunity option:selected').val() != 'UR') { valuechangecounter = valuechangecounter + 1; }
+            if($("#ddlCircle option:selected").val() != 'CR30000000000') { valuechangecounter = valuechangecounter + 1; }
+            if($("#ddlYearOfPassing option:selected").val() != '2019') { valuechangecounter = valuechangecounter + 1; }  
+            
+            if (valuechangecounter > 0) {
+                alert('Something went wrong. Please try again.');                
+                window.location = 'Home.aspx';
+                return false;
+            }  
+            else {
+            $('#lblPreviewName').text($('#txtName').val());
+            $('#lblPreviewFatherName').text($('#txtFatherName').val());
+            $('#lblPreviewMobileNumber').text($('#txtMobileNumber').val());
+            if ($('#txtAadharNumber').val() != '') {
+                $('#lblPreviewAadharNumber').text($('#txtAadharNumber').val());
+            }
+            else {
+                $('#lblPreviewAadharNumber').text('-');
+            }
+            if ($('#txtEmail').val() != '') {
+                $('#lblPreviewemail').text($('#txtEmail').val());
+            }
+            else {
+                $('#lblPreviewemail').text('-');
+            }
+            $('#lblPreviewDOB').text($('#txtDOB').val());
+            if ($('#ddlGender option:selected').index() != 0) {
+                if ($('#ddlGender option:selected').val() == 'M') { $('#lblPreviewGender').text('Male'); }
+                if ($('#ddlGender option:selected').val() == 'F') { $('#lblPreviewGender').text('Female'); }
+                if ($('#ddlGender option:selected').val() == 'TG') {
+                    if ($('#ddlTransGender option:selected').val() == 'TM') { $('#lblPreviewGender').text('Trans-man'); }
+                    if ($('#ddlTransGender option:selected').val() == 'TF') { $('#lblPreviewGender').text('Trans-woman'); }
+                }
+            }
+            $('#lblPreviewCommunity').text($('#ddlCommunity option:selected').val());
+
+            if ($('#ddlPWD option:selected').val() == 'Y') {
+                $('#lblPreviewPWD').text('Yes');
+                if ($('#ddlPWDCategory option:selected').text() == 'Category D & E') {
+                    $('#lblPreviewPWDCategory').text($('#ddlPWDCategory option:selected').text());
+                    var dname = "";
+                    $('#cblPWDSubCategory input:checked').each(function () {
+                        dname = dname + $(this).closest('td').find('label').html() + ',';
+                    });
+                    dname = dname.substr(0, dname.length - 1);
+                    $('#lblPreviewPWDSubCategory').text(dname);
+                }
+                else {
+                    $('#lblPreviewPWDCategory').text($('#ddlPWDCategory option:selected').text());
+                    $('#lblPreviewPWDSubCategory').text($('#ddlPWDSubCategory option:selected').text());
+                }
+            }
+            else {
+                $('#lblPreviewPWD').text('No');
+                $('#lblPreviewPWDCategory').text('NA');
+                $('#lblPreviewPWDSubCategory').text('NA');
+            }
+
+            $('#lblPreviewCircle').text($.trim($("#ddlCircle option:selected").text()));
+            $('#lblPreviewYear').text($.trim($("#ddlYearOfPassing option:selected").text()));
+            var lan = "";
+            $('#lstLanguages :selected').each(function (i, selected) {
+                if (lan == "") {
+                    lan = lan + $(selected).text();
+                }
+                else {
+                    lan = lan + ", " + $(selected).text();
+                }
+            });
+            $('#lblPreviewLanguages').text(lan);
+
+            //if ($('#ddlBiCycle option:selected').length != 0) {
+            //    if ($('#ddlBiCycle option:selected').val() == 'Y') { $('#lblPreviewBiCycle').text('Yes'); }
+            //    if ($('#ddlBiCycle option:selected').val() == 'N') { $('#lblPreviewBiCycle').text('No'); }
+            //}
+
+            if ($('#ddlEmployee option:selected').length != 0) {
+                if ($('#ddlEmployee option:selected').val() == 'Y') {
+                    $('#lblPreviewEmployee').text('Yes');
+                    if ($('#ddlNOC option:selected').length != 0) {
+                        if ($('#ddlNOC option:selected').val() == 'Y') { $('#lblPreviewNOC').text('Yes'); }
+                        if ($('#ddlNOC option:selected').val() == 'N') { $('#lblPreviewNOC').text('No'); }
+                    }
+                }
+                if ($('#ddlEmployee option:selected').val() == 'N') {
+                    $('#lblPreviewEmployee').text('No');
+                    $('#lblPreviewNOC').text('-');
+                }
+            }
+
+            $('#PreviewDiv').dialog('open');
+            //$(".divDialog").parent().appendTo($("form:first"));
+            $('#PreviewDiv').parent().appendTo('form');
+            return false;
+            }            
+        }
+        //End of showPreviewDialog()
+
+        //Start of inputRestoration()
+        function inputRestoration() {
+            var obj = JSON.parse($('#hdnInput').val());
+
+            if (obj.Employed == 'Y') {
+                $('#ddlNOC').removeAttr('disabled');
+                $('#spanNOC').css({ 'display': 'inline', 'color': 'red' });
+            }
+            else {
+
+            }
+
+            if (obj.PWD == "Y") {
+                $('#ddlPWDCategory').removeAttr('disabled');
+                $('#spanPWDCategory').css({ 'display': 'inline', 'color': 'red' });
+                $('#ddlPWDSubCategory').removeAttr('disabled');
+                $('#ddlPWDSubCategory').css('display', 'block');
+                $('#spanPWDSubCategory').css({ 'display': 'inline', 'color': 'red' });
+                if (obj.PWDCategory == "DE") {
+                    $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                    $('#ddlPWDSubCategory').css('display', 'none');
+                    $('#pnlPWDSubCategory').css('display', 'block');
+                }
+                else {
+                    $('#ddlPWDSubCategory').css('display', 'block');
+                    $('#pnlPWDSubCategory').css('display', 'none');
+                    $('#cblPWDSubCategory input').removeAttr('checked');
+                    if (obj.PWDCategory == "A") {
+                        var options = {
+                            'LV': 'Low Vision'
+                        }
+                        $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                        $.each(options, function (val, text) {
+                            $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                        });
+                        $('#ddlPWDSubCategory').val(obj.PWDSubCategory);
+                    }
+                    if ($('#ddlPWDCategory').val() == 'B') {
+                        var options = {
+                            'D': 'Deaf',
+                            'HH': 'Hard of Hearing'
+                        }
+                        $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                        $.each(options, function (val, text) {
+                            $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                        });
+                        $('#ddlPWDSubCategory').val(obj.PWDSubCategory);
+                    }
+
+                    if ($('#ddlPWDCategory').val() == 'C') {
+                        var options = {
+                            'OA': 'One Arm',
+                            'OL': 'One Leg',
+                            'LC': 'Leprosy Cured',
+                            'D': 'Dwarfism',
+                            'AAV': 'Acid Attack Victim'
+                        }
+                        $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                        $.each(options, function (val, text) {
+                            $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                        });
+                        $('#ddlPWDSubCategory').val(obj.PWDSubCategory);
+                    }
+                }
+            }
+        }
+        //End of inputRestoration()
+
+        //Start of image preview
+        function ShowPhotoImagePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgPhoto').attr('src', e.target.result);
+                    //alert('Photo uploaded successfully');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#imgPhoto').attr('src', '');
+            }
+        }
+
+        function ShowSignatureImagePreview(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#imgSignature').attr('src', e.target.result);
+                    //alert('Signature uploaded successfully');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+            else {
+                $('#imgSignature').attr('src', '');
+            }
+        }
+        //End of image preview
+
+        
+        function ShowProgress() {
+            setTimeout(function () {
+                var modal = $('<div />');
+                modal.addClass("modalwindow");
+                $('body').append(modal);
+                var loading = $(".loaderDiv");
+                loading.show();
+                var top = Math.max($(window).height() / 2 - loading[0].offsetHeight / 2, 0);
+                var left = Math.max($(window).width() / 2 - loading[0].offsetWidth / 2, 0);
+                loading.css({ top: top, left: left });
+            }, 200);
+        }
+
+        $(function () {
+
+            $('body').on('click', '#btnSubmit', function (e) {
+
+                if (submitClientClick()) {
+                    $('#PreviewDiv').dialog('close');
+                    ShowProgress();
+                }
+                else {
+                    e.preventDefault();
+                }
+            });   
+            
+             $('body').on('click', '#btnCancel', function (e) {
+                $('#PreviewDiv').dialog('close');
+                return false;
+            });                         
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#txtAadharNumber').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false
+            });
+
+            $('#ddlCommunity').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false              
+            });
+
+            //Start of Enable and Disable PWD Options
+            $('#ddlPWD').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false              
+                if ($(this).val() == 'Y') {
+                    $('#ddlPWDCategory').removeAttr('disabled');
+                    $('#spanPWDCategory').css({ 'display': 'inline', 'color': 'red' });
+                    $('#ddlPWDSubCategory').removeAttr('disabled');
+                    $('#ddlPWDSubCategory').css('display', 'block');
+                    $('#spanPWDSubCategory').css({ 'display': 'inline', 'color': 'red' });
+                }
+                else {
+                    $('#ddlPWDCategory').attr('disabled', 'disabled');
+                    $('#ddlPWDSubCategory').attr('disabled', 'disabled');
+                    $('#ddlPWDSubCategory').css('display', 'block');
+                    $('#spanPWDCategory').css('display', 'none');
+                    $('#spanPWDSubCategory').css('display', 'none');
+                    $('#ddlPWDCategory').val('Select');
+                    $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                    $('#pnlPWDSubCategory').css('display', 'none');
+                    $('#cblPWDSubCategory input').removeAttr('checked');
+                }
+            });
+            $('#ddlPWDCategory').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false              
+                if ($('#ddlPWDCategory').val() == 'Select') {
+                    $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                    $('#pnlPWDSubCategory').css('display', 'none');
+                    $('#cblPWDSubCategory input').removeAttr('checked');
+                }
+                else {
+                    if ($('#ddlPWDCategory').val() == 'DE') {
+                        $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                        $('#ddlPWDSubCategory').css('display', 'none');
+                        $('#pnlPWDSubCategory').css('display', 'block');
+                    }
+                    else {
+                        $('#ddlPWDSubCategory').css('display', 'block');
+                        $('#pnlPWDSubCategory').css('display', 'none');
+                        $('#cblPWDSubCategory input').removeAttr('checked');
+
+                        if ($('#ddlPWDCategory').val() == 'A') {
+                            var options = {
+                                'LV': 'Low Vision'
+                            }
+                            $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                            $.each(options, function (val, text) {
+                                $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                            });
+                        }
+                        if ($('#ddlPWDCategory').val() == 'B') {
+                            var options = {
+                                'D': 'Deaf',
+                                'HH': 'Hard of Hearing'
+                            }
+                            $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                            $.each(options, function (val, text) {
+                                $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                            });
+                        }
+                        if ($('#ddlPWDCategory').val() == 'C') {
+                            var options = {
+                                'OA': 'One Arm',
+                                'OL': 'One Leg',
+                                'LC': 'Leprosy Cured',
+                                'D': 'Dwarfism',
+                                'AAV': 'Acid Attack Victim'
+                            }
+                            $('#ddlPWDSubCategory').empty().append('<option selected="selected" value="0">Select</option>');
+                            $.each(options, function (val, text) {
+                                $('#ddlPWDSubCategory').append($('<option></option>').val(val).html(text));
+                            });
+                        }
+                    }
+                }
+            });
+            //End of Enable and Disable PWD Options
+
+            //Start of Storing Client Side values in hidden field
+            //Start of PWD SubCategory Selected Option Change function
+            $('#ddlPWDSubCategory').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false  
+                $('#hdnPWDSubCategory').val($('#ddlPWDSubCategory option:selected').text());
+            });
+            //End of PWD SubCategory Selected Option Change function
+            //End of Storing Client Side values in hidden field    
+
+            $('#cblPWDSubCategory').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false                  
+            });
+
+            $('#ddlCircle').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false                  
+            });
+
+            $('#ddlYearOfPassing').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false                  
+            });
+
+            $('#lstLanguages').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false 
+                var lan = "";
+                $('#lstLanguages :selected').each(function (i, selected) {
+                    if (lan == "") {
+                        lan = lan + $(selected).text();
+                    }
+                    else {
+                        lan = lan + ", " + $(selected).text();
+                    }
+                });
+                $('#lblLanguages').text(lan);
+            });
+
+            //$('#ddlBiCycle').change(function () {
+            //    $('#hdnchk').val('0');                                 //Setting preview check value to false                  
+            //});
+
+            //Start of Enable and Disable NOC Options
+            $('#ddlEmployee').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false 
+                if ($(this).val() == "Y") {
+                    $('#ddlNOC').removeAttr('disabled');
+                    $('#spanNOC').css({ 'display': 'inline', 'color': 'red' });
+                }
+                else {
+                    $('#ddlNOC').attr('disabled', 'disabled');
+                    $('#ddlNOC').val('Select');
+                    $('#spanNOC').css('display', 'none');
+                }
+            });
+            //End of Enable and Disable NOC Options
+
+            $('#ddlNOC').change(function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false                  
+            });
+
+            //Start of uploading images
+            var photosize = "51200";
+            var signsize = "20480";
+            $("#fupPhoto").on("change", function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false    
+                if ($('#fupPhoto').val() != '') {
+                    var ext = $('#fupPhoto').val().split('.').pop().toLowerCase();
+                    if ($.inArray(ext, ['jpg', 'jpeg']) != -1) {
+                        var fileUpload = $('#fupPhoto');
+                        if (fileUpload[0].files[0].size < photosize) {
+                            ShowPhotoImagePreview(this);
+                        }
+                        else {
+                            alert("File size exceeded. Maximum allowed file size for uploading Photo is 50KB.");
+                            $("#fupPhoto").val("");
+                            ShowPhotoImagePreview(this);
+                        }
+                    }
+                    else {
+                        alert('Invalid File Format. Please upload image file with .jpg/.jpeg file extension only.');
+                        $("#fupPhoto").val("");
+                        ShowPhotoImagePreview(this);
+                    }
+                }
+                else {
+                    $("#fupPhoto").val("");
+                    ShowPhotoImagePreview(this);
+                }
+            });
+
+            $("#fupSignature").on("change", function () {
+                $('#hdnchk').val('0');                                 //Setting preview check value to false    
+                if ($('#fupSignature').val() != '') {
+                    var ext = $('#fupSignature').val().split('.').pop().toLowerCase();
+                    if ($.inArray(ext, ['jpg', 'jpeg']) != -1) {
+                        var fileUpload = $('#fupSignature');
+                        if (fileUpload[0].files[0].size < signsize) {
+                            ShowSignatureImagePreview(this);
+                        }
+                        else {
+                            alert("File size exceeded. Maximum allowed file size for uploading Signature is 20KB.");
+                            $("#fupSignature").val("");
+                            ShowSignatureImagePreview(this);
+                        }
+                    }
+                    else {
+                        alert('Invalid File Format. Please upload image file with .jpg/.jpeg file extension only.');
+                        $("#fupSignature").val("");
+                        ShowSignatureImagePreview(this);
+                    }
+                }
+                else {
+                    $("#fupSignature").val("");
+                    ShowSignatureImagePreview(this);
+                }
+            });
+            //End of uploading images
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $('#PreviewDiv').dialog({
+                resizable: false,
+                autoOpen: false,
+                title: null,
+                height: "auto",
+                width: 900,
+                modal: true,
+                closeOnEscape: false,
+                opacity: 0.3
+                //buttons: {
+                //    Ok: function () {
+                //        $(this).dialog('close');
+                //    }
+                //}
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        //disabling button after one click to prevent double click
+        function disableButton() {
+            document.getElementById('btnSubmit').disabled = true;
+            document.getElementById('btnPreview').disabled = true;
+        }
+        window.onbeforeunload = disableButton;
+    </script>
+    <script type="text/javascript">
+        //preventing back button click
+        function backhis() {
+            if (history.length > 0)
+                history.go(+1);
+        }
+    </script>
+</head>
+<body onload="backhis(); setvalue()">
+    <noscript>
+        <style type="text/css">
+            form
+            {
+                display: none;
+            }
+        </style>
+        <div style="width: 500px; height: 200px; left: 50%; margin-left: -250px; top: 50%;
+            margin-top: -100px; position: absolute; text-align: left;">
+            <span style="font-family: Calibri; font-size: 26px; color: red">Error</span><br />
+            <br />
+            <span style="font-family: Calibri; font-size: 18px;">JavaScript is disabled in this
+                browser. Please enable JavaScript and try again.</span>
+        </div>
+    </noscript>
+    <form name="form1" method="post" action="./Registration.aspx?qstr=R3pEYnZ5RXh2dTl0V0RlSUc1aXduME5aNXd2anJWQ3NtR3BPcGh0KzVzU0w4UUZCK1YxS2pKNG1VUzJwT2RqMlowOVEyZG8vMEZGL0QvQlJtR0tnUUUycW1NdDFjcHFYVWU5SlpSWGQwN0xNSjk5V1lFWkJBN2J1cFJKblAwY3hac2xFbVk1K2NCbHk3T1FlWjY2YXU3WXVGamxzcVRwQ01xVlQzMkZKYkZwNDVVQnQwRWZUVURLUFh0WURzMDZhdytYUnhSNDhGUzA9" id="form1" enctype="multipart/form-data">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUJNzYyMzA1NDMyD2QWAgIDDxYCHgdlbmN0eXBlBRNtdWx0aXBhcnQvZm9ybS1kYXRhFgICQw88KwARAQwUKwAAZBgDBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WDQUTY2JsUFdEU3ViQ2F0ZWdvcnkkMAUTY2JsUFdEU3ViQ2F0ZWdvcnkkMQUTY2JsUFdEU3ViQ2F0ZWdvcnkkMgUTY2JsUFdEU3ViQ2F0ZWdvcnkkMwUTY2JsUFdEU3ViQ2F0ZWdvcnkkNAUTY2JsUFdEU3ViQ2F0ZWdvcnkkNQUTY2JsUFdEU3ViQ2F0ZWdvcnkkNgUTY2JsUFdEU3ViQ2F0ZWdvcnkkNwUTY2JsUFdEU3ViQ2F0ZWdvcnkkOAUTY2JsUFdEU3ViQ2F0ZWdvcnkkOAUMbHN0TGFuZ3VhZ2VzBQppbWJSZWZyZXNoBQ5jaGtEZWNsYXJhdGlvbgULZ3JkX2RldGFpbHMPZ2QFCENhcHRjaGExDwUkYTY4YjFiY2YtNWNjNS00YWUyLTlkYTAtNGEzNDJiZDg0NmQ5ZOHMgLPJOPmRbNN8hUmP6XY3SUu6Y9FEjg6RdJzM3kEA" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=m5aQU6OAaeZFG-fcEVGGlfC41Stff4i6oHUJ9qcaXUUmmhr98Mi_WTyvIjHWgQoEts-FUSGJ0uioM7WdNn7gW7gJwmWNq1SP9eAUv1IYcNc1&amp;t=638451545441112695" type="text/javascript"></script>
+
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="0E6B69E9" />
+	<input type="hidden" name="__SCROLLPOSITIONX" id="__SCROLLPOSITIONX" value="0" />
+	<input type="hidden" name="__SCROLLPOSITIONY" id="__SCROLLPOSITIONY" value="0" />
+</div>
+    <div class="mainWrapper">
+        <div class="bodyWrapper">
+            <div class="headerribbon_content">
+                <div class="headerribbon_layers">
+                </div>
+                <div class="headerribbon">
+                    <div class="headerribbon_indiapost_logo">
+                        <img id="Image1" src="images/logo1.png" style="height:100px;border-width:0px;" />
+                    </div>
+                    <div class="headerribbon_title_text">
+                        <div>
+                            Online Gramin Dak Sevak Engagement
+                        </div>
+                    </div>
+                    <div>
+                        <img id="Image2" src="images/Emblem_of_India.png" style="height:100px;border-width:0px;" />
+                    </div>
+                </div>
+                <div class="headerribbon_layers">
+                </div>
+            </div>
+            <div style="height: 5px">
+            </div>
+            
+            <div class="registration_title">
+                <p style="margin: 0; padding-left: 20px;">
+                    Registration</p>
+            </div>
+            <div class="instructions_ribbon">
+                <ul>
+                    <li><b>Please go through the detailed notification and application submission instructions
+                        provided in the home page before submitting the application.</b></li>
+                    
+                </ul>
+            </div>
+            <div class="content_wrapper">
+                <div class="registration_content">
+                    <table class="tbldata">
+                        <tr>
+                            <td>
+                                1. Applicant&#39;s Name (As per Secondary school pass certificate) <span style="color: Red">
+                                    <sup><b>*</b></sup></span><br />
+                                <span style="font-size: 14px">Note: Any deviation may lead to the cancellation of candidature.</span>
+                            </td>
+                            <td>
+                                <input name="txtName" type="text" id="txtName" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2. Father's Name/ Mother's Name (As per Secondary school pass certificate) <span
+                                    style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <input name="txtFatherName" type="text" id="txtFatherName" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3. Mobile Number (Enter 10 Digit Mobile Number) <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <input name="txtMobileNumber" type="text" maxlength="10" id="txtMobileNumber" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                4. Email <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <input name="txtEmail" type="text" maxlength="100" id="txtEmail" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5. Date of Birth <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <input name="txtDOB" type="text" id="txtDOB" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6. Gender <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlGender" id="ddlGender" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="M">Male</option>
+	<option value="F">Female</option>
+	<option value="TG">Transgender</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;6(a). Select (In Case of Transgender) <span id="spanTransGender" style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlTransGender" id="ddlTransGender" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="TM">Trans-Man</option>
+	<option value="TF">Trans-Woman</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                7. Community <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlCommunity" id="ddlCommunity" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="UR">UR</option>
+	<option value="EWS">UR - EWS</option>
+	<option value="OBC">OBC</option>
+	<option value="SC">SC</option>
+	<option value="ST">ST</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                8. Circle in which Secondary school passed<span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlCircle" id="ddlCircle" class="ddl" style="min-width: 150px">
+	<option value="0">Select Circle</option>
+	<option value="CR11000000000">Andhra Pradesh</option>
+	<option value="CR12000000000">Assam</option>
+	<option value="CR13000000000">Bihar</option>
+	<option value="CR14000000000">Chattisgarh</option>
+	<option value="CR15000000000">Delhi</option>
+	<option value="CR16000000000">Gujarat</option>
+	<option value="CR17000000000">Haryana</option>
+	<option value="CR18000000000">Himachal Pradesh</option>
+	<option value="CR19000000000">Jammu Kashmir</option>
+	<option value="CR20000000000">Jharkhand</option>
+	<option value="CR21000000000">Karnataka</option>
+	<option value="CR22000000000">Kerala</option>
+	<option value="CR23000000000">Madhya Pradesh</option>
+	<option value="CR24000000000">Maharashtra</option>
+	<option value="CR25000000000">North Eastern</option>
+	<option value="CR26000000000">Odisha</option>
+	<option value="CR27000000000">Punjab</option>
+	<option value="CR28000000000">Rajasthan</option>
+	<option value="CR29000000000">Tamilnadu</option>
+	<option value="CR33000000000">Telangana</option>
+	<option value="CR30000000000">Uttar Pradesh</option>
+	<option value="CR31000000000">Uttarakhand</option>
+	<option value="CR32000000000">West Bengal</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                9. Year of passing Secondary school<span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlYearOfPassing" id="ddlYearOfPassing" class="ddl" style="min-width: 150px">
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: center;">
+                                <p style="margin: 0; font: 20px Calibri; background-color: #0077B6; color: #FFF;">
+                                    <b>Please continue filling your details below.</b></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                10. Aadhaar Number <span style="color: Red"><sup><b></b></sup></span>
+                            </td>
+                            <td>
+                                <input name="txtAadharNumber" type="text" maxlength="12" id="txtAadharNumber" class="txt" />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                11. Are you a Person with Disability <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlPWD" id="ddlPWD" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="Y">Yes</option>
+	<option value="N">No</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                11(a). Type of Disability <span id="spanPWDCategory" style="color: Red">
+                                    <sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlPWDCategory" id="ddlPWDCategory" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="A">Category A</option>
+	<option value="B">Category B</option>
+	<option value="C">Category C</option>
+	<option value="DE">Category D &amp; E</option>
+
+</select>
+                            </td>
+                            <td>
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;11(a)(i). Select PWD SubCategory <span id="spanPWDSubCategory" style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlPWDSubCategory" id="ddlPWDSubCategory" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+
+</select>
+                                <div id="pnlPWDSubCategory" style="width:90%;">
+	
+                                    <br />
+                                    <b>&nbsp;&nbsp;&nbsp;&nbsp;Multiple Disability</b>
+                                    <br />
+                                    <br />
+                                    <table id="cblPWDSubCategory" border="0">
+		<tr>
+			<td><input id="cblPWDSubCategory_0" type="checkbox" name="cblPWDSubCategory$0" /><label for="cblPWDSubCategory_0">Low Vision</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_1" type="checkbox" name="cblPWDSubCategory$1" /><label for="cblPWDSubCategory_1">Hard of Hearing</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_2" type="checkbox" name="cblPWDSubCategory$2" /><label for="cblPWDSubCategory_2">One Arm</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_3" type="checkbox" name="cblPWDSubCategory$3" /><label for="cblPWDSubCategory_3">One Leg</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_4" type="checkbox" name="cblPWDSubCategory$4" /><label for="cblPWDSubCategory_4">Leprosy Cured</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_5" type="checkbox" name="cblPWDSubCategory$5" /><label for="cblPWDSubCategory_5">Dwarfism</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_6" type="checkbox" name="cblPWDSubCategory$6" /><label for="cblPWDSubCategory_6">Acid Attack Victim</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_7" type="checkbox" name="cblPWDSubCategory$7" /><label for="cblPWDSubCategory_7">Specific Learning Disability</label></td>
+		</tr><tr>
+			<td><input id="cblPWDSubCategory_8" type="checkbox" name="cblPWDSubCategory$8" /><label for="cblPWDSubCategory_8">Intellectual Disability</label></td>
+		</tr>
+	</table>
+                                    <br />
+                                
+</div>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                12. Languages studied in Secondary school<span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select size="4" name="lstLanguages" multiple="multiple" id="lstLanguages">
+	<option value="L01">Assamese/Asomiya</option>
+	<option value="L02">Bengali</option>
+	<option value="L03">Bodo</option>
+	<option value="L54">Bhutia</option>
+	<option value="L04">Dogri</option>
+	<option value="E01">English</option>
+	<option value="L50">Garo</option>
+	<option value="L05">Gujarati</option>
+	<option value="L06">Hindi</option>
+	<option value="L52">Kak barak</option>
+	<option value="L07">Kannada</option>
+	<option value="L08">Kashmiri</option>
+	<option value="L51">Khasi</option>
+	<option value="L09">Konkani</option>
+	<option value="L53">Lepcha</option>
+	<option value="L10">Maithili</option>
+	<option value="L11">Malayalam</option>
+	<option value="L12">Manipuri</option>
+	<option value="L13">Marathi</option>
+	<option value="X01">Mizo</option>
+	<option value="L14">Nepali</option>
+	<option value="L15">Oriya</option>
+	<option value="L16">Punjabi</option>
+	<option value="L17">Sanskrit</option>
+	<option value="L18">Santhali</option>
+	<option value="L19">Sindhi</option>
+	<option value="L20">Tamil</option>
+	<option value="L21">Telugu</option>
+	<option value="L22">Urdu</option>
+
+</select>
+                                &nbsp;&nbsp;&nbsp;
+                                <span id="lblLanguages" style="font-size:14px;"></span>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td>
+                                13. Whether employed<span style="color: Red"><sup><b> *</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlEmployee" id="ddlEmployee" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="Y">Yes</option>
+	<option value="N">No</option>
+
+</select>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                13(a). Whether employer NOC is available <span id="spanNOC" style="color: Red">
+                                    <sup><b>*</b></sup></span>
+                            </td>
+                            <td>
+                                <select name="ddlNOC" id="ddlNOC" class="ddl" style="min-width: 150px">
+	<option value="Select">Select</option>
+	<option value="Y">Yes</option>
+	<option value="N">No</option>
+
+</select>
+                            </td>
+                            <td>
+                                &nbsp;
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                14. Upload Photo <span style="color: Red"><sup><b>*</b></sup></span><br />
+                                <span style="color: green;">File Format : ".jpg"; Size upto 50 KB; 200dpi<br />
+                                    Dimensions : 200*230 Pixcels (Preferred) </span>
+                            </td>
+                            <td>
+                                <img id="imgPhoto" src="" style="height:125px;width:125px;border-width:0px;" /><br />
+                                <input type="file" name="fupPhoto" id="fupPhoto" /><br />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                15. Upload Signature <span style="color: Red"><sup><b>*</b></sup></span><br />
+                                <span style="color: green;">File Format : ".jpg"; Size upto 20 KB; 200dpi<br />
+                                    Dimensions : 140*60 Pixcels (Preferred) </span>
+                            </td>
+                            <td>
+                                <img id="imgSignature" src="" style="height:75px;width:200px;border-width:0px;" /><br />
+                                <input type="file" name="fupSignature" id="fupSignature" /><br />
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr id="trCaptcha1">
+	<td>
+                                16. Enter the text shown below <span style="color: Red"><sup><b>*</b></sup></span>
+                            </td>
+	<td>
+                                <input name="txtCaptcha" type="text" id="txtCaptcha" class="txt" />
+                            </td>
+	<td>
+                                <div style="float: left; height: 60px; line-height: 60px;">
+                                    <div style="float: left">
+                                        <div style='background-color:White;width:240px;' ><img src="CaptchaImage.axd?guid=a68b1bcf-5cc5-4ae2-9da0-4a342bd846d9" border="0" alt='Type Text of this image in the Text Box provided below' width="240" height="60" /></div>
+                                    </div>
+                                    <div style="float: left; padding-left: 20px;">
+                                        <input type="image" name="imbRefresh" id="imbRefresh" title="Refresh Image" src="images/refresh.jpeg" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;imbRefresh&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" style="height:30px;width:30px;border-width:0px;" />
+                                    </div>
+                                </div>
+                            </td>
+</tr>
+
+                        <tr>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr id="trPreview2">
+	<td colspan="3" style="text-align: center">
+                                <input type="submit" name="btnPreview" value="Submit" onclick="return previewClientClick();WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnPreview&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnPreview" class="btn" />
+                            </td>
+</tr>
+
+                        <tr>
+                            <td colspan="3">
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="gridContent">
+                    <div>
+
+</div>
+                </div>
+            </div>
+            <div class="preview_wrapper">
+                <div id="PreviewDiv" class="reg_preview_div">
+                    <table class="preview_table_heading">
+                        <tr style="height: 30px">
+                            <td>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Registration Details:
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="tbldata previewtabledata">
+                        <tr>
+                            <td>
+                                1. Applicant Name:
+                            </td>
+                            <td>
+                                <span id="lblPreviewName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2. Father&#39;s Name/Mother&#39;s Name:
+                            </td>
+                            <td>
+                                <span id="lblPreviewFatherName"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                3. Mobile Number:
+                            </td>
+                            <td>
+                                <span id="lblPreviewMobileNumber"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                4. Aadhar Number:
+                            </td>
+                            <td>
+                                <span id="lblPreviewAadharNumber"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                5. email:
+                            </td>
+                            <td>
+                                <span id="lblPreviewemail"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                6. Date of Birth:
+                            </td>
+                            <td>
+                                <span id="lblPreviewDOB"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                7. Gender:
+                            </td>
+                            <td>
+                                <span id="lblPreviewGender"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                8. Community:
+                            </td>
+                            <td>
+                                <span id="lblPreviewCommunity"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                9. Are you a Person With Disability:
+                            </td>
+                            <td>
+                                <span id="lblPreviewPWD"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                9a. PWD Category:
+                            </td>
+                            <td>
+                                <span id="lblPreviewPWDCategory"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                9b. PWD SubCategory:
+                            </td>
+                            <td>
+                                <span id="lblPreviewPWDSubCategory"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                10. Circle in which Secondary school passed:
+                            </td>
+                            <td>
+                                <span id="lblPreviewCircle"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                11. Year of passing Secondary school:
+                            </td>
+                            <td>
+                                <span id="lblPreviewYear"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                12. Languages studied in Secondary school:
+                            </td>
+                            <td>
+                                <span id="lblPreviewLanguages"></span>
+                            </td>
+                        </tr>
+                        
+                        
+                        <tr>
+                            <td>
+                                13. Whether employed:
+                            </td>
+                            <td>
+                                <span id="lblPreviewEmployee"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                13a. Whether Employer NOC available:
+                            </td>
+                            <td>
+                                <span id="lblPreviewNOC"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <input id="chkDeclaration" type="checkbox" name="chkDeclaration" /><span style="font: 18px Calibri;
+                                    padding-left: 10px;">I hereby declare that, I have not done any duplicate registration
+                                    and I understood that my candidature may be rejected if any duplicate registration
+                                    is found at later stage.</span><br />
+                                <br />
+                                
+                                
+                                
+                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                            </td>
+                        </tr>
+                        <tr id="trSubmit2">
+	<td style="text-align: center" colspan="2">
+                                
+                                <input type="submit" name="btnSubmit" value="Submit" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnSubmit&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnSubmit" class="btn" />&emsp;&emsp;<input type="submit" name="btnCancel" value="Cancel" onclick="javascript:WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(&quot;btnCancel&quot;, &quot;&quot;, true, &quot;&quot;, &quot;&quot;, false, false))" id="btnCancel" class="btn" />
+                            </td>
+</tr>
+
+                    </table>
+                </div>
+                <div class="loaderDiv" align="center">
+                    <img id="loaderImg" src="images/loading.gif" style="height:100px;width:100px;border-width:0px;" />
+                    
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="hdnPWDSubCategory" id="hdnPWDSubCategory" />
+        <input type="hidden" name="hdnInput" id="hdnInput" />
+        <input type="hidden" name="hdnchk" id="hdnchk" />
+    </div>
+    
+<script type='text/javascript'>alert('Page expired. Please try again.'); window.location='Home.aspx';</script>'
+<script type="text/javascript">
+//<![CDATA[
+
+theForm.oldSubmit = theForm.submit;
+theForm.submit = WebForm_SaveScrollPositionSubmit;
+
+theForm.oldOnSubmit = theForm.onsubmit;
+theForm.onsubmit = WebForm_SaveScrollPositionOnSubmit;
+//]]>
+</script>
+</form>
+</body>
+</html>
+
+
+
+
+
+

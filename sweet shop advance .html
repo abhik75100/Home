@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>मिठाई शॉप बिलिंग (Editable Price List + UPI)</title>
+<style>
+  :root{--card:#e0e5ec;--soft:#f7f7f8;--accent:#007bff}
+  *{box-sizing:border-box;font-family:Segoe UI,Arial,sans-serif}
+  body{background:#f0f3f6;margin:0;padding:20px;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:980px;background:var(--card);padding:20px;border-radius:16px;box-shadow:8px 8px 24px #c9ced4,-8px -8px 24px #ffffff}
+  h1{text-align:center;margin:0 0 16px}
+  .flex{display:flex;gap:12px;flex-wrap:wrap}
+  .left{flex:1;min-width:280px}
+  .right{width:320px;min-width:260px}
+  label{display:block;font-size:0.95rem;margin-bottom:6px}
+  select,input{width:100%;padding:10px;border-radius:10px;border:1px solid #d7dbe0;background:var(--soft);margin-bottom:10px}
+  .item-row{background:#fff;padding:10px;border-radius:10px;margin-bottom:10px;position:relative;box-shadow:inset 2px 2px 6px rgba(0,0,0,0.03)}
+  .remove-btn{position:absolute;right:10px;top:10px;background:#ff5252;color:#fff;border:none;padding:6px 8px;border-radius:8px;cursor:pointer}
+  .controls{display:flex;gap:8px;flex-wrap:wrap}
+  button{cursor:pointer;border:none;padding:10px 12px;border-radius:10px;background:#28a745;color:#fff}
+  button.secondary{background:#007bff}
+  button.ghost{background:#f1f1f1;color:#333}
+  .price-box{background:#fff;padding:12px;border-radius:12px;margin-top:12px;box-shadow:inset 2px 2px 6px rgba(0,0,0,0.03)}
+  .big{font-size:1.25rem;font-weight:700}
+  .small{font-size:0.9rem;color:#555}
+  .price-list{background:#fff;padding:10px;border-radius:10px;margin-bottom:12px}
+  .pl-row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px dashed #eee}
+  .pl-row:last-child{border-bottom:0}
+  .editable{display:flex;gap:8px}
+  .note{font-size:0.85rem;color:#555;margin-top:6px}
+  .logo{height:60px}
+  @media(max-width:880px){.right{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🍬 मिठाई दुकान — बिलिंग सिस्टम</h1>
+  <div class="flex">
+    <div class="left">
+      <label>ग्राहक का नाम</label>
+      <input id="customer-name" placeholder="ग्राहक का नाम डालें (Optional)">
+
+      <div id="items"></div>
+
+      <div style="display:flex;gap:10px">
+        <button onclick="addItem()">+ नया आइटम जोड़ें</button>
+        <button class="ghost" onclick="clearAll()">सभी हटाएँ</button>
+      </div>
+
+      <div class="note">प्रत्येक आइटम के साथ मात्रा चुनें — प्रति किलो की कीमत नीचे की price list से ली जाएगी।</div>
+    </div>
+
+    <div class="right">
+      <div class="price-list">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <strong>Editable Price List</strong>
+          <button class="ghost" onclick="resetPrices()">रिसेट</button>
+        </div>
+        <div id="pricelist-container"></div>
+        <div style="margin-top:8px">
+          <input id="new-item-name" placeholder="नया आइटम नाम">
+          <input id="new-item-price" placeholder="प्रति किग्रा कीमत (₹)" type="number" style="margin-top:6px">
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <button onclick="addToPriceList()">ऐड प्राइस</button>
+            <button class="ghost" onclick="savePriceList()">Save (Local)</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="price-box">
+        <div class="small">कुल आइटम</div>
+        <div id="count" class="big">0</div>
+        <div style="height:8px"></div>
+        <div class="small">कुल मूल्य</div>
+        <div id="total" class="big">₹0</div>
+
+        <div style="margin-top:10px">
+          <label>Apply Discount (₹)</label>
+          <input id="discount" type="number" value="0" onchange="calculateAll()" />
+          <div style="height:8px"></div>
+          <div style="display:flex;gap:8px">
+            <button class="secondary" onclick="prepareUPI()">Pay Now (UPI)</button>
+            <button onclick="printBill()">Print Bill</button>
+          </div>
+
+          <div style="margin-top:8px;display:flex;gap:8px">
+            <button onclick="markPaid()" id="markPaidBtn" class="ghost">Mark as Paid</button>
+            <div id="payment-status" class="small">Status: <strong id="paystatus">Pending</strong></div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px">
+          <label>UPI ID (merchant) — बदलें</label>
+          <input id="merchant-upi" placeholder="example@upi" value="merchant@upi">
+          <div class="note">मोबाइल पर Pay Now दबाने से UPI app ओपन होगा (amount auto भरा हुआ)।</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------------------------
+  Editable default price list
+---------------------------*/
+const DEFAULT_PRICE_LIST = [
+  { name: "लौंछ", price: 250 },
+  { name: "सोन पपड़ी", price: 100 },
+  { name: "रसगुल्ला", price: 450 },
+  { name: "गुलाब जामुन", price: 400 },
+  { name: "बरफी", price: 300 }
+];
+
+let priceList = loadPriceList();
+let itemIndex = 0;
+
+/* load or default */
+function loadPriceList(){
+  try{
+    const raw = localStorage.getItem('mithai_price_list_v1');
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_PRICE_LIST));
+}
+
+/* save */
+function savePriceList(){
+  localStorage.setItem('mithai_price_list_v1', JSON.stringify(priceList));
+  renderPriceList();
+  alert('Price list saved locally');
+}
+
+/* reset to default */
+function resetPrices(){
+  if(!confirm('Default price list reset करेंगे?')) return;
+  priceList = JSON.parse(JSON.stringify(DEFAULT_PRICE_LIST));
+  savePriceList();
+}
+
+/* UI for price list */
+function renderPriceList(){
+  const wrap = document.getElementById('pricelist-container');
+  wrap.innerHTML = '';
+  priceList.forEach((p, idx) => {
+    const row = document.createElement('div');
+    row.className = 'pl-row';
+    row.innerHTML = `
+      <div style="flex:1">
+        <div style="font-weight:600">${p.name}</div>
+        <div class="small">₹ <input type="number" value="${p.price}" id="pl-${idx}" style="width:90px;border:none;background:transparent"></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="ghost" onclick="updatePrice(${idx})">Update</button>
+        <button class="ghost" onclick="removePrice(${idx})" style="background:#ffecec;color:#800">Delete</button>
+      </div>
+    `;
+    wrap.appendChild(row);
+  });
+}
+function updatePrice(idx){
+  const el = document.getElementById('pl-'+idx);
+  const v = parseFloat(el.value) || 0;
+  priceList[idx].price = v;
+  savePriceList();
+  calculateAll();
+}
+function removePrice(idx){
+  if(!confirm('Item हटाना है?')) return;
+  priceList.splice(idx,1);
+  savePriceList();
+  calculateAll();
+}
+function addToPriceList(){
+  const name = document.getElementById('new-item-name').value.trim();
+  const price = parseFloat(document.getElementById('new-item-price').value);
+  if(!name || !price){ alert('नाम और कीमत डालें'); return; }
+  priceList.push({name, price});
+  document.getElementById('new-item-name').value = '';
+  document.getElementById('new-item-price').value = '';
+  savePriceList();
+}
+
+/* ---------------------------
+   Items area & calculations
+---------------------------*/
+const itemsContainer = document.getElementById('items');
+
+function addItem(pref){
+  itemIndex++;
+  const id = itemIndex;
+  const row = document.createElement('div');
+  row.className = 'item-row';
+  row.id = 'row-'+id;
+
+  // build select options
+  const itemOptions = ['<option value="">आइटम चुनें</option>']
+    .concat(priceList.map(p => `<option value="${p.price}">${escapeHtml(p.name)}</option>`))
+    .join('');
+  const qtyOptions = [
+    '<option value="">मात्रा चुनें</option>',
+    '<option value="50">50 ग्राम</option>',
+    '<option value="100">100 ग्राम</option>',
+    '<option value="200">200 ग्राम</option>',
+    '<option value="250">250 ग्राम</option>',
+    '<option value="500">500 ग्राम</option>',
+    '<option value="1000">1 किलोग्राम</option>'
+  ].join('');
+
+  row.innerHTML = `
+    <label>आइटम:</label>
+    <select id="item-${id}" onchange="calculateAll()">${itemOptions}</select>
+    <label>मात्रा:</label>
+    <select id="qty-${id}" onchange="calculateAll()">${qtyOptions}</select>
+    <div class="small">मूल्य: <span id="price-${id}">₹0</span></div>
+    <button class="remove-btn" onclick="removeItem(${id})">हटाएँ</button>
+  `;
+  itemsContainer.appendChild(row);
+
+  // if pref provided (for example when reloading), set values
+  if(pref){
+    const it = document.getElementById('item-'+id);
+    const qt = document.getElementById('qty-'+id);
+    it.value = pref.price || '';
+    qt.value = pref.qty || '';
+    calculateAll();
+  }
+  calculateAll();
+}
+
+/* remove item */
+function removeItem(id){
+  const el = document.getElementById('row-'+id);
+  if(!el) return;
+  if(!confirm('क्या आप इस आइटम को हटाना चाहते हैं?')) return;
+  el.remove();
+  calculateAll();
+}
+
+/* clear all */
+function clearAll(){
+  if(!confirm('सभी आइटम हटाएं?')) return;
+  itemsContainer.innerHTML = '';
+  calculateAll();
+}
+
+/* calculation */
+function calculateAll(){
+  let total = 0;
+  let count = 0;
+  for(let i=1;i<=itemIndex;i++){
+    const row = document.getElementById('row-'+i);
+    if(!row) continue;
+    const itemSelect = document.getElementById('item-'+i);
+    const qtySelect = document.getElementById('qty-'+i);
+    if(!itemSelect || !qtySelect) continue;
+    if(itemSelect.value && qtySelect.value){
+      const pricePerKg = parseFloat(itemSelect.value);
+      const qty = parseFloat(qtySelect.value);
+      const price = (pricePerKg/1000)*qty;
+      document.getElementById('price-'+i).innerText = '₹' + round2(price);
+      total += price;
+      count++;
+    } else {
+      document.getElementById('price-'+i).innerText = '₹0';
+    }
+  }
+  const disc = parseFloat(document.getElementById('discount').value) || 0;
+  const finalTotal = Math.max(0, total - disc);
+  document.getElementById('total').innerText = '₹' + round2(finalTotal);
+  document.getElementById('count').innerText = count;
+  // store current draft (optional)
+  saveDraft();
+}
+
+/* rounding */
+function round2(n){ return Math.round((n+Number.EPSILON)*100)/100; }
+
+/* escape */
+function escapeHtml(s){ return s.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+/* ---------------------------
+    UPI Payment & status (manual)
+---------------------------*/
+function prepareUPI(){
+  const amountText = document.getElementById('total').innerText.replace('₹','').trim();
+  const amount = parseFloat(amountText) || 0;
+  if(amount <= 0){ alert('पहले कुछ चुनें और कुल राशि > 0 होना चाहिए'); return; }
+  const upiId = document.getElementById('merchant-upi').value.trim();
+  if(!upiId){ alert('UPI ID डालें'); return; }
+  // Build UPI deep link
+  const name = encodeURIComponent(document.getElementById('customer-name').value || 'ग्राहक');
+  const upi = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${name}&am=${amount}&cu=INR`;
+  // open UPI apps on mobile
+  window.location.href = upi;
+  // After redirect user will complete payment in UPI app.
+  // We cannot automatically verify without server/API, so show manual instructions.
+  setTimeout(()=> {
+    if(confirm('यदि आपने भुगतान कर लिया है तो OK दबाएं और "Mark as Paid" करें।\n(Automatic verification requires server/API)')){
+      markPaid();
+    }
+  },1500);
+}
+
+function markPaid(){
+  document.getElementById('paystatus').innerText = 'Paid';
+  document.getElementById('markPaidBtn').innerText = 'Payment: Paid';
+  document.getElementById('markPaidBtn').disabled = true;
+  // Optionally record payer name/time in localStorage
+  const entry = {
+    name: document.getElementById('customer-name').value || 'ग्राहक',
+    total: document.getElementById('total').innerText,
+    time: new Date().toLocaleString()
+  };
+  const list = JSON.parse(localStorage.getItem('paid_history_v1')||'[]');
+  list.push(entry);
+  localStorage.setItem('paid_history_v1', JSON.stringify(list));
+}
+
+/* Print bill (simple) */
+function printBill(){
+  const name = document.getElementById('customer-name').value || '';
+  let html = `<div style="text-align:center;font-family:Arial"><h2>🍬 मिठाई की दुकान</h2><div>${new Date().toLocaleString()}</div><hr/></div>`;
+  html += `<div style="font-family:Arial"><b>ग्राहक:</b> ${escapeHtml(name)}<br/><br/>`;
+  html += `<table style="width:100%;border-collapse:collapse;font-family:Arial"><tr style="background:#eee"><th style="padding:6px;border:1px solid #ddd">आइटम</th><th style="padding:6px;border:1px solid #ddd">मात्रा</th><th style="padding:6px;border:1px solid #ddd">प्रति किग्रा</th><th style="padding:6px;border:1px solid #ddd">मूल्य</th></tr>`;
+  let total = 0;
+  for(let i=1;i<=itemIndex;i++){
+    const row = document.getElementById('row-'+i);
+    if(!row) continue;
+    const itemSelect = document.getElementById('item-'+i);
+    const qtySelect = document.getElementById('qty-'+i);
+    if(itemSelect && qtySelect && itemSelect.value && qtySelect.value){
+      const nameText = itemSelect.options[itemSelect.selectedIndex].text;
+      const qtyText = qtySelect.options[qtySelect.selectedIndex].text;
+      const ppk = parseFloat(itemSelect.value);
+      const q = parseFloat(qtySelect.value);
+      const price = (ppk/1000)*q;
+      total += price;
+      html += `<tr><td style="padding:6px;border:1px solid #ddd">${escapeHtml(nameText)}</td><td style="padding:6px;border:1px solid #ddd">${escapeHtml(qtyText)}</td><td style="padding:6px;border:1px solid #ddd">₹${ppk}</td><td style="padding:6px;border:1px solid #ddd">₹${round2(price)}</td></tr>`;
+    }
+  }
+  const disc = parseFloat(document.getElementById('discount').value) || 0;
+  const finalTotal = Math.max(0, total - disc);
+  html += `<tr><td colspan="3" style="padding:6px;border:1px solid #ddd"><b>कुल</b></td><td style="padding:6px;border:1px solid #ddd"><b>₹${round2(total)}</b></td></tr>`;
+  if(disc>0) html += `<tr><td colspan="3" style="padding:6px;border:1px solid #ddd">Discount</td><td style="padding:6px;border:1px solid #ddd">₹${round2(disc)}</td></tr>`;
+  html += `<tr><td colspan="3" style="padding:6px;border:1px solid #ddd"><b>To Pay</b></td><td style="padding:6px;border:1px solid #ddd"><b>₹${round2(finalTotal)}</b></td></tr>`;
+  html += `</table></div>`;
+  const w = window.open('','_blank','width=800,height=800');
+  w.document.write(html);
+  w.document.close();
+  w.print();
+}
+
+/* Draft save (optional) */
+function saveDraft(){
+  const items = [];
+  for(let i=1;i<=itemIndex;i++){
+    const row = document.getElementById('row-'+i);
+    if(!row) continue;
+    const it = document.getElementById('item-'+i);
+    const qt = document.getElementById('qty-'+i);
+    if(it && qt && (it.value || qt.value)){
+      items.push({ price: it.value, qty: qt.value });
+    }
+  }
+  const draft = { items, name: document.getElementById('customer-name').value || '', discount: document.getElementById('discount').value || 0 };
+  localStorage.setItem('mithai_draft_v1', JSON.stringify(draft));
+}
+
+/* load draft on start */
+function loadDraft(){
+  try{
+    const raw = localStorage.getItem('mithai_draft_v1');
+    if(!raw) return;
+    const d = JSON.parse(raw);
+    document.getElementById('customer-name').value = d.name || '';
+    document.getElementById('discount').value = d.discount || 0;
+    if(d.items && d.items.length){
+      // clear prior
+      itemsContainer.innerHTML = '';
+      d.items.forEach(it => addItem(it));
+    } else {
+      addItem();
+    }
+  }catch(e){
+    addItem();
+  }
+}
+
+/* utilities */
+function removeAllChildren(e){ while(e.firstChild) e.removeChild(e.firstChild); }
+
+/* initial render */
+renderPriceList();
+loadDraft();
+calculateAll();
+</script>
+</body>
+</html>

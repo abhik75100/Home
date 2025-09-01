@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</title>
+
+<style>
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #e0e5ec; padding: 20px; }
+.container {
+    max-width: 1000px; margin: auto; background: #e0e5ec;
+    padding: 2rem; border-radius: 25px;
+    box-shadow: 10px 10px 30px #bec3c9, -10px -10px 30px #ffffff;
+}
+h2[contenteditable] {
+    text-align: center; margin-bottom: 20px; font-size: 22px;
+    padding: 6px; border: 2px dashed transparent;
+}
+h2[contenteditable]:hover { border: 2px dashed #007bff; border-radius: 8px; }
+
+#columns-container input, #data-form input {
+    width: 180px; padding: 8px; margin: 8px;
+    border-radius: 12px; border: none; background: #e0e5ec;
+    font-size: 14px;
+    box-shadow: inset 3px 3px 6px #bec3c9, inset -3px -3px 6px #ffffff;
+}
+button {
+    padding: 8px 14px; margin: 8px;
+    border: none; border-radius: 12px;
+    background: #28a745; color: white; cursor: pointer;
+    font-size: 14px; font-weight: 600;
+    transition: background 0.3s ease;
+}
+button:hover { background: #218838; }
+#export-img-btn { background: #17a2b8; }
+#export-img-btn:hover { background: #117a8b; }
+#print-btn { background: #007bff; }
+#print-btn:hover { background: #0069d9; }
+#import-contacts-btn { background: #ff9800; }
+#import-contacts-btn:hover { background: #e68900; }
+
+/* Table design */
+table {
+    width: 100%; border-collapse: collapse; margin-top: 15px;
+    background: white; border-radius: 12px; overflow: hidden;
+    font-size: 13px; line-height: 1.2;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+}
+th, td {
+    border: 1px solid #ccc; padding: 6px 8px; text-align: left;
+    transition: background 0.2s ease;
+}
+tr:hover td { background: #f0f8ff; }
+th { background: #007bff; color: white; font-weight: 600; }
+.icon-btn { cursor: pointer; font-size: 1.1em; margin: 0 4px; border: none; background: none; }
+.edit-icon { color: #ffc107; }
+.delete-icon { color: #dc3545; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2 contenteditable="true">डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</h2>
+
+  <div id="columns-container">
+    <input type="text" id="new-column-name" placeholder="नया कॉलम नाम डालें" />
+    <button id="add-column-btn">कॉलम जोड़ें</button>
+  </div>
+
+  <form id="data-form"></form>
+
+  <div style="text-align:center;">
+    <button id="import-contacts-btn">फोन कॉन्टैक्ट जोड़ें</button>
+  </div>
+
+  <table id="data-table">
+    <thead id="table-head"></thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <div style="text-align:center;">
+    <button id="export-img-btn">टेबल इमेज डाउनलोड करें</button>
+    <button id="print-btn">टेबल प्रिंट करें</button>
+    <button id="pdf-btn">PDF डाउनलोड करें</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+let columns = ['नाम', 'संपर्क नंबर'];
+let data = [];
+let editIndex = -1;
+
+const newColumnInput = document.getElementById('new-column-name');
+const addColumnBtn = document.getElementById('add-column-btn');
+const dataForm = document.getElementById('data-form');
+const tableHead = document.getElementById('table-head');
+const tableBody = document.getElementById('table-body');
+const exportImgBtn = document.getElementById('export-img-btn');
+const printBtn = document.getElementById('print-btn');
+const pdfBtn = document.getElementById('pdf-btn');
+const importContactsBtn = document.getElementById('import-contacts-btn');
+
+// Add Column
+addColumnBtn.addEventListener('click', () => {
+    const colName = newColumnInput.value.trim();
+    if(colName === '') return alert('कृपया कॉलम का नाम डालें!');
+    if(columns.includes(colName)) return alert('यह कॉलम पहले से मौजूद है!');
+    columns.push(colName);
+    newColumnInput.value = '';
+    renderForm();
+    renderTable();
+});
+
+// Form render
+function renderForm() {
+    dataForm.innerHTML = '';
+    columns.forEach((col) => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = col;
+        input.placeholder = col;
+        dataForm.appendChild(input);
+    });
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'submit';
+    submitBtn.innerText = editIndex === -1 ? 'जोड़ें' : 'अपडेट करें';
+    dataForm.appendChild(submitBtn);
+}
+
+// Table render
+function renderTable() {
+    let headHTML = '<tr>';
+    columns.forEach((col, idx) => {
+        headHTML += `<th>${col} <span style="cursor:pointer;color:red;" onclick="removeColumn(${idx})">❌</span></th>`;
+    });
+    headHTML += '<th>एक्शन</th></tr>';
+    tableHead.innerHTML = headHTML;
+
+    tableBody.innerHTML = '';
+    data.forEach((row, idx) => {
+        let rowHTML = '<tr>';
+        columns.forEach(col => {
+            rowHTML += `<td>${row[col] || ''}</td>`;
+        });
+        rowHTML += `<td>
+            <button class="icon-btn edit-icon" onclick="editRow(${idx})">✏</button>
+            <button class="icon-btn delete-icon" onclick="deleteRow(${idx})">❌</button>
+        </td></tr>`;
+        tableBody.innerHTML += rowHTML;
+    });
+}
+
+// Form submit
+dataForm.onsubmit = function(e) {
+    e.preventDefault();
+    const formData = new FormData(dataForm);
+    let obj = {};
+    for(let col of columns) {
+        obj[col] = (formData.get(col) || '').trim();
+    }
+    if(editIndex === -1) data.push(obj);
+    else { data[editIndex] = obj; editIndex = -1; }
+    dataForm.reset();
+    renderForm();
+    renderTable();
+};
+
+// Edit Row
+function editRow(idx) {
+    editIndex = idx;
+    const row = data[idx];
+    renderForm();
+    columns.forEach((col, i) => {
+        dataForm.elements[i].value = row[col] || '';
+    });
+}
+
+// Delete Row
+function deleteRow(idx) {
+    if(confirm('क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?')) {
+        data.splice(idx,1);
+        renderTable();
+    }
+}
+
+// Remove Column
+function removeColumn(colIndex) {
+    if(!confirm('क्या आप इस कॉलम को हटाना चाहते हैं?')) return;
+    const colName = columns[colIndex];
+    columns.splice(colIndex,1);
+    data.forEach(row => delete row[colName]);
+    renderForm();
+    renderTable();
+}
+
+// Import Phone Contacts (manual selection)
+importContactsBtn.addEventListener('click', async () => {
+    if(!('contacts' in navigator && 'ContactsManager' in window)) {
+        return alert('यह ब्राउज़र फोन कॉन्टैक्ट एक्सेस को सपोर्ट नहीं करता!');
+    }
+    try {
+        const contacts = await navigator.contacts.select(['name','tel'], {multiple:true});
+        contacts.forEach(c=>{
+            const name = (c.name && c.name[0]) || '';
+            const tel = (c.tel && c.tel[0]) || '';
+            let obj = {};
+            columns.forEach(col=>obj[col]='');
+            obj['नाम']=name;
+            obj['संपर्क नंबर']=tel;
+            data.push(obj);
+        });
+        renderTable();
+    } catch(e) {
+        console.error('कॉन्टैक्ट इम्पोर्ट में त्रुटि:', e);
+    }
+});
+
+// Export as Image
+exportImgBtn.addEventListener('click', () => {
+    const table = document.getElementById('data-table');
+    html2canvas(table,{scale:2}).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'table_only.png';
+        link.href = canvas.toDataURL();
+        link.click();
+    });
+});
+
+// Print table only
+printBtn.addEventListener('click', () => {
+    const tableHTML = document.getElementById('data-table').outerHTML;
+    const w = window.open('', '', 'width=800,height=600');
+    w.document.write('<html><head><title>Print</title></head><body>');
+    w.document.write(tableHTML);
+    w.document.write('</body></html>');
+    w.document.close();
+    w.print();
+});
+
+// Export PDF
+pdfBtn.addEventListener('click', () => {
+    if(data.length===0) return alert('कोई डेटा उपलब्ध नहीं है!');
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.setFontSize(18);
+    doc.text('पर्सनल डेटा रिपोर्ट', 14, 20);
+    doc.setFontSize(12);
+    let y = 30;
+    columns.forEach((col,i)=>doc.text(col,14+i*40,y));
+    y+=8;
+    data.forEach(row=>{
+        columns.forEach((col,i)=>{
+            let txt = row[col] || '';
+            if(txt.length>15) txt = txt.substring(0,15)+'...';
+            doc.text(txt,14+i*40,y);
+        });
+        y+=8;
+        if(y>280){doc.addPage();y=20;}
+    });
+    doc.save('personal_data_report.pdf');
+});
+
+// Initial render
+renderForm();
+renderTable();
+window.editRow = editRow;
+window.deleteRow = deleteRow;
+window.removeColumn = removeColumn;
+</script>
+
+</body>
+</html>

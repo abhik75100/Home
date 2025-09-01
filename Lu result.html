@@ -1,0 +1,347 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lucknow University</title>
+    <link href="/Results/Content/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/Results/Content/css/font-awesome.css" rel="stylesheet">
+    <link href="/Results/Content/css/icon-font.min.css" rel="stylesheet">
+    <link href="/Results/Content/css/style.css" rel="stylesheet">
+    <link href="/Results/Content/css/datepicker.css" rel="stylesheet">
+
+    <style type="text/css">
+        .style1 {
+            color: #025C79;
+        }
+    </style>
+    <style>
+        .radio-box table td {
+            padding: 0px 15px;
+        }
+
+        .anme-section-box {
+            border: 1px dashed #ccc;
+            display: block;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+            .anme-section-box h3 {
+                font-size: 17px;
+                text-transform: capitalize;
+                font-weight: bold;
+                background: #849be3;
+                color: #fff;
+                padding: 7px;
+            }
+    </style>
+    <script src="/Results/Content/js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="/Results/Content/js/sweetalert.min.js"></script>
+    <link href="/Results/Content/css/sweetalert.css" rel="stylesheet" />
+</head>
+<body class="sign-in-up" style="">
+    <form name="form1" method="post">
+        <section>
+            <div id="page-wrapper" class="sign-in-wrapper">
+                <div class="graphs">
+                    <div class="sign-in-form">
+                        <div class="sign-in-form-top">
+                            <div class="login-logo">
+                                <img src="/Results/Content/images/login-logo.png" alt="#">
+                                <h4 style="margin: 8px 0 0;">LUCKNOW RESULT</h4>
+                            </div>
+                        </div>
+                        <div class="signin" style="padding: 0 2em 1em !important;">
+                            <div class="text-center padding-5">
+                                <h4>Student’s Result <br /> (Even Semester Examination 2023-24)</h4>
+                            </div>
+                            <div class="log-input">
+
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Course Name</b></label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control form-select validate" data-val="true" data-val-number="The field CourseId must be a number." data-val-required="The CourseId field is required." id="CourseId" name="CourseId" onchange="OnChangeCourseId()" placeholder="Course"><option value="">Select Course</option>
+<option value="51">Acharya</option>
+<option value="26">B.COM (NEP)</option>
+<option value="10">B.Pharma</option>
+<option value="64">B.Sc. (Ag) (Hons) (NEP)</option>
+<option value="123">B.Sc. (Ag) HONOURS  Dean Committee ( 2020-2021)</option>
+<option value="40">B.Sc. (HOME SC.)(NEP)</option>
+<option value="39">B.Sc. (NEP)</option>
+<option value="11">B.Tech (Civil Engineering)</option>
+<option value="12">B.Tech (Computer Science and Engineering- Artificial Intelligence)</option>
+<option value="13">B.Tech (Computer Science and Engineering)</option>
+<option value="14">B.Tech (Electrical Engineering)</option>
+<option value="15">B.Tech (Electronics and Communication Engineering)</option>
+<option value="16">B.Tech (Mechanical Engineering)</option>
+<option value="36">BA (NEP)</option>
+<option value="105">BBA (NEP)</option>
+<option value="107">BBA (NEP) (IB)</option>
+<option value="106">BBA (NEP) (MS)</option>
+<option value="59">BJMC(NEP)</option>
+<option value="75">D.Pharm</option>
+<option value="29">LL.B (5 Year) 2018</option>
+<option value="34">LL.B (5 Year) 2019</option>
+<option value="4">M.B.A</option>
+<option value="83">M.Sc.</option>
+<option value="61">MA</option>
+<option value="84">MASTER IN PUBLIC HEALTH</option>
+<option value="161">MBA</option>
+<option value="5">MBA (5 Years)</option>
+<option value="19">MBA (Enterpreneurship and Family Business)</option>
+<option value="21">MBA (Finance and Accounting)</option>
+<option value="6">MBA (Finance and Control)</option>
+<option value="7">MBA (Human Resource)</option>
+<option value="8">MBA (International Business)</option>
+<option value="9">MBA (Marketing)</option>
+<option value="18">MCA</option>
+</select>
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                        <input id="Hdn_CourseName" name="Hdn_CourseName" type="hidden" value="" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Semester</b></label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control form-select validate" id="Semester" name="Semester" onchange="OnChangeSemester()" placeholder="Semester"><option value="">Select Semester</option>
+</select>
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Exam Type</b></label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control form-select validate" id="ExamType" name="ExamType" onchange="OnChangeExamType()" placeholder="Exam Type"><option value="">Exam Type</option>
+</select>
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Subject Name</b></label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control form-select validate" data-val="true" data-val-number="The field SubjectId must be a number." data-val-required="The SubjectId field is required." id="SubjectId" name="SubjectId" placeholder="Subject"><option value="">Select Subject</option>
+</select>
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Roll No.</b></label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" class="form-control user numberOnly validate" id="Rollno" maxlength="15" name="Rollno" placeholder="Roll No." type="text" value="" />
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label"><b>Date of Birth (DD/MM/YYYY)</b></label>
+                                    <div class="col-sm-9">
+                                        <input class="datepicker-here validate" data-language="en" id="Dob" maxlength="10" name="Dob" placeholder="DD/MM/YYYY" type="text" value="" />
+                                        <span id="RequiredFieldValidator1" style="color:Red;display:none;">Required !</span>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <button type="submit" class="btn btn-lg btn-primary btn-block" onclick="return ValidateLogin()"><b>Submit</b></button>
+                                    
+                                </div>
+                                <div class="col-xs-6">
+                                    
+                                    <a href="/Results/EvenResult2024" class="btn btn-lg btn-danger btn-block"><b>Reset</b></a>
+                                </div>
+                            </div>
+                            <input id="CourseId" name="CourseId" type="hidden" value="" />
+                            <input id="Rollno" name="Rollno" type="hidden" value="" />
+                            <input id="SubjectId" name="SubjectId" type="hidden" value="" />
+                            <input type="hidden" id="hdntype" />
+                        </div>
+                    </div>
+                </div>
+            </div>//
+            <!--footer section start-->
+            <footer>
+                <div class="">
+                    <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                            <a href="#" target="blank">Refund Policy</a> | <a href="#" target="blank">Privacy Policy </a>
+                        </div>
+                        <div class="col-md-6 hidden-xs hidden-sm text-right">
+                            <span class="updated">
+                                ©<a href="http://www.lkouniv.ac.in/" target="_blank">University of Lucknow </a> | All Rights Reserved
+                                <br>
+                            </span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!--footer section end-->
+        </section>
+        <script src="/Results/Content/js/bootstrap.min.js"></script>
+        <script src="/Results/Content/js/datepicker.js"></script>
+        <script src="/Results/Content/js/datepicker.en.js"></script>
+        <script src="/Results/Content/js/jquery.nicescroll.js"></script>
+        <script src="/Results/Content/js/scripts.js"></script>
+
+        <script type="text/javascript">
+             var message = '';
+    var messageStatus = '';
+    var messagemidStatus = '';
+    if (message)
+        sweetAlert({ title: message, text: messagemidStatus, type: messageStatus, html: true });
+
+             function OnChangeCourseId() {
+        debugger;
+                var _CourseId = $("#CourseId").val();
+
+                $("#Hdn_CourseName").val($("#CourseId option:selected").text());
+
+                if (_CourseId != '' && _CourseId != 0) {
+
+             $.ajax({
+                 url: '/Results/EvenResult2024/BindSemesterCourseId',
+                 data: { CourseId: _CourseId, ProcId: 2 },
+                 datatype: "json",
+                 type: 'GET',
+                 async: false,
+                 success: function (data) {
+                     if (data != null) {
+                         $("#Semester").empty();
+                         $("#Semester").append('<option value="">--Select--</option>');
+                         $.each(data, function (x, result) {
+                             $("#Semester").append('<option value=' + result.Id + '>' + result.Value + '</option>');
+                         });
+                     }
+                 },
+                 error: function () {
+                 }
+             });
+
+         }
+         else {
+                    $("#Semester").empty();
+                    $("#Semester").append('<option value="">--Select--</option>');
+         }
+            }
+
+            function OnChangeSemester() {
+        debugger;
+                var _CourseId = $("#CourseId").val();
+                var _Semester = $("#Semester").val();
+
+                if (_CourseId != '' && _CourseId != 0 && _Semester != '' && _Semester != 0 ) {
+
+             $.ajax({
+                 url: '/Results/EvenResult2024/BindExamCourseId',
+                 data: { CourseId: _CourseId, Semester: _Semester, ProcId:3 },
+                 datatype: "json",
+                 type: 'GET',
+                 async: false,
+                 success: function (data) {
+                     if (data != null) {
+                         $("#ExamType").empty();
+                         $("#ExamType").append('<option value="">--Select--</option>');
+                         $.each(data, function (x, result) {
+                             $("#ExamType").append('<option value=' + result.Id1 + '>' + result.Value1 + '</option>');
+                         });
+                     }
+                 },
+                 error: function () {
+                 }
+             });
+
+         }
+         else {
+                    $("#ExamType").empty();
+                    $("#ExamType").append('<option value="">--Select--</option>');
+         }
+            }
+
+            function OnChangeExamType() {
+        debugger;
+                var _CourseId = $("#CourseId").val();
+                var _Semester = $("#Semester").val();
+                var _ExamType = $("#ExamType").val();
+                if (_CourseId != '' && _CourseId != 0 && _Semester != '' && _Semester != 0 && _ExamType!=0 ) {
+
+             $.ajax({
+                 url: '/Results/EvenResult2024/BindSubjectCourseId',
+                 data: { CourseId: _CourseId, Semester: _Semester, ProcId: 4, ExamType: _ExamType},
+                 datatype: "json",
+                 type: 'GET',
+                 async: false,
+                 success: function (data) {
+                     if (data != null) {
+                         $("#SubjectId").empty();
+                         $("#SubjectId").append('<option value="">--Select--</option>');
+                         $.each(data, function (x, result) {
+                             $("#SubjectId").append('<option value=' + result.Id + '>' + result.Value + '</option>');
+                         });
+                     }
+                 },
+                 error: function () {
+                 }
+             });
+
+         }
+         else {
+             $("#SubjectId").empty();
+             $("#SubjectId").append('<option value="">--Select--</option>');
+         }
+            }
+
+            function ValidateLogin() {
+                debugger;
+                if ($("#CourseId").val() == "") {
+                    $("#CourseId").focus()
+                    swal("Required !", "Please select your course.", "warning");
+                    return false;
+                }
+                if ($("#Semester").val() == "") {
+                    $("#Semester").focus()
+                    swal("Required !", "Please select your Semester.", "warning");
+                    return false;
+                }
+                if ($("#ExamType").val() == "") {
+                    $("#ExamType").focus()
+                    swal("Required !", "Please select your ExamType.", "warning");
+                    return false;
+                }
+                if ($("#SubjectId").val() == "") {
+                    $("#SubjectId").focus()
+                    swal("Required !", "Please select your subject.", "warning");
+                    return false;
+                }
+
+                if ($("#Rollno").val() == "") {
+                    $("#Rollno").focus()
+                    swal("Required !", "Please enter roll number.", "warning");
+                    return false;
+                        }
+
+                if ($("#Dob").val() == "") {
+                    $("#Dob").focus();
+                    swal("Required !", "Please enter your date of birth.", "warning");
+                    return false;
+                }
+                return true;
+
+    }
+        </script>
+    </form>
+</body>
+</html>

@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html>
+<!--
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Exam Timetable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+            perspective: 1000px;
+        }
+
+        .timetable-container {
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-25deg);
+            transition: transform 0.5s;
+            box-shadow: 20px 20px 50px rgba(0,0,0,0.3);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .timetable-container:hover {
+            transform: rotateX(5deg) rotateY(-10deg);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 800px;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .time-column {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .subject-cell {
+            background-color: #2196F3;
+            color: white;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exam Timetable - June 2024</h1>
+        <div class="timetable-container">
+            <table>
+                <tr>
+                    <th>Day/Time</th>
+                    <th>9:00 - 11:00</th>
+                    <th>11:30 - 1:30</th>
+                    <th>2:30 - 4:30</th>
+                </tr>
+                <tr>
+                    <td class="time-column">Monday</td>
+                    <td class="subject-cell">Mathematics</td>
+                    <td>Physics</td>
+                    <td>Chemistry</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Tuesday</td>
+                    <td>English</td>
+                    <td class="subject-cell">Biology</td>
+                    <td>History</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Wednesday</td>
+                    <td>Geography</td>
+                    <td>Computer Science</td>
+                    <td class="subject-cell">Economics</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Thursday</td>
+                    <td class="subject-cell">Literature</td>
+                    <td>Art</td>
+                    <td>Physical Education</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Friday</td>
+                    <td>Philosophy</td>
+                    <td class="subject-cell">Statistics</td>
+                    <td>Foreign Language</td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin-top: 20px; text-align: center; color: #666;">
+            <p>Note: Highlighted subjects indicate main examinations</p>
+            <p>All exams are conducted in respective department halls</p>
+        </div>
+    </div>
+</body>
+-->
+</html>
+
+
+
+<br>
+  <!--Tab to edit-->
+<br>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Exam Timetable with Columns</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+            perspective: 1000px;
+        }
+
+        .timetable-container {
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-1deg);
+            transition: transform 0.5s;
+            box-shadow: 20px 20px 50px rgba(0,0,0,0.3);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 800px;
+            background: white;
+            transform-style: preserve-3d;
+        }
+
+        th, td {
+            position: relative;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        /* 3D Column Effect */
+        th:not(:first-child),
+        td:not(:first-child) {
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2),
+                        inset -5px -5px 15px rgba(0,0,0,0.1),
+                        inset 2px 2px 5px rgba(255,255,255,0.3);
+            transform: translateZ(20px);
+            border-radius: 5px;
+        }
+
+        /* Hover Effect on Columns */
+        td:not(:first-child):hover {
+            transform: translateZ(30px) scale(1.09);
+            z-index: 3;
+        }
+
+        /* Day Column Styling */
+        .time-column {
+            background: linear-gradient(145deg, #4CAF50, #45a049);
+            color: white;
+            font-weight: bold;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.2);
+            transform: translateZ(30px);
+        }
+
+        /* Header Styling */
+        th {
+            background: linear-gradient(145deg, #2196F3, #1976D2);
+            color: white;
+            transform: translateZ(40px);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+
+        /* Subject Cell Styling */
+        .subject-cell {
+            background: linear-gradient(145deg, #ff5722, #f4511e);
+            color: white;
+            transform: translateZ(25px);
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+        }
+
+        /* Additional 3D Effects */
+        tr {
+            transform-style: preserve-3d;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            transform: translateZ(50px);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            transform-style: preserve-3d;
+        }
+
+        /* Notes Section */
+        .notes {
+            transform: translateZ(30px);
+            text-align: center;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255,255,255,0.9);
+            border-radius: 5px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>3D Exam Timetable - June 2024</h1>
+        <div class="timetable-container">
+            <table>
+                <tr>
+                    <th>Day/Time</th>
+                    <th>9:00 - 11:00</th>
+                    <th>11:30 - 1:30</th>
+                    <th>2:30 - 4:30</th>
+                </tr>
+                <tr>
+                    <td class="time-column">Monday</td>
+                    <td class="subject-cell">Mathematics</td>
+                    <td>Physics</td>
+                    <td>Chemistry</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Tuesday</td>
+                    <td>English</td>
+                    <td class="subject-cell">Biology</td>
+                    <td>History</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Wednesday</td>
+                    <td>Geography</td>
+                    <td>Computer Science</td>
+                    <td class="subject-cell">Economics</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Thursday</td>
+                    <td class="subject-cell">Literature</td>
+                    <td>Art</td>
+                    <td>Physical Education</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Friday</td>
+                    <td>Philosophy</td>
+                    <td class="subject-cell">Statistics</td>
+                    <td>Foreign Language</td>
+                </tr>
+                
+                 <tr>
+                    <th>Day/Time</th>
+                    <th>9:00 - 11:00</th>
+                    <th>11:30 - 1:30</th>
+                    <th>2:30 - 4:30</th>
+                </tr>
+                <tr>
+                    <td class="time-column">Monday</td>
+                    <td class="subject-cell">Mathematics</td>
+                    <td>Physics</td>
+                    <td>Chemistry</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Tuesday</td>
+                    <td>English</td>
+                    <td class="subject-cell">Biology</td>
+                    <td>History</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Wednesday</td>
+                    <td>Geography</td>
+                    <td>Computer Science</td>
+                    <td class="subject-cell">Economics</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Thursday</td>
+                    <td class="subject-cell">Literature</td>
+                    <td>Art</td>
+                    <td>Physical Education</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Friday</td>
+                    <td>Philosophy</td>
+                    <td class="subject-cell">Statistics</td>
+                    <td>Foreign Language</td>
+                </tr>
+                
+                
+            </table>
+        </div>
+        <div class="notes">
+            <p>Note: Highlighted subjects indicate main examinations</p>
+            <p>Hover over columns for interactive effect</p>
+            <p>All exams in respective department halls</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .assistant-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            margin-top: 50px;
+        }
+
+        .mic-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #4CAF50;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            transition: transform 0.3s;
+        }
+
+        .mic-button:hover {
+            transform: scale(1.1);
+        }
+
+        .mic-button.listening {
+            background: #f44336;
+            animation: pulse 1.5s infinite;
+        }
+
+        .response-area {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 150px;
+            margin-top: 20px;
+            overflow-y: auto;
+            
+        }
+
+        .status {
+            text-align: center;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(244,67,54,0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(244,67,54,0); }
+            100% { box-shadow: 0 0 0 0 rgba(244,67,54,0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="assistant-container">
+        <h1 style="text-align: center; color: #333;">Voice Assistant</h1>
+        <button class="mic-button" id="micButton">
+            <svg width="30" height="40" viewBox="0 0 24 24" fill="white">
+                <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm-1 1.93c-3.94-.49-7-3.85-7-7.93h2c0 3.31 2.69 6 6 6s6-2.69 6-6h2c0 4.08-3.06 7.44-7 7.93V19h4v2H8v-2h4v-3.07z"/>
+            </svg>
+        </button>
+        <div class="status" id="status">Click the microphone to start</div>
+        <div class="response-area" id="responseArea"></div>
+    </div>
+
+    <script>
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        const synth = window.speechSynthesis;
+        
+        if (!SpeechRecognition || !synth) {
+            alert('Speech recognition not supported in this browser');
+        }
+
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = 'en-US';
+
+        const micButton = document.getElementById('micButton');
+        const status = document.getElementById('status');
+        const responseArea = document.getElementById('responseArea');
+
+        let isListening = false;
+
+        micButton.addEventListener('click', () => {
+            if (!isListening) {
+                recognition.start();
+                micButton.classList.add('listening');
+                status.textContent = 'Listening...';
+                isListening = true;
+            } else {
+                recognition.stop();
+                micButton.classList.remove('listening');
+                status.textContent = 'Click the microphone to start';
+                isListening = false;
+            }
+        });
+
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript.toLowerCase();
+            responseArea.innerHTML += `<div>You: ${transcript}</div>`;
+            
+            // Process command
+            const response = processCommand(transcript);
+            responseArea.innerHTML += `<div>Assistant: ${response.text}</div>`;
+            speak(response.text);
+            
+            // Auto-scroll to bottom
+            responseArea.scrollTop = responseArea.scrollHeight;
+        };
+
+        recognition.onerror = (event) => {
+            console.error('Error occurred in recognition:', event.error);
+            status.textContent = 'Error occurred. Please try again.';
+            isListening = false;
+            micButton.classList.remove('listening');
+        };
+
+        function processCommand(command) {
+            const responses = {
+                'hello': { text: 'Hello! How can I help you today?' },
+                                
+              'name': { text: 'Hello! My name is Abhishek' },
+              
+                 'who are you': { text: 'Hello! mai aapki assistant hu' },
+                
+                'what time is it': { text: `It's currently ${new Date().toLocaleTimeString()}` },
+                'what day is today': { text: `Today is ${new Date().toLocaleDateString()}` },
+                'tell me a joke': { text: 'Why don’t scientists trust atoms? Because they make up everything!' },
+                'thank you': { text: 'You’re welcome! Is there anything else I can help with?' }
+            };
+
+            for (const [key, value] of Object.entries(responses)) {
+                if (command.includes(key)) {
+                    return value;
+                }
+            }
+            return { text: "I'm sorry, I didn't understand that command." };
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            synth.speak(utterance);
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Voice Assistant</title>
+    <style>
+        /* ... (keep previous styles) ... */
+        
+        .voice-controls {
+            margin: 20px 0;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .voice-option {
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 2px solid #4CAF50;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .voice-option.selected {
+            background: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="assistant-container">
+        <h1 style="text-align: center; color: #333;">Voice Assistant</h1>
+        <div class="voice-controls">
+            <label>Voice Type:</label>
+            <select id="voiceSelect" class="voice-option">
+                <option value="default">Default</option>
+            </select>
+            <label>Pitch:</label>
+            <input type="range" id="pitchControl" min="0.5" max="2" step="0.1" value="1">
+            <label>Rate:</label>
+            <input type="range" id="rateControl" min="0.5" max="2" step="0.1" value="1">
+        </div>
+        <!-- ... (rest of previous HTML) ... -->
+    </div>
+
+    <script>
+        // ... (keep previous recognition code) ...
+
+        // Enhanced Voice Module
+        let voices = [];
+        const voiceSelect = document.getElementById('voiceSelect');
+        const pitchControl = document.getElementById('pitchControl');
+        const rateControl = document.getElementById('rateControl');
+
+        function populateVoiceList() {
+            voices = synth.getVoices();
+            voiceSelect.innerHTML = '<option value="default">Default</option>';
+            
+            voices.forEach((voice, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `${voice.name} (${voice.lang})${voice.default ? ' - DEFAULT' : ''}`;
+                voiceSelect.appendChild(option);
+            });
+        }
+
+        populateVoiceList();
+        if (speechSynthesis.onvoiceschanged !== undefined) {
+            speechSynthesis.onvoiceschanged = populateVoiceList;
+        }
+
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            
+            // Voice selection
+            const selectedVoice = voiceSelect.value;
+            if (selectedVoice !== 'default') {
+                utterance.voice = voices[selectedVoice];
+            }
+
+            // Voice modulation
+            utterance.pitch = pitchControl.value;
+            utterance.rate = rateControl.value;
+
+            // Cross-browser volume control
+            try {
+                utterance.volume = 1; // 0-1
+            } catch(e) { /* some browsers might not support */ }
+
+            // Event listeners
+            utterance.onstart = () => {
+                status.textContent = 'Speaking...';
+            };
+
+            utterance.onend = () => {
+                status.textContent = 'Click the microphone to start';
+            };
+
+            synth.speak(utterance);
+        }
+
+        // ... (rest of previous script) ...
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF Reader Assistant</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        #pdfViewer {
+            border: 2px dashed #4CAF50;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 300px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #4CAF50;
+            color: white;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        #progressBar {
+            width: 100%;
+            height: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        #progress {
+            height: 100%;
+            background: #4CAF50;
+            width: 0;
+            transition: width 0.3s;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Voice Reader</h1>
+        
+        <input type="file" id="pdfInput" accept="application/pdf">
+        
+        <div class="controls">
+            <button onclick="readAloud()">▶ Read Aloud</button>
+            <button onclick="pauseReading()">⏸ Pause</button>
+            <button onclick="stopReading()">⏹ Stop</button>
+            <button onclick="skip(-1)">⏪ Previous</button>
+            <button onclick="skip(1)">⏩ Next</button>
+        </div>
+
+        <div id="progressBar">
+            <div id="progress"></div>
+        </div>
+
+        <div id="pdfViewer"></div>
+    </div>
+
+    <script>
+        let currentUtterance = null;
+        let pdfText = [];
+        let currentPage = 0;
+        const synth = window.speechSynthesis;
+        
+        // PDF File Input Handler
+        document.getElementById('pdfInput').addEventListener('change', async (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = async (e) => {
+                    const pdfData = new Uint8Array(e.target.result);
+                    await loadPdf(pdfData);
+                };
+                reader.readAsArrayBuffer(file);
+            }
+        });
+
+        // Load PDF using pdf.js
+        async function loadPdf(data) {
+            const loadingTask = pdfjsLib.getDocument(data);
+            try {
+                const pdf = await loadingTask.promise;
+                pdfText = [];
+                
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const content = await page.getTextContent();
+                    const text = content.items.map(item => item.str).join(' ');
+                    pdfText.push(text);
+                    updateProgress((i / pdf.numPages) * 100);
+                }
+                
+                displayPage(currentPage);
+            } catch (err) {
+                alert('Error loading PDF: ' + err.message);
+            }
+        }
+
+        // Display current page
+        function displayPage(pageNum) {
+            const viewer = document.getElementById('pdfViewer');
+            viewer.innerHTML = `<h3>Page ${pageNum + 1}</h3>`;
+            viewer.innerHTML += pdfText[pageNum];
+        }
+
+        // Read aloud functionality
+        function readAloud() {
+            if (synth.speaking) {
+                synth.resume();
+                return;
+            }
+
+            const text = pdfText[currentPage];
+            if (text) {
+                currentUtterance = new SpeechSynthesisUtterance(text);
+                currentUtterance.onend = () => {
+                    if (currentPage < pdfText.length - 1) {
+                        currentPage++;
+                        displayPage(currentPage);
+                        readAloud();
+                    }
+                };
+                synth.speak(currentUtterance);
+            }
+        }
+
+        // Control functions
+        function pauseReading() {
+            if (synth.speaking) {
+                synth.pause();
+            }
+        }
+
+        function stopReading() {
+            synth.cancel();
+            currentPage = 0;
+            updateProgress(0);
+            displayPage(0);
+        }
+
+        function skip(direction) {
+            const newPage = currentPage + direction;
+            if (newPage >= 0 && newPage < pdfText.length) {
+                currentPage = newPage;
+                synth.cancel();
+                displayPage(currentPage);
+                readAloud();
+            }
+        }
+
+        function updateProgress(percent) {
+            document.getElementById('progress').style.width = percent + '%';
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>हिंदी स्मार्ट सहायक</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        #camera-preview {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #333;
+        }
+        .section {
+            margin: 20px 0;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>मेरा हिंदी सहायक 🤖</h1>
+
+    <div class="section">
+        <h3>📚 PDF अपलोड करें</h3>
+        <input type="file" id="pdfUpload" accept=".pdf">
+        <button onclick="loadPDF()">लोड करें</button>
+    </div>
+
+    <div class="section">
+        <h3>📷 चेहरा स्कैन</h3>
+        <video id="cameraPreview"></video>
+        <button onclick="startFaceScan()">स्कैन शुरू करें</button>
+        <div id="faceResult"></div>
+    </div>
+
+    <div class="section">
+        <h3>💬 चैट करें</h3>
+        <div id="chatBox" style="height:150px; overflow-y:scroll; border:1px solid #ccc; padding:10px; margin:10px 0;"></div>
+        <input type="text" id="userInput" placeholder="अपना प्रश्न लिखें..." style="width:70%">
+        <button onclick="processQuestion()">भेजें</button>
+    </div>
+
+<script>
+// ========== PDF Handling ==========
+let pdfContent = "";
+
+async function loadPDF() {
+    const file = document.getElementById('pdfUpload').files[0];
+    if(!file) return;
+
+    const reader = new FileReader();
+    reader.onload = async function(e) {
+        const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(e.target.result) }).promise;
+        let text = "";
+        
+        for(let i=1; i<=pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const content = await page.getTextContent();
+            text += content.items.map(item => item.str).join(' ');
+        }
+        
+        pdfContent = text;
+        addToChat("PDF सफलतापूर्वक लोड हो गया!", "system");
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+// ========== Face Scanning ==========
+let cameraStream = null;
+
+async function startFaceScan() {
+    try {
+        const video = document.getElementById('cameraPreview');
+        cameraStream = await navigator.mediaDevices.getUserMedia({ video: true });
+        video.srcObject = cameraStream;
+        addToChat("चेहरा स्कैन शुरू हो रहा है...", "system");
+        
+        // Mock face recognition (replace with actual API call)
+        setTimeout(() => {
+            document.getElementById('faceResult').innerHTML = "मानव पहचाना गया: अंकित कुमार (उम्र: 28)";
+            addToChat("पहचान सफल! अंकित कुमार की जानकारी लोड हो रही है...", "system");
+        }, 2000);
+    } catch(err) {
+        addToChat("कैमरा एक्सेस में त्रुटि!", "error");
+    }
+}
+
+// ========== Chat System ==========
+function addToChat(message, sender) {
+    const chatBox = document.getElementById('chatBox');
+    const color = sender === 'user' ? '#007bff' : '#28a745';
+    chatBox.innerHTML += `<div style="color:${color}; margin:5px 0;">${message}</div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+async function processQuestion() {
+    const input = document.getElementById('userInput');
+    const question = input.value.trim();
+    if(!question) return;
+
+    addToChat(question, "user");
+    input.value = "";
+
+    // Check PDF first
+    if(pdfContent.includes(question)) {
+        const answer = "PDF में मिला उत्तर: " + pdfContent.split(question)[1].substring(0, 100) + "...";
+        addToChat(answer, "system");
+        speakHindi(answer);
+        return;
+    }
+
+    // Check other sources
+    const apiResponse = await mockAPICall(question);
+    addToChat(apiResponse, "system");
+    speakHindi(apiResponse);
+}
+
+// ========== Mock APIs ==========
+async function mockAPICall(question) {
+    // Simulate API call delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    const mockData = {
+        "उपयोगकर्ता का नाम": "अंकित कुमार",
+        "ईमेल": "ankit@example.com",
+        "पता": "दिल्ली, भारत",
+        "जन्मतिथि": "15 जुलाई 1995"
+    };
+
+    return mockData[question] || "मुझे इस प्रश्न का उत्तर नहीं मिला। कृपया अलग ढंग से पूछें।";
+}
+
+// ========== Hindi TTS ==========
+function speakHindi(text) {
+    if('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'hi-IN';
+        window.speechSynthesis.speak(utterance);
+    } else {
+        addToChat("टेक्स्ट-टू-स्पीच समर्थित नहीं है", "error");
+    }
+}
+
+// ========== Initialize ==========
+addToChat("नमस्ते! मैं आपकी कैसे मदद कर सकता हूँ?", "system");
+speakHindi("नमस्ते! मैं आपकी कैसे मदद कर सकता हूँ?");
+</script>
+
+<!-- Important Notes -->
+<div style="color:red; margin-top:20px;">
+    <strong>नोट:</strong><br>
+    1. वास्तविक चेहरा पहचान के लिए API की आवश्यकता होती है<br>
+    2. PDF विश्लेषण बड़ी फ़ाइलों के लिए धीमा हो सकता है<br>
+    3. वास्तविक डेटा स्रोतों के लिए बैकएंड API जोड़ें
+</div>
+</body>
+</html>

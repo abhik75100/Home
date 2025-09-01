@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+  
+  
+  
+<style>
+    img.azadi{
+        width: 120px;
+        height: 80px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .icon-card-div{
+        cursor: pointer;
+    }
+ </style>
+ 
+ 
+</head>
+
+<body>
+  
+  
+ 
+
+
+<style type="text/css">
+	header.upsc-header{
+		display: flex;
+		background: linear-gradient(90deg, rgba(254,254,255,1) 0%, rgba(182 205 245) 100%);
+        width: 100%;
+        
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+    @media(max-width: 500px){        
+        .left-container .site-title {
+            font-size: 16px;
+        }
+    }
+	.left-container{
+	    background: url(./images/logo.png) no-repeat 3px 0;
+	    float: left;
+        width: 100%;
+	    font-size: 155%;
+	    line-height: 90%;
+	    min-height: 72px;
+	    padding: 15px 0 0 65px;
+	    text-transform: uppercase;
+	    margin-top: 16px;
+	    margin-left: 1%;
+	}
+    .right-container{
+       
+        float: right;
+        text-transform: uppercase;
+        margin-top: 16px;
+	}
+	.left-container .site-title {
+	    line-height: 1.2;
+	    color: #111;
+	    text-decoration: none;
+	    font-size:24.8px;
+		font-weight:600;
+		font-family: "Lucida Console", "Courier New", monospace;
+	}
+	.left-container .site-title strong {
+	    font-weight: 600;
+	    display: inline-block;
+	    font-size: 100%;
+	}
+	.left-container .site-title span {
+		display: block;
+	}
+	.lang {
+		margin-top: 2%;
+ 	 	margin-left: 50%;
+	}
+
+
+
+.float-right{
+	float:right;
+	margin-right: 2%;
+	margin-top: 0.3%;
+}
+
+
+.btn {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: #fd1919ad;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+
+
+  text-decoration: none;
+  text-align: center;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+
+.first {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px $red inset;
+  }
+}
+
+
+.topMenuBar {
+    background: #e47f18;
+    border-bottom: 1px solid #ebebeb;
+	padding: 10px 0px 0px 65px;
+}
+.topmenupart {
+    padding: 5px 5px;
+    color: rgb(27, 27, 27);
+    position: relative;
+
+}
+
+.topmenupart .menulist ul {
+    padding-left: 0px;
+    padding-top: 3px;
+    margin-bottom: 0px;
+    list-style-type: none;
+    display: inline-block;
+}
+.pull-right {
+    float: right!important;
+}
+
+.forzoominoutFonts a {
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font: 14px/24px 'Roboto', sans-serif !important;
+        margin: 4px 0px 1px;
+    padding: 0px 5px;
+    background: transparent;
+    width: 25px;
+    height: 24px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.accordion .widget-box {
+	width: 90%;
+    margin-top: 20px;
+	margin-left: 15px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+label{
+	display:inline;
+}
+.color-blue{
+	color:blue;
+}
+
+
+.btn-success-2 {
+    color: #251c1c;
+    margin-bottom: 1%;
+    padding-left: 1%;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top,#62c462,#51a351);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+    background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+    background-image: -o-linear-gradient(top,#62c462,#51a351);
+    background-image: linear-gradient(to bottom,#62c462,#51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462',endColorstr='#ff51a351',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+ .form-horizontal .control-label {
+
+    text-align: left;
+    padding-left: 2%;
+ }
+ .menulist{
+	display: flex;
+    justify-content: space-evenly;
+ }
+ @media print{
+    img.azadi{
+        width: 150px;
+        height: 80px;
+    }
+ }
+ @media screen and (max-width: 600px) {
+	.menulist{
+		flex-direction: column;
+		font-size: 14px;
+		font-weight: 300;
+	}
+
+	.topMenuBar {   
+		padding: 0;
+	}
+}
+</style>
+
+
+<header class="upsc-header topbar">
+	<div class="left-container"> 
+		<div class="site-title">
+			<strong>लखनऊ विश्वविद्यालय</strong>
+			<span>University of Lucknow </span>            
+		</div>
+	</div>
+    <img src="./Category-I.png" class="azadi" !important alt="" style="float:right; display:inline;padding-top:10px;">	
+    <div class="site-title">
+			<strong> </strong>
+			<span>  </span>            
+		</div>
+</header><style>
+	#sidebar > ul > li {
+    list-style-type: none;
+    float: right;
+    display: block;
+    margin: 0px -10px 0px 0px;
+    border-right: 1px solid #41bedd;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+}
+
+    
+
+   
+    
+tr{ 
+  box-shadow: ;
+}
+
+</style>
+
+
+	<div class="card heading mb-3" style="background-color:aliceblue;">
+		<h5 class="card-title d-flex justify-content-center" style="color: green; padding: 5px; font-size: 15px;">ADD INFORMATION TO OTR PROFILE
+		<span style="padding-left:10px;">
+		  <img src="images/downarrow.png"/>
+		</h5>
+		</span>
+	</div>
+	
+	<div>
+	        <span style="">
+	          <!--Tab to edit-->
+	          <<img src="/InShot_20250111_190346484.png" alt="image"style="width:40%;
+	          position:relative; display: block; 
+	          margin: 0 auto;
+	          padding: 10px;
+	   box-shadow:
+    inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+    5px 5px 5px rgba(0, 0, 0, 0.5),
+    
+	  0px 0px 4px dimgray,
+	             2px 4px 8px darkgrey;
+	             border-radius:100%;">
+	            <!--Tab to edit-->
+	          
+	        </span> 
+	         <h2> 
+	           <!--Tab to edit-->
+	         </h2>
+	                      <hr>
+	  </div>              
+	                      
+	 <table style="width: 100%; font-family: Verdana; font-size: 2em; margin:auto;
+	 padding: 30px;
+	   box-shadow:
+    inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+    5px 5px 5px rgba(0, 0, 0, 0.5),
+    
+	  0px 0px 4px dimgray,
+	             2px 4px 8px darkgrey;
+	             border-radius:25px;">
+	   
+	   <thead> 
+	   <!--Tab to edit-->
+	  <b>  <strong>
+	    <!--Tab to edit-->
+	   Student Basic Information </strong></b>
+	 </thead>
+
+ <!--
+   <tr>
+     <td colspan="6"> 
+     </td><b>Basic Information <hr />
+     </b>
+     </td>
+   </tr>
+   
+    
+   <tr>
+      <th style="width: 20%">University Roll Number</th>
+      <td style="width: 2%;">: </td>
+      <td style="width: 28%;">2110970500010</td>
+
+      
+                             
+      <td rowspan="5" style="text-align: center; vertical-align: top;">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentPhoto/LU2400202027_562755_P.jpg" style="width: 110px; height: 110px; border: 1px solid #ccc;">
+                                    
+                                </td>
+    </tr>
+   
+   <tr>
+      <td> Name</td>
+      <td style="width: 2%;">: </td>
+      <td style="width: 28%;">HIMANSHI&nbsp; &nbsp; DEVI
+      </td> 
+    </tr>
+    
+    <tr>
+      <td>Date of Birth</td>
+      <td>: </td>
+      <td>09/07/2001</td>
+
+    
+    </tr> 
+  
+    <tr>
+      <td>Current Course</td>
+      <td>: </td>
+      <td>B.PHARM</td>
+
+
+    </tr> 
+   
+    <tr>
+      <td>Mobile</td>
+      <td>: </td>
+      <td>6388016143</td>
+
+    </tr>  
+   
+    <tr>
+      <td>Father's Name</td>
+      <td>: </td>
+      <td>RAJIV KUMAR
+      
+    </tr>
+        
+      <tr>
+      
+        
+  
+      <td><b>Mother's Name</b></td>
+      <td>: </td>
+      <td>SARALA DEVI
+      
+      
+      <td rowspan="2" style="text-align: center">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentSign/LU2400202027_562755_S.jpg" style="width: 110px; height: 40px; border: 1px solid #ccc;">
+                                    
+       </td>
+                                
+    </tr>    
+    
+  <tr>
+    
+      <td>Gender</td>
+      <td>: </td>
+      <td>F </td>
+  </tr>
+  
+  <tr>
+        
+      <td>Category</td>
+      <td>: </td>
+      <td>GEN</td>
+  </tr>                  
+                          
+                            
+    <tr>
+      <td>Semester</td>
+      <td>: </td>
+      <td> 5
+        <!--&nbsp;
+                  &nbsp;&nbsp;&nbsp;&nbsp;
+     -</td>
+      <td>Exam Type </td>
+      <td>Regular</td>                       
+    </tr>  
+   
+   
+    <tr>
+      <td colspan="6"><b>Other Information <hr />
+      </b>
+      </td>
+    </tr> -->
+    
+                                                 <tr>
+                         <td style="font-size:28px;">
+                           
+                         
+                         <b>Roll Number</b></td>
+                                <td style="font-size:26px; text-align:left;">
+                              <b>
+                                  2230641010011</b>
+                                  </td>
+                                <td style="font-size: 28px;">
+                              <b>Enrollment No</b>
+                                  </td>
+                                <td style="font-size: 26px; text-align: left;">
+                                <b>
+                                  LA/22/61499
+                                </b></td>
+                                
+                                <td rowspan="5" style="text-align: center; vertical-align: top;">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentPhoto/LU2400202027_562755_P.jpg" style="width: 110px; height: 110px; border: 1px solid #ccc;">
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Course Name</b></td>
+                                <td colspan="3">BA (NEP)</td>
+                            </tr>
+                            <tr>
+                                <td><b>Student Name</b></td>
+                                <td colspan="3">
+                                
+                                  ABHISHEK KUMAR 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Father's Name</b></td>
+                         <td colspan="3"> KRISHNA KUMAR 
+                                </td>
+                            </tr>
+  <tr>
+    <!--Tab to edit-->
+  </tr>
+                            <tr>
+                             <td><b>Gender</b></td>
+                               <td>Male</td>
+                            <td><b>Category</b></td>
+                                <td> GEN </td>
+                                <td rowspan="2" style="text-align: center">
+                                    <img src="https://exam.lkouniv.ac.in/apps/Content/ReadWrite/StudentSign/LU2400202027_562755_S.jpg" style="width: 110px; height: 40px; border: 1px solid #ccc;">
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><b>Semester</b></td>
+                                <td>5 </td>
+                                <td><b>Exam Type</b></td>
+                                <td>Regular</td>
+
+
+                            </tr>
+                            
+                            
+                            <hr />
+                            
+                           <tr>
+                          <td>  <b> SUBJECT </td>
+                             <!--Tab to edit-->
+                      <td> <b> HINDI SHAHITYA</b>
+                      </td>
+                           </tr>
+                           
+                             
+                                
+                           
+                             </table>
+                                
+                                
+                       <div style="	 padding: 30px;
+	   box-shadow:
+    inset -5px -5px 10px rgba(0, 0, 0, 0.5),
+    5px 5px 5px rgba(0, 0, 0, 0.5),
+    
+	  0px 0px 4px dimgray,
+	             2px 4px 8px darkgrey;
+	             border-radius:25px;">
+                                   <h2> <b>College Name [College Code]</b>
+                                   </h2>
+                                    <p style="font-size: 35px; margin-bottom: 5px;"><b>CHANDRIKA SINGH SUNDER SINGH MAHAVIDYALAYA, LAKHIMPUR KHERI - [3064]</b></p>
+                                    <span id="spnSubcat" style="display:none">
+                                        (<b>Note:-</b>
+                                        <span id="lblSubcat"></span>
+                                    </span>
+                                </div>
+                        <br>
+                          <!--Tab to edit-->
+                        <br>
+                              <hr>   
+         
+
+
+<div style="width: 80%; display: flex; justify-content: space-between; margin:0 auto;">
+  <span style="font-size: 26px; font-weight: bold; text-align: left;">SUBMITTED  BY</span>
+  <span style="font-size: 26px; font-weight: bold; text-align: right;">SUBMITTED TO</span>
+</div> 
+<br>
+  <!--Tab to edit-->
+<br>
+<br>
+  <!--Tab to edit-->
+<br>
+<hr>
+  
+
+
+</body>
+
+</html>

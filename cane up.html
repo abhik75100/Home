@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1"><meta charset="UTF-8" /><meta name="description" content="UP sugarcane farmer can know all the information related to the sugar slip. Cane UP allows you to manage your sugar cane farm efficiently and collect information." /><meta name="keywords" content="caneup, caneup department, caneup portal, sugarcane portal, sugarcane farmer web portal, ganna parchi up, upcane login, callendar, sugarcane survey area, basic quota, bonding, supply ticket" /><meta name="author" content="Cane UP" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>
+	Cane UP Enquiry | Sugar Cane and cane development 
+</title><meta http-equiv="X-UA-Compatible" content="IE=8" /><meta http-equiv="cache-control" content="no-cache" /><meta http-equiv="expires" content="01 jan 1970 00:00:00 gmt" /><meta http-equiv="pragma" content="no-cache" />
+    
+    <style type="text/css">
+     .btn-danger {
+    color: #fff;
+    background-color: #ff0700 !important;
+    border-color: #ff0800; 
+    font-weight: bold !important;
+    padding: 0px 10px !important;
+    border: none !important;
+}
+        .bg-red
+        {
+            background: #f00;
+            color: #fff;
+            padding: 2px;
+            margin-right: 2px;
+        }
+        .ajax__tab_xp .ajax__tab_tab
+        {
+            font-size: 15px !important;
+            background: #6ab36a !important;
+            color: #fff;
+            border-radius: 5px 5px 0 0;
+            margin-top: 8px !important;
+            border: 1px solid gray;
+            border-top: 2px solid gray;
+        }
+        .ajax__tab_active .ajax__tab_tab, .ajax__tab_hover .ajax__tab_tab
+        {
+            border-top: 2px solid #f3b10b;
+        }
+        .ajax__tab_xp .ajax__tab_outer
+        {
+            background: none;
+        }
+        .ajax__tab_xp .ajax__tab_inner
+        {
+            background: none;
+        }
+        span#lblGrowerCount
+        {
+        }
+        
+        input#BtnFileComplaint
+        {
+            background-color: Green;
+            border-width: 0px;
+            font-weight: bold;
+            height: 25px;
+            width: 116px !important;
+            font-size: 12px !important;
+        }
+        #info
+        {
+            line-height: 35px;
+            float: left;
+            padding: 0px 10px;
+            font-size: 14px;
+        }
+        .captch-img
+        {
+            float: left;
+            text-align: left;
+        }
+        .captch-img img
+        {
+            width: auto;
+            height: 35px;
+        }
+        .bg-color
+        {
+            background-color: #008000;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+        }
+        td.grid3
+        {
+            height: 23px;
+        }
+        #tcMasterInfo_tplSupply, #tcMasterInfo_tplAddnlCalender
+        {
+            height: 300px;
+            overflow: scroll;
+        }
+        div#tcMasterInfo_tplCalender
+        {
+            height: 300px;
+            overflow: scroll;
+        }
+        .e-ganna
+        {
+            font-weight: bold;
+            color: #ffeb04;
+        }
+        .google-store
+        {
+            text-decoration: underline;
+            color: #a5e8f7;
+        }
+        table#grw-info
+        {
+            display: none;
+        }
+        img, div
+        {
+            behavior: url(iepngfix/iepngfix.htc);
+        }
+        .asd
+        {
+            text-align: center;
+        }
+        .padding-right
+        {
+            padding-right: 20px;
+        }
+        .grid1
+        {
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        .grid1Area
+        {
+            text-align: right;
+            position: relative;
+            z-index: 10;
+            padding: 0px 25px 0px 0px;
+        }
+        .gridL
+        {
+            text-align: left;
+            position: relative;
+            top: expression(this.offsetParent.scrollTop);
+            z-index: 10;
+        }
+        .gridC
+        {
+            text-align: center;
+            position: relative;
+            top: expression(this.offsetParent.scrollTop);
+            z-index: 10;
+        }
+        .grid
+        {
+            text-align: right;
+        }
+        .grid2
+        {
+        }
+        .grid3
+        {
+            text-align: center;
+        }
+        .panel
+        {
+            background: #eee;
+            padding: 10px;
+            width: 100%;
+        }
+        
+        .panel table
+        {
+            width: 100%;
+        }
+        .panel table tbody
+        {
+            margin: 0px;
+            padding: 0px;
+        }
+        .panel table tr th td
+        {
+            border-collapse: collapse;
+            margin: 0px;
+        }
+        
+        .panel table td
+        {
+            padding: 3px;
+        }
+        
+        .panel table th
+        {
+            padding: 3px;
+        }
+        .bold
+        {
+            font-weight: bold;
+        }
+        .HeaderFreez
+        {
+            position: relative;
+            top: expression(document.getElementById("tcMasterInfo_tplSurvey_grdPlot").offsetParent.scrollTop);
+            z-index: 10;
+        }
+        
+        
+        .ajax__tab_xp .ajax__tab_tab
+        {
+            height: 30px !important;
+        }
+        .style1
+        {
+            height: 18px;
+        }
+        input#txtCaptcha
+        {
+            height: 32px;
+            border-radius: 5px;
+            border: 0;
+            border: 1px solid #c3baba;
+        }
+        header
+        {
+            background: #fff;
+            width: 100%;
+            float: left;
+            padding: 5px 0 0 0;
+            border-bottom: 1px solid #e8e8e8;
+            font-family: 'Hind' , sans-serif;
+        }
+        .container-fluid
+        {
+            padding-right: 15px;
+            padding-left: 21px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .logo-right
+        {
+            float: right;
+        }
+        .row
+        {
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+        .col-md-7
+        {
+            width: 58.33333333%;
+            float: left;
+        }
+        .col-md-5
+        {
+            width: 41.66666667%;
+            float: left;
+        }
+        .left-txt
+        {
+            float: left;
+            width: 89%;
+            text-align: right;
+            font-size: 21px;
+            margin-bottom: 0;
+            color: #000;
+        }
+        .left-txt span.toll-free
+        {
+            display: inline-block;
+            text-align: right;
+            color: #f71212;
+            font-weight: bold;
+            font-size: 22px;
+        }
+        .logo
+        {
+            float: left;
+        }
+        
+        .dep-title
+        {
+            color: #2c8402;
+            font-weight: bold;
+            text-decoration: none;
+            padding: 0px;
+            margin-top: 13px;
+            line-height: 25px;
+            font-size: 24px;
+            margin: 13px 0 0 15px;
+            float: left;
+        }
+        .dep-title span
+        {
+            display: block;
+            font-size: 15px;
+            color: #000;
+            font-weight: normal;
+        }
+        div#tcMasterInfo_tplCane, div#tcMasterInfo_tplSMSLog, div#tcMasterInfo_tplLastYrCane
+        {
+            overflow-y: scroll;
+            height: 300px;
+        }
+        /*span#lblGrowerCount
+        {
+            margin-left: 156px;
+        }*/
+    /* Popup container - can be anything you want */
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* The actual popup */
+.popup .popuptext {
+  visibility: hidden;
+  width: 160px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Toggle this class - hide and show the popup */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {opacity: 0;} 
+  to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+  from {opacity: 0;}
+  to {opacity:1 ;}
+}
+
+.modal-content.modal-small{
+    width: 40%;
+}
+.modal-small h3{ color: #000000; font-size: 18px; line-height: 1.5; }
+.modal-small p{ color: #ff0000 !important; font-size: 18px; line-height: 1.5; margin-top: 0; margin-bottom: 0; }
+.modal-small a{ color: #ff0000; font-size: 18px; line-height: 1.5; display: inline-block; }
+.text-center{ text-align: center !important; }
+.modal-small p{ color: #000; }
+.bg-none{ background-color: transparent !important; box-shadow: none !important; }
+        @media (max-width: 992px) {
+            .modal-content.modal-small {
+                width: 80%;
+            }
+        }
+          @media  (max-width: 460px){
+           .col-md-7 {
+    width: 100%;
+      float: none;
+}
+           .dep-title {
+    color: #2c8402;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px;
+    margin-top: 13px;
+    line-height: 25px;
+    font-size: 21px;
+    margin: 13px 0 0 15px;
+    float: right;
+}
+           .col-md-5 {
+    width: 100%;
+    float: none;
+}
+       }
+           @media (min-width: 461px) and (max-width: 800px){
+           .col-md-7 {
+    width: 55%;
+      float: left;
+}
+           .dep-title {
+    color: #2c8402;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 0px;
+    margin-top: 13px;
+    line-height: 25px;
+    font-size: 21px;
+    margin: 13px 0 0 15px;
+    float: right;
+}
+           .col-md-5 {
+    width: 44%;
+    float: right;
+}
+           .left-txt span.toll-free {
+    display: inline-block;
+    text-align: right;
+    color: #f71212;
+    font-weight: bold;
+    font-size: 17px;
+}
+           .left-txt {
+    float: left;
+    width: 89%;
+    text-align: right;
+    font-size: 16px;
+    margin-bottom: 0;
+    color: #000;
+}
+       }
+          .dis-none {
+              display:none
+          }
+          .inline-block{
+    display:inline-block;
+}
+div#Div1 {
+    background: #d7f7eb !important;
+    top:0px !important
+}
+    </style>
+    <link rel="stylesheet" href="bootstrap_css/bootstrap.min.css" />
+    
+    
+    <script language="javascript" type="text/javascript">
+        history.forward();
+    </script>
+    <script language="javascript" type="text/javascript">
+    
+  
+
+        function CheckBrowser() {
+            var nVer = navigator.appVersion;
+            var nAgt = navigator.userAgent;
+            var browserName = navigator.appName;
+            var fullVersion = '' + parseFloat(navigator.appVersion);
+            var majorVersion = parseInt(navigator.appVersion, 10);
+            var nameOffset, verOffset, ix;
+
+            // In Opera, the true version is after "Opera" or after "Version"
+            if ((verOffset = nAgt.indexOf("Opera")) != -1) {
+                browserName = "Opera";
+                fullVersion = nAgt.substring(verOffset + 6);
+                if ((verOffset = nAgt.indexOf("Version")) != -1)
+                    fullVersion = nAgt.substring(verOffset + 8);
+            }
+            // In MSIE, the true version is after "MSIE" in userAgent
+            else if ((verOffset = nAgt.indexOf("MSIE")) != -1) {
+                browserName = "Microsoft Internet Explorer";
+                fullVersion = nAgt.substring(verOffset + 5);
+            }
+            // In Chrome, the true version is after "Chrome" 
+            else if ((verOffset = nAgt.indexOf("Chrome")) != -1) {
+                browserName = "Chrome";
+                fullVersion = nAgt.substring(verOffset + 7);
+            }
+            // In Safari, the true version is after "Safari" or after "Version" 
+            else if ((verOffset = nAgt.indexOf("Safari")) != -1) {
+                browserName = "Safari";
+                fullVersion = nAgt.substring(verOffset + 7);
+                if ((verOffset = nAgt.indexOf("Version")) != -1)
+                    fullVersion = nAgt.substring(verOffset + 8);
+            }
+            // In Firefox, the true version is after "Firefox" 
+            else if ((verOffset = nAgt.indexOf("Firefox")) != -1) {
+                browserName = "Firefox";
+                fullVersion = nAgt.substring(verOffset + 8);
+            }
+            // In most other browsers, "name/version" is at the end of userAgent 
+            else if ((nameOffset = nAgt.lastIndexOf(' ') + 1) <
+          (verOffset = nAgt.lastIndexOf('/'))) {
+                browserName = nAgt.substring(nameOffset, verOffset);
+                fullVersion = nAgt.substring(verOffset + 1);
+                if (browserName.toLowerCase() == browserName.toUpperCase()) {
+                    browserName = navigator.appName;
+                }
+            }
+
+            // trim the fullVersion string at semicolon/space if present
+            if ((ix = fullVersion.indexOf(";")) != -1)
+                fullVersion = fullVersion.substring(0, ix);
+            if ((ix = fullVersion.indexOf(" ")) != -1)
+                fullVersion = fullVersion.substring(0, ix);
+
+            majorVersion = parseInt('' + fullVersion, 10);
+            if (isNaN(majorVersion)) {
+                fullVersion = '' + parseFloat(navigator.appVersion);
+                majorVersion = parseInt(navigator.appVersion, 10);
+            }
+            //            if (browserName == "Microsoft Internet Explorer" && majorVersion != 8) {
+            //                alert("Your Browser Mode is not Compatible with this application. " + "\n" +
+            //                      "To Proceed, change Browser Mode: Go to Tools -> Click on Developer Tools -> " + "\n" +
+            //                      "Check Brower Mode -> Click on Browser Mode -> Select Internet Explorer 8 ");
+            //                return false;
+            //            }
+            return true;
+        }
+    </script>
+    
+    <link href="bootstrap_css/enquiry-style.min.css" rel="stylesheet" type="text/css" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G486RSLBDV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-G486RSLBDV');
+    </script>
+    <script>
+        var _comscore = _comscore || [];
+        _comscore.push({ c1: "2", c2: "35758687" });
+        (function () {
+            var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+            s.src = "https://sb.scorecardresearch.com/cs/35758687/beacon.js";
+            el.parentNode.insertBefore(s, el);
+        })();
+    </script>
+    <noscript>
+        <img src="https://sb.scorecardresearch.com/p?c1=2&amp;c2=35758687&amp;cv=3.6.0&amp;cj=1">
+    </noscript>
+<link href="/WebResource.axd?d=fGW9TwepyNE5rHi-7KizJFgeOPmg6q_LbQUhkglyyKpiQJEBXLrdaC0haKO7unULOw7CrehDmYmLGDCk4Nhk-WpYmFemI8T__FHuKnKzh5vZCFdQHoi6FXGMSw5J0GbU94NWN8sBdSIhGt2cYBXD-w2&amp;t=637861415842964344" type="text/css" rel="stylesheet" /></head>
+<body>
+    <form name="form1" method="post" action="./" id="form1">
+<div>
+<input type="hidden" name="__LASTFOCUS" id="__LASTFOCUS" value="" />
+<input type="hidden" name="tcMasterInfo_ClientState" id="tcMasterInfo_ClientState" value="{&quot;ActiveTabIndex&quot;:0,&quot;TabState&quot;:[true,true,true,true,true,true,true,true,true,true,true,true,true]}" />
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKMjA3MzYzNjcwOQ9kFgICAQ9kFgICAw9kFgJmD2QWBAJfD2QWMgIBD2QWAmYPZBYCZg9kFgICBQ8PFgIeCEltYWdlVXJsBRp+L0NyZWF0ZUNhcHRjaGEuYXNweD9OZXc9MWRkAgMPZBYCZg9kFgRmD2QWDAIFDxAPFgYeDURhdGFUZXh0RmllbGQFCURJU1RfTkFNRR4ORGF0YVZhbHVlRmllbGQFCURJU1RfQ09ERR4LXyFEYXRhQm91bmRnZBAVPQ9TZWxlY3QgRGlzdHJpY3QHQWxpZ2FyaA5BbWJlZGthciBOYWdhcgZBbWV0aGkSQW1yb2hhIChKIFAgTmFnYXIpB0F5b2RoeWEIQXphbWdhcmgGQmFncGF0CEJhaHJhaWNoBUJhbGlhCUJhbHJhbXB1cglCYXJhYmFua2kIQmFyZWlsbHkFQmFzdGkHQmhhZG9oaQZCaWpub3IGQnVkYXVuDEJ1bGFuZHNoYWhhcglDaGFuZGF1bGkGRGVvcmlhBEV0YWgKRmFydWtoYWJhZAhGYXRlaHB1chJHYXV0YW0gQnVkZGggTmFnYXIHR2F6aXB1cglHaGF6aWFiYWQFR29uZGEJR29yYWtocHVyBUhhcHVyBkhhcmRvaQdIYXRocmFzB0phdW5wdXIGS2FucHVyB0thc2dhbmoKS2F1c2hhbWJoaQpLdXNoaW5hZ2FyCUxha2hpbXB1cgdMdWNrbm93C01haGFyYWpnYW5qB01hdGh1cmEDTWF1Bk1lZXJ1dAhNaXJ6YXB1cglNb3JhZGFiYWQNTXV6YWZmYXJuYWdhcghQaWxpYmhpdApQcmF0YXBnYXJoCVByYXlhZ3JhaglSYWliYXJlbGkGUmFtcHVyClNhaGFyYW5wdXIHU2FtYmhhbBBTYW50IEthYmlyIE5hZ2FyDFNoYWhqYWhhbnB1cgZTaGFtbGkJU2hyYXdhc3RpDlNpZGhhcnRoIE5hZ2FyB1NpdGFwdXIJU3VsdGFucHVyBVVubmFvCFZhcmFuYXNpFT0CLTECNDcCNjICNTgCMzICNjECOTUCMjICNzMCOTcCNzICNjMCNDECODMCNjACMzECNDICMjUCNjkCOTMCNDkCNTcCNTACMjYCNjYCMjQCNzECODECMjMCNTMCMjcCNjUCNTQCNDUCODACOTECNTECNTkCODICNDYCOTYCMjECNzACMzUCMTICNDQCNjgCNzkCNTUCMzMCMTECMzQCODUCNDMCMTMCNzQCODQCNTYCNjQCNDgCNjcUKwM9Z2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZ2dnZxYBZmQCBw8QZBAVABUAFCsDABYAZAILDxBkEBUAFQAUKwMAFgBkAg0PDxYCHgRUZXh0ZWRkAg8PEGQQFQAVABQrAwAWAGQCEQ8PFgIfBGVkZAIBD2QWBgIBDw8WAh4HVmlzaWJsZWhkZAIJDw8WAh4HRW5hYmxlZGhkZAIPDxYCHwVoZAIFDw8WAh8EZWRkAgcPDxYCHwRlZGQCDw8PFgIfBGVkZAIRDw8WAh8EZWRkAhMPDxYCHwRlZGQCFQ8PFgIfBGVkZAIXDw8WAh8EZWRkAhkPDxYCHwRlZGQCGw8PFgIfBGVkZAIdDw8WAh8EZWRkAh8PDxYCHwRlZGQCIQ8PFgIfBGVkZAIjDxYCHwVoZAIlDw8WAh8EZWRkAicPFgIfBWhkAikPDxYCHwRlZGQCKw8PFgIfBGVkZAItDw8WAh8EZWRkAi8PDxYCHwRlZGQCMQ8PFgIfBGVkZAIzDw8WAh8EZWRkAjUPDxYCHwRlZGQCNw9kFhRmD2QWAmYPZBYGAgMPZBYCAgEPPCsAEQMADxYGHwNnHgtfIUl0ZW1Db3VudGYfBWhkARAWABYAFgAMFCsAAGQCBQ9kFgICAQ8PFgIfBWhkZAIHDzwrABECAA8WBh8DZx8HZh8FaGQMFCsAAGQCAQ9kFgJmD2QWBAIBD2QWAgIBDw8WAh8FaGRkAgMPPCsAEQIADxYGHwNnHwdmHwVoZAwUKwAAZAICD2QWAmYPZBYIAgIPDxYCHwRlZGQCBA8PFgIfBGVkZAIGDw8WAh8EZWRkAgsPPCsAEQMADxYGHwNnHwdmHwVoZAEQFgAWABYADBQrAABkAgMPZBYCZg9kFggCAg8PFgIfBGVkZAIEDw8WAh8EZWRkAgYPDxYCHwRlZGQCCw88KwARAwAPFgYfA2cfB2YfBWhkARAWABYAFgAMFCsAAGQCBA9kFgJmD2QWCAICDw8WAh8EZWRkAgQPDxYCHwRlZGQCBg8PFgIfBGVkZAILDzwrABEDAA8WBh8DZx8HZh8FaGQBEBYAFgAWAAwUKwAAZAIFD2QWAmYPZBYCAgEPPCsAEQMADxYGHwNnHwdmHwVoZAEQFgAWABYADBQrAABkAgYPZBYCZg9kFgICAQ88KwARAwAPFgYfA2cfB2YfBWhkARAWABYAFgAMFCsAAGQCBw9kFgJmD2QWAgIBDzwrABECARAWABYAFgAMFCsAAGQCCA9kFgJmD2QWBAIDDzwrABEDAA8WBh8DZx8HZh8FaGQBEBYAFgAWAAwUKwAAZAIGDw8WAh8EBQEwZGQCDA9kFgJmD2QWAgIDDzwrABEDAA8WBh8DZx8HZh8FaGQBEBYAFgAWAAwUKwAAZAJhDxYCHwVnZBgNBQx0Y01hc3RlckluZm8PD2RmZAUgdGNNYXN0ZXJJbmZvJHRwbFN1cHBseSRncmRTdXBwbHkPPCsADAEIZmQFHHRjTWFzdGVySW5mbyR0cGxDYW5lJGdyZENhbmUPPCsADAEIZmQFHl9fQ29udHJvbHNSZXF1aXJlUG9zdEJhY2tLZXlfXxYBBQx0Y01hc3RlckluZm8FHnRjTWFzdGVySW5mbyR0cGxTdXJ2ZXkkZ3JkUGxvdA88KwAMAQhmZAUkdGNNYXN0ZXJJbmZvJHRwbFN1cnZleSRncmRTdXJ2ZXlQbG90DzwrAAwBCGZkBSN0Y01hc3RlckluZm8kdHBsU01TTG9nJEdWU01TRGV0YWlscw88KwAMAQhmZAUsdGNNYXN0ZXJJbmZvJHRwbExhc3RZckNhbmUkR3JkU3VwcGx5TGFzdFllYXIPZ2QFJHRjTWFzdGVySW5mbyR0cGxDYWxlbmRlciRncmRDYWxlbmRlcg88KwAMAQhmZAU0dGNNYXN0ZXJJbmZvJHRwbFN0YW5kaW5nQ2FsZW5kZXIkZ3JkU3RhbmRpbmdDYWxlbmRlcg88KwAMAQhmZAUldGNNYXN0ZXJJbmZvJHRibGdyaWV2YW5jZSRHVkdSSUVWQU5DRQ88KwAMAQhmZAUldGNNYXN0ZXJJbmZvJHRwbFByZUNhbGVuZGVyJGdyZFN1cnZleQ88KwAMAQhmZAUudGNNYXN0ZXJJbmZvJHRwbEFkZG5sQ2FsZW5kZXIkZ3JkQWRkbmxDYWxlbmRlcg88KwAMAQhmZNHdW6pi7+WDihkbI0D8aUSl3jmeDnMTmeu9HLhvwc28" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=SbYMPIIG5fy__1oRmIhg3BqUSysCGjSKm45PgMl8cgjQrnA8z9OpUKdUBR1aXN0-w72Wc8LsHEprCewCT1ErOuWYRqWv-oCv41Wnnvr160A1&amp;t=638465256520000000" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=bZqVjjp5oq-ZjxMkepZvCYVVjn3xTdbnhJY1fEWGgSRgtBshWMKH8iW58xIIKQ7b-C2kE3SC-dyc2Z9KQPcLamg0XvGEZ6bYTDWWqAMQ0gdJImtZ9nELSQTPh6Se3eE6x3oBN_K1rCnyB1sahz2uUg2&amp;t=734d43f5" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/ScriptResource.axd?d=2kkik3QgbZz9USBsLKkCtBF9Tb4RfDvQPcuazX8AUST8rxnsp49Ny6sZU6H7TvTXcupsLFrD8S29hDeAO7Yr98QBPlJfQ_w9Qo1OCQRx6sJsbvHyYVeLkCXaissrUVoxJkBNDUMHzboVEMhoB8OYFA2&amp;t=734d43f5" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=fCf_jg5vSqsaku6OstU0hOgIweC0_tXd8Nf3fZiyLbDm8l7MrzmsS8bVQ8woJFAZkeyHJdY81JliWlzP6iSg77gy5poKiP2IqXzZ-nxiDuyKeHfBkZ0cK9jydaWllP5kEk-PwSiVAIBAJkQR5OPmpA2&amp;t=734d43f5" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=pHwg9gDvAwhwguZdv1NH4UJMTmZcenKbrV3_JiEywqEAebmkZDqY-khhyROE_iBnELyN1DKw8YaclfGuIJgWiU4KzAr9_FzSlkyEcp3OpBmNaUFqapJKfxSf4Yce_op7U7A1HMEP9fg5V_5YD-sD4Q2&amp;t=734d43f5" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=_5g41960LjKJ7X1GJx_kqXDI60J4xXLstUjZ7_8mfFXhLG0C6Nu0YtoETVElQrxe55eE39PhQNZeHJv_m_sPmkHw1tiZvKbJm2LaRPPsmFLnnUFu44NFdeUDZeBBUwUK0&amp;t=734d43f5" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=2i3cBRaID7FkORezcjijXiwQCYcHL2vsqvsX6JnTkN5GtmYWFOPMXhvHMm4mnyf58Uq69i6n8TcuPktcTZQitSivqFdCvdQvKYKNYlpTTCVuCFhKWHEwMhdK0c4Nf8KZyOtUIjMADNa4n4LOkuT1l8cf2UxdfXOSqoT0YF8eH_I1&amp;t=734d43f5" type="text/javascript"></script>
+<script src="/WebResource.axd?d=lM8nENIbxYPRiYvj6KymMt3ANGBc8mp0AxDY_H5xtaeVnotz-IzA1URIlEWf4hUSHfCdo5FhwZ_3H2lAwAU_8xS1D7Sj2uWRGkJKUsqX8mY1&amp;t=638465256520000000" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="6AEE4071" />
+</div>
+    
+    <!-- The Modal -->
+    <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'form1', ['tUpdatePanel1',''], [], [], 90, '');
+//]]>
+</script>
+
+    <div id="myModal" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body" id="BasicQuotaModalBody">
+            </div>
+            <div class="modal-body" id="GATAModalBody">
+            </div>
+        </div>
+    </div>
+    <div id="UpdatePanel1">
+	
+            
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            
+            <input type="hidden" name="HiddenField1" id="HiddenField1" value="0" />
+            <input type="hidden" name="HiddenField2" id="HiddenField2" value="0" />
+            <input type="hidden" name="HiddenField3" id="HiddenField3" />
+            <input type="hidden" name="HiddenField4" id="HiddenField4" />
+            <input type="hidden" name="HiddenField5" id="HiddenField5" />
+            <input type="hidden" name="HiddenField6" id="HiddenField6" />
+            <input type="hidden" name="HiddenField7" id="HiddenField7" />
+            <input type="hidden" name="HiddenField8" id="HiddenField8" />
+            <input type="hidden" name="HiddenField9" id="HiddenField9" />
+            <input type="hidden" name="HiddenField10" id="HiddenField10" />
+            <input type="hidden" name="HdFactory" id="HdFactory" />
+            <input type="hidden" name="HdVillCode" id="HdVillCode" value="0" />
+            <input type="hidden" name="HdSocCode" id="HdSocCode" value="0" />
+            <input type="hidden" name="HdGrowCode" id="HdGrowCode" value="0" />
+            <input type="hidden" name="HdModeWt" id="HdModeWt" value="0" />
+            <input type="hidden" name="HdBQuota" id="HdBQuota" value="0" />
+            <input type="hidden" name="HdAddlBonding" id="HdAddlBonding" value="0" />
+            <input type="hidden" name="HdGeneIncre" id="HdGeneIncre" value="0" />
+            <input type="hidden" name="HdGrowName" id="HdGrowName" />
+            <input type="hidden" name="HdTotalBonding" id="HdTotalBonding" value="0" />
+            <input type="hidden" name="HdnMobNo" id="HdnMobNo" />
+            <div id="BasicQuotaDlsDv" style="display: none;">
+                <table class="table" cellspacing="0px" width="100%" style="color: Black; font-size: 12px;">
+                    <tr>
+                        <td width="100%" colspan="4" align="center">
+                            &nbsp<span id="Label1" style="color:Blue;font-size:14px;font-weight:bold;">बेसिक कोटा विवरण</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" colspan="2" class="padding-0 border" style="border: 0;">
+                            <table cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td width="50.1%">
+                                        <span id="Label2" style="color:Blue;font-size:12px;font-weight:bold;">पिछले पांच वर्षों की सप्लाई का विवरण</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblWarisQty" style="color:Black;font-size:12px;font-weight:normal;">अभिभावक से प्राप्त सप्लाई: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblWarisQtyValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right">
+                            <span id="lblYr1" style="color:Black;font-size:12px;font-weight:normal;">2014-2015: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblYr1Value" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblAvg2Yr" style="color:Black;font-size:12px;font-weight:normal;">औसत दो साल की सप्लाई: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblAvg2YrValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right">
+                            <span id="lblYr2" style="color:Black;font-size:12px;font-weight:normal;">2015-2016: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblYr2Value" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblAvg3Yr" style="color:Black;font-size:12px;font-weight:normal;">औसत तीन साल की सप्लाई: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblAvg3YrValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right">
+                            <span id="lblYr3" style="color:Black;font-size:12px;font-weight:normal;">2016-2017: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblYr3Value" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblAvg5Yr" style="color:Black;font-size:12px;font-weight:normal;">औसत पांच साल की सप्लाई: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblAvg5YrValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right">
+                            <span id="lblYr4" style="color:Black;font-size:12px;font-weight:normal;">2017-2018: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblYr4Value" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblEffectiveCaneArea" style="color:Black;font-size:12px;font-weight:normal;">प्रभावी गन्ना क्षेत्रफल: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblEffectiveCaneAreaValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Hect.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="20%" align="right">
+                            <span id="lblYr5" style="color:Black;font-size:12px;font-weight:normal;">2018-2019: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblYr5Value" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls.</span>
+                        </td>
+                        <td width="20%" align="right" class="td-top-0">
+                            <span id="lblFactAvgSupply" style="color:Black;font-size:12px;font-weight:normal;">फैक्टरी औसत सप्लाई: </span>
+                        </td>
+                        <td width="30%" align="left" class="td-top-0">
+                            <span id="lblFactAvgSupplyValue" style="color:Blue;font-size:12px;font-weight:bold;">0.00 Qtls./Hect.</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="GataWiseDlsDv" style="display: none;">
+                <table class="table" cellspacing="0px" width="100%" style="color: Black; font-size: 12px;">
+                    <tr>
+                        <td width="100%" colspan="4" align="center">
+                            &nbsp<span id="Label13" style="color:Blue;font-size:14px;font-weight:bold;">गाटा के अनुसार CLA</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td width="100%" colspan="4" align="center">
+                            <div id="tblgata" style="overflow-y: scroll; height: 200px;">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div id="wrapper">
+                <header>
+<div class="container-fluid">
+<div class="row">
+
+<div class="col-md-5 col-sm-4"><div class="logo">
+<img src="images/up-logo.png" alt="" border="0">
+</div>
+<div class="dep-title"> चीनी उद्योग एवं गन्ना विकास विभाग  <span>उत्तर प्रदेश, भारत</span></div>
+</div>
+
+<div class="col-md-2 col-sm-4">
+<a href="Screen-Reader.html"  target="_blank">स्क्रीन रीडर का उपयोग</a>
+</div>
+<div class="col-md-5 col-sm-4"><div class="left-txt"><div>गन्ना किसान भाइयों हेतु टोल फ्री नम्बर </div>
+<span class="toll-free">1800-121-3203</span>
+
+
+
+</div>
+<div class="logo-right"><img src="images/logo.png" alt="" border="0"></div>
+</div>
+</div>
+</div>
+</header>
+                <div id="header">
+                    
+                    <center><!--
+                        <div id="Div11" style="border: 1px solid blue; float: left; width: 100%; box-sizing: border-box;
+                            margin-top: 1px; padding-top: 2px; padding-bottom: 2px;">
+                            <table id="tblcaptcha" width="98%" style="color: Black; border: 1px; font-size: 12px;" cellspadding="0">
+		<tr>
+			<td align="left" colspan="3">
+                                        <span id="info" class="captcha-field-input">डाटा देखने के लिए कैप्चा डाले</span>
+                                        &nbsp;&nbsp;
+                                        <input name="txtCaptcha" type="text" id="txtCaptcha" class="captcha-field-input" style="text-transform: uppercase;" />
+                                        &nbsp;&nbsp; <span class="captch-img">
+                                            <img id="imgCaptcha" src="CreateCaptcha.aspx?New=1" style="border-width:0px;" /></span> &nbsp;&nbsp;
+                                        <span id="Lblcaptchainfo"></span>
+                                        &nbsp;&nbsp;
+                                        <input type="submit" name="BtnLogin" value="View" id="BtnLogin" tabindex="1" class="closeButton" style="background-color:Green;border-width:0px;height:35px;width:70px;" />
+                                    </td>-->
+			<td style="text-align: center;">
+                                    </td>
+		</tr>
+	</table>
+	
+                            
+                        <table border="1" cellspacing="0px" width="98%" style="color: Black; font-size: 12px;">
+                            <tr>
+                                <td colspan="4" align="center" width="100%">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                        <tr>
+                                            <td width="41%">
+                                                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                                    <tr>
+                                                        <td align="right" width="21%">
+                                                            Society:&nbsp<span id="LblSociety" style="color:Blue;font-size:14px;font-weight:bold;"></span>
+                                                        </td>
+                                                        <td align="center" width="49%">
+                                                            Factory:&nbsp<span id="LblFact" style="color:Blue;font-size:14px;font-weight:bold;"></span>
+                                                        </td>
+                                                        <td style="padding-right: 61px; text-align: center; visibility:hidden">
+                                                            Crushing Season:&nbsp<span id="LblSeason" style="color:Blue;font-size:14px;font-weight:bold;">2023-2024</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td width="16%" style="text-align: right">
+                                                <span id="lblVisitorCount" style="font-size:11px;font-weight:bold;"></span>
+                                                <span id="lblGrowerCount" style="font-size:11px;font-weight:bold;"></span>
+                                            </td>
+                                            
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Grower Name:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblGrowerName" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Village Name:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblVillage" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right" class="style1">
+                                    S/W/O:&nbsp
+                                </td>
+                                <td width="35%" align="left" class="style1">
+                                    <span id="LblFatherName" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right" class="style1">
+                                    Centre Name:&nbsp
+                                </td>
+                                <td width="35%" align="left" class="style1">
+                                    <span id="LblCentre" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Mobile Number:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblMobile" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Aadhaar Number:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblAadhaar" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Account Number:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblAccNumber" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Bank Name:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblBank" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Mode of Supply:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblSuppMode" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Cultivable Area:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                        <tr>
+                                            <td width="50%">
+                                                <span id="LblCulArea" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                            </td>
+                                            <td width="50%" align="center">
+                                                
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Basic Quota:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                                        <tr>
+                                            <td width="50%">
+                                                <span id="LblBasicQuota" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                            </td>
+                                            <td width="50%" align="center">
+                                                
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="15%" align="right">
+                                    Eff. Cane Area:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblGenlIncrease" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Additional Bonding:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblAddlBonding" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Total Bonding:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblTotalBonding" style="color:White;background-color:Blue;font-size:14px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Membership Year:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblMemYear" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Supply Centre:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="lblSupCnt" style="color:Blue;font-size:14px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="15%" align="right">
+                                    Crop Yield/Hect:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblYield" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                                <td width="15%" align="right">
+                                    Factory Avg. Supply:&nbsp
+                                </td>
+                                <td width="35%" align="left">
+                                    <span id="LblAvgSup" style="color:Blue;font-size:12px;font-weight:bold;"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="100%" align="center" colspan="4">
+                                    <div class="ajax__tab_xp" id="tcMasterInfo" align="center" style="visibility:hidden;">
+		<div id="tcMasterInfo_header">
+			<span id="tcMasterInfo_tplSurvey_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplSurvey">सर्वे डेटा(2024-25)</span></span></span></span><span id="tcMasterInfo_tplPreCalender_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplPreCalender">प्री कैलेंडर </span></span></span></span><span id="tcMasterInfo_tplCalender_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplCalender">गन्ना कैलेंडर </span></span></span></span><span id="tcMasterInfo_tplAddnlCalender_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplAddnlCalender">अतिरिक्त सट्टा कैलेंडर </span></span></span></span><span id="tcMasterInfo_tplStandingCalender_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplStandingCalender">स्टैंडिंग केन कैलेंडर</span></span></span></span><span id="tcMasterInfo_tplSupply_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplSupply">सप्लाई टिकट</span></span></span></span><span id="tcMasterInfo_tplCane_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplCane">गन्ना तौल</span></span></span></span><span id="tcMasterInfo_tplLastYrCane_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplLastYrCane">गत वर्ष गन्ना तौल</span></span></span></span><span id="tcMasterInfo_tplSMSLog_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplSMSLog">एस० एम० एस० लॉग</span></span></span></span><span id="tcMasterInfo_tplkrishi_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplkrishi">गन्ना निवेश की उपलब्धता</span></span></span></span><span id="tcMasterInfo_tplPayment_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tplPayment">गन्ना मूल्य की जानकारी</span></span></span></span><span id="tcMasterInfo_tblFMBGrower_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tblFMBGrower">फॉर्म मशीनरी यन्त्रों की बुकिंग</span></span></span></span><span id="tcMasterInfo_tblgrievance_tab"><span class="ajax__tab_outer"><span class="ajax__tab_inner"><span class="ajax__tab_tab" id="__tab_tcMasterInfo_tblgrievance">शिकायत की जानकारी</span></span></span></span>
+		</div><div id="tcMasterInfo_body">
+			<div id="tcMasterInfo_tplSurvey" class="ajax__tab_panel">
+				
+                                                <div style="height: 200px; border: 1px solid red; overflow: scroll;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <div id="tcMasterInfo_tplSurvey_DivPlotHeader" style="background-color: red; text-align: center;">
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div id="tcMasterInfo_tplSurvey_DivPlotGrid" style="overflow: auto;">
+                                                                    
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <br />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <div id="tcMasterInfo_tplSurvey_DivSurveyHeaderPlot" style="background-color: red; text-align: center;">
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            
+			</div><div id="tcMasterInfo_tplPreCalender" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <div style="height: 250px; border: 1px solid red; overflow: scroll;">
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <div id="tcMasterInfo_tplPreCalender_DivSurveyHeader" style="background-color: red; text-align: center;">
+                                                                    </div>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            
+			</div><div id="tcMasterInfo_tplCalender" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table width="970px" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplCalender_Label4">शीघ्र प्रजाति</span><input name="tcMasterInfo$tplCalender$TextBox3" type="text" id="tcMasterInfo_tplCalender_TextBox3" disabled="disabled" style="background-color:LightGrey;" /><span id="tcMasterInfo_tplCalender_Label5">सामान्य</span><input name="tcMasterInfo$tplCalender$TextBox2" type="text" id="tcMasterInfo_tplCalender_TextBox2" disabled="disabled" style="background-color:LightYellow;" /><span id="tcMasterInfo_tplCalender_Label6">अनुपयुक्त</span><input name="tcMasterInfo$tplCalender$TextBox1" type="text" id="tcMasterInfo_tplCalender_TextBox1" disabled="disabled" style="background-color:LightPink;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div style="text-align: center">
+                                                                <span id="tcMasterInfo_tplCalender_Label3">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplCalender_noteIDImage">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplAddnlCalender" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table width="970px" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplAddnlCalender_Label7">शीघ्र प्रजाति</span><input name="tcMasterInfo$tplAddnlCalender$TextBox4" type="text" id="tcMasterInfo_tplAddnlCalender_TextBox4" disabled="disabled" style="background-color:LightGrey;" /><span id="tcMasterInfo_tplAddnlCalender_Label8">सामान्य</span><input name="tcMasterInfo$tplAddnlCalender$TextBox5" type="text" id="tcMasterInfo_tplAddnlCalender_TextBox5" disabled="disabled" style="background-color:LightYellow;" /><span id="tcMasterInfo_tplAddnlCalender_Label9">अनुपयुक्त</span><input name="tcMasterInfo$tplAddnlCalender$TextBox6" type="text" id="tcMasterInfo_tplAddnlCalender_TextBox6" disabled="disabled" style="background-color:LightPink;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div style="text-align: center">
+                                                                <span id="tcMasterInfo_tplAddnlCalender_Label10">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplAddnlCalender_Label12">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplStandingCalender" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table width="970px" cellpadding="0" cellspacing="0" border="0">
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplStandingCalender_Label14">शीघ्र प्रजाति</span><input name="tcMasterInfo$tplStandingCalender$TextBox7" type="text" id="tcMasterInfo_tplStandingCalender_TextBox7" disabled="disabled" style="background-color:LightGrey;" /><span id="tcMasterInfo_tplStandingCalender_Label15">सामान्य</span><input name="tcMasterInfo$tplStandingCalender$TextBox8" type="text" id="tcMasterInfo_tplStandingCalender_TextBox8" disabled="disabled" style="background-color:LightYellow;" /><span id="tcMasterInfo_tplStandingCalender_Label16">अनुपयुक्त</span><input name="tcMasterInfo$tplStandingCalender$TextBox9" type="text" id="tcMasterInfo_tplStandingCalender_TextBox9" disabled="disabled" style="background-color:LightPink;" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div style="text-align: center">
+                                                                <span id="tcMasterInfo_tplStandingCalender_Label17">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <div>
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2" align="center">
+                                                            <span id="tcMasterInfo_tplStandingCalender_Label19">नोट : कैलेंडर बैलग़ाडी की पर्ची के अनुसार है । </span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplSupply" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table width="970px">
+                                                    <tr>
+                                                        <td>
+                                                            
+                                                            <div id="tcMasterInfo_tplSupply_DivContents">
+                                                            </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplCane" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="overflow: scroll">
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplLastYrCane" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="overflow: scroll">
+                                                                <div>
+
+				</div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplSMSLog" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table>
+                                                    <tr>
+                                                        <td>
+                                                            <div id="tcMasterInfo_tplSMSLog_DivSMSDetails" style="background-color: red; text-align: center;">
+                                                                <span id="tcMasterInfo_tplSMSLog_LblSMSDetails" style="color:White;background-color:Red;font-family:Verdana;font-size:14pt;font-weight:bold;">भेजे गये एस० एम० एस० का विवरण</span></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <div style="overflow: scroll">
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td align="left" valign="middle">
+                                                            <span id="tcMasterInfo_tplSMSLog_LblTotalSMS" style="font-weight:bold;">0</span>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            
+			</div><div id="tcMasterInfo_tplkrishi" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                        
+                                        
+			</div><div id="tcMasterInfo_tplPayment" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                        
+                                        
+			</div><div id="tcMasterInfo_tblFMBGrower" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                        
+                                        
+			</div><div id="tcMasterInfo_tblgrievance" class="ajax__tab_panel" style="display:none;visibility:hidden;">
+				
+                                                <table width="970px">
+                                                    <tr>
+                                                        <td>
+                                                            <div id="tcMasterInfo_tblgrievance_Div2" style="background-color: red; text-align: center;">
+                                                                <span id="tcMasterInfo_tblgrievance_Label20" style="color:White;background-color:Red;font-family:Verdana;font-size:14pt;font-weight:bold;">शिकायत निवारण की जानकारी</span></div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>                                                          
+                                                            <div style="overflow: scroll">
+                                                                
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                   
+                                                </table>
+                                            
+			</div>
+		</div>
+	</div>
+                                    <div style="margin-bottom:5px">
+                                    
+                                   <span style="font-size:20px;color:Red; font-weight:bold;">
+                                   <p style="text-align:left">अधिक जानकारी के लिए गन्ना विकास विभाग, उत्तरप्रदेश के आधिकारिक सोशल मीडिया पोर्टल फेसबुक, ट्विटर और यू-ट्यूब से जुड़े.
+                                   
+                                   <span style="padding-left:20px">
+                                   <a style="padding-left:5px" href="https://www.facebook.com/UPCane?mibextid=ZbWKwL" target="_blank"><img src="Images/fb.png" width="50px" height="50px" alt="Facebook" /></a>
+                                   <a style="padding-left:5px" href="https://twitter.com/UPCane?t=SCqSyMNiJr0urURzr3U76w&s=09" target="_blank"><img src="Images/twitter.png" width="50px" height="50px" alt="Twitter" /></a>
+                                   <a style="padding-left:5px" href="https://youtube.com/@sugarcaneup" target="_blank"><img src="Images/youtube.png" width="50px" height="50px" alt="youtube" /></a>
+                                    </span>
+                                   </p>
+                                   
+                                   
+                                   </span>
+                                   
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+                </center>
+            </div>
+            <div style="clear: both">
+            </div>
+            <div id="Utype" class="bg-color">
+                अपने मोबाइल पर नवीनतम जानकारी के लिए गूगल प्ले स्टोर से <span class="e-ganna">eGANNA
+                    CANE UP</span> मोबाइल ऐप डाउनलोड करें| <a href="https://tinyurl.com/59jj9atp" target="_blank"
+                        class="google-store">https://tinyurl.com/59jj9atp</a>
+            </div>
+            
+            
+            </div>
+        
+</div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+WebForm_AutoFocus('txtCaptcha');Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplSurvey"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplSurvey"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplPreCalender"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplPreCalender"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplCalender"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplCalender"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplAddnlCalender"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplAddnlCalender"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplStandingCalender"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplStandingCalender"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplSupply"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplSupply"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplCane"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplCane"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplLastYrCane"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplLastYrCane"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplSMSLog"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplSMSLog"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplkrishi"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplkrishi"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tplPayment"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tplPayment"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tblFMBGrower"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tblFMBGrower"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabPanel, {"headerTab":$get("__tab_tcMasterInfo_tblgrievance"),"ownerID":"tcMasterInfo"}, null, {"owner":"tcMasterInfo"}, $get("tcMasterInfo_tblgrievance"));
+});
+Sys.Application.add_init(function() {
+    $create(Sys.Extended.UI.TabContainer, {"activeTabIndex":0,"autoPostBackId":"tcMasterInfo","clientStateField":$get("tcMasterInfo_ClientState")}, null, null, $get("tcMasterInfo"));
+});
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src='/BOOTSTRAP_JS/jquery-3.5.1.min.js'></script>
+    <script type="text/javascript" src='/BOOTSTRAP_JS/bootstrap.min.js'></script>
+    <script>
+        // Get the modal
+        var modal = document.getElementById("myModal");
+
+        function OpenPopup() {
+            document.getElementById("GATAModalBody").innerHTML = '';
+            document.getElementById("BasicQuotaModalBody").innerHTML = document.getElementById("BasicQuotaDlsDv").innerHTML;
+
+            //document.getElementById("ModalBasicQuotaDlsDv").style.display = "block";
+
+            modal.style.display = "block";
+        }
+        function OpenPopupGATA() {
+            document.getElementById("BasicQuotaModalBody").innerHTML = '';
+            document.getElementById("GATAModalBody").innerHTML = document.getElementById("GataWiseDlsDv").innerHTML;
+
+            //document.getElementById("ModalBasicQuotaDlsDv").style.display = "block";
+
+            modal.style.display = "block";
+        }
+
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        // 
+    </script>
+</body>
+</html>
+
+

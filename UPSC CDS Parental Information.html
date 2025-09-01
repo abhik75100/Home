@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>UPSC</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *" />
+    <link rel="stylesheet" href="css/fullcalendar.css" />
+    <link rel="stylesheet" href="css/colorpicker.css" />
+    <link rel="stylesheet" href="css/datepicker.css" />
+    <link rel="stylesheet" href="css/uniform.css" />
+    <link rel="stylesheet" href="css/select2.css">
+    <link rel="stylesheet" href="css/maruti-style.css" />
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color" />
+<style>
+    img.azadi{
+        width: 120px;
+        height: 80px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .icon-card-div{
+        cursor: pointer;
+    }
+ </style>
+<noscript>
+        <meta http-equiv="refresh" runat="server" id="mtaJSCheck" content="0;nojs.php" />
+</noscript>
+<script type="text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+
+</head>
+<body >
+
+<style type="text/css">
+	header.upsc-header{
+		display: flex;
+		background: linear-gradient(90deg, rgba(254,254,255,1) 0%, rgba(182 205 245) 100%);
+        width: 100%;
+        
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+    @media(max-width: 500px){        
+        .left-container .site-title {
+            font-size: 16px;
+        }
+    }
+	.left-container{
+	    background: url(./images/logo.png) no-repeat 3px 0;
+	    float: left;
+        width: 100%;
+	    font-size: 155%;
+	    line-height: 90%;
+	    min-height: 72px;
+	    padding: 15px 0 0 65px;
+	    text-transform: uppercase;
+	    margin-top: 16px;
+	    margin-left: 1%;
+	}
+    .right-container{
+       
+        float: right;
+        text-transform: uppercase;
+        margin-top: 16px;
+	}
+	.left-container .site-title {
+	    line-height: 1.2;
+	    color: #111;
+	    text-decoration: none;
+	    font-size:24.8px;
+		font-weight:600;
+		font-family: "Lucida Console", "Courier New", monospace;
+	}
+	.left-container .site-title strong {
+	    font-weight: 600;
+	    display: inline-block;
+	    font-size: 100%;
+	}
+	.left-container .site-title span {
+		display: block;
+	}
+	.lang {
+		margin-top: 2%;
+ 	 	margin-left: 50%;
+	}
+
+
+
+.float-right{
+	float:right;
+	margin-right: 2%;
+	margin-top: 0.3%;
+}
+
+
+.btn {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: #fd1919ad;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+
+
+  text-decoration: none;
+  text-align: center;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+
+.first {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px $red inset;
+  }
+}
+
+
+.topMenuBar {
+    background: #e47f18;
+    border-bottom: 1px solid #ebebeb;
+	padding: 10px 0px 0px 65px;
+}
+.topmenupart {
+    padding: 5px 5px;
+    color: rgb(27, 27, 27);
+    position: relative;
+
+}
+
+.topmenupart .menulist ul {
+    padding-left: 0px;
+    padding-top: 3px;
+    margin-bottom: 0px;
+    list-style-type: none;
+    display: inline-block;
+}
+.pull-right {
+    float: right!important;
+}
+
+.forzoominoutFonts a {
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font: 14px/24px 'Roboto', sans-serif !important;
+        margin: 4px 0px 1px;
+    padding: 0px 5px;
+    background: transparent;
+    width: 25px;
+    height: 24px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.accordion .widget-box {
+	width: 90%;
+    margin-top: 20px;
+	margin-left: 15px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+label{
+	display:inline;
+}
+.color-blue{
+	color:blue;
+}
+
+
+.btn-success-2 {
+    color: #251c1c;
+    margin-bottom: 1%;
+    padding-left: 1%;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top,#62c462,#51a351);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+    background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+    background-image: -o-linear-gradient(top,#62c462,#51a351);
+    background-image: linear-gradient(to bottom,#62c462,#51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462',endColorstr='#ff51a351',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+ .form-horizontal .control-label {
+
+    text-align: left;
+    padding-left: 2%;
+ }
+ .menulist{
+	display: flex;
+    justify-content: space-evenly;
+ }
+ @media print{
+    img.azadi{
+        width: 150px;
+        height: 80px;
+    }
+ }
+ @media screen and (max-width: 600px) {
+	.menulist{
+		flex-direction: column;
+		font-size: 14px;
+		font-weight: 300;
+	}
+
+	.topMenuBar {   
+		padding: 0;
+	}
+}
+</style>
+<header class="topMenuBar py-1">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 col-sm-6 col-xs-6 col-xl-12">
+			<nav class="menulist">
+			<div>	
+									<a href="dashboard.php"><i class="icon icon-globe"></i> <font color="white"><b>OTR ID : XXXXXXXXXXXX236</b></font></a> &nbsp;&nbsp;
+					<i class="icon icon-user"></i>&nbsp;&nbsp;<b><font color="white">Welcome, ABHISHEK KUMAR</font>
+					( <span style="color:white;"><b>Last Login : </b>30/12/2024 09:36:50</span> )
+					</b>
+								</div>
+				<div>	
+					
+											<!--<a href="update_email_mobile.php"><i class="icon  icon-bell"></i> <font color="white"><b></b></font></a>&nbsp;&nbsp;-->
+						<!--<a href="latest-daf.php"><i class="icon  icon-bell"></i> <font color="white"><b></b></font></a>&nbsp;&nbsp;-->
+						<a href="change_password.php"><i class="icon  icon-font"></i> <b><font color="white">Change Password</font></b></a>&nbsp;&nbsp;
+						<a href="logout.php"><i class="icon icon-off"></i> <b><font color="white">Logout</font></b></a>
+									</div>
+				
+			</nav>
+			</div>
+		</div>
+	</div>
+</header>
+<header class="upsc-header topbar">
+	<div class="left-container"> 
+		<div class="site-title">
+			<strong>संघ  लोक  सेवा  आयोग</strong>
+			<span>UNION PUBLIC SERVICE COMMISSION</span>            
+		</div>
+	</div>
+    <img src="./images/azadi.png" class="azadi" !important alt="" style="float:right; display:inline;padding-top:10px;">
+</header><style>
+	#sidebar > ul > li {
+    list-style-type: none;
+    float: right;
+    display: block;
+    margin: 0px -10px 0px 0px;
+    border-right: 1px solid #41bedd;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+}
+
+</style>
+<div id="sidebar">
+<ul>
+	<li class="active"><a href="update.php"> <span>Update/Edit Profile</span></a> </li>
+	<li class="active"><a href="viewuserprofile.php"> <span>View OTR Profile</span></a> </li>	
+	<li class="active"><a href="application-history.php"> <span>Application History</span></a> </li>
+	<li class="active"><a href="app_status.php"><span>Application Status</span></a> </li>
+	<li class="active"><a href="latest-notification.php"> <span>Latest Notification</span></a> </li>
+	<li class="active"><a href="latest-daf.php"> <span>Latest DAF</span></a> </li>
+	<!--<li class="active"><a href="withdraw-notification.php"> <span></span></a> </li>-->
+	<li class="active"><a href="dashboard.php"> <span>Dashboard</span></a> </li>
+	<li class="active"><a href="dashboard.php"> <span>V:115</span></a> </li>
+</ul>
+</div>
+
+<link href="./css/bootstrap.min-5-3.css" rel="stylesheet">
+<style>
+.card {
+    padding: 20px;
+    display: flex;
+    margin-bottom: 15px;
+}
+.heading{
+    color: green; padding: 5px !important; font-size: 16px; font-weight: 600; height: 40px;
+}
+.check_p_add{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+}
+.card.footer{
+    padding: 5px;
+    margin-top: 20px;
+}
+.btn.btn-save-style{
+    width: 40%;
+    font-weight: 600;
+    background-color: #1e9c17 !important;
+}
+
+.btn.btn-save-style:hover{box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);
+-moz-box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);}
+</style><style>
+    .card {
+        padding: 20px;
+        display: flex;
+        margin-bottom: 15px;
+    }
+    .check_p_add{
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 10px;
+    }
+    .card-active {
+            background: rgb(30 156 23 / 33%);
+        }
+        .card-disabled{
+            background: rgb(220 220 220);
+            /* cursor: not-allowed; */
+        }
+        .icon-card-div{
+            flex-direction: row;
+            justify-content: center;
+            gap: 24px;
+            align-items: center;
+        }
+
+        img.icon-card {
+            width: 36px;
+            height: 36px;
+        }
+        .hide-cards {
+            transition: all .3s ease-out;
+            -webkit-transition: all .3s ease-out;
+        }
+        .form-label{
+            font-weight: 600;
+        }
+        input.form-control, select.form-select {
+            border: 2px solid #aba4a4;
+        }
+        .form-check-input[type=radio] {   
+            border-color: #aad3a8 !important;
+        }
+        fieldset {
+        padding: 0 10px 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding-top: 10px;
+        }
+        legend {
+        padding: 2px -3px;
+        font-size: 18px;
+        background-color: #1e9c17;
+        border-radius: 7px;
+        color: #ffffff;
+        margin-bottom:0;
+        }
+        fieldset > legend {
+        text-align: center;
+        margin-top: -25px;
+        }
+        fieldset > legend + * {
+        clear: both;
+        }
+        .list-group .active > a {
+            color: #fff !important;        
+        }
+
+        .list-group .active{
+            background-color: #1a9a12fa;
+        }
+        .list-group{
+            background-color: #f9f9f9;
+        }
+        .list-group > li > a {
+            text-decoration: none;
+            color: blue;
+            font-weight: 600
+        }
+        .custom-sidebarmain{
+            border: 1px solid #cdcdcd;
+            background-color: #f9f9f9;
+        }
+        .readonly{
+            cursor: not-allowed;
+            background: darkgray;
+            font-weight: 600;
+        }
+        .custom-radio{
+            border-bottom-right-radius: 5px !important;
+            border-top-right-radius: 5px !important;
+        }
+        @media screen  and (max-width: 600px) {
+            .card.hide-cards{
+                padding: 0px;
+            }
+        }
+		.note {
+            margin-left: 12px;
+            color: red;
+            font-size: 12px;
+            font-weight: 700;
+        }
+</style>
+
+        <div class="container-fluid" style="padding-top: 60px; background: #eee;">
+            <div class="row">
+			<style>
+	.list-group .active>a {
+		color: #fff !important;
+	}
+
+	.list-group .active {
+		background-color: #1a9a12fa;
+	}
+
+	.list-group {
+		background-color: #f9f9f9;
+	}
+
+	.list-group>li>a {
+		text-decoration: none;
+		color: blue;
+		font-weight: 600
+	}
+
+	.custom-sidebarmain {
+		border: 1px solid #cdcdcd;
+		background-color: #f9f9f9;
+	}
+
+	.list-group-item {
+		display: flex;
+		justify-content: space-between;
+	}
+</style>
+<div class="col-md-3">
+
+	<div class="card heading mb-3" style="background-color:aliceblue;">
+		<h5 class="card-title d-flex justify-content-center" style="color: green; padding: 5px; font-size: 15px;">ADD INFORMATION TO OTR PROFILE<span style="padding-left:10px;"><img src="images/downarrow.png"/></h5></span>
+	</div>
+		<ol class="list-group">
+		<li class="list-group-item"><a href="./personal_info.php">Personal Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>
+		<li class="list-group-item" class="list-group-item"><a href="./address_info.php">Address Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>		
+		<li class="list-group-item"><a href="./uploadpic_info.php">Photo & Sign Upload</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>
+		
+		<li class="list-group-item"><a href="./educational_info.php">Educational Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>
+		<li class="list-group-item"><a href="./uploadfile_info.php">Documents Upload</a><span style="padding-left:10px;"><img src="images/worng.png"/></li>
+		<li class="list-group-item active"><a href="./parental_info.php">Parental Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>			
+		<li class="list-group-item"><a href="./employment_info.php">Employment Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>
+		<li class="list-group-item"><a href="./examination_info.php">UPSC Examination Information</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>		
+		<li class="list-group-item"><a href="./prizes_info.php">Achievement, Prizes, Medals & others</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>		
+		
+					</ol>
+</div>                <div class="col-md-9">
+                    <div class="card heading" style="background-color:aliceblue;">
+                        <div class="card-title d-flex justify-content-center">                    
+                            Parental Information Details                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6"><div class="card text-center fw-bolder icon-card-div card-active" id="fatherdet" onclick="toggleTabs(this);"> <img class="icon-card" src="./img/icons/dad.png" alt="father details"> <span>Father Information</span></div></div>
+                        <div class="col-md-6">
+                            <div class="card text-center fw-bolder icon-card-div card-disabled" id="motherdet" onclick="toggleTabs(this);">
+                                <img class="icon-card" src="./img/icons/mother.png" alt="mother details"> <span>Mother Information</span>
+                            </div>
+                        </div>
+                    </div>
+
+                                                                                                        <style>
+    .view-custom{
+        display: flex;
+        gap: 20px;
+        border: 1px solid #eee;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 600;
+    }
+    .view-custom > label{
+        font-weight: 400;
+    }
+</style>
+<div class="card py-4 hide-cards" data-id="fatherdet">
+		
+    <div class="row"><div class="col-12 d-flex justify-content-end mb-3">
+        <a href="./parental_info.php?show_tab=fatherdet&mode=f_edit" class="btn btn-success">Edit</a>
+    </div></div>
+	    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12 text-center">General Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">            
+                <label for="f_name" class="form-label">Name of Father</label>
+                KRISHNA KUMAR            </div>
+            <!--<div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_alive_or_deceased" class="form-label">Whether Father Alive / Deceased</label>
+                            </div>-->
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_nationality" class="form-label">Nationality of Father</label>
+                Indian            </div>
+            
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_profession" class="form-label">Father's Profession</label>             
+                AGRICULTURE            </div>
+                    </div>
+        
+    </fieldset>
+    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12">Address Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_address" class="form-label">House No. / Apartment / Building / Street / Village</label>
+                    VILLEGE CHANDIPUR                </div>
+            
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_post_office" class="form-label">Post Office</label>
+                    SHIVRAJPUR                </div>
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_city" class="form-label">City</label>
+                    BLOCK MITAULI                </div>
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_state_id" class="form-label">State</label>
+                   
+                    UTTAR PRADESH                   
+                </div>
+                                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_district_id" class="form-label">District</label>
+                    LAKHIMPUR - KHERI                   
+                </div>
+                                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="f_pincode" class="form-label">Pincode</label>
+                    261505                </div>
+        </div>
+    </fieldset>
+    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12">Other Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_post" class="form-label">If your Father is in service, indicate the post held by him / If retired indicate last post held by him</label>
+                NOT APPLICABLE            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_salary" class="form-label">Annual income of your Father (If deceased or no income enter '0')</label>
+                60000            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_state_ori" class="form-label">State to which your Father Originally belongs:</label>
+                UTTAR PRADESH            </div>
+            
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="f_district_ori" class="form-label">District to which your Father Originally belongs:</label>
+                LAKHIMPUR - KHERI            </div>
+                    </div>
+    </fieldset>
+</div>                                                                <style>
+    .view-custom{
+        display: flex;
+        gap: 20px;
+        border: 1px solid #eee;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 600;
+    }
+    .view-custom > label{
+        font-weight: 400;
+    }
+</style>
+<div class="card py-4 hide-cards d-none" data-id="motherdet">
+	    <div class="row"><div class="col-12 d-flex justify-content-end mb-3">
+        <a href="./parental_info.php?show_tab=motherdet&mode=m_edit" class="btn btn-success">Edit</a>
+    </div></div>
+	    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12 text-center">General Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">            
+                <label for="m_name" class="form-label">Name of Mother</label>
+                RAJANI DEVI            </div>
+           <!-- <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_alive_or_deceased" class="form-label">Whether Mother Alive / Deceased</label>
+                            </div>-->
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_nationality" class="form-label">Nationality of Mother</label>
+                Indian            </div>
+            
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_profession" class="form-label">Mother's Profession</label>                
+                OTHERS [PLEASE SPECIFY]            </div>
+                        <div class="col-md-6 col-sm-12 view-custom" data-id="m_profession">
+                <label for="m_profession_other" class="form-label">Mother's Other Profession</label>
+                HOUSEWIFE            </div>
+                    </div>
+        
+    </fieldset>
+    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12">Address Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_address" class="form-label">House No. / Apartment / Building / Street / Village</label>
+                    VILLEGE CHANDIPUR                </div>
+            
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_post_office" class="form-label">Post Office</label>
+                    SHIVRAJPUR                </div>
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_city" class="form-label">City</label>
+                    BLOCK MITAULI                </div>
+
+                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_state_id" class="form-label">State</label>
+                    UTTAR PRADESH                    
+                </div>
+                                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_district_id" class="form-label">District</label>
+                    LAKHIMPUR - KHERI                   
+                </div>
+                                <div class="col-md-6 col-sm-12 view-custom">
+                    <label for="m_pincode" class="form-label">Pincode</label>
+                    261505                </div>
+        </div>
+    </fieldset>
+    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12">Other Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_post" class="form-label">If your Mother is in service, indicate the post held by her / If retired indicate last post held by her</label>
+                NOT APPLICABLE            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_salary" class="form-label">Annual income of your Mother(If deceased or no income enter '0')</label>
+                0            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_state_ori" class="form-label">State to which your Mother originally belongs:</label>
+                UTTAR PRADESH            </div>
+            
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="m_district_ori" class="form-label">District to which your Mother originally belongs:</label>
+                LAKHIMPUR - KHERI            </div>
+                    </div>
+    </fieldset>
+</div>                                    </div>
+                    
+
+            </div>
+                    
+        </div>			
+		<script src="./js/custom-validate.js"></script>
+        <script>
+            //tabs JS
+            const uid = '12400002238923';
+            const hideCards = document.querySelectorAll('.hide-cards');
+            const cardHeadTab = document.querySelectorAll('.icon-card-div'); 
+            
+             //event onchange other select
+            const checkOtherEle = document.querySelectorAll('.check-other');
+            const districtArr = ["4","18","44","78","117","119","148","150","153","168","225","238","259","284","316","331","334","336","389","426","443","455","467","480","511","516","539","573","578","617","651","672","753","777","165"];
+            const otherField = {'f_nationality': 2, 'f_profession': 15, 'm_nationality': 2, 'm_profession': 15, 'f_state_id': 99, 'f_district_id': districtArr, 'm_state_id': 99, 'm_district_id': districtArr, 'f_state_ori': 99, 'f_district_ori': districtArr, 'm_state_ori': 99, 'm_district_ori': districtArr};
+
+            const loopCardHeadTabs = (ele) => {
+                cardHeadTab.forEach((item, i) => {
+                    item.classList.remove('card-active');
+                    item.classList.add('card-disabled');
+                })
+                ele.classList.add('card-active');
+                ele.classList.remove('card-disabled');
+            }
+
+                            let showTab = 'fatherdet';
+                let toggleEle = document.getElementById(showTab);
+                toggleTabs(toggleEle);
+            
+            function toggleTabs(e){
+                const dataEle = e.id;
+                const cardToShow = document.querySelector(`[data-id="${dataEle}"]`);
+                hideCards.forEach((card, ind) => {
+                    card.classList.add('d-none');
+                })
+                loopCardHeadTabs(e);
+                cardToShow.classList.remove('d-none');
+            }
+
+            // remove alert after 5secs
+            const alertEles = document.querySelectorAll('.alert');
+            alertEles.forEach((alert, indd) => {
+                if(alert.classList.contains('settimeout')){
+                    setInterval(()=> {
+                        alert.remove();
+                    }, 10000)
+                }
+            })
+
+
+            async function dataAsync(params){
+               
+               try {
+                   const response = await fetch('./ajax_fetch_address_details.php', params);
+                   const data = await response.json();                
+                   return data;
+                   
+               } catch (error) {                
+                   console.error(error);
+               }
+           }
+
+        
+
+            //get district ajax
+
+            let fetchStatus = false;
+            const controller = new AbortController();
+            const signal = controller.signal;
+
+
+            function fetchCandidateAddress(type, field){
+                //console.log(type, field);
+                if((type == 'reset')){                   
+                    const allCheckedReset = document.querySelectorAll(`.${field}check`);                    
+                    allCheckedReset.forEach((ele, ind) => {                        
+                        ele.removeAttribute('checked');
+                    })
+
+                    document.getElementById(`${field}address`).value = '';
+                    document.getElementById(`${field}post_office`).value = '';
+                    document.getElementById(`${field}city`).value = '';
+                    document.getElementById(`${field}state_id`).value = '';
+                    document.getElementById(`${field}district_id`).value = '';
+                    document.getElementById(`${field}pincode`).value = '';
+                    return true;
+                }
+
+                var reType = '';
+                switch(type){
+                    case 'corr':
+                        reType = 'c_';
+                        break;
+                    case 'perm':
+                        reType = 'p_';
+                        break;
+                    case 'fath':
+                        reType = 'f_';
+                        break;
+                }
+
+                //const reType = (type == 'corr') ? 'c_' : 'p_';
+                const data = {'type': type, uid, 'task': 'get_address'};
+                
+                const params = {signal, method: 'POST', body: JSON.stringify(data)};
+                dataAsync(params).then((returnData) => {
+                    //f_address f_post_office f_city f_state f_district f_pincode    
+                    document.getElementById(`${field}address`).value = returnData[`${reType}address`];
+                    document.getElementById(`${field}post_office`).value = returnData[`${reType}post_office`];
+                    document.getElementById(`${field}city`).value = returnData[`${reType}city`];
+                    document.getElementById(`${field}pincode`).value = returnData[`${reType}pincode`]
+                    const statE = document.getElementById(`${field}state_id`);
+                    statE.value = returnData[`${reType}state_id`];                    
+                    document.getElementById(`${field}district_id`).value = getDistrict(statE, `${field}district_id`, returnData[`${reType}district_id`]);
+                   
+                    checkOtherHideEle(`${field}district_id`, returnData)                   
+                    
+                    
+                }).catch((error) => {
+                    console.log(error)
+                })
+
+            }
+
+            
+            
+            
+            
+            
+            
+            
+            
+            async function htmlContentsAsync(params){
+                fetchStatus = true;
+                try {
+                    const response = await fetch('./ajax_functions.php', params);
+                    const text = await response.text();                
+                    return text;
+                    
+                } catch (error) {                
+                    console.error(error);
+                }
+            }
+
+        function getDistrict(ele, $eleId, $cvalue = ''){            
+            const state = ele.value;
+            
+            const data = {'state': state, 'district': $cvalue, 'task': 'select_district_state'};
+            
+            const params = {signal, method: 'POST', body: JSON.stringify(data)};
+            htmlContentsAsync(params).then((returnData) => {    
+                document.getElementById($eleId).innerHTML = returnData;                
+            }).catch((error) => {
+                console.log(error)
+            })
+            
+        }
+
+        function abortFetching(){
+            console.log('Now aborting');
+            controller.abort();
+        }
+
+       
+
+        
+
+                    var savedDataF = '';
+                
+
+        if(savedDataF){
+            for(const property in savedDataF) {               
+                if(otherField.hasOwnProperty(property)){
+                    checkOtherHideEle(property, savedDataF)
+                }                
+            }
+        }
+
+                    const savedDataM = '';
+        
+        if(savedDataM){
+            for(const property in savedDataM) {               
+                if(otherField.hasOwnProperty(property)){
+                    checkOtherHideEle(property, savedDataM)
+                }                
+            }
+        }
+
+        
+                    const isPost = '';
+        
+
+        if(isPost){
+            for(const property in isPost) {
+                if(otherField.hasOwnProperty(property)){
+                    checkOtherHideEle(property, isPost)
+                }                
+            }
+        }
+
+        function checkOtherHideEle(property, Data){
+            let eleToHide = document.querySelector(`[data-id=${property}]`);
+            //console.log(otherField[property]);  
+            if(Array.isArray(otherField[property]) && otherField[property].includes(Data[property])){                        
+                eleToHide.classList.remove('d-none');
+            }else if(Data[property] == otherField[property]){                       
+                eleToHide.classList.remove('d-none');
+            }else{
+                eleToHide.classList.add('d-none'); 
+            }
+        }
+        
+        
+        checkOtherEle.forEach(otherCall)
+
+        function otherCall(item, index){
+            item.addEventListener('change', (e) => {
+                let attrId = item.id;
+                let changeValue = item.value;
+                let eleToHide = document.querySelector(`[data-id=${attrId}]`);
+				//console.log(attrId, changeValue); 
+                if(Array.isArray(otherField[attrId]) && otherField[attrId].includes(item.value)){
+                    eleToHide.classList.remove('d-none');
+                }else if(item.value == otherField[attrId]){
+                    eleToHide.classList.remove('d-none');
+                }else{
+                    eleToHide.classList.add('d-none');
+                }
+            })
+        }
+
+        function onChangeOther(ele){
+            const idCheck = ele.id;
+            const changedValue = ele.value;           
+            let eleToHide = document.querySelector(`[data-id=${idCheck}]`);
+				 
+            if(Array.isArray(otherField[idCheck]) && otherField[idCheck].includes(changedValue)){
+                eleToHide.classList.remove('d-none');
+            }else if(changedValue == otherField[idCheck]){
+                eleToHide.classList.remove('d-none');
+            }else{
+                eleToHide.classList.add('d-none');
+            }
+        }
+		
+    </script>
+        

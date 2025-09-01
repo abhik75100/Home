@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर — उन्नत</title>
+
+<!-- CSS (neumorphic inspired) -->
+<style>
+  *{box-sizing:border-box;font-family:'Segoe UI',sans-serif}
+  body{background:#e0e5ec;padding:20px}
+  .container{max-width:1100px;margin:auto;background:#e0e5ec;padding:2rem;border-radius:20px;
+    box-shadow:10px 10px 30px #bec3c9,-10px -10px 30px #fff}
+  h2{text-align:center;margin-bottom:18px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+  input[type="text"], input[type="file"], select{
+    padding:10px;border-radius:12px;border:none;background:#e0e5ec;
+    box-shadow:inset 3px 3px 6px #bec3c9,inset -3px -3px 6px #fff;width:220px
+  }
+  button{padding:10px 14px;border-radius:12px;border:none;background:#28a745;color:#fff;cursor:pointer}
+  button.ghost{background:#17a2b8}
+  button.warn{background:#dc3545}
+  button.small{padding:8px 10px;font-size:0.95rem}
+  .controls{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:14px}
+  table{width:100%;border-collapse:collapse;margin-top:12px;background:#fff;border-radius:12px;overflow:hidden;
+    box-shadow:3px 3px 6px #bec3c9,-3px -3px 6px #fff}
+  th,td{border:1px solid #ddd;padding:10px;text-align:left}
+  th{background:#007bff;color:#fff;vertical-align:middle}
+  .icon-btn{background:none;border:none;font-size:1.05rem;cursor:pointer;padding:4px}
+  .edit-icon{color:#d39e00}
+  .del-icon{color:#b02a37}
+  .small-muted{font-size:0.85rem;color:#666}
+  #total-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+  .file-row{display:flex;gap:8px;align-items:center}
+  .center{text-align:center}
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर — उन्नत</h2>
+
+  <!-- COLUMN MANAGEMENT -->
+  <div class="row">
+    <input id="bulk-columns" type="text" placeholder="कॉलम नाम (comma से अलग करके): उदाहरण: पता,जन्मतिथि" />
+    <button id="add-bulk-cols">कॉलम(ब्लॉक) जोड़ें</button>
+
+    <input id="new-column-single" type="text" placeholder="एक कॉलम नाम डालें" />
+    <button id="add-col-single">एक कॉलम जोड़ें</button>
+
+    <button id="delete-selected-cols" class="warn small">चयनित कॉलम हटाएं</button>
+    <span class="small-muted">(हेडर में चेकबॉक्स से चुनें)</span>
+  </div>
+
+  <!-- ROW MANAGEMENT -->
+  <div class="row">
+    <button id="add-row">पंक्ति जोड़ें</button>
+    <button id="delete-selected-rows" class="warn">चयनित पंक्तियाँ हटाएं</button>
+    <span class="small-muted">(रेकॉर्ड्स चुनने के लिए पहले कॉलम के checkbox का प्रयोग करें)</span>
+  </div>
+
+  <!-- IMPORT / EXPORT -->
+  <div class="row file-row">
+    <input id="csv-file-input" type="file" accept=".csv,text/csv" />
+    <button id="import-csv" class="small">CSV इम्पोर्ट</button>
+
+    <button id="export-csv" class="small ghost">CSV एक्सपोर्ट (Excel खोल सकता है)</button>
+    <button id="export-img" class="small ghost">टेबल इमेज डाउनलोड</button>
+    <button id="print-table" class="small">टेबल प्रिंट</button>
+    <button id="export-pdf" class="small">PDF डाउनलोड</button>
+    <button id="send-whatsapp" class="small" style="background:#25d366">WhatsApp भेजें</button>
+  </div>
+
+  <!-- TABLE -->
+  <div style="overflow:auto;">
+    <table id="data-table">
+      <thead id="table-head"></thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+  <div id="total-actions" class="center">
+    <div class="small-muted">नोट: टेबल में सीधे क्लिक करके सेल एडिट करें — बाहर क्लिक (blur) पर सेव होगा।</div>
+  </div>
+</div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- Main JS -->
+<script>
+  // Initial state
+  let columns = ['Select','नाम','संपर्क नंबर']; // first column 'Select' for row-checkbox
+  let data = []; // array of objects, each object has keys per column (except 'Select')
+  let selectedRowFlags = []; // parallel flags for selected rows
+
+  // DOM refs
+  const headEl = document.getElementById('table-head');
+  const bodyEl = document.getElementById('table-body');
+  const bulkColsInput = document.getElementById('bulk-columns');
+  const addBulkColsBtn = document.getElementById('add-bulk-cols');
+  const newColInput = document.getElementById('new-column-single');
+  const addSingleColBtn = document.getElementById('add-col-single');
+  const deleteSelectedColsBtn = document.getElementById('delete-selected-cols');
+  const addRowBtn = document.getElementById('add-row');
+  const deleteSelectedRowsBtn = document.getElementById('delete-selected-rows');
+  const csvInput = document.getElementById('csv-file-input');
+  const importCsvBtn = document.getElementById('import-csv');
+  const exportCsvBtn = document.getElementById('export-csv');
+  const exportImgBtn = document.getElementById('export-img');
+  const printTableBtn = document.getElementById('print-table');
+  const exportPdfBtn = document.getElementById('export-pdf');
+  const sendWhatsappBtn = document.getElementById('send-whatsapp');
+
+  // UTIL: render table head & body
+  function renderTable(){
+    // head: include checkbox for each removable column (except 'Select' col)
+    let headHtml = '<tr>';
+    columns.forEach((col, idx)=>{
+      if(idx===0){
+        headHtml += `<th style="width:60px"><input id="select-all-rows" type="checkbox" title="सभी पंक्तियाँ चुनें"></th>`;
+      } else {
+        headHtml += `<th><label style="display:flex;align-items:center;justify-content:space-between">
+          <span>${col}</span>
+          <input type="checkbox" class="col-delete-checkbox" data-col-index="${idx}" title="इस कॉलम को चुनकर नीचे हटाएं" />
+        </label></th>`;
+      }
+    });
+    headHtml += '<th style="min-width:120px">क्रियाएँ</th></tr>';
+    headEl.innerHTML = headHtml;
+
+    // body
+    bodyEl.innerHTML = '';
+    data.forEach((rowObj, rIdx)=>{
+      const isSelected = !!selectedRowFlags[rIdx];
+      let tr = document.createElement('tr');
+      // first cell: row select checkbox
+      let rowHtml = `<td><input class="row-select" data-row="${rIdx}" type="checkbox" ${isSelected ? 'checked':''}></td>`;
+      // other columns
+      for(let c=1;c<columns.length;c++){
+        const colName = columns[c];
+        const val = rowObj[colName] ?? '';
+        // make contenteditable cells
+        rowHtml += `<td contenteditable="true" data-row="${rIdx}" data-col="${escapeHtml(colName)}">${escapeHtml(val)}</td>`;
+      }
+      // actions cell: edit (focus cell) and delete row
+      rowHtml += `<td>
+        <button class="icon-btn edit-icon" title="row सेल एडिट करें" onclick="focusFirstCell(${rIdx})">✏</button>
+        <button class="icon-btn del-icon" title="row हटाएं" onclick="deleteRow(${rIdx})">❌</button>
+      </td>`;
+      tr.innerHTML = rowHtml;
+      bodyEl.appendChild(tr);
+    });
+
+    // hooks: select all rows
+    const selectAllRows = document.getElementById('select-all-rows');
+    selectAllRows && (selectAllRows.onchange = (e)=> {
+      const checked = e.target.checked;
+      for(let i=0;i<selectedRowFlags.length;i++) selectedRowFlags[i]=checked;
+      renderTable();
+    });
+
+    // row-select checkboxes
+    document.querySelectorAll('.row-select').forEach(ch=>{
+      ch.onchange = (ev)=> {
+        const row = +ev.target.dataset.row;
+        selectedRowFlags[row] = ev.target.checked;
+      };
+    });
+
+    // contenteditable blur handler: update data model
+    document.querySelectorAll('[contenteditable="true"]').forEach(cell=>{
+      cell.onblur = (ev)=>{
+        const r = +ev.target.dataset.row;
+        const col = unescapeHtml(ev.target.dataset.col);
+        const txt = ev.target.innerText.trim();
+        data[r][col] = txt;
+      };
+      // handle Enter to stop editing (prevent newline)
+      cell.onkeydown = (ev)=>{
+        if(ev.key==='Enter'){ ev.preventDefault(); cell.blur(); }
+      };
+    });
+
+    // column delete checkboxes are just present; deletion happens on button click
+  }
+
+  // helpers
+  function escapeHtml(str){
+    if(str==null) return '';
+    return String(str).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+  }
+  function unescapeHtml(s){ return s.replaceAll('&amp;','&').replaceAll('&lt;','<').replaceAll('&gt;','>'); }
+
+  // Add columns (bulk)
+  addBulkColsBtn.onclick = ()=>{
+    const text = bulkColsInput.value.trim();
+    if(!text) return alert('कृपया कम से कम एक कॉलम नाम डालें (comma से अलग करें)।');
+    const parts = text.split(',').map(p=>p.trim()).filter(Boolean);
+    parts.forEach(p=>{
+      if(!columns.includes(p)) columns.push(p);
+    });
+    bulkColsInput.value='';
+    // For existing rows, initialize new keys
+    data.forEach(row => parts.forEach(p=>row[p]=''));
+    renderTable();
+  };
+
+  // Add single column
+  addSingleColBtn.onclick = ()=>{
+    const name = newColInput.value.trim();
+    if(!name) return alert('कॉलम नाम डालें');
+    if(columns.includes(name)) return alert('ये कॉलम पहले से है');
+    columns.push(name);
+    data.forEach(row=>row[name]='');
+    newColInput.value='';
+    renderTable();
+  };
+
+  // Delete selected columns
+  deleteSelectedColsBtn.onclick = ()=>{
+    const checked = Array.from(document.querySelectorAll('.col-delete-checkbox'))
+      .filter(ch=>ch.checked).map(ch=>+ch.dataset.colIndex);
+    if(checked.length===0) return alert('कृपया हटाने के लिए कॉलम चुनें');
+    if(!confirm('चुने हुए कॉलम और उनके डेटा को स्थायी रूप से हटाना है?')) return;
+    // remove columns by index (descending order to keep indexes valid)
+    checked.sort((a,b)=>b-a).forEach(idx=>{
+      const colName = columns[idx];
+      columns.splice(idx,1);
+      // remove from each data row
+      data.forEach(row=> delete row[colName]);
+    });
+    renderTable();
+  };
+
+  // Add row
+  addRowBtn.onclick = ()=>{
+    const newRow = {};
+    for(let c=1;c<columns.length;c++) newRow[columns[c]] = '';
+    data.push(newRow);
+    selectedRowFlags.push(false);
+    renderTable();
+    // focus first new cell
+    setTimeout(()=>{ focusFirstCell(data.length-1); },50);
+  };
+
+  // Delete single row
+  window.deleteRow = function(idx){
+    if(!confirm('क्या आप वाकई यह पंक्ति हटाना चाहते हैं?')) return;
+    data.splice(idx,1);
+    selectedRowFlags.splice(idx,1);
+    renderTable();
+  };
+
+  // Delete selected rows (bulk)
+  deleteSelectedRowsBtn.onclick = ()=>{
+    const toDelete = [];
+    selectedRowFlags.forEach((v,i)=>{ if(v) toDelete.push(i); });
+    if(toDelete.length===0) return alert('कृपया हटाने के लिए पंक्तियाँ चुनें।');
+    if(!confirm(`आप ${toDelete.length} पंक्तियाँ हटाना चाहते हैं?`)) return;
+    // delete descending
+    toDelete.sort((a,b)=>b-a).forEach(i=>{
+      data.splice(i,1);
+      selectedRowFlags.splice(i,1);
+    });
+    renderTable();
+  };
+
+  // focus first editable cell of a row
+  window.focusFirstCell = function(rowIdx){
+    const cell = document.querySelector(`[contenteditable][data-row="${rowIdx}"]`);
+    if(cell){ cell.focus(); /* place caret at end */ document.execCommand('selectAll',false,null); document.getSelection().collapseToEnd(); }
+  };
+
+  // CSV Export
+  exportCsvBtn.onclick = ()=>{
+    if(columns.length<=1){ return alert('कोई डेटा नहीं'); }
+    const rows = [];
+    const header = columns.slice(1); // exclude 'Select'
+    rows.push(header.join(','));
+    data.forEach(row=>{
+      const vals = header.map(h=>`"${(row[h] ?? '').replaceAll('"','""')}"`);
+      rows.push(vals.join(','));
+    });
+    const csv = rows.join('\n');
+    const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'data_export.csv';
+    link.click();
+  };
+
+  // CSV Import
+  importCsvBtn.onclick = ()=>{
+    const file = csvInput.files[0];
+    if(!file) return alert('कृपया CSV फाइल चुनें');
+    const reader = new FileReader();
+    reader.onload = e=>{
+      const txt = e.target.result;
+      parseCSVToTable(txt);
+    };
+    reader.readAsText(file,'utf-8');
+  };
+
+  function parseCSVToTable(csvText){
+    // Simple CSV parse (handles quoted fields)
+    const lines = csvText.split(/\r?\n/).filter(l=>l.trim()!=='');
+    if(lines.length===0) return alert('CSV खाली है');
+    const header = splitCsvLine(lines[0]).map(h=>h.trim());
+    const newCols = ['Select', ...header];
+    columns = newCols;
+    data = [];
+    selectedRowFlags = [];
+    for(let i=1;i<lines.length;i++){
+      const cols = splitCsvLine(lines[i]);
+      const obj = {};
+      for(let j=0;j<header.length;j++) obj[header[j]] = cols[j] ?? '';
+      data.push(obj); selectedRowFlags.push(false);
+    }
+    renderTable();
+    alert('CSV इम्पोर्ट पूरा हुआ।');
+  }
+
+  function splitCsvLine(line){
+    const res=[]; let cur=''; let inQuotes=false;
+    for(let i=0;i<line.length;i++){
+      const ch=line[i];
+      if(ch==='"' ){
+        if(inQuotes && line[i+1]==='"'){ cur+='\"'; i++; }
+        else inQuotes = !inQuotes;
+      } else if(ch===',' && !inQuotes){ res.push(cur); cur=''; }
+      else cur+=ch;
+    }
+    res.push(cur);
+    return res.map(s=>s.replaceAll(/^"|"$/g,'')); // trim surrounding quotes
+  }
+
+  // Export table as image (PNG)
+  exportImgBtn.onclick = ()=>{
+    const table = document.getElementById('data-table');
+    html2canvas(table, {scale:2}).then(canvas=>{
+      const link = document.createElement('a');
+      link.download = 'table_image.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(e=>alert('इमेज जनरेट में त्रुटि: '+e.message));
+  };
+
+  // Print JUST table
+  printTableBtn.onclick = ()=>{
+    const html = `
+      <html><head><title>Print</title>
+        <style>table{width:100%;border-collapse:collapse}th,td{border:1px solid #ddd;padding:8px;text-align:left}th{background:#007bff;color:#fff}</style>
+      </head><body>${document.getElementById('data-table').outerHTML}</body></html>`;
+    const w = window.open('','_blank','width=900,height=700');
+    w.document.open(); w.document.write(html); w.document.close();
+    w.focus();
+    setTimeout(()=> w.print(), 300);
+  };
+
+  // Export PDF (simple text layout)
+  exportPdfBtn.onclick = ()=>{
+    if(data.length===0) return alert('कोई डेटा उपलब्ध नहीं है!');
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({unit:'pt',format:'a4'});
+    doc.setFontSize(16);
+    doc.text('पर्सनल डेटा रिपोर्ट', 40, 40);
+    doc.setFontSize(10);
+    const startX = 40, startY = 70;
+    const colWidth = Math.max(60, (520 / Math.max(1, columns.length-1))); // distribute
+    let y = startY;
+    // header
+    columns.slice(1).forEach((c,i)=> doc.text(String(c).slice(0,15), startX + i*colWidth, y));
+    y += 18;
+    data.forEach(row=>{
+      columns.slice(1).forEach((c,i)=>{
+        let txt = (row[c] ?? '').toString();
+        if(txt.length>18) txt = txt.slice(0,18)+'...';
+        doc.text(txt, startX + i*colWidth, y);
+      });
+      y += 16;
+      if(y>750){ doc.addPage(); y=40; }
+    });
+    doc.save('data_report.pdf');
+  };
+
+  // WhatsApp send: simple text summary
+  sendWhatsappBtn.onclick = ()=>{
+    if(data.length===0) return alert('कोई डेटा उपलब्ध नहीं है!');
+    let msg = 'पर्सनल डेटा रिपोर्ट:\n';
+    const headers = columns.slice(1);
+    msg += headers.join(' | ') + '\n';
+    data.forEach(row=>{
+      const line = headers.map(h=> (row[h] ?? '') ).join(' | ');
+      msg += line + '\n';
+    });
+    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(msg);
+    window.open(waUrl,'_blank');
+  };
+
+  // initial small sample row
+  (function initSample(){
+    // keep 'Select' column at index 0 fixed
+    data.push({'नाम':'अभिषेक','संपर्क नंबर':'9876543210'}); selectedRowFlags.push(false);
+    data.push({'नाम':'सीमा','संपर्क नंबर':'9123456780'}); selectedRowFlags.push(false);
+    renderTable();
+  })();
+
+  // Allow CSV file selection by pressing Enter on file input with button
+  csvInput.addEventListener('change', ()=> { /* file chosen */ });
+
+  // Prevent accidental navigation away (if data exists) — optional
+  window.addEventListener('beforeunload', (e)=>{
+    if(data.length>0){ e.preventDefault(); e.returnValue='आपका डेटा सेव नहीं हुआ। बाहर जा रहे हैं?'; }
+  });
+
+  // expose utilities for debugging (optional)
+  window.__app = { columns, data };
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AKTU One View — Full Candidate Profile</title>
+<style>
+:root{
+ --aktu-maroon:#800000;
+ --head-text:#fff;
+ --row-alt:#fbf7f7;
+ --border:#4a2a2a;
+ --muted:#333;
+ --summary-bg:#ffe0e6;
+}
+*{box-sizing:border-box; font-family:'Segoe UI', Roboto, Arial, sans-serif;}
+body{margin:0; background:#fff; -webkit-print-color-adjust:exact; print-color-adjust:exact;}
+
+/* Header */
+.header-wrap{
+ background:var(--aktu-maroon);
+ color:var(--head-text);
+ padding:14px 18px;
+ display:flex;
+ align-items:center;
+ gap:12px;
+ flex-wrap:nowrap;
+}
+.header-wrap img{
+ display:block;
+ width:clamp(40px,15vw,60px);
+ height:clamp(40px,15vw,60px);
+ object-fit:cover;
+ border-radius:8px;
+ cursor:pointer;
+ flex-shrink:1;
+}
+.header-wrap .header-text{
+ flex:1 1 auto;
+ min-width:0;
+ overflow:hidden;
+ text-overflow:ellipsis;
+ white-space:nowrap;
+}
+.header-wrap .header-text h1{margin:0;font-size:20px;font-weight:800;}
+.header-wrap .header-text p{margin:2px 0 0; font-size:13px;color:#ffeaea;}
+
+/* Container and controls */
+.container{max-width:1200px;margin:16px auto;padding:12px;}
+.controls{display:flex; gap:8px; align-items:center; margin-bottom:12px; flex-wrap:wrap;}
+.btn{background:var(--aktu-maroon); color:white; border:0; padding:8px 10px; border-radius:6px; cursor:pointer; font-weight:700;}
+.btn.secondary{background:transparent; color:var(--aktu-maroon); border:1px solid rgba(128,0,0,0.12);}
+.note{color:var(--muted); font-size:13px; margin-left:8px;}
+details{margin-bottom:12px; border-radius:6px; overflow:hidden; border:1px solid rgba(0,0,0,0.06); margin:0 auto;}
+summary{
+ background:var(--summary-bg);
+ padding:10px 12px;
+ display:flex;
+ justify-content:space-between;
+ gap:12px;
+ align-items:center;
+ cursor:pointer;
+ font-weight:800;
+ flex-wrap:wrap;
+}
+summary .meta{color:var(--muted); font-size:13px;}
+.table-actions{
+ padding:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+ border-bottom:1px solid rgba(0,0,0,0.04);
+ background: darkblue;
+}
+.table-actions button {
+ background: linear-gradient(#ffffff, #d9d9d9, hotpink);
+ color: blue;
+ border: 1px solid #888;
+ padding: 6px 14px;
+ font-weight: bold;
+ cursor: pointer;
+ border-radius: 6px;
+ box-shadow: 0 4px #666;
+ transition: all 0.2s ease;
+}
+.table-actions button:active {
+ box-shadow: 0 2px #444;
+ transform: translateY(2px);
+}
+table{
+ width:100%; border-collapse:collapse; margin:auto;
+ padding:5px auto; 
+ display:block; overflow-x:auto;
+}
+th, td{
+ border:1px solid var(--border);
+ padding:6px 8px;
+ font-size:13px;
+ vertical-align:middle;
+ color:#000;
+ font-weight:400;
+}
+th{
+ background:var(--aktu-maroon);
+ color:var(--head-text);
+ font-weight:700;
+ box-shadow: 2px 4px 6px greenyellow;
+ text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+}
+tr:nth-child(even) {
+ background: var(--row-alt);
+ box-shadow: inset 0px 1px 2px rgba(255,255,255,0.6),
+ inset 0px -1px 2px rgba(0,0,0,0.4);
+}
+td[contenteditable="true"], th[contenteditable="true"] {
+ outline: none;
+ cursor: text;
+ box-shadow: 0px 2px 4px rgba(0,0,0,0.3),
+ inset 0px 1px 1px rgba(255,255,255,0.7);
+ text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+ padding: 6px;
+}
+.cell-text{font-size:13px; color:#000; font-weight:400;}
+.cell-text:empty:before {
+ content: attr(data-placeholder);
+ color: #999;
+ font-style: italic;
+ pointer-events: none;
+}
+td.img-cell{text-align:center; min-width:108px;}
+img.passport{width:84px; height:104px; object-fit:cover; border-radius:4px; display:block; margin:0px auto;}
+.selected-cell{box-shadow: inset 0 0 0 3px rgba(128,0,0,0.12);}
+.file-input{display:none;}
+
+/* Student info - 3 columns layout */
+.info-container{
+ display:flex;
+ flex-wrap:nowrap;
+ gap:16px;
+ background:#f3f0f0;
+ padding:12px;
+ border-radius:10px;
+ overflow-x:auto; /* horizontal scroll if screen too small */
+}
+.info-column{
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+ flex:0 0 33.33%;
+ min-width:200px;
+}
+.info-column.image-column{
+ justify-content:center;
+ align-items:center;
+}
+.info-column.image-column img{
+ width:100%;
+ max-width:190px;
+ height:auto;
+ border-radius:8px;
+}
+
+
+
+/* Print */
+@media print {
+  /* बटन और action-cell छुपाने के लिए */
+  .no-print,
+  .action-cell,
+  button,
+  input[type="button"],
+  input[type="submit"] {
+    display: none !important;
+  }
+
+  /* खाली सेल छुपाने के लिए */
+  td:empty,
+  th:empty {
+    display: none !important;
+  }
+
+  /* बाकी लेआउट वैसा ही रखने के लिए */
+  body { margin:0; }
+  .container { padding:0; margin:0; max-width:100%; }
+}
+
+/* Mobile adjustments - keep same 3 columns, horizontal scroll if needed */
+@media(max-width:768px){
+  .header-wrap .header-text h1{font-size:18px;}
+  th, td{font-size:12px; padding:5px;}
+  .btn{padding:6px 8px;}
+  .info-container{flex-wrap:nowrap;}
+  .info-column{flex:0 0 33.33%;}
+}
+
+</style>
+
+</head>
+<body>
+<div>
+  <!--Tab to edit-->
+
+<div class="header-wrap">
+  <img id="collegeLogo" src="" alt="College Logo" onclick="uploadCollegeLogo()">
+  <div class="header-text">
+    <h1 contenteditable="true">AKTU University</h1>
+    <p contenteditable="true">Designed & Developed by AKTU-SDC Team</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="info-container">
+
+    <!-- Left Column (first 3 fields) -->
+    <div class="info-column">
+      <label>Student Name</label>
+      <input type="text" id="studentName" value="HIMANSHI DEVI">
+      <label>Enrollment No.</label>
+      <input type="text" id="enrollmentNo" value="123456789">
+      <label>Course</label>
+      <input type="text" id="course" value="B.Tech CSE">
+    </div>
+
+    <!-- Middle Column (next 3 fields) -->
+    <div class="info-column">
+      <label>Father Name</label>
+      <input type="text" id="fatherName" 
+      value="Rajiv Kumar">
+      <label>Mother Name</label>
+      <input type="text" id="motherName" 
+      value="Sarla Devi">
+      <label>Date of Birth</label>
+      <!--
+      <input type="date" id="dob"
+      value="09/07/2001">
+      -->
+      <input type="text" placeholder="09/07/2001" 
+       onfocus="(this.type='date')" onblur="if(!this.value) this.type='text';">
+
+    </div>
+
+    <!-- Right Column (Photo) -->
+<div class="info-column image-column" 
+     style="display:flex; flex-direction:column; align-items:center; border:1px solid #ccc; padding:0; margin:0px auto; border-radius:14px; background:gainsboro; width:100%;">
+  <label style=" width:100%; text-align:center; padding:4px 0;">Photo</label>
+  <img id="studentPhoto" src=""
+       style="width:100%; height:auto; object-fit:contain; border:1px solid #999; border-radius:15px; cursor:pointer;"
+       onclick="uploadStudentPhoto()">
+</div>
+
+
+  </div>
+</div>
+
+
+  <div class="controls">
+    <button class="btn" onclick="window.print()">Print</button>
+    <button class="btn" onclick="exportAsImage()">Export as Image</button>
+    <button class="btn" onclick="addSection()">+ Add Section</button>
+  </div>
+
+  <div id="sectionsRoot"></div>
+</div>
+
+  <!--Tab to edit-->
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+// Sample data
+const semesters=["SEM 1","SEM 2","SEM 3","SEM 4","SEM 5","SEM 6"];
+const subjects=[
+  [["CS101","Programming Basics","30","50","80","A+"],["MA101","Mathematics I","28","45","73","A"]],
+  [["CS102","Data Structures","32","48","80","A+"],["MA102","Mathematics II","26","44","70","A"]],
+  [["CS201","OOP","28","49","77","A+"],["MA201","Discrete Math","25","46","71","A"]],
+  [["CS202","DBMS","29","50","79","A+"],["MA202","Statistics","27","45","72","A"]],
+  [["CS301","OS","30","48","78","A+"],["CS302","Networking","29","46","75","A+"]],
+  [["CS401","Compiler Design","28","49","77","A+"],["CS402","AI","29","50","79","A+"]]
+];
+
+// Section creation
+function createSemesterSection(title, data){
+  const details=document.createElement('details');
+  const summary=document.createElement('summary');
+  summary.contentEditable="true";
+  summary.innerHTML=`<span class="title">${title}</span><span class="meta">Details</span>`;
+  details.appendChild(summary);
+
+  const actions=document.createElement('div');
+  actions.className='table-actions';
+  actions.innerHTML=`
+    <button onclick="addRow(this)">+ Row</button>
+    <button onclick="deleteRow(this)">Delete Row</button>
+    <button onclick="addColumn(this)">+ Column</button>
+    <button onclick="deleteColumn(this)">Delete Column</button>
+    <button onclick="duplicateSection(this)">Duplicate Section</button>
+    <button onclick="removeSection(this)">Remove Section</button>
+  `;
+  details.appendChild(actions);
+
+  const table=document.createElement('table');
+  const thead=document.createElement('tr');
+  ["Subject Code","Subject Name","Internal","External","Total","Grade","Photo"].forEach(h=>{
+    const th=document.createElement('th');
+    th.textContent=h;
+    th.contentEditable="true";
+    th.classList.add("cell-text");
+    thead.appendChild(th);
+  });
+  table.appendChild(thead);
+
+  data.forEach(sub=>{
+    const tr=document.createElement('tr');
+    sub.forEach(val=>{
+      const td=document.createElement('td');
+      td.contentEditable="true";
+      td.textContent=val;
+      td.classList.add("cell-text");
+      tr.appendChild(td);
+    });
+    const tdPhoto=document.createElement('td'); 
+    tdPhoto.className='img-cell cell-text';
+    tr.appendChild(tdPhoto);
+    table.appendChild(tr);
+  });
+  details.appendChild(table);
+  return details;
+}
+
+function renderSemesters(){
+  const root=document.getElementById('sectionsRoot');
+  root.innerHTML='';
+  semesters.forEach((sem,i)=>{
+    root.appendChild(createSemesterSection(sem, subjects[i]));
+  });
+}
+
+function addRow(btn){
+  const table=btn.closest('details').querySelector('table');
+  const row=table.insertRow(-1);
+  const cols=table.rows[0].cells.length;
+  for(let i=0;i<cols;i++){
+    const cell=row.insertCell();
+    cell.contentEditable="true";
+    cell.classList.add("cell-text");
+    if(i===cols-1) cell.classList.add('img-cell');
+  }
+}
+
+// --- Final Correct addColumn ---
+function addColumn(btn){
+  const table=btn.closest('details').querySelector('table');
+  const rows = table.querySelectorAll('tr');
+  // add header th
+  const th=document.createElement('th');
+  th.textContent="New Column";
+  th.contentEditable="true";
+  th.classList.add("cell-text");
+  th.style.background="var(--aktu-maroon)";
+  th.style.color="white";
+  th.style.fontWeight="700";
+  rows[0].appendChild(th);
+  
+  // add cells
+  for(let i=1;i<rows.length;i++){
+    const td=document.createElement('td');
+    td.setAttribute("data-placeholder", "input text here"); // placeholder
+   // td.textContent="data";
+    td.contentEditable="true";
+    td.classList.add("cell-text");
+      td.style.color = "green";
+  td.style.fontWeight = "400";
+  td.style.fontSize = "13px";
+  // inline style केवल user input ke liye, placeholder पर ये नहीं affect होगा
+  td.addEventListener('focus', () => {
+    td.style.color = "blue";
+    td.style.fontWeight = "490";
+    td.style.fontSizet = "13px";
+  });
+    rows[i].appendChild(td);
+  }
+}
+
+function deleteRow(btn){
+  const table=btn.closest('details').querySelector('table');
+  if(table.rows.length>1) table.deleteRow(-1);
+}
+
+function deleteColumn(btn){
+  const table=btn.closest('details').querySelector('table');
+  if(table.rows[0].cells.length>1){
+    for(let r=0;r<table.rows.length;r++) table.rows[r].deleteCell(-1);
+  }
+}
+
+function duplicateSection(btn){
+  const details=btn.closest('details');
+  const clone=details.cloneNode(true);
+  details.parentNode.insertBefore(clone, details.nextSibling);
+}
+
+function removeSection(btn){
+  const details=btn.closest('details');
+  details.parentNode.removeChild(details);
+}
+
+function addSection(){
+  const newSection=createSemesterSection("New Section", [["","","","","","",""]]);
+  document.getElementById('sectionsRoot').appendChild(newSection);
+}
+
+document.addEventListener('click',function(e){
+  if(e.target.tagName==='TD' && e.target.classList.contains('img-cell')){
+    let td=e.target;
+    const input=document.createElement('input');
+    input.type='file'; input.accept='image/*';
+    input.onchange=function(evt){
+      const file=evt.target.files[0];
+      if(file){
+        const reader=new FileReader();
+        reader.onload=function(ev){ td.innerHTML=`<img src="${ev.target.result}" class="passport">`; }
+        reader.readAsDataURL(file);
+      }
+    }
+    document.body.appendChild(input); input.click(); document.body.removeChild(input);
+  }
+});
+
+
+/*
+function exportAsImage() {
+    const container = document.querySelector('.container');
+
+    html2canvas(container, {
+        scrollX: 0,
+        scrollY: -window.scrollY,  // Scroll offset ko adjust karega
+        width: container.scrollWidth,
+        height: container.scrollHeight,
+        windowWidth: container.scrollWidth,
+        windowHeight: container.scrollHeight,
+        ignoreElements: el => el.closest('details') && !el.closest('details').open,
+        onclone: clonedDoc => {
+            // Clone me sabhi buttons aur no-export elements hide kar do
+            clonedDoc.querySelectorAll('button, .no-export').forEach(btn => {
+                btn.style.display = 'none';
+            });
+        }
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'candidate_profile.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+*/
+
+/*
+function exportAsImage() {
+    const container = document.querySelector('.container');
+
+    html2canvas(container, {
+        ignoreElements: el => el.closest('details') && !el.closest('details').open,
+        onclone: clonedDoc => {
+            // Clone में sabhi buttons aur .no-export hide
+            clonedDoc.querySelectorAll('button, .no-export').forEach(btn => {
+                btn.style.display = 'none';
+            });
+
+            // Clone में sabhi empty cells hide
+            clonedDoc.querySelectorAll('td, th').forEach(cell => {
+                if (cell.innerText.trim() === '') {
+                    cell.style.display = 'none';
+                }
+            });
+        }
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'candidate_profile.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+*/
+
+function exportAsImage() {
+    // यहाँ container बदलो — body या कोई wrapper select करो
+    const container = document.body;  // पूरा page capture करने के लिए
+
+    html2canvas(container, {
+        ignoreElements: el => el.closest('details') && !el.closest('details').open,
+        onclone: clonedDoc => {
+            // Buttons aur .no-export hide
+            clonedDoc.querySelectorAll('button, .no-export').forEach(btn => {
+                btn.style.display = 'none';
+                
+            });
+
+            // Empty cells hide
+            clonedDoc.querySelectorAll('td, th').forEach(cell => {
+                if (cell.innerText.trim() === '') {
+                    cell.style.display = 'none';
+                }
+            });
+        }
+    }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'candidate_profile.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
+}
+
+
+
+function uploadCollegeLogo(){
+  const input=document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange=e=>{
+    const file=e.target.files[0]; if(file){
+      const reader=new FileReader();
+      reader.onload=ev=>{ document.getElementById('collegeLogo').src=ev.target.result; };
+      reader.readAsDataURL(file);
+    }
+  }; input.click();
+}
+
+function uploadStudentPhoto(){
+  const input=document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange=e=>{
+    const file=e.target.files[0]; if(file){
+      const reader=new FileReader();
+      reader.onload=ev=>{ document.getElementById('studentPhoto').src=ev.target.result; };
+      reader.readAsDataURL(file);
+    }
+  }; input.click();
+}
+
+// Initialize
+renderSemesters();
+</script>
+</body>
+</html>

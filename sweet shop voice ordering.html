@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    padding: 20px;
+  }
+  .container {
+    max-width: 1000px;
+    margin: auto;
+    background: white;
+    padding: 25px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  #columns-container {
+    margin-bottom: 20px;
+  }
+  #columns-container input {
+    padding: 7px;
+    font-size: 1em;
+    width: 200px;
+    margin-right: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  #add-column-btn {
+    padding: 8px 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  #add-column-btn:hover {
+    background: #0056b3;
+  }
+  form {
+    margin-bottom: 25px;
+  }
+  #data-form input {
+    padding: 7px;
+    font-size: 1em;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin: 5px 10px 15px 0;
+    width: 200px;
+  }
+  #submit-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    background: #28a745;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+  }
+  #submit-btn:hover {
+    background: #1e7e34;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 10px 8px;
+    text-align: left;
+  }
+  th {
+    background: #007bff;
+    color: white;
+  }
+  .action-btn {
+    padding: 6px 10px;
+    margin-right: 5px;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  .edit-btn {
+    background: #ffc107;
+  }
+  .edit-btn:hover {
+    background: #d39e00;
+  }
+  .delete-btn {
+    background: #dc3545;
+  }
+  .delete-btn:hover {
+    background: #b02a37;
+  }
+  #print-pdf-btn {
+    margin-top: 20px;
+    background: #17a2b8;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 1.1em;
+  }
+  #print-pdf-btn:hover {
+    background: #117a8b;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</h2>
+
+  <div id="columns-container">
+    <input type="text" id="new-column-name" placeholder="नया कॉलम नाम डालें" />
+    <button id="add-column-btn">कॉलम जोड़ें</button>
+  </div>
+
+  <form id="data-form"></form>
+
+  <table>
+    <thead id="table-head"></thead>
+    <tbody id="table-body"></tbody>
+  </table>
+
+  <button id="print-pdf-btn">PDF में प्रिंट करें</button>
+</div>
+
+<!-- jsPDF CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+  let columns = ['नाम', 'संपर्क नंबर']; // शुरू में 2 कॉलम
+  let data = [];
+  let editIndex = -1;
+
+  const columnsContainer = document.getElementById('columns-container');
+  const newColumnInput = document.getElementById('new-column-name');
+  const addColumnBtn = document.getElementById('add-column-btn');
+  const dataForm = document.getElementById('data-form');
+  const tableHead = document.getElementById('table-head');
+  const tableBody = document.getElementById('table-body');
+  const printBtn = document.getElementById('print-pdf-btn');
+
+  // कॉलम जोड़ना
+  addColumnBtn.addEventListener('click', () => {
+    const colName = newColumnInput.value.trim();
+    if(colName === '') {
+      alert('कृपया कॉलम का नाम डालें!');
+      return;
+    }
+    if(columns.includes(colName)) {
+      alert('यह कॉलम पहले से मौजूद है!');
+      return;
+    }
+    columns.push(colName);
+    newColumnInput.value = '';
+    renderForm();
+    renderTable();
+  });
+
+  // फॉर्म बनाना (डाइनामिक कॉलम के लिए)
+  function renderForm() {
+    dataForm.innerHTML = '';
+    columns.forEach((col, idx) => {
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = col;
+      input.placeholder = col;
+      input.required = true;
+      dataForm.appendChild(input);
+    });
+
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'submit';
+    submitBtn.id = 'submit-btn';
+    submitBtn.innerText = editIndex === -1 ? 'जोड़ें' : 'अपडेट करें';
+    dataForm.appendChild(submitBtn);
+  }
+
+  // टेबल हेड बनाना
+  function renderTable() {
+    // हेडर
+    let headHTML = '<tr>';
+    columns.forEach(col => {
+      headHTML += `<th>${col}</th>`;
+    });
+    headHTML += '<th>क्रियाएँ</th></tr>';
+    tableHead.innerHTML = headHTML;
+
+    // बॉडी
+    tableBody.innerHTML = '';
+    data.forEach((row, idx) => {
+      let rowHTML = '<tr>';
+      columns.forEach(col => {
+        rowHTML += `<td>${row[col] || ''}</td>`;
+      });
+      rowHTML += `<td>
+        <button class="action-btn edit-btn" onclick="editRow(${idx})">एडिट</button>
+        <button class="action-btn delete-btn" onclick="deleteRow(${idx})">डिलीट</button>
+      </td></tr>`;
+      tableBody.innerHTML += rowHTML;
+    });
+  }
+
+  // फॉर्म सबमिट हैंडलर
+  dataForm.onsubmit = function(e) {
+    e.preventDefault();
+    const formData = new FormData(dataForm);
+    let obj = {};
+    for(let col of columns) {
+      obj[col] = formData.get(col).trim();
+    }
+
+    if(editIndex === -1) {
+      data.push(obj);
+    } else {
+      data[editIndex] = obj;
+      editIndex = -1;
+    }
+    dataForm.reset();
+    renderForm();
+    renderTable();
+  };
+
+  // एडिट फंक्शन
+  function editRow(idx) {
+    editIndex = idx;
+    const row = data[idx];
+    renderForm();
+    columns.forEach((col, i) => {
+      dataForm.elements[i].value = row[col];
+    });
+  }
+
+  // डिलीट फंक्शन
+  function deleteRow(idx) {
+    if(confirm('क्या आप वाकई इस रिकॉर्ड को हटाना चाहते हैं?')) {
+      data.splice(idx, 1);
+      if(editIndex === idx) {
+        editIndex = -1;
+        dataForm.reset();
+        renderForm();
+      }
+      renderTable();
+    }
+  }
+
+  // PDF प्रिंट फंक्शन
+  printBtn.addEventListener('click', () => {
+    if(data.length === 0) {
+      alert('कोई डेटा उपलब्ध नहीं है!');
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('पर्सनल डेटा रिपोर्ट', 14, 20);
+
+    doc.setFontSize(12);
+    let y = 30;
+
+    // कॉलम हेडर
+    columns.forEach((col, i) => {
+      doc.text(col, 14 + i*40, y);
+    });
+    y += 8;
+
+    data.forEach(row => {
+      columns.forEach((col, i) => {
+        let txt = row[col] || '';
+        if(txt.length > 15) txt = txt.substring(0, 15) + '...';
+        doc.text(txt, 14 + i*40, y);
+      });
+      y += 8;
+      if(y > 280) {
+        doc.addPage();
+        y = 20;
+      }
+    });
+
+    doc.save('personal_data_report.pdf');
+  });
+
+  // पेज लोड होते ही फॉर्म और टेबल रेंडर करें
+  renderForm();
+  renderTable();
+
+  // फंक्शन को global बनाएं ताकि HTML से कॉल कर सकें
+  window.editRow = editRow;
+  window.deleteRow = deleteRow;
+  
+  
+      function printBill() {
+        let billContent = `
+            <div style="text-align:center;">
+                <img src="https://via.placeholder.com/100" alt="Logo"><br>
+                <h2>🍬 मिठाई की दुकान 🍬</h2>
+                <p>तारीख: ${new Date().toLocaleDateString()}</p>
+            </div>
+        `;
+        billContent += `<table border="1" cellspacing="0" cellpadding="8" style="width:100%; border-collapse:collapse; text-align:center;">
+            <tr>
+                <th>आइटम</th>
+                <th>मात्रा</th>
+                <th>प्रति किलो मूल्य</th>
+                <th>कुल मूल्य</th>
+            </tr>`;
+
+        let totalPrice = 0;
+
+        for (let i = 1; i <= itemCount; i++) {
+            const row = document.getElementById(`row-${i}`);
+            if (!row) continue;
+
+            const itemSelect = document.getElementById(`item-${i}`);
+            const qtySelect = document.getElementById(`qty-${i}`);
+
+            if (itemSelect && qtySelect && itemSelect.value && qtySelect.value) {
+                const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+                const quantityLabel = qtySelect.options[qtySelect.selectedIndex].text;
+                const pricePerKg = parseInt(itemSelect.value);
+                const quantity = parseInt(qtySelect.value);
+                const price = (pricePerKg / 1000) * quantity;
+                totalPrice += price;
+
+                billContent += `
+                    <tr>
+                        <td>${itemName}</td>
+                        <td>${quantityLabel}</td>
+                        <td>₹${pricePerKg}</td>
+                        <td>₹${price}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        billContent += `<tr><td colspan="3"><b>कुल</b></td><td><b>₹${totalPrice}</b></td></tr>`;
+        billContent += `</table>`;
+
+        const printWindow = window.open("", "", "width=800,height=600");
+        printWindow.document.write("<html><head><title>Bill</title></head><body>");
+        printWindow.document.write(billContent);
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    // Start with one item row
+    addItem();
+</script>
+
+</body>
+</html>
+
+

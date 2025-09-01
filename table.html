@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content to PDF Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        textarea {
+            width: 100%;
+            height: 500px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PDF Converter</h1>
+        <h1 class="gradient-text" style="
+  font-size: 40px;
+  background: linear-gradient(to right, #ff0000, #ff9900, #ffff00, #00ff00, #0000ff, #4b0082);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;">
+          This is Colour gradient animation Effect 
+        </h1>
+
+
+        <textarea id="content" placeholder="Enter your text here..." style="
+    
+   
+           
+            filter: alpha(opacity=60);
+            opacity: 0.9;
+    text-transform: uppercase;
+    font-family: verdana;
+    font-size: 8em;
+    font-weight: 900;
+    color: midnightblue;
+    text-shadow: 1px 1px 1px #919191,
+        1px 2px 1px #919191,
+        1px 3px 1px #919191,
+        1px 4px 1px #919191,
+        1px 5px 1px #919191,
+        1px 6px 1px #919191,
+       1px 7px 1px #919191,
+        1px 8px 1px #919191,
+        1px 9px 1px #919191,
+        1px 1px 1px #919191,
+        1px 1px 1px #919191,
+       
+        1px 1px 1px #919191,
+    2px 14px 16px rgba(16,16,16,0.4),
+    4px 26px 10px rgba(16,16,16,0.2);"></textarea>
+        <button onclick="generatePDF()">Generate PDF</button>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const content = document.getElementById('content').value;
+            
+            // Create PDF
+            const doc = new jspdf.jsPDF();
+            doc.setFontSize(12);
+            
+            // Split text into lines that fit PDF page width
+            const splitText = doc.splitTextToSize(content, 180);
+            
+            doc.text(20, 20, splitText);
+            
+            // Save PDF with current timestamp
+            const filename = prompt("Enter PDF filename (without extension):") || 'document';
+            doc.save(`${filename}.pdf`);
+        }
+    </script>
+</body>
+</html>
+<br><be><br><br> <br><be><br><br> 
+<br><be><br><br> <br><be><br><br> 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Advanced PDF Creator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/franc-min/6.0.0/franc.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        /* Advanced styling */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #3498db;
+        }
+
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        
+        /* Menu System */
+        .menu-bar {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px;
+            display: flex;
+            gap: 25px;
+        }
+        .menu-item {
+            position: relative;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 3px;
+        }
+        .menu-item:hover {
+            background: var(--secondary-color);
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            min-width: 200px;
+            z-index: 1000;
+        }
+        .dropdown-item {
+            padding: 8px 15px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown-item:hover {
+            background: #f5f5f5;
+        }
+
+        /* Editor Layout */
+        .editor-section {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .template-preview {
+            border: 1px solid #ddd;
+            min-height: 80vh;
+            background-size: cover;
+            padding: 30px;
+            position: relative;
+        }
+        #contentInput {
+            width: 100%;
+            height: 100%;
+            border: none;
+            resize: none;
+            padding: 15px;
+            font-family: inherit;
+        }
+        
+        /* Toolbar */
+        .format-toolbar {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+        }
+        .tool-button {
+            padding: 5px 10px;
+            border: 1px solid #ddd;
+            background: white;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="menu-bar">
+        <div class="menu-item" onmouseenter="showDropdown('file')">
+            File
+            <div class="dropdown" id="fileDropdown">
+                <div class="dropdown-item" onclick="newDocument()">New</div>
+                <div class="dropdown-item" onclick="openFile()">Open</div>
+                <div class="dropdown-item" onclick="saveDocument()">Save</div>
+                <div class="dropdown-item" onclick="saveAs()">Save As</div>
+                <div class="dropdown-item" onclick="exportPDF()">Export PDF</div>
+            </div>
+        </div>
+        
+        <div class="menu-item" onmouseenter="showDropdown('edit')">
+            Edit
+            <div class="dropdown" id="editDropdown">
+                <div class="dropdown-item" onclick="undo()">Undo</div>
+                <div class="dropdown-item" onclick="redo()">Redo</div>
+                <div class="dropdown-item" onclick="cut()">Cut</div>
+                <div class="dropdown-item" onclick="copy()">Copy</div>
+                <div class="dropdown-item" onclick="paste()">Paste</div>
+                <div class="dropdown-item" onclick="deleteContent()">Delete</div>
+            </div>
+        </div>
+
+        <div class="menu-item" onmouseenter="showDropdown('view')">
+            View
+            <div class="dropdown" id="viewDropdown">
+                <div class="dropdown-item" onclick="zoomIn()">Zoom In</div>
+                <div class="dropdown-item" onclick="zoomOut()">Zoom Out</div>
+                <div class="dropdown-item" onclick="resetZoom()">Reset Zoom</div>
+                <div class="dropdown-item" onclick="toggleFullscreen()">Fullscreen</div>
+            </div>
+        </div>
+
+        <div class="menu-item" onmouseenter="showDropdown('insert')">
+            Insert
+            <div class="dropdown" id="insertDropdown">
+                <div class="dropdown-item" onclick="insertImage()">Image</div>
+                <div class="dropdown-item" onclick="insertText()">Text Box</div>
+                <div class="dropdown-item" onclick="insertShape()">Shape</div>
+                <div class="dropdown-item" onclick="insertLink()">Link</div>
+            </div>
+        </div>
+
+        <div class="menu-item" onmouseenter="showDropdown('templates')">
+            Templates
+            <div class="dropdown" id="templatesDropdown">
+                <!-- Template categories would be populated dynamically -->
+            </div>
+        </div>
+
+        <div class="menu-item" onmouseenter="showDropdown('help')">
+            Help
+            <div class="dropdown" id="helpDropdown">
+                <div class="dropdown-item" onclick="showAbout()">About</div>
+                <div class="dropdown-item" onclick="showDocs()">Documentation</div>
+                <div class="dropdown-item" onclick="contactSupport()">Support</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="format-toolbar">
+            <button class="tool-button" onclick="formatText('bold')"><strong>B</strong></button>
+            <button class="tool-button" onclick="formatText('italic')"><em>I</em></button>
+            <button class="tool-button" onclick="formatText('underline')"><u>U</u></button>
+            <input type="color" onchange="changeTextColor(this.value)">
+            <select onchange="changeFontFamily(this.value)">
+                <option value="Arial">Arial</option>
+                <option value="Times New Roman">Times New Roman</option>
+                <option value="Calibri">Calibri</option>
+            </select>
+        </div>
+
+        <div class="editor-section">
+            <div class="template-options">
+                <!-- Advanced template selector would go here -->
+            </div>
+            <div class="template-preview" id="previewArea">
+                <textarea id="contentInput" placeholder="Start typing or insert elements..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Enhanced JavaScript functionality
+        let currentDocument = {
+            content: '',
+            metadata: {
+                language: 'en',
+                zoomLevel: 1,
+                history: [],
+                future: []
+            }
+        };
+
+        // Menu functions
+        function showDropdown(menuId) {
+            document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+            document.getElementById(`${menuId}Dropdown`).style.display = 'block';
+        }
+
+        function newDocument() {
+            if(confirm('Are you sure? Unsaved changes will be lost.')) {
+                currentDocument.content = '';
+                document.getElementById('contentInput').value = '';
+            }
+        }
+
+        function openFile() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.txt,.md';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = e => {
+                    currentDocument.content = e.target.result;
+                    document.getElementById('contentInput').value = currentDocument.content;
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function saveDocument() {
+            // Implement save functionality
+            localStorage.setItem('currentDocument', JSON.stringify(currentDocument));
+            alert('Document saved locally');
+        }
+
+        // PDF Generation functions
+        function exportPDF() {
+            const doc = new jsPDF();
+            const content = document.getElementById('contentInput').value;
+            
+            // Add multi-language support
+            doc.setFont('NotoSans');
+            doc.setFontSize(12);
+            
+            // Split text into pages
+            const splitText = doc.splitTextToSize(content, 180);
+            doc.text(15, 20, splitText);
+            
+            doc.save('document.pdf');
+        }
+
+        // Formatting functions
+        function formatText(style) {
+            document.execCommand(style);
+        }
+
+        function changeTextColor(color) {
+            document.execCommand('foreColor', false, color);
+        }
+
+        // Insert functions
+        function insertImage() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.style.maxWidth = '100%';
+                    document.getElementById('previewArea').appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
+        }
+
+        // View functions
+        function zoomIn() {
+            currentDocument.metadata.zoomLevel *= 1.1;
+            updateZoom();
+        }
+
+        function zoomOut() {
+            currentDocument.metadata.zoomLevel *= 0.9;
+            updateZoom();
+        }
+
+        function updateZoom() {
+            document.getElementById('previewArea').style.transform = 
+                `scale(${currentDocument.metadata.zoomLevel})`;
+        }
+
+        // Initialize
+        document.addEventListener('click', e => {
+            if(!e.target.closest('.menu-item')) {
+                document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+            }
+        });
+
+        // Add more functions as needed for other menu items
+        
+        
+        // Add template gallery
+const templateCategories = {
+    business: [
+        { name: 'Report', preview: 'report-template.jpg' },
+        { name: 'Letterhead', preview: 'letterhead-template.jpg' }
+    ],
+    education: [
+        { name: 'Worksheet', preview: 'worksheet-template.jpg' },
+        { name: 'Certificate', preview: 'certificate-template.jpg' }
+    ]
+};
+
+// Implement undo/redo
+function undo() {
+    if(currentDocument.metadata.history.length > 0) {
+        currentDocument.metadata.future.push(currentDocument.content);
+        currentDocument.content = currentDocument.metadata.history.pop();
+        updateEditor();
+    }
+}
+
+function redo() {
+    if(currentDocument.metadata.future.length > 0) {
+        currentDocument.metadata.history.push(currentDocument.content);
+        currentDocument.content = currentDocument.metadata.future.pop();
+        updateEditor();
+    }
+}
+
+// Fullscreen functionality
+function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// Drag-and-drop support
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if(files[0].type.startsWith('image/')) {
+        insertImage(files[0]);
+    }
+});
+    </script>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hindi PDF Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/franc-min/6.0.0/franc.min.js"></script>
+    <style>
+        body { font-family: 'Noto Sans Devanagari', Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        textarea { 
+            width: 100%; 
+            height: 400px; 
+            padding: 15px;
+            font-family: 'Noto Sans Devanagari', Arial, sans-serif;
+            font-size: 16px;
+            direction: ltr;
+        }
+    </style>
+    <!-- Include Noto Sans Devanagari font -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>हिंदी PDF जनरेटर</h1>
+        <textarea id="hindiContent" placeholder="अपनी हिंदी सामग्री यहाँ टाइप करें..."></textarea>
+        <button onclick="generateHindiPDF()">PDF बनाएं</button>
+    </div>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+
+        // Add Noto Sans Devanagari font (make sure to use actual font file in production)
+        async function loadFont() {
+            try {
+                const response = await fetch('https://fonts.gstatic.com/ea/notosansdevanagari/v6/NotoSansDevanagari-Regular.woff2');
+                const fontData = await response.arrayBuffer();
+                const fontBase64 = arrayBufferToBase64(fontData);
+                
+                // Register the font
+                jsPDF.API.events.push(['addFonts', function() {
+                    this.addFileToVFS('NotoSansDevanagari-Regular.ttf', fontBase64);
+                    this.addFont('NotoSansDevanagari-Regular.ttf', 'NotoSansDevanagari', 'normal');
+                }]);
+            } catch (error) {
+                console.error('Error loading font:', error);
+            }
+        }
+
+        function arrayBufferToBase64(buffer) {
+            let binary = '';
+            const bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return window.btoa(binary);
+        }
+
+        function detectHindi(text) {
+            const langCode = franc(text);
+            return langCode === 'hin'; // 'hin' is the code for Hindi
+        }
+
+        function generateHindiPDF() {
+            const text = document.getElementById('hindiContent').value;
+            const isHindi = detectHindi(text);
+
+            const doc = new jsPDF();
+            
+            // Set appropriate font
+            if(isHindi) {
+                doc.setFont('NotoSansDevanagari');
+                doc.setFontSize(12);
+            } else {
+                doc.setFont('helvetica');
+                doc.setFontSize(12);
+            }
+
+            // Configure PDF settings for Hindi
+            const options = {
+                lang: isHindi ? 'hi' : 'en',
+                direction: isHindi ? 'ltr' : 'ltr', // Hindi uses left-to-right direction
+                fontSize: 12,
+                lineHeight: 1.5
+            };
+
+            // Split text into pages
+            const splitText = doc.splitTextToSize(text, 180);
+            
+            doc.text(15, 20, splitText);
+            doc.save('hindi-document.pdf');
+        }
+
+        // Initialize font loader
+        loadFont();
+    </script>
+    
+    <?xml version="1.0" encoding="UTF-8"?> <PrintLetterBarcodeData uid="413598153345" name="Anshika Devi" gender="F" yob="2011" gname="Shyam Kishor" co="D/O: Shyam Kishor" loc="gram chandipur" vtc="Shivrajpur" po="Sheorajpur" dist="Kheri" subdist="Mohammdi" state="Uttar Pradesh" pc="261505" dob="01/06/2011"/>
+   
+    </body>
+   
+    </html>
+    
+    
+    
+    <html>
+      <!--Tab to edit-->
+    
+    <head>
+      <!--Tab to edit-->
+    <body>
+     
+    <details>
+      <!--Tab to edit--><summary style="height:30px;background:red;font-size:20px; ">
+        This is the table 
+      </summary>
+    
+    <table style="border:1px solid blue;">
+      <thead>
+        <style>
+          td{
+            border:1px solid black;
+            border-radius: 80%;
+          }
+        </style>
+      </thead>
+      
+      <tbody>
+       
+      <tr>
+        <!--Tab to edit-->
+        <th>  1  </th>
+ <td>A </td><td>B</td><td>C</td><td>D</td>
+      </tr>
+      
+            <tr>
+        <!--Tab to edit-->
+        <th>  2  </th>
+ <td>A </td><td>B</td><td>C</td><td>D</td>
+      </tr>  
+      
+      <tr>
+        <!--Tab to edit-->
+        <th>  3  </th>
+ <td>A </td><td>B</td><td>C</td><td>D</td>
+      </tr>
+      
+    </table>
+    
+      <!--Tab to edit-->
+    </details>
+</body>
+</html>
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Exam Timetable</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #f0f0f0;
+            perspective: 1000px;
+        }
+
+        .timetable-container {
+            transform-style: preserve-3d;
+            transform: rotateX(10deg) rotateY(-15deg);
+            transition: transform 0.5s;
+            box-shadow: 20px 20px 50px rgba(0,0,0,0.3);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .timetable-container:hover {
+            transform: rotateX(5deg) rotateY(-10deg);
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 800px;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .time-column {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        .subject-cell {
+            background-color: #2196F3;
+            color: white;
+            border-radius: 5px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Exam Timetable - June 2024</h1>
+        <div class="timetable-container">
+            <table>
+                <tr>
+                    <th>Day/Time</th>
+                    <th>9:00 - 11:00</th>
+                    <th>11:30 - 1:30</th>
+                    <th>2:30 - 4:30</th>
+                </tr>
+                <tr>
+                    <td class="time-column">Monday</td>
+                    <td class="subject-cell">Mathematics</td>
+                    <td>Physics</td>
+                    <td>Chemistry</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Tuesday</td>
+                    <td>English</td>
+                    <td class="subject-cell">Biology</td>
+                    <td>History</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Wednesday</td>
+                    <td>Geography</td>
+                    <td>Computer Science</td>
+                    <td class="subject-cell">Economics</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Thursday</td>
+                    <td class="subject-cell">Literature</td>
+                    <td>Art</td>
+                    <td>Physical Education</td>
+                </tr>
+                <tr>
+                    <td class="time-column">Friday</td>
+                    <td>Philosophy</td>
+                    <td class="subject-cell">Statistics</td>
+                    <td>Foreign Language</td>
+                </tr>
+            </table>
+        </div>
+        <div style="margin-top: 20px; text-align: center; color: #666;">
+            <p>Note: Highlighted subjects indicate main examinations</p>
+            <p>All exams are conducted in respective department halls</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+

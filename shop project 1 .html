@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>मिठाई की दुकान मूल्य सूची</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+        body {
+            background: #e0e5ec;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #e0e5ec;
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: 10px 10px 30px #bec3c9, -10px -10px 30px #ffffff;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select {
+            width: 100%;
+            padding: 0.5rem; 
+            border-radius: 15px;
+            border: none;
+            background: #e0e5ec;
+            box-shadow: inset 3px 3px 6px #bec3c9,
+                        inset -3px -3px 6px #ffffff;
+            margin-bottom: 10px;
+        }
+        .item-row {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 15px;
+            background: #f8f8f8;
+            box-shadow: 3px 3px 6px #bec3c9, -3px -3px 6px #ffffff;
+            position: relative;
+        }
+        .price {
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        .remove-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #total-price {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 15px;
+            background: #d4edda;
+            box-shadow: inset 3px 3px 6px #bec3c9,
+                        inset -3px -3px 6px #ffffff;
+        }
+
+        /* नया: बटन ग्रुप स्टाइल */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .button-group button {
+            flex: 1;
+            max-width: 150px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 15px;
+            background: #28a745;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .button-group button:hover {
+            background: #218838;
+        }
+        #print-btn {
+            background: #007bff;
+        }
+        #print-btn:hover {
+            background: #0069d9;
+        }
+        #whatsapp-btn {
+            background: #25d366;
+        }
+        #whatsapp-btn:hover {
+            background: #1ebe57;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>मिठाई की दुकान मूल्य सूची</h1>
+
+    <div id="items"></div>
+
+    <div class="button-group">
+        <button onclick="addItem()">आइटम जोड़ें</button>
+        <button id="print-btn" onclick="printBill()">बिल प्रिंट करें</button>
+        <button id="whatsapp-btn" onclick="sendToWhatsApp()">व्हाट्सएप पर भेजें</button>
+        <button id="example-btn" onclick="exampleFunction()">चौथा बटन</button>
+    </div>
+
+    <div id="total-price">कुल मूल्य: ₹0</div>
+</div>
+
+<script>
+    let itemCount = 0;
+    const itemsContainer = document.getElementById("items");
+
+    const sweets = [
+        { name: "लौंछ", price: 250 },
+        { name: "सोन पपड़ी", price: 100 },
+        { name: "रसगुल्ला", price: 450 },
+        { name: "गुलाब जामुन", price: 400 },
+        { name: "बरफी", price: 300 }
+    ];
+
+    const quantities = [
+        { label: "50 ग्राम", value: 50 },
+        { label: "100 ग्राम", value: 100 },
+        { label: "200 ग्राम", value: 200 },
+        { label: "250 ग्राम", value: 250 },
+        { label: "500 ग्राम", value: 500 },
+        { label: "1 किलोग्राम", value: 1000 },
+        { label: "1.5 किलोग्राम", value: 1500 },
+        { label: "2 किलोग्राम", value: 2000 }
+    ];
+
+    function addItem() {
+        itemCount++;
+        const row = document.createElement("div");
+        row.className = "item-row";
+        row.id = `row-${itemCount}`;
+        row.innerHTML = `
+            <label>आइटम सिलेक्ट करें:</label>
+            <select id="item-${itemCount}" onchange="calculatePrice()">
+                <option value="">आइटम चुनें</option>
+                ${sweets.map(s => `<option value="${s.price}">${s.name}</option>`).join('')}
+            </select>
+            <label>मात्रा सिलेक्ट करें:</label>
+            <select id="qty-${itemCount}" onchange="calculatePrice()">
+                <option value="">मात्रा चुनें</option>
+                ${quantities.map(q => `<option value="${q.value}">${q.label}</option>`).join('')}
+            </select>
+            <div class="price" id="price-${itemCount}">मूल्य: ₹0</div>
+            <button class="remove-btn" onclick="removeItem(${itemCount})">हटाएँ</button>
+        `;
+        itemsContainer.appendChild(row);
+    }
+
+    function calculatePrice() {
+        let totalPrice = 0;
+
+        for (let i = 1; i <= itemCount; i++) {
+            const row = document.getElementById(`row-${i}`);
+            if (!row) continue; // Skip deleted rows
+
+            const itemSelect = document.getElementById(`item-${i}`);
+            const qtySelect = document.getElementById(`qty-${i}`);
+
+            if (itemSelect && qtySelect && itemSelect.value && qtySelect.value) {
+                const pricePerKg = parseInt(itemSelect.value);
+                const quantity = parseInt(qtySelect.value);
+                const price = (pricePerKg / 1000) * quantity;
+
+                document.getElementById(`price-${i}`).innerText = `मूल्य: ₹${price}`;
+                totalPrice += price;
+            }
+        }
+
+        document.getElementById("total-price").innerText = `कुल मूल्य: ₹${totalPrice}`;
+    }
+
+    function removeItem(id) {
+        const row = document.getElementById(`row-${id}`);
+        if (row) {
+            row.remove();
+            calculatePrice(); // Update total after removing
+        }
+    }
+
+    function printBill() {
+        let billContent = `
+            <div style="text-align:center;">
+                <img src="https://via.placeholder.com/100" alt="Logo"><br>
+                <h2>🍬 मिठाई की दुकान 🍬</h2>
+                <p>तारीख: ${new Date().toLocaleDateString()}</p>
+            </div>
+        `;
+        billContent += `<table border="1" cellspacing="0" cellpadding="8" style="width:100%; border-collapse:collapse; text-align:center;">
+            <tr>
+                <th>आइटम</th>
+                <th>मात्रा</th>
+                <th>प्रति किलो मूल्य</th>
+                <th>कुल मूल्य</th>
+            </tr>`;
+
+        let totalPrice = 0;
+
+        for (let i = 1; i <= itemCount; i++) {
+            const row = document.getElementById(`row-${i}`);
+            if (!row) continue;
+
+            const itemSelect = document.getElementById(`item-${i}`);
+            const qtySelect = document.getElementById(`qty-${i}`);
+
+            if (itemSelect && qtySelect && itemSelect.value && qtySelect.value) {
+                const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+                const quantityLabel = qtySelect.options[qtySelect.selectedIndex].text;
+                const pricePerKg = parseInt(itemSelect.value);
+                const quantity = parseInt(qtySelect.value);
+                const price = (pricePerKg / 1000) * quantity;
+                totalPrice += price;
+
+                billContent += `
+                    <tr>
+                        <td>${itemName}</td>
+                        <td>${quantityLabel}</td>
+                        <td>₹${pricePerKg}</td>
+                        <td>₹${price}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        billContent += `<tr><td colspan="3"><b>कुल</b></td><td><b>₹${totalPrice}</b></td></tr>`;
+        billContent += `</table>`;
+
+        const printWindow = window.open("", "", "width=800,height=600");
+        printWindow.document.write("<html><head><title>Bill</title></head><body>");
+        printWindow.document.write(billContent);
+        printWindow.document.write("</body></html>");
+        printWindow.document.close();
+        printWindow.print();
+    }
+
+    // WhatsApp भेजने के लिए function (सिंपल उदाहरण)
+    function sendToWhatsApp() {
+        let message = "मिठाई की दुकान बिल:\n";
+        for (let i = 1; i <= itemCount; i++) {
+            const row = document.getElementById(`row-${i}`);
+            if (!row) continue;
+
+            const itemSelect = document.getElementById(`item-${i}`);
+            const qtySelect = document.getElementById(`qty-${i}`);
+
+            if (itemSelect && qtySelect && itemSelect.value && qtySelect.value) {
+                const itemName = itemSelect.options[itemSelect.selectedIndex].text;
+                const quantityLabel = qtySelect.options[qtySelect.selectedIndex].text;
+                const pricePerKg = parseInt(itemSelect.value);
+                const quantity = parseInt(qtySelect.value);
+                const price = (pricePerKg / 1000) * quantity;
+
+                message += `${itemName} - ${quantityLabel} - ₹${price}\n`;
+            }
+        }
+        message += document.getElementById("total-price").innerText;
+
+        // WhatsApp के लिए URL encode करना जरूरी
+        const whatsappUrl = "https://wa.me/?text=" + encodeURIComponent(message);
+        window.open(whatsappUrl, '_blank');
+    }
+
+    function exampleFunction() {
+        alert("यह एक उदाहरण बटन है। आप इसे अपनी जरूरत के अनुसार बदल सकते हैं।");
+    }
+
+    // शुरू में एक आइटम डाल दो
+    addItem();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<!doctype html>
+<html lang="hi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AKTU One View — HIMANSHI DEVI — Full Ready (PDF style)</title>
+<style>
+:root{
+  --aktu-maroon: #800000;
+  --head-text: #ffffff;
+  --row-alt: #fbf7f7;
+  --border: #4a2a2a;
+  --muted: #333;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color:#000;
+  background:#fff;
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
+.header-wrap{
+  background:var(--aktu-maroon);
+  color:var(--head-text);
+  padding:14px 18px;
+}
+.header-wrap .title{
+  font-weight:800;
+  font-size:20px;
+}
+.container{
+  max-width:1100px;
+  margin:16px auto;
+  padding:12px;
+}
+.controls{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  margin-bottom:12px;
+}
+.btn{
+  background:var(--aktu-maroon);
+  color:white;
+  border:0;
+  padding:8px 10px;
+  border-radius:6px;
+  cursor:pointer;
+  font-weight:700;
+}
+.btn.secondary{
+  background:transparent;
+  color:var(--aktu-maroon);
+  border:1px solid rgba(128,0,0,0.12);
+}
+.note{ color:var(--muted); font-size:13px; margin-left:8px; }
+
+details{ margin-bottom:12px; border-radius:6px; overflow:hidden; border:1px solid rgba(0,0,0,0.06); background:#fff;}
+summary{
+  background:#f3f0f0;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  cursor:pointer;
+}
+summary .title{ font-weight:800; }
+summary .meta{ color:var(--muted); font-size:13px; }
+
+.table-actions{
+  padding:8px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+  border-bottom:1px solid rgba(0,0,0,0.04);
+}
+.table-actions .small{ color:var(--muted); font-size:13px; margin-left:6px; }
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin:0;
+}
+th, td{
+  border:1px solid var(--border);
+  padding:6px 8px;
+  font-size:13px;
+  vertical-align:middle;
+}
+th{
+  background:var(--aktu-maroon);
+  color:var(--head-text);
+  font-weight:700;
+}
+tr:nth-child(even){ background:var(--row-alt); }
+td[contenteditable="true"]{ outline:none; cursor:text; }
+td.img-cell{ text-align:center; min-width:108px; }
+img.passport{
+  width:84px; height:104px; object-fit:cover; border-radius:4px; display:block; margin:6px auto;
+}
+
+/* selected cell highlight */
+.selected-cell{ box-shadow: inset 0 0 0 3px rgba(128,0,0,0.12); }
+
+/* hide file input UI */
+.file-input{ display:none; }
+
+/* Print/export: hide UI, show only table(s) & main header text as PDF */
+@media print{
+  .controls, .table-actions, input, button, .note { display:none !important; }
+  summary{ display:none !important; }
+  body{ margin:0; }
+  .container{ padding:0; margin:0; max-width:100%; }
+}
+</style>
+</head>
+<body>
+  <div class="header-wrap">
+    <div class="container">
+      <div class="title">AKTU One View — HIMANSHI DEVI</div>
+      <div style="font-size:13px; margin-top:6px; color:#ffeaea">Designed & Developed by AKTU-SDC Team</div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="controls" aria-hidden="false">
+      <button class="btn" onclick="window.print()">Print</button>
+      <button class="btn" onclick="exportAsImage()">Export as Image</button>
+      <button class="btn secondary" onclick="downloadHTML()">Download HTML</button>
+      <div class="note">Print/Export में केवल टेबल और डेटा दिखाई देगा — कोई बटन नहीं।</div>
+    </div>
+
+    <!-- All sections (full PDF-derived data). Titles & subtitles editable. -->
+    <div id="sectionsRoot">
+
+<!-- ================== SESSION 2021-22 (Regular) Sem 1 ================== -->
+<details open>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2021-22 (Regular) — Semester 1</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 11 | Theory: 6 | Practical: 5 | Total Marks Obt.: 488 | Result Status: CP(2) | SGPA: 6.14 | Date of Declaration: 21/12/22</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+    <span class="small">Selected cell पर क्लिक करके image डालें (photo column)।</span>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr>
+    </thead>
+    <tbody>
+      <tr><td contenteditable="true">BP101T</td><td contenteditable="true">Human Anatomy and Physiology</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP102T</td><td contenteditable="true">Pharmaceutical Analysis I</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">26</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP103T</td><td contenteditable="true">Pharmaceutics I</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">17</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP104T</td><td contenteditable="true">Pharmaceutical Inorganic Chemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">10</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP105T</td><td contenteditable="true">Communication Skills</td><td contenteditable="true">Theory</td><td contenteditable="true">48</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP106RMT</td><td contenteditable="true">Mathematics</td><td contenteditable="true">Theory</td><td contenteditable="true">47</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP107P</td><td contenteditable="true">Human Anatomy and Physiology Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP108P</td><td contenteditable="true">Pharmaceutical Analysis I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">34</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP109P</td><td contenteditable="true">Pharmaceutics I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP110P</td><td contenteditable="true">Pharmaceutical Inorganic Chemistry Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP111P</td><td contenteditable="true">Communication Skills Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">24</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2021-22 (Regular) Sem 2 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2021-22 (Regular) — Semester 2</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 10 | Theory: 6 | Practical: 4 | Total Marks Obt.: 499 | Result Status: PCP | SGPA: 6.17 | Date of Declaration: 21/12/22</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP201T</td><td contenteditable="true">Human Anatomy and Physiology II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">26</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP202T</td><td contenteditable="true">Pharmaceutical Organic Chemistry I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">38</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP203T</td><td contenteditable="true">Biochemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">20</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP204T</td><td contenteditable="true">Pathophysiology</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">29</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP205T</td><td contenteditable="true">Computer Applications in Pharmacy</td><td contenteditable="true">Theory</td><td contenteditable="true">67</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP206T</td><td contenteditable="true">Environmental Sciences</td><td contenteditable="true">Theory</td><td contenteditable="true">69</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP207P</td><td contenteditable="true">Human Anatomy and Physiology II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP208P</td><td contenteditable="true">Pharmaceutical Organic Chemistry I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP209P</td><td contenteditable="true">Biochemistry Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP210P</td><td contenteditable="true">Computer Applications in Pharmacy Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">23</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2021-22 (BACK) Sem1 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2021-22 (BACK) — Semester 1</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 11 | Total Marks Obt.: 532 | Result Status: CP(0) | SGPA: 7.93 | Date of Declaration: 27/05/22</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP101T</td><td contenteditable="true">Human Anatomy and Physiology</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP102T</td><td contenteditable="true">Pharmaceutical Analysis I</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">26</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP103T</td><td contenteditable="true">Pharmaceutics I</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">17</td><td contenteditable="true">41*</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP104T</td><td contenteditable="true">Pharmaceutical Inorganic Chemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">10</td><td contenteditable="true">30*</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP105T</td><td contenteditable="true">Communication Skills</td><td contenteditable="true">Theory</td><td contenteditable="true">48</td><td contenteditable="true">0</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP106RMT</td><td contenteditable="true">Mathematics</td><td contenteditable="true">Theory</td><td contenteditable="true">47</td><td contenteditable="true">0</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP107P</td><td contenteditable="true">Human Anatomy and Physiology Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP108P</td><td contenteditable="true">Pharmaceutical Analysis I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">34</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP109P</td><td contenteditable="true">Pharmaceutics I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP110P</td><td contenteditable="true">Pharm. Inorganic Chemistry Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP111P</td><td contenteditable="true">Communication Skills Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">24</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2021-22 (BACK) Sem 2 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2021-22 (BACK) — Semester 2</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 10 | Total Marks Obt.: 499 | SGPA: 6.17</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP201T</td><td contenteditable="true">Human Anatomy and Physiology II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">26</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP202T</td><td contenteditable="true">Pharmaceutical Organic Chemistry I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">38</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP203T</td><td contenteditable="true">Biochemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">20</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP204T</td><td contenteditable="true">Pathophysiology</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">29</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP205T</td><td contenteditable="true">Computer Applications in Pharmacy</td><td contenteditable="true">Theory</td><td contenteditable="true">67</td><td contenteditable="true">0</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP206T</td><td contenteditable="true">Environmental Sciences</td><td contenteditable="true">Theory</td><td contenteditable="true">69</td><td contenteditable="true">0</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP207P</td><td contenteditable="true">Human Anatomy and Physiology II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP208P</td><td contenteditable="true">Pharmaceutical Organic Chemistry I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP209P</td><td contenteditable="true">Biochemistry Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP210P</td><td contenteditable="true">Computer Applications in Pharmacy Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">23</td><td contenteditable="true">--</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2022-23 (REGULAR) Sem 3 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2022-23 (REGULAR) — Semester 3</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 9 | Theory: 5 | Practical: 4 | Total Marks Obt.: 517 | Result Status: CP(1) | SGPA: 6.48 | Date of Declaration: 18/07/23</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP301T</td><td contenteditable="true">Pharmaceutical Organic Chemistry II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">35</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP302T</td><td contenteditable="true">Physical Pharmaceutics I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">23</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP303T</td><td contenteditable="true">Pharmaceutical Microbiology</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">45</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP304T</td><td contenteditable="true">Pharmaceutical Engineering</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">37</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">KVE301</td><td contenteditable="true">Universal Human Values and Professional Ethics</td><td contenteditable="true">Theory</td><td contenteditable="true">47</td><td contenteditable="true">57</td><td contenteditable="true">--</td><td contenteditable="true">B</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP305P</td><td contenteditable="true">Pharmaceutical Organic Chemistry II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP306P</td><td contenteditable="true">Physical Pharmaceutics I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">34</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP307P</td><td contenteditable="true">Pharmaceutical Microbiology Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP308P</td><td contenteditable="true">Pharmaceutical Engineering Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2022-23 (REGULAR) Sem 4 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2022-23 (REGULAR) — Semester 4</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 9 | Theory: 5 | Practical: 4 | Total Marks Obt.: 460 | Result Status: PCP | SGPA: 6.50 | Date of Declaration: 27/10/23</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP401T</td><td contenteditable="true">Pharmaceutical Organic Chemistry III</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">34</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP402T</td><td contenteditable="true">Medicinal Chemistry I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP403T</td><td contenteditable="true">Physical Pharmaceutics II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">41</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP404T</td><td contenteditable="true">Pharmacology I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">18</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP405T</td><td contenteditable="true">Pharmacognosy I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">43</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP406P</td><td contenteditable="true">Medicinal Chemistry I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP407P</td><td contenteditable="true">Physical Pharmaceutics II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">12</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP408P</td><td contenteditable="true">Pharmacology I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">14</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP409P</td><td contenteditable="true">Pharmacognosy I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2023-24 (BACK) Sem 3 & 4 etc. (Summarized) ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2023-24 (BACK / REGULAR) — Semesters 3 & 4</span><br/>
+      <span class="meta" contenteditable="true">(Records from PDF: Several sessions show BACK/REGULAR entries; edit details above as needed)</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <!-- Example row set; edit as required -->
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP301T</td><td contenteditable="true">Pharmaceutical Organic Chemistry II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">35</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP302T</td><td contenteditable="true">Physical Pharmaceutics I</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">51</td><td contenteditable="true">--</td><td contenteditable="true">B</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP303T</td><td contenteditable="true">Pharmaceutical Microbiology</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">45</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2023-24 (REGULAR) Sem 5 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2023-24 (REGULAR) — Semester 5</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 9 | Total Marks Obt.: 455 | Result Status: CP(2) | SGPA: 5.29 | Date of Declaration: 10/05/24</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP501T</td><td contenteditable="true">Medicinal Chemistry II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">37</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP502T</td><td contenteditable="true">Industrial Pharmacy I</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP503T</td><td contenteditable="true">Pharmacology II</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">15</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP504T</td><td contenteditable="true">Pharmacognosy and Phytochemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">10</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP505T</td><td contenteditable="true">Pharmaceutical Jurisprudence</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">42</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP506P</td><td contenteditable="true">Industrial Pharmacy I Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">30</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP507P</td><td contenteditable="true">Pharmacology II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">12</td><td contenteditable="true">30</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP508P</td><td contenteditable="true">Pharmacognosy & Phytochemistry II Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">30</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP509P</td><td contenteditable="true">Report on Hospital Training-I</td><td contenteditable="true">Practical</td><td contenteditable="true"> </td><td contenteditable="true">80</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2023-24 (REGULAR) Sem 6 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2023-24 (REGULAR) — Semester 6</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 10 | Total Marks Obt.: 548 | Result Status: PCP | SGPA: 5.50 | Date of Declaration: 07/09/24</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP601T</td><td contenteditable="true">Medicinal Chemistry III</td><td contenteditable="true">Theory</td><td contenteditable="true">21</td><td contenteditable="true">36</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP602T</td><td contenteditable="true">Pharmacology III</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">33</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP603T</td><td contenteditable="true">Herbal Drug Technology</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">28</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP604T</td><td contenteditable="true">Biopharmaceutics and Pharmacokinetics</td><td contenteditable="true">Theory</td><td contenteditable="true">24</td><td contenteditable="true">42</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP605T</td><td contenteditable="true">Pharmaceutical Biotechnology</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">27</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP606T</td><td contenteditable="true">Quality Assurance</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">25</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP607P</td><td contenteditable="true">Medicinal Chemistry III Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP608P</td><td contenteditable="true">Pharmacology III Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">12</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP609P</td><td contenteditable="true">Herbal Drug Technology Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">13</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP610P</td><td contenteditable="true">Report on Industrial Training</td><td contenteditable="true">Practical</td><td contenteditable="true"> </td><td contenteditable="true">90</td><td contenteditable="true">--</td><td contenteditable="true">O</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2024-25 (BACK) Sem 5 & 6 entries ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2024-25 (BACK) — Semesters 5 & 6</span><br/>
+      <span class="meta" contenteditable="true">COP & Back papers listed in PDF; see individual rows</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <!-- Sample rows from PDF for Sem5 and Sem6 (2024-25 back data) -->
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP501T</td><td contenteditable="true">Medicinal Chemistry II</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">37</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP502T</td><td contenteditable="true">Industrial Pharmacy I</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP503T</td><td contenteditable="true">Pharmacology II</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">15</td><td contenteditable="true">34*</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP504T</td><td contenteditable="true">Pharmacognosy & Phytochemistry</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">10</td><td contenteditable="true">9*</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP605T</td><td contenteditable="true">Pharmaceutical Biotechnology</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">27</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP606T</td><td contenteditable="true">Quality Assurance</td><td contenteditable="true">Theory</td><td contenteditable="true">23</td><td contenteditable="true">25</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2024-25 (REGULAR) Sem 7 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2024-25 (REGULAR) — Semester 7</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 7 | Theory: 4 | Practical: 3 | Total Marks Obt.: 495 | Result Status: CP(0) | SGPA: 7.46 | Date of Declaration: 15/04/25</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP701T</td><td contenteditable="true">Instrumental Methods of Analysis</td><td contenteditable="true">Theory</td><td contenteditable="true">21</td><td contenteditable="true">29</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP702T</td><td contenteditable="true">Industrial Pharmacy II</td><td contenteditable="true">Theory</td><td contenteditable="true">21</td><td contenteditable="true">30</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP703T</td><td contenteditable="true">Pharmacy Practice</td><td contenteditable="true">Theory</td><td contenteditable="true">22</td><td contenteditable="true">32</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP704T</td><td contenteditable="true">Novel Drug Delivery System (NDDS)</td><td contenteditable="true">Theory</td><td contenteditable="true">20</td><td contenteditable="true">58</td><td contenteditable="true">--</td><td contenteditable="true">B</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP705P</td><td contenteditable="true">Instrumental Methods of Analysis / NDDS Practical</td><td contenteditable="true">Practical</td><td contenteditable="true">12</td><td contenteditable="true">31</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP706PS</td><td contenteditable="true">Practice School</td><td contenteditable="true">Practical</td><td contenteditable="true">132</td><td contenteditable="true"> </td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP707P</td><td contenteditable="true">Report on Hospital/Industrial Training</td><td contenteditable="true">Practical</td><td contenteditable="true"> </td><td contenteditable="true">87</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== SESSION 2024-25 (REGULAR) Sem 8 ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Session : 2024-25 (REGULAR) — Semester 8</span><br/>
+      <span class="meta" contenteditable="true">Total Subjects: 6 | Theory: 4 | Practical: 2 | Total Marks Obt.: 420 | Result Status: PCP | SGPA: 6.08 | Date of Declaration: 29/07/25</span>
+    </div>
+  </summary>
+  <div class="table-actions">
+    <button class="btn" onclick="addRow(this)">+ Row</button>
+    <button class="btn" onclick="deleteRow(this)">Delete Row</button>
+    <button class="btn" onclick="addColumn(this)">+ Column</button>
+    <button class="btn" onclick="deleteColumn(this)">Delete Column</button>
+  </div>
+  <table>
+    <thead><tr><th>Code</th><th>Name</th><th>Type</th><th>Internal</th><th>External</th><th>Back Paper</th><th>Grade</th><th>Photo</th></tr></thead>
+    <tbody>
+      <tr><td contenteditable="true">BP801T</td><td contenteditable="true">Biostatistics and Research Methodology</td><td contenteditable="true">Theory</td><td contenteditable="true">20</td><td contenteditable="true">17</td><td contenteditable="true">--</td><td contenteditable="true">F</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP802T</td><td contenteditable="true">Social and Preventive Pharmacy</td><td contenteditable="true">Theory</td><td contenteditable="true">21</td><td contenteditable="true">42</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP803ET</td><td contenteditable="true">Pharma Marketing Management</td><td contenteditable="true">Theory</td><td contenteditable="true">21</td><td contenteditable="true">46</td><td contenteditable="true">--</td><td contenteditable="true">C</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP805ET</td><td contenteditable="true">Pharmacovigilance</td><td contenteditable="true">Theory</td><td contenteditable="true">19</td><td contenteditable="true">36</td><td contenteditable="true">--</td><td contenteditable="true">D</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP814PW</td><td contenteditable="true">Project Work</td><td contenteditable="true">Practical</td><td contenteditable="true"> </td><td contenteditable="true">118</td><td contenteditable="true">--</td><td contenteditable="true">B</td><td class="img-cell"></td></tr>
+      <tr><td contenteditable="true">BP815P</td><td contenteditable="true">Report on Industrial Tour</td><td contenteditable="true">Practical</td><td contenteditable="true"> </td><td contenteditable="true">80</td><td contenteditable="true">--</td><td contenteditable="true">A</td><td class="img-cell"></td></tr>
+    </tbody>
+  </table>
+</details>
+
+<!-- ================== Summary / CGPA / Notes ================== -->
+<details>
+  <summary>
+    <div>
+      <span class="title" contenteditable="true">Summary / Overall</span><br/>
+      <span class="meta" contenteditable="true">MOOCs Certifications | First Year Marks: 1081 | Second Year Marks: 1027 | Third Year Marks: 1022 | Fourth Year Marks: 915 | CGPA: 7.06 | Division Awarded: NOT AWARDED</span>
+    </div>
+  </summary>
+  <div style="padding:8px;">
+    <p contenteditable="true" style="margin:6px 0; color:var(--muted)">
+      Note: University doesn't own for the errors or omissions, if any, in this statement.
+    </p>
+  </div>
+</details>
+
+    </div>
+
+    <!-- hidden file input for image import -->
+    <input id="imgFile" class="file-input" type="file" accept="image/*" onchange="handleImageUpload(event)">
+
+  </div>
+
+<script>
+/* ---------- Selection and image import (passport size) ---------- */
+let selectedCell = null;
+document.addEventListener('click', (e)=>{
+  const td = e.target.closest('td');
+  if(!td){
+    if(selectedCell) selectedCell.classList.remove('selected-cell');
+    selectedCell = null;
+    return;
+  }
+  // click on a cell
+  selectCell(td);
+});
+
+function selectCell(td){
+  if(selectedCell) selectedCell.classList.remove('selected-cell');
+  selectedCell = td;
+  selectedCell.classList.add('selected-cell');
+  // If it's an image cell, open file dialog
+  if(td.classList.contains('img-cell')){
+    document.getElementById('imgFile').click();
+  }
+}
+
+function handleImageUpload(e){
+  const file = e.target.files && e.target.files[0];
+  if(!file || !selectedCell) return;
+  const reader = new FileReader();
+  reader.onload = function(ev){
+    // create passport-sized image (quality high)
+    const img = new Image();
+    img.onload = function(){
+      const oc = document.createElement('canvas');
+      const TW = 84*4; // higher resolution then scaled down for clarity
+      const TH = 104*4;
+      oc.width = TW; oc.height = TH;
+      const ctx = oc.getContext('2d');
+      // white background
+      ctx.fillStyle = "#fff"; ctx.fillRect(0,0,TW,TH);
+      // cover fit
+      let sw = img.width, sh = img.height;
+      const sRatio = Math.max(sw/TW, sh/TH);
+      const sx = (sw - (TW * sRatio)) / 2;
+      const sy = (sh - (TH * sRatio)) / 2;
+      ctx.drawImage(img, Math.max(0,sx), Math.max(0,sy), sw - 2*Math.max(0,sx), sh - 2*Math.max(0,sy), 0,0,TW,TH);
+      const dataUrl = oc.toDataURL('image/jpeg', 0.92);
+      selectedCell.innerHTML = '';
+      const imgel = document.createElement('img');
+      imgel.className = 'passport';
+      imgel.src = dataUrl;
+      // store filename attribute
+      imgel.setAttribute('data-filename', file.name || 'photo.jpg');
+      selectedCell.appendChild(imgel);
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+  // reset
+  e.target.value = '';
+}
+
+/* ---------- Table actions: add/delete rows & columns ---------- */
+function addRow(btn){
+  const details = btn.closest('details');
+  const tbody = details.querySelector('table tbody');
+  const colCount = details.querySelectorAll('thead th').length;
+  const tr = document.createElement('tr');
+  for(let i=0;i<colCount;i++){
+    const td = document.createElement('td');
+    if(i === colCount-1) td.className = 'img-cell'; else td.contentEditable = "true";
+    td.addEventListener('click', ()=> selectCell(td));
+    tr.appendChild(td);
+  }
+  tbody.appendChild(tr);
+}
+
+function deleteRow(btn){
+  const details = btn.closest('details');
+  const tbody = details.querySelector('table tbody');
+  if(selectedCell && selectedCell.closest('tr') && selectedCell.closest('table') === details.querySelector('table')){
+    selectedCell.closest('tr').remove();
+    selectedCell = null;
+    return;
+  }
+  if(tbody.lastElementChild) tbody.lastElementChild.remove();
+}
+
+function addColumn(btn){
+  const details = btn.closest('details');
+  const theadTr = details.querySelector('thead tr');
+  const th = document.createElement('th');
+  th.contentEditable = "true";
+  th.innerText = "New";
+  theadTr.appendChild(th);
+  details.querySelectorAll('tbody tr').forEach(tr=>{
+    const td = document.createElement('td');
+    td.contentEditable = "true";
+    td.addEventListener('click', ()=> selectCell(td));
+    tr.appendChild(td);
+  });
+}
+
+function deleteColumn(btn){
+  const details = btn.closest('details');
+  const headers = details.querySelectorAll('thead th');
+  if(headers.length<=1) return;
+  const idx = headers.length - 1;
+  headers[idx].remove();
+  details.querySelectorAll('tbody tr').forEach(tr=>{
+    if(tr.children[idx]) tr.children[idx].remove();
+  });
+}
+
+/* ---------- Export as image (html2canvas) ---------- */
+function exportAsImage(){
+  // Hide controls temporarily (they are hidden by CSS on print, but for html2canvas we hide)
+  const controls = document.querySelectorAll('.controls, .table-actions, .btn.secondary, .note');
+  controls.forEach(c=> c.style.visibility = 'hidden');
+  // Wait one frame to ensure visibility hidden applied
+  requestAnimationFrame(()=>{
+    const el = document.getElementById('sectionsRoot');
+    // load html2canvas if not loaded
+    if(typeof html2canvas === 'undefined'){
+      const s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+      s.onload = ()=> captureCanvas(el, controls);
+      document.body.appendChild(s);
+    } else {
+      captureCanvas(el, controls);
+    }
+  });
+}
+
+function captureCanvas(el, controls){
+  html2canvas(el, {scale:2, useCORS:true}).then(canvas=>{
+    const link = document.createElement('a');
+    link.download = 'aktu_result.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    // restore UI visibility
+    controls.forEach(c=> c.style.visibility = '');
+  }).catch(err=>{
+    alert('Export failed: '+err);
+    controls.forEach(c=> c.style.visibility = '');
+  });
+}
+
+/* ---------- Download current HTML (to save a snapshot) ---------- */
+function downloadHTML(){
+  const html = '<!doctype html>\\n' + document.documentElement.outerHTML;
+  const blob = new Blob([html], {type:'text/html'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'aktu_result_snapshot.html';
+  a.click();
+}
+
+/* ---------- Initialize click listeners for existing td elements ---------- */
+setTimeout(()=>{
+  document.querySelectorAll('#sectionsRoot td').forEach(td=>{
+    td.addEventListener('click', ()=> selectCell(td));
+  });
+}, 200);
+</script>
+
+</body>
+</html>

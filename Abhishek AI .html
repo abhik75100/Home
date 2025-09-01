@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Abhishek AI - Self-Learning Helper (Hindi & English)</title>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js/dist/tesseract.min.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  #chat-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+  #messages {
+    height: 300px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .message {
+    margin: 10px 0;
+  }
+  .user {
+    text-align: right;
+    color: blue;
+  }
+  .bot {
+    text-align: left;
+    color: green;
+  }
+  input[type="text"] {
+    width: calc(100% - 100px);
+    padding: 10px;
+    font-size: 16px;
+  }
+  button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+<div id="chat-container">
+  <h1>Abhishek AI - Self-Learning Helper (Hindi & English)</h1>
+  <div id="messages"></div>
+  <input type="text" id="user-input" placeholder="Type your question here..." />
+  <button onclick="sendMessage()">Ask</button>
+  <br /><br />
+  <input type="file" id="file-input" accept="application/pdf, image/*" onchange="handleFileUpload(event)" />
+  <button onclick="saveDataToSDCard()">Save Data to SD Card</button>
+  <button onclick="loadDataFromSDCard()">Load Data from SD Card</button>
+  <p id="file-output"></p>
+</div>
+
+<script>
+  const messagesDiv = document.getElementById('messages');
+  let collectedData = [];
+
+  // Basic language detection: returns 'hi' for Hindi script, else 'en'
+  function detectLanguage(text) {
+    const hindiRegex = /[\u0900-\u097F]/; // Devanagari Unicode range
+    if (hindiRegex.test(text)) return 'hi';
+    return 'en';
+  }
+
+  function sendMessage() {
+    const userInput = document.getElementById('user-input');
+    const message = userInput.value.trim();
+    if (!message) return;
+    addMessage(message, 'user');
+    collectedData.push({ type: 'user', message });
+
+    userInput.value = '';
+    const lang = detectLanguage(message);
+
+    setTimeout(() => {
+      getBotResponse(message, lang).then(botResponse => {
+        addMessage(botResponse, 'bot');
+        collectedData.push({ type: 'bot', message: botResponse });
+      });
+    }, 500);
+  }
+
+  function addMessage(text, sender) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${sender}`;
+    messageDiv.textContent = text;
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  async function getBotResponse(input, lang) {
+    if (lang === 'hi') {
+      if (input.includes('नमस्ते') || input.includes('हैलो')) {
+        return 'नमस्ते! मैं Abhishek AI हूँ। मैं आपकी पीडीएफ़, चित्र और अन्य से जानकारी सीख सकता हूँ। कैसे मदद करूँ?';
+      } else {
+        return `आपका प्रश्न प्राप्त हुआ: "${input}". कृपया प्रतीक्षा करें...`;
+      }
+    } else {
+      if (input.toLowerCase().includes('hello') || input.toLowerCase().includes('hi')) {
+        return 'Hello! I am Abhishek AI. I can learn from your PDFs, images, and more. How can I assist you?';
+      } else {
+        return `Received your query: "${input}". Please wait...`;
+      }
+    }
+  }
+
+  async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const fileOutput = document.getElementById('file-output');
+
+    if (file.type === 'application/pdf') {
+      fileOutput.textContent = 'Processing PDF...';
+      readPDF(file);
+    } else if (file.type.startsWith('image/')) {
+      fileOutput.textContent = 'Processing Image...';
+      extractTextFromImage(file);
+    } else {
+      fileOutput.textContent = 'Unsupported file type.';
+    }
+  }
+
+  async function readPDF(file) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      const pdfText = reader.result;
+      addMessage(`Extracted PDF Content: ${pdfText}`, 'bot');
+      collectedData.push({ type: 'pdf', content: pdfText });
+    };
+    reader.readAsText(file);
+  }
+
+  async function extractTextFromImage(file) {
+    const reader = new FileReader();
+    reader.onload = function () {
+      Tesseract.recognize(reader.result, 'eng+hin', {
+        logger: (info) => console.log(info),
+      }).then(({ data: { text } }) => {
+        addMessage(`Extracted Image Text: ${text}`, 'bot');
+        collectedData.push({ type: 'image', content: text });
+      });
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function saveDataToSDCard() {
+    const blob = new Blob([JSON.stringify(collectedData, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'collectedData.json';
+    link.click();
+  }
+
+  function loadDataFromSDCard() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'application/json';
+    input.onchange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function () {
+          const data = JSON.parse(reader.result);
+          collectedData = data;
+          addMessage('डेटा SD कार्ड से लोड हो गया है। / Data loaded from SD card.', 'bot');
+        };
+        reader.readAsText(file);
+      }
+    };
+    input.click();
+  }
+</script>
+</body>
+</html>

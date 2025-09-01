@@ -1,0 +1,1140 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>UPSC</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Security-Policy" content="default-src *; img-src * 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' *; style-src  'self' 'unsafe-inline' *" />
+    <link rel="stylesheet" href="css/fullcalendar.css" />
+    <link rel="stylesheet" href="css/colorpicker.css" />
+    <link rel="stylesheet" href="css/datepicker.css" />
+    <link rel="stylesheet" href="css/uniform.css" />
+    <link rel="stylesheet" href="css/select2.css">
+    <link rel="stylesheet" href="css/maruti-style.css" />
+    <link rel="stylesheet" href="css/maruti-media.css" class="skin-color" />
+<style>
+    img.azadi{
+        width: 120px;
+        height: 80px;
+    }
+    /* Chrome, Safari, Edge, Opera */
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    }
+
+    /* Firefox */
+    input[type=number] {
+    -moz-appearance: textfield;
+    }
+    .icon-card-div{
+        cursor: pointer;
+    }
+ </style>
+<noscript>
+        <meta http-equiv="refresh" runat="server" id="mtaJSCheck" content="0;nojs.php" />
+</noscript>
+<script type="text/javascript" >
+   function preventBack(){window.history.forward();}
+    setTimeout("preventBack()", 0);
+    window.onunload=function(){null};
+</script>
+
+</head>
+<body >
+
+<style type="text/css">
+	header.upsc-header{
+		display: flex;
+		background: linear-gradient(90deg, rgba(254,254,255,1) 0%, rgba(182 205 245) 100%);
+        width: 100%;
+        
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+    }
+    @media(max-width: 500px){        
+        .left-container .site-title {
+            font-size: 16px;
+        }
+    }
+	.left-container{
+	    background: url(./images/logo.png) no-repeat 3px 0;
+	    float: left;
+        width: 100%;
+	    font-size: 155%;
+	    line-height: 90%;
+	    min-height: 72px;
+	    padding: 15px 0 0 65px;
+	    text-transform: uppercase;
+	    margin-top: 16px;
+	    margin-left: 1%;
+	}
+    .right-container{
+       
+        float: right;
+        text-transform: uppercase;
+        margin-top: 16px;
+	}
+	.left-container .site-title {
+	    line-height: 1.2;
+	    color: #111;
+	    text-decoration: none;
+	    font-size:24.8px;
+		font-weight:600;
+		font-family: "Lucida Console", "Courier New", monospace;
+	}
+	.left-container .site-title strong {
+	    font-weight: 600;
+	    display: inline-block;
+	    font-size: 100%;
+	}
+	.left-container .site-title span {
+		display: block;
+	}
+	.lang {
+		margin-top: 2%;
+ 	 	margin-left: 50%;
+	}
+
+
+
+.float-right{
+	float:right;
+	margin-right: 2%;
+	margin-top: 0.3%;
+}
+
+
+.btn {
+  box-sizing: border-box;
+  appearance: none;
+  background-color: #fd1919ad;
+  border: 2px solid $red;
+  border-radius: 0.6em;
+  color: $red;
+  cursor: pointer;
+
+  align-self: center;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1;
+
+
+  text-decoration: none;
+  text-align: center;
+
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+
+  &:hover,
+  &:focus {
+    color: #fff;
+    outline: 0;
+  }
+}
+
+
+.first {
+  transition: box-shadow 300ms ease-in-out, color 300ms ease-in-out;
+  &:hover {
+    box-shadow: 0 0 40px 40px $red inset;
+  }
+}
+
+
+.topMenuBar {
+    background: #e47f18;
+    border-bottom: 1px solid #ebebeb;
+	padding: 10px 0px 0px 65px;
+}
+.topmenupart {
+    padding: 5px 5px;
+    color: rgb(27, 27, 27);
+    position: relative;
+
+}
+
+.topmenupart .menulist ul {
+    padding-left: 0px;
+    padding-top: 3px;
+    margin-bottom: 0px;
+    list-style-type: none;
+    display: inline-block;
+}
+.pull-right {
+    float: right!important;
+}
+
+.forzoominoutFonts a {
+    display: inline-block;
+    cursor: pointer;
+    color: #fff;
+    font: 14px/24px 'Roboto', sans-serif !important;
+        margin: 4px 0px 1px;
+    padding: 0px 5px;
+    background: transparent;
+    width: 25px;
+    height: 24px;
+    text-align: center;
+    border-radius: 16px;
+}
+
+.accordion .widget-box {
+	width: 90%;
+    margin-top: 20px;
+	margin-left: 15px;
+    margin-bottom: 0;
+    border-radius: 0;
+}
+label{
+	display:inline;
+}
+.color-blue{
+	color:blue;
+}
+
+
+.btn-success-2 {
+    color: #251c1c;
+    margin-bottom: 1%;
+    padding-left: 1%;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+    background-color: #5bb75b;
+    *background-color: #51a351;
+    background-image: -moz-linear-gradient(top,#62c462,#51a351);
+    background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+    background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+    background-image: -o-linear-gradient(top,#62c462,#51a351);
+    background-image: linear-gradient(to bottom,#62c462,#51a351);
+    background-repeat: repeat-x;
+    border-color: #51a351 #51a351 #387038;
+    border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462',endColorstr='#ff51a351',GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+
+ .form-horizontal .control-label {
+
+    text-align: left;
+    padding-left: 2%;
+ }
+ .menulist{
+	display: flex;
+    justify-content: space-evenly;
+ }
+ @media print{
+    img.azadi{
+        width: 150px;
+        height: 80px;
+    }
+ }
+ @media screen and (max-width: 600px) {
+	.menulist{
+		flex-direction: column;
+		font-size: 14px;
+		font-weight: 300;
+	}
+
+	.topMenuBar {   
+		padding: 0;
+	}
+}
+</style>
+<header class="topMenuBar py-1">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 col-sm-6 col-xs-6 col-xl-12">
+			<nav class="menulist">
+			<div>	
+									<a href="dashboard.php"><i class="icon icon-globe"></i> <font color="white"><b>OTR ID : XXXXXXXXXXXX236</b></font></a> &nbsp;&nbsp;
+					<i class="icon icon-user"></i>&nbsp;&nbsp;<b><font color="white">Welcome, ABHISHEK KUMAR</font>
+					( <span style="color:white;"><b>Last Login : </b>29/12/2024 01:51:07</span> )
+					</b>
+								</div>
+				<div>	
+					
+											<!--<a href="update_email_mobile.php"><i class="icon  icon-bell"></i> <font color="white"><b></b></font></a>&nbsp;&nbsp;-->
+						<!--<a href="latest-daf.php"><i class="icon  icon-bell"></i> <font color="white"><b></b></font></a>&nbsp;&nbsp;-->
+						<a href="change_password.php"><i class="icon  icon-font"></i> <b><font color="white">Change Password</font></b></a>&nbsp;&nbsp;
+						<a href="logout.php"><i class="icon icon-off"></i> <b><font color="white">Logout</font></b></a>
+									</div>
+				
+			</nav>
+			</div>
+		</div>
+	</div>
+</header>
+<header class="upsc-header topbar">
+	<div class="left-container"> 
+		<div class="site-title">
+			<strong>संघ  लोक  सेवा  आयोग</strong>
+			<span>UNION PUBLIC SERVICE COMMISSION</span>            
+		</div>
+	</div>
+    <img src="./azadi.png" class="azadi" !important alt="" style="float:right; display:inline;padding-top:10px;">
+</header><style>
+	#sidebar > ul > li {
+    list-style-type: none;
+    float: right;
+    display: block;
+    margin: 0px -10px 0px 0px;
+    border-right: 1px solid #41bedd;
+    position: relative;
+    padding: 10px;
+    cursor: pointer;
+}
+
+</style>
+<div id="sidebar">
+<ul>
+	<li class="active"><a href="update.php"> <span>Update/Edit Profile</span></a> </li>
+	<li class="active"><a href="viewuserprofile.php"> <span>View OTR Profile</span></a> </li>	
+	<li class="active"><a href="application-history.php"> <span>Application History</span></a> </li>
+	<li class="active"><a href="app_status.php"><span>Application Status</span></a> </li>
+	<li class="active"><a href="latest-notification.php"> <span>Latest Notification</span></a> </li>
+	<li class="active"><a href="latest-daf.php"> <span>Latest DAF</span></a> </li>
+	<!--<li class="active"><a href="withdraw-notification.php"> <span></span></a> </li>-->
+	<li class="active"><a href="dashboard.php"> <span>Dashboard</span></a> </li>
+	<li class="active"><a href="dashboard.php"> <span>V:118</span></a> </li>
+</ul>
+</div>
+
+<link href="./css/bootstrap.min-5-3.css" rel="stylesheet">
+<style>
+.card {
+    padding: 20px;
+    display: flex;
+    margin-bottom: 15px;
+}
+.heading{
+    color: green; padding: 5px !important; font-size: 16px; font-weight: 600; height: 40px;
+}
+.check_p_add{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 10px;
+}
+.card.footer{
+    padding: 5px;
+    margin-top: 20px;
+}
+.btn.btn-save-style{
+    width: 40%;
+    font-weight: 600;
+    background-color: #1e9c17 !important;
+}
+
+.btn.btn-save-style:hover{box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);
+-webkit-box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);
+-moz-box-shadow: 0px 0px 10px 0px rgba(30,156,23,1);}
+</style>
+    <style>
+        .card {
+            padding: 20px;
+            display: flex;
+            margin-bottom: 15px;
+        }
+
+        .check_p_add {
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+        }
+
+        .card-active {
+            background: rgb(30 156 23 / 33%);
+        }
+
+        .card-disabled {
+            background: rgb(220 220 220);
+            /* cursor: not-allowed; */
+        }
+
+        .icon-card-div {
+            flex-direction: row;
+            justify-content: center;
+            gap: 24px;
+            align-items: center;
+        }
+
+        img.icon-card {
+            width: 36px;
+            height: 36px;
+        }
+
+        .hide-cards {
+            transition: all .3s ease-out;
+            -webkit-transition: all .3s ease-out;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        input.form-control,
+        select.form-select {
+            border: 2px solid #aba4a4;
+        }
+
+        input:disabled {
+            background: #dddddd;
+            cursor: not-allowed
+        }
+
+        fieldset {
+            padding: 0 10px 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding-top: 10px;
+        }
+
+        legend {
+            padding: 2px -3px;
+            font-size: 18px;
+            background-color: #1e9c17;
+            border-radius: 7px;
+            color: #ffffff;
+            margin-bottom: 0;
+        }
+
+        fieldset>legend {
+            text-align: center;
+            margin-top: -25px;
+        }
+
+        fieldset>legend+* {
+            clear: both;
+        }
+
+        .list-group .active>a {
+            color: #fff !important;
+        }
+
+        .list-group .active {
+            background-color: #1a9a12fa;
+        }
+
+        .list-group {
+            background-color: #f9f9f9;
+        }
+
+        .list-group>li>a {
+            text-decoration: none;
+            color: blue;
+            font-weight: 600
+        }
+
+        .custom-sidebarmain {
+            border: 1px solid #cdcdcd;
+            background-color: #f9f9f9;
+        }
+
+        .note {
+            margin-left: 12px;
+            color: red;
+            font-size: 12px;
+            font-weight: 700;
+        }
+    </style>
+
+    
+    <div class="container-fluid" style="padding-top: 60px; background: #eee;">
+        <div class="row">
+            <style>
+	.list-group .active>a {
+		color: #fff !important;
+	}
+
+	.list-group .active {
+		background-color: #1a9a12fa;
+	}
+
+	.list-group {
+		background-color: #f9f9f9;
+	}
+
+	.list-group>li>a {
+		text-decoration: none;
+		color: blue;
+		font-weight: 600
+	}
+
+	.custom-sidebarmain {
+		border: 1px solid #cdcdcd;
+		background-color: #f9f9f9;
+	}
+
+	.list-group-item {
+		display: flex;
+		justify-content: space-between;
+	}
+</style>
+<div class="col-md-3">
+
+	<div class="card heading mb-3" style="background-color:aliceblue;">
+		<h5 class="card-title d-flex justify-content-center" style="color: green; padding: 5px; font-size: 15px;">ADD INFORMATION TO OTR PROFILE<span style="padding-left:10px;"><img src="images/downarrow.png"/></h5></span>
+	</div>
+		<ol class="list-group">
+		<li class="list-group-item"><a href="./personal_info.php">Personal Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>
+		<li class="list-group-item" class="list-group-item"><a href="./address_info.php">Address Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>		
+		<li class="list-group-item"><a href="./uploadpic_info.php">Photo & Sign Upload</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>
+		
+		<li class="list-group-item active"><a href="./educational_info.php">Educational Information</a><span style="padding-left:10px;"><img src="images/correct.png"/></span></li>
+		<li class="list-group-item"><a href="./uploadfile_info.php">Documents Upload</a><span style="padding-left:10px;"><img src="images/worng.png"/></li>
+		<li class="list-group-item"><a href="./parental_info.php">Parental Information</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>			
+		<li class="list-group-item"><a href="./employment_info.php">Employment Information</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>
+		<li class="list-group-item"><a href="./examination_info.php">UPSC Examination Information</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>		
+		<li class="list-group-item"><a href="./prizes_info.php">Achievement, Prizes, Medals & others</a><span style="padding-left:10px;"><img src="images/worng.png"/></span></li>		
+		
+					</ol>
+</div>            <div class="col-md-9">
+                <div class="card heading" style="background-color:aliceblue;">
+                    <div class="card-title d-flex justify-content-center">
+                        Educational Information Details                    </div>
+                </div>
+
+                                    <div class="alert alert-success settimeout" role="alert">
+                        Education added or updated successfully!                    </div>
+                                                                                                
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card text-center fw-bolder icon-card-div card-active" id="tenth" onclick="toggleTabs(this)"> <img class="icon-card" src="./10.png"  alt="tenth details">
+                            <span>Matriculation/10th</span>
+                        </div>
+                    </div>
+                                            <div class="col-md-4">
+                            <div class="card text-center fw-bolder icon-card-div card-disabled" id="inter" onclick="toggleTabs(this)"><img class="icon-card" src="./12.png" alt="inter details">
+                                <span>Intermediate/12th</span>
+                            </div>
+                        </div>
+                                                    <div class="col-md-4">
+                                <div class="card text-center fw-bolder icon-card-div card-disabled" id="grad" onclick="toggleTabs(this)"><img class="icon-card" src="./grad.png" alt="graduation details"> <span>Graduation</span></div>
+                            </div>
+                                                                </div>
+
+
+                <div class="card hide-cards" data-id="tenth">
+                                            <style>
+    .view-custom{
+        display: flex;
+        gap: 20px;
+        border: 1px solid #eee;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 600;
+    }
+    .view-custom > label{
+        font-weight: 400;
+    }
+</style>
+	    <div class="row"><div class="col-12 d-flex justify-content-end mb-3">
+        <a href="./educational_info.php?show_tab=tenth&mode=tenth_edit" class="btn btn-success">Edit</a>
+    </div></div>
+	    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12 text-center">10th or Equivalent Details</legend>
+        <div class="row pt-4">
+            <div class="col-md-6 col-sm-12 view-custom">            
+                <label for="" class="form-label">Examination Passed</label>
+                10th or Equivalent
+            </div>
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Class/Division/Grade</label>
+                NOT APPLICABLE            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Percentage of Marks(%)</label>
+                55.5            </div>
+
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">CGPA Score</label>
+                            </div>
+
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">CGPA Out Of</label>
+                            </div>
+            
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">Year of Passing</label>
+                2019            </div>
+
+            <div class="col-md-9 col-sm-12 view-custom">
+                <label for="" class="form-label">Subject(s)</label>
+                HINDI ENGLISH MATHEMATICS SCIENCE SOCIAL SCIENCE DRAWING            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Name of School/College/Institution</label>
+                RATHOUR MISSION GIRLS INTER COLLEGE KALLUA MOTI            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Name of Board/University</label>
+                UP BOARD            </div>
+           
+        </div>
+        
+    </fieldset>
+   
+    
+                                    </div>
+
+                <div class="card hide-cards d-none" data-id="inter">
+                                            <style>
+    .view-custom{
+        display: flex;
+        gap: 20px;
+        border: 1px solid #eee;
+        justify-content: space-between;
+        align-items: baseline;
+        font-weight: 600;
+    }
+    .view-custom > label{
+        font-weight: 400;
+    }
+</style>
+	    <div class="row"><div class="col-12 d-flex justify-content-end mb-3">
+        <a href="./educational_info.php?show_tab=inter&mode=inter_edit" class="btn btn-success">Edit</a>
+        <a href="./educational_info.php?show_tab=inter&actdel=inter_delete" class="btn btn-danger ms-2">Delete</a>
+    </div></div>
+	    <fieldset class="mb-4">
+        <legend class="offset-md-4 col-md-4 col-sm-12 text-center">12th or Equivalent Details</legend>
+        <div class="row pt-4">
+           
+           
+            <div class="col-md-12 col-sm-12 view-custom">
+                <label for="" class="form-label">12th or Equivalent Status</label>
+                Completed            </div>
+                        <div class="col-md-6 col-sm-12 view-custom">            
+                <label for="" class="form-label">Examination Passed</label>
+                12th or Equivalent
+            </div>
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Class/Division/Grade</label>
+                SECOND            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Percentage of Marks(%)</label>
+                51.4            </div>
+
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">CGPA Score</label>
+                            </div>
+
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">CGPA Out Of</label>
+                            </div>
+            
+            <div class="col-md-3 col-sm-12 view-custom">
+                <label for="" class="form-label">Year of Passing</label>
+                2021            </div>
+
+            <div class="col-md-9 col-sm-12 view-custom">
+                <label for="" class="form-label">Subject(s)</label>
+                HINDI ENGLISH PHYSICS CHEMISTRY BIOLOGY            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Name of School/College/Institution</label>
+                RATHOUR MISSION GIRLS INTER COLLEGE KALLUA MOTI LAKHIMPUR KHERI            </div>
+
+            <div class="col-md-6 col-sm-12 view-custom">
+                <label for="" class="form-label">Name of Board/University</label>
+                UP BOARD            </div>
+                   </div>
+        
+    </fieldset>
+   
+    
+                                    </div>
+
+                <div class="card hide-cards d-none" data-id="grad">
+                                                                    <strong class="card-title text-center"><font color="blue" size="4px"><< Graduation >></font></strong>
+                                                    <div class="row card-body">
+                                <form id="grad_status_form" action="./educational_info.php" method="POST" autocomplete="off">
+                                    <div class="col-md-12">
+                                        <label for="grad_status" class="form-label">Graduation Status</label>
+                                        <select name="grad_status" id="grad_status" onchange="grad_status_form.submit()" class="form-select">
+                                            <option>--Choose--</option>
+                                                                                                                                            <option  value="1">Completed</option>
+                                                                                                                                            <option  selected="selected"  value="2">Appearing</option>
+                                                                                    </select>
+                                    </div>
+                                    <input type="hidden" name="uid" value="12400002238923" style="display: none;" />
+                                </form>
+                            </div>
+                                                
+                                                    <div class="row">
+                                <form action="./educational_info.php" method="POST" autocomplete="off" onsubmit="return validateForm(this, 'grad');">
+                                    <div class="row card-body">
+                                        <div class="col-md-6 col-sm-12">
+                                            <label for="stream_appear" class="form-label">Stream at Graduation Level</label>
+                                            <select name="stream" id="stream_appear" class="form-select check-other" required>
+                                                <option value="">--Choose--</option>
+                                                                                                                                                        <option  value="1">Medical</option>
+                                                                                                                                                        <option  value="2">Engineering</option>
+                                                                                                                                                        <option  value="3">Science</option>
+                                                                                                                                                        <option  value="4">Humanity</option>
+                                                                                                                                                        <option  value="5">Commerce & Account & Economic</option>
+                                                                                                                                                        <option  value="6">Management</option>
+                                                                                                                                                        <option  value="7">Law</option>
+                                                                                                                                                        <option  value="8">Others</option>
+                                                                                            </select>
+                                        </div>
+
+                                        
+                                        <div class="col-md-6 col-sm-12 d-none" data-id="stream_appear">
+                                            <label for="other_stream_appear" class="form-label">Other Stream at Graduation Level</label>
+                                            <input type="text" class="form-control" name="other_stream" id="other_stream_appear" value="" maxlength="100">
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <label for="exam_passed_grad_appear" class="form-label">Graduation Degree</label>
+                                            <input type="hidden" name="uid" value="12400002238923" style="display: none;" />
+                                            <select id="exam_passed_grad_appear" name="exam_passed" class="form-select check-other" required>
+                                                <option value="">Select Graduation Degree</option>
+                                                                                                <option  value='1'>AMIE</option><option  value='2'>AMIIM</option><option  value='5'>B.A. </option><option  value='18'>BACHELOR OF HOTEL MANAGEMENT</option><option  value='6'>B.A.[HONS] </option><option  value='19'>BAMS</option><option  value='7'>B.C.A. </option><option  value='8'>B.COM.</option><option  value='9'>B.COM. (HONS) </option><option  value='10'>B.D.S.</option><option  value='11'>B.E.</option><option  value='20'>BIMS</option><option  value='3'>B. PHARMA</option><option  value='12'>B.P.T.</option><option  value='13'>B.SC.</option><option  value='14'>B.SC. (AGRICULTURE)</option><option  value='15'>B.SC.[ENGG]</option><option  value='16'>B.SC.[HONS]</option><option  value='21'>BSMS</option><option  value='4'>B. TECH.</option><option  value='22'>BUMS</option><option  value='17'>B.V.Sc. & A.H.</option><option  value='23'>L.L.B. </option><option  value='24'>L.L.M.</option><option  value='36'>MBBS</option><option  value='41'>Other</option>                                            </select>
+                                        </div>
+
+                                        
+                                        <div class="col-md-6 col-sm-12 d-none" data-id="exam_passed_grad_appear">
+                                            <label for="other_exam_passed_appear" class="form-label">Other Graduation Degree</label>
+                                            <input type="text" class="form-control" name="other_exam_passed" id="other_exam_passed_appear" value="" maxlength="100">
+                                        </div>
+
+                                        <div class="col-md-3 col-sm-12">
+                                            <label for="pass_date_grad_appear" class="form-label">Likely Date of Completion</label>
+                                            <input type="date" min="2024-12-30" class="form-control" name="pass_date" id="pass_date_grad_appear" value="" required>
+                                        </div>
+
+                                        <div class="col-md-9 col-sm-12">
+                                            <label for="subjects_grad_appear" class="form-label">Subject(s) <span class="note">[Do not use any special character(s)]</span></label>
+                                            <input type="text" class="form-control" name="subjects" id="subjects_grad_appear" value="" pattern="^(?=.*[A-Za-z])[A-Za-z0-9\s]+$" required>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <label for="name_school_grad_appear" class="form-label">Name of School/College/Institution</label>
+                                            <input type="text" name="name_school" class="form-control" id="name_school_grad_appear" value="" pattern="^(?=.*[A-Za-z])[A-Za-z0-9\s]+$" required>
+                                        </div>
+
+                                        <div class="col-md-6 col-sm-12">
+                                            <label for="board_university_grad_appear" class="form-label">Name of Board/University</label>
+                                            <select id="board_university_grad_appear" name="board_university" class="form-select check-other" required>
+                                                <option value="">Select University</option>
+                                                                                                <option  value='200'>0THERS</option><option  value='1'>Aligarh Muslim University, Aligarh, U.P.</option><option  value='2'>All India Institute of Medical Sciences, New Delhi</option><option  value='3'>Amity University, Noida, U.P.</option><option  value='5'>Annamalai University, Annamalainagar, T.N.</option><option  value='4'>Anna University, Chennai, T.N.</option><option  value='6'>Awadhesh Pratap Singh University, Rewa, M.P.</option><option  value='7'>Baba Farid University of Health Sciences, Faridkot, Punjab</option><option  value='8'>Babasaheb Bhimrao Ambedkar University, Lucknow, U.P.</option><option  value='9'>Banaras Hindu University, Varanasi, U.P.</option><option  value='10'>Bangalore University, Bangalore, Karnataka</option><option  value='11'>Barkatullah Vishwavidyalaya, Bhopal, M.P.</option><option  value='12'>Bhavnagar University, Bhavnagar, Gujarat</option><option  value='13'>Birla Institute of Technology and Science, Pilani, Rajasthan</option><option  value='14'>Birla Institute of Technology, Mesra, Ranchi, Jharkhand</option><option  value='15'>Bundelkhand University, Jhansi, U.P.</option><option  value='16'>Centre For Environmental Planning & Technology University,  Ahmedabad, Gujarat</option><option  value='201'>Chaudhary Devi Lal University, Sirsa, Haryana</option><option  value='19'>Chaudhary Sarwan Kumar Himachal Pradesh Krishi Vishwavidyalaya, Palampur, H.P.</option><option  value='17'>Ch. Charan Singh Haryana Agricultural University, Hisar, Haryana</option><option  value='18'>Ch. Charan Singh University, Meerut, U.P.</option><option  value='20'>Chhatrapati Shahuji Maharaj University, Kanpur, U.P.</option><option  value='21'>Dayalbagh Educational Institute, Agra, U.P.</option><option  value='22'>Deenbandhu Chhotu Ram University of Science & Technology, Murthal, Haryana</option><option  value='23'>Deendayal Upadhyaya Gorakhpur University, Gorakhpur, U.P.</option><option  value='24'>Devi Ahilya Vishwavidyalaya, Indore, M.P.</option><option  value='204'>Dr. APJ Abdul Kalam Technical University, Uttar Pradesh</option><option  value='26'>Dr Babasaheb Ambedkar Marathwada University, Aurangabad, Maharashtra</option><option  value='27'>Dr Babasaheb Ambedkar Open University, Ahmedabad, Gujarat</option><option  value='28'>Dr Bhim Rao Ambedkar University, Agra, U.P.</option><option  value='25'>Dr B.R. Ambedkar Open University, Hyderabad, A.P.</option><option  value='29'>Dr Harisingh Gour Vishwavidyalaya, Sagar, M.P.</option><option  value='30'>Dr Panjabrao Deshmukh Krishi Vidyapeeth, Akola, Maharashtra</option><option  value='31'>Dr Ram Manohar Lohia Avadh University, Faizabad, U.P.</option><option  value='32'>Forest Research Institute, Dehradun, Uttarakhand</option><option  value='33'>Gauhati University, Guwahati, Assam</option><option  value='34'>Gautam Buddha Technical University, Lucknow, U.P.</option><option  value='35'>Gokhale Institute of Politics and Economics, Pune, Maharashtra</option><option  value='36'>Govind Ballabh Pant University of Agriculture and Technology, Pantnagar, Uttarakhand</option><option  value='37'>Gujarat Technological University, Navarangpura, Ahmedabad, Gujarat</option><option  value='38'>Gujarat University, Ahmedabad, Gujarat</option><option  value='39'>Guru Ghasidas University, Bilaspur, Chhattisgarh</option><option  value='40'>Guru Gobind Singh Indraprastha University, Delhi.</option><option  value='42'>Gurukula Kangri Vishwavidyalaya, Haridwar, Uttarakhand</option><option  value='41'>Guru Nanak Dev University, Amritsar, Punjab</option><option  value='43'>Hemwati Nandan Bahuguna Garhwal University, Srinagar, Uttarakhand</option><option  value='44'>Himachal Pradesh University, Shimla, H.P.</option><option  value='45'>Indian Agricultural Research Institute, New Delhi</option><option  value='46'>Indian Institute of Foreign Trade, New Delhi</option><option  value='47'>Indian Institute of Information Technology, Allahabad, U.P.</option><option  value='48'>Indian Institute of Management, Ahmedabad, Gujarat</option><option  value='49'>Indian Institute of Management, Bangalore, Karnataka</option><option  value='50'>Indian Institute of Management, Indore, M.P.</option><option  value='51'>Indian Institute of Management, Kolkata, W.B.</option><option  value='52'>Indian Institute of Management, Kozhikode, Kerala</option><option  value='53'>Indian Institute of Management, Lucknow, U.P.</option><option  value='54'>Indian Institute of Science, Bangalore, Karnataka</option><option  value='203'>Indian Institute of Technology, Bhubaneshwar</option><option  value='55'>Indian Institute of Technology Bombay, Mumbai, Maharashtra</option><option  value='56'>Indian Institute of Technology Delhi, New Delhi</option><option  value='57'>Indian Institute of Technology Guwahati, Assam</option><option  value='202'>Indian Institute of Technology, Indore</option><option  value='58'>Indian Institute of Technology Kanpur, U.P.</option><option  value='59'>Indian Institute of Technology Kharagpur, W.B.</option><option  value='60'>Indian Institute of Technology Madras, Chennai, T.N.</option><option  value='61'>Indian Institute of Technology Roorkee, Roorkee, Uttarakhand</option><option  value='62'>Indian School of Mines University, Dhanbad, Jharkhand</option><option  value='63'>Indian Veterinary Research Institute, Izatnagar, U.P.</option><option  value='64'>Indira Gandhi Krishi Vishwavidyalaya, Raipur, Chhattisgarh</option><option  value='65'>Indira Gandhi National Open University, New Delhi</option><option  value='66'>Institute of Chartered Accountants of India</option><option  value='67'>Institute of Company Secretaries of India, New Delhi.</option><option  value='68'>Institute of Engineers, India</option><option  value='69'>Institute of Management Technology, Ghaziabad, U.P.</option><option  value='70'>Institute of Rural Management, Anand, Gujarat</option><option  value='71'>International Institute of Information Technology, Bangalore, Karnataka</option><option  value='72'>International Institute of Information Technology, Hyderabad, A.P.</option><option  value='73'>Jadavpur University, Kolkata, W.B.</option><option  value='74'>Jai Narain Vyas University, Jodhpur, Rajasthan.</option><option  value='75'>Jamia Hamdard, New Delhi</option><option  value='76'>Jamia Millia Islamia, New Delhi</option><option  value='77'>Jawaharlal Institute of Postgraduate Medical Education and Research, Puducherry</option><option  value='78'>Jawaharlal Nehru Technological University, Hyderabad, A.P.</option><option  value='79'>Jawaharlal Nehru University, New Delhi</option><option  value='80'>Jaypee Institute of Information Technology, Noida, U.P.</option><option  value='81'>Jiwaji University, Gwalior, M.P.</option><option  value='83'>Kakatiya University, Warangal, A.P.</option><option  value='84'>Kalinga Institute of Industrial Technology, Bhubaneshwar, Odisha</option><option  value='85'>Kannur University, Kannur, Kerala</option><option  value='87'>Karnataka State Open University, Mysore, Karnataka</option><option  value='86'>Karnatak University, Dharwad, Karnataka</option><option  value='88'>Kerala Agricultural University, Thrissur, Kerala</option><option  value='89'>King George's Medical University, Lucknow, U.P.</option><option  value='82'>K. J. Somaiya Institute of Management Studies and Research, Vidyavihar (East), Mumbai, Maharashtra</option><option  value='90'>Kumaun University, Nainital, Uttarakhand</option><option  value='91'>Kurukshetra University, Kurukshetra, Haryana</option><option  value='92'>Lalit Narayan Mithila University, Darbhanga, Bihar</option><option  value='94'>Madurai-Kamaraj University, Madurai, T.N.</option><option  value='95'>Magadh University, Bodh Gaya, Bihar</option><option  value='96'>Maharaja Ganga Singh University, Bikaner, Rajasthan</option><option  value='97'>Maharashtra University of Health Sciences, Nashik, Maharashtra</option><option  value='98'>Maharshi Dayanand Saraswati University, Ajmer, Rajasthan</option><option  value='99'>Maharshi Dayanand University, Rohtak, Haryana</option><option  value='100'>Mahatma Gandhi University, Kottayam, Kerala</option><option  value='101'>Mahatma Phule Krishi Vidyapeeth, Rahuri, Maharashtra</option><option  value='102'>Malviya National Institute of Technology, Jaipur, Rajasthan</option><option  value='103'>Management Development Institute, Gurgaon, Haryana</option><option  value='104'>Mangalore University, Mangalore, Karnataka</option><option  value='105'>Manipal Academy of Higher Education, Manipal, Karnataka</option><option  value='106'>Manipur University, Imphal, Manipur</option><option  value='107'>Manonmaniam Sundaranar University, Tirunelveli, T.N.</option><option  value='108'>Maulana Azad National Institute of Technology, Bhopal, M.P.</option><option  value='93'>M. J. P. Rohilkhand University, Bareilly, U.P.</option><option  value='109'>Mody Institute of Technology & Science, Sikar, Rajasthan</option><option  value='110'>Mohanlal Sukhadia University, Udaipur, Rajasthan</option><option  value='111'>Motilal Nehru National Institute of Technology, Allahabad, U.P.</option><option  value='113'>National Academy of Legal Studies and Research University, Hyderabad, A.P.</option><option  value='114'>National Institute of Pharmaceutical Education and Research, S.A.S. Nagar, Punjab</option><option  value='115'>National Institute of Technology, Durgapur, W.B.</option><option  value='116'>National Institute of Technology, Hamirpur, H.P.</option><option  value='117'>National Institute of Technology, Jamshedpur, Jharkhand</option><option  value='118'>National Institute of Technology, Kozhikode, Kerala</option><option  value='119'>National Institute of Technology, Kurukshetra, Haryana</option><option  value='120'>National Institute of Technology, Silchar, Assam</option><option  value='121'>National Institute of Technology, Suratkal, Karnataka</option><option  value='122'>National Institute of Technology, Tiruchirapalli, T.N.</option><option  value='123'>National Institute of Technology, Warangal, A.P.</option><option  value='124'>National Law Institute University, Bhopal, M.P.</option><option  value='125'>National Law School of India University, Bangalore, Karnataka</option><option  value='126'>National Law University, Jodhpur, Rajasthan</option><option  value='127'>Nirma University of Science & Technology, Ahmedabad, Gujarat</option><option  value='128'>North Eastern Hill University, Shillong, Meghalaya</option><option  value='112'>N.T.R. University of Health Sciences, Vijayawada, A.P.</option><option  value='129'>Osmania University, Hyderabad, A.P.</option><option  value='130'>Oxford University, U.K.</option><option  value='131'>Panjab University, Chandigarh, Punjab</option><option  value='132'>Patna University, Patna, Bihar</option><option  value='133'>PEC University of Technology, Chandigarh</option><option  value='134'>Periyar University, Salem, T.N.</option><option  value='135'>Pondicherry University, Puducherry</option><option  value='136'>Post-Graduate Institute of Medical Education and Research, Chandigarh</option><option  value='137'>Pt. Ravishankar Shukla University, Raipur, Chhattisgarh</option><option  value='138'>Punjab Agricultural University, Ludhiana, Punjab</option><option  value='139'>Punjab Technical University, Jalandhar, Punjab</option><option  value='140'>Rajasthan Agricultural University, Bikaner, Rajasthan</option><option  value='141'>Rajasthan University of Health Sciences, Jaipur</option><option  value='142'>Rajiv Gandhi Proudyogiki Vishwavidyalaya, Bhopal, M.P.</option><option  value='143'>Rajiv Gandhi University of Health Sciences Karnataka, Bangalore, Karnataka</option><option  value='144'>Ranchi University, Ranchi, Jharkhand</option><option  value='145'>Rani Durgavati Vishwavidyalaya, Jabalpur, M.P.</option><option  value='146'>Rashtrasant Tukadoji Maharaj Nagpur University, Nagpur, Maharashtra</option><option  value='147'>Sambalpur University, Sambalpur, Odisha</option><option  value='148'>Sant Gadge Baba Amravati University, Amravati, Maharashtra</option><option  value='149'>Sardar Vallabhbhai National Institute of Technology, Surat, Gujarat</option><option  value='150'>SASTRA University, Thanjavur, T.N.</option><option  value='151'>Saurashtra University, Rajkot, Gujarat</option><option  value='152'>Sher-E-Kashmir Institute of Agricultural Sciences and Technology, Jammu, J&K</option><option  value='153'>Sher-E-Kashmir University of Agricultural Sciences and Technology of Kashmir, Srinagar, J&K</option><option  value='154'>Shivaji University, Kolhapur, Maharashtra</option><option  value='155'>Shri Mata Vaishno Devi University, Jammu, J&K</option><option  value='156'>Sikkim Manipal University of Health, Medical and Technological Sciences, Gangtok, Sikkim</option><option  value='157'>South Asian University, New Delhi</option><option  value='158'>Sri Ramachandra Medical College & Research Institute, Chennai, T.N.</option><option  value='159'>Swami Ramanand Teerth Marathwada University, Nanded, Maharashtra</option><option  value='160'>Symbiosis International Educational Centre, Pune, Maharashtra</option><option  value='161'>Tamil Nadu Agricultural University, Coimbatore, T.N.</option><option  value='162'>Tamil Nadu Dr Ambedkar Law University, Chennai, T.N.</option><option  value='163'>Tamil Nadu Dr M.G.R. Medical University, Chennai, T.N.</option><option  value='164'>Tamil Nadu Veterinary & Animal Sciences University, Chennai, T.N.</option><option  value='165'>Tata Institute of Social Sciences, Mumbai, Maharashtra</option><option  value='166'>Thapar University, Patiala, Punjab</option><option  value='167'>The National University of Advanced Legal Studies, Kochi, Kerala</option><option  value='168'>Tilak Maharashtra Vidyapeeth, Pune, Maharashtra</option><option  value='169'>Tilka Manjhi Bhagalpur University, Bhagalpur, Bihar</option><option  value='170'>University of Agricultural Sciences, Bangalore, Karnataka</option><option  value='171'>University of Allahabad, Allahabad, U.P.</option><option  value='172'>University of Calcutta, Kolkata, W.B.</option><option  value='173'>University of Calicut, Kozhikode, Kerala</option><option  value='174'>University of Delhi, Delhi</option><option  value='175'>University of Hyderabad, Hyderabad, A.P.</option><option  value='176'>University of Jammu, Jammu, J&K</option><option  value='177'>University of Kashmir, Srinagar, J&K</option><option  value='178'>University of Kerala, Thiruvananthapuram, Kerala</option><option  value='179'>University of Kota, Kota, Rajasthan</option><option  value='180'>University of Lucknow, Lucknow, U.P.</option><option  value='181'>University of Madras, Chennai, T.N.</option><option  value='182'>University of Mumbai, Mumbai, Maharashtra</option><option  value='183'>University of Mysore, Mysore, Karnataka</option><option  value='184'>University of Petrolium & Energy Studies, Dehradun, Uttarakhand</option><option  value='185'>University of Pune, Pune, Maharashtra</option><option  value='186'>University of Rajasthan, Jaipur, Rajasthan</option><option  value='187'>Utkal University, Bhubaneswar, Odisha</option><option  value='189'>Vardhaman Mahaveer Open University, Kota, Rajasthan</option><option  value='188'>V. B. S. Purvanchal University, Jaunpur, U.P.</option><option  value='190'>Vellore Institute of Technology, Vellore, T.N.</option><option  value='191'>Vikram University, Ujjain, M.P.</option><option  value='192'>Vinoba Bhave University, Hazaribagh, Jharkhand</option><option  value='193'>Visva-Bharati, Santiniketan, W.B.</option><option  value='194'>Visvesvaraya National Institute of Technology, Nagpur, Maharashtra</option><option  value='195'>Visveswaraiah Technological University, Belgaum, Karnataka.</option><option  value='196'>West Bengal National University of Juridical Sciences, Kolkata, W.B.</option><option  value='197'>West Bengal University of Technology, Kolkata, W.B.</option><option  value='198'>Xavier School of Management, Jamshedpur, Jharkhand</option><option  value='199'>Yashwant Rao Chavan Maharashtra Open University, Nashik, Maharashtra</option>                                            </select>
+                                        </div>
+
+                                        
+                                        <div class="col-md-6 col-sm-12 d-none" data-id="board_university_grad_appear">
+                                            <label for="other_board_university_appear" class="form-label">Other University</label>
+                                            <input type="text" class="form-control" name="other_board_university" id="other_board_university_appear" value="" maxlength="100">
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12 mt-4 d-flex justify-content-center">
+                                        <input type="hidden" name="form" value="grad_appear" />
+                                        <input type="submit" class="btn btn-success btn-save-style" name="submit" value="SAVE">
+                                    </div>
+
+                                </form>
+                            </div>
+                                                            </div>
+
+                <div class="card hide-cards d-none" data-id="postgrad">
+
+                                        
+                    <div class="row ">
+                        <strong class="card-title text-center" style="font-size: 17px; color: blue; display: flex;justify-content: center;"><< Add Post Graduation >></strong>
+                        <form action="./educational_info.php" method="POST" autocomplete="off" onsubmit="return validateForm(this, 'postgrad');">
+
+                            <div class="row card-body">
+
+                                <div class="col-md-12">
+                                    <label for="postgraduation_status" class="form-label">Post Graduation Status</label>
+                                    <select name="postgraduation_status" id="postgraduation_status" class="form-select" onchange="showPGfields(this);" required>
+                                        <option value="">--Choose--</option>
+                                                                                                                                <option  value="1">Completed</option>
+                                                                                                                                <option  value="2">Appearing</option>
+                                                                            </select>
+                                </div>
+
+
+                                <div class="col-md-6 col-sm-12 pgclass completed appearing">
+                                    <label for="exam_passed_postgrad" class="form-label">Post Graduation Degree</label>
+                                    <select id="exam_passed_postgrad" name="exam_passed" class="form-select check-other" required>
+                                        <option value="">Select P.G. Degree</option>
+                                        <option  value='26'>M.A.</option><option  value='35'>MASTER OF FOREIGN TRADE</option><option  value='27'>M.B.A.</option><option  value='28'>M.C.A.</option><option  value='29'>M.COM.</option><option  value='30'>M.D.</option><option  value='37'>MDS</option><option  value='38'>ME</option><option  value='25'>M. PHARMA</option><option  value='39'>MPHIL</option><option  value='31'>M.Sc.</option><option  value='32'>M.SC. (AGRICULTURE)</option><option  value='33'>M.TECH.</option><option  value='34'>M.V.Sc. & A.H. </option><option  value='41'>Other</option><option  value='40'>PH.D.</option>                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6 col-sm-12 d-none" data-id="exam_passed_postgrad">
+                                    <label for="other_exam_passed_postgrad" class="form-label">Other Graduation Degree</label>
+                                    <input type="text" class="form-control" name="other_exam_passed" id="other_exam_passed_postgrad" value="" maxlength="100">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 pgclass completed">
+                                    <label for="division_postgrad" class="form-label">Class/Division/Grade<span class="note">(Eg: 1st or II or Third) [Fill 'Not Applicable' (if not available)]</span></label>
+                                    <input type="text" class="form-control" name="division" id="division_postgrad" value="" maxlength="50">
+                                </div>
+                                <span class="note pgclass completed">[Please fill ither Percentage or CGPA]</span>
+                                <div class="col-md-6 pgclass completed">
+                                    <label for="percentage_postgrad" class="form-label">Percentage of Marks (%)</label>
+                                    <input type="number" class="form-control" min="30" max="100" maxlength="3" onkeyup="if(value>100) value='';" name="percentage" id="percentage_postgrad" step=any value="">
+                                </div>
+
+
+                                <div class="col-md-3 col-sm-12 pgclass completed">
+                                    <label for="score_postgrad" class="form-label">CGPA Score</label>
+                                    <input type="number" class="form-control" min="0" id="score_postgrad" name="score" step=any value="">
+                                </div>
+                                <div class="col-md-3 col-sm-12 pgclass completed">
+                                    <label for="out_of_postgrad" class="form-label">CGPA Out of</label>
+                                    <input type="number" class="form-control" min="0" id="out_of_postgrad" name="out_of" step=any value="">
+                                </div>
+
+
+                                <div class="col-md-4 col-sm-12 pgclass completed">
+                                    <label for="pass_year_postgrad" class="form-label">Year of Passing</label>
+                                    <input type="number" class="form-control" name="pass_year" id="pass_year_postgrad" value="">
+                                </div>
+
+                                <div class="col-md-4 col-sm-12 pgclass completed appearing">
+                                    <label for="join_date_postgrad" class="form-label">Date of Joining</label>
+                                    <input type="date" class="form-control" name="join_date" id="join_date_postgrad" value="" required>
+                                </div>
+
+                                <div class="col-md-4 col-sm-12 pgclass completed appearing">
+                                    <label for="pass_date_postgrad" class="form-label">Likely Date of Completion/Completion Date</label>
+                                    <input type="date" class="form-control" name="pass_date" id="pass_date_postgrad" value="">
+                                </div>
+
+                                <div class="col-md-12 pgclass completed appearing">
+                                    <label for="subjects_postgrad" class="form-label">Subject(s) <span class="note">[Do not use any special character(s)]</span></label>
+                                    <input type="text" class="form-control" name="subjects" id="subjects_postgrad" value="" required maxlength="150">
+                                </div>
+
+                                <div class="col-md-6 pgclass completed appearing">
+                                    <label for="name_school_postgrad" class="form-label">Name of School/College/Institution</label>
+                                    <input type="hidden" name="uid" value="12400002238923" style="display: none;" />
+                                    <input type="text" name="name_school" class="form-control" id="name_school_postgrad" value="" pattern="^(?=.*[A-Za-z])[A-Za-z0-9\s]+$" required maxlength="150">
+                                </div>
+
+                                <div class="col-md-6 col-sm-12 pgclass completed appearing">
+                                    <label for="board_university_postgrad" class="form-label">Name of Board/University</label>
+                                    <select id="board_university_postgrad" name="board_university" class="form-select check-other" pattern="^(?=.*[A-Za-z])[A-Za-z0-9\s]+$" required>
+                                        <option value="">Select University</option>
+                                        <option  value='200'>0THERS</option><option  value='1'>Aligarh Muslim University, Aligarh, U.P.</option><option  value='2'>All India Institute of Medical Sciences, New Delhi</option><option  value='3'>Amity University, Noida, U.P.</option><option  value='5'>Annamalai University, Annamalainagar, T.N.</option><option  value='4'>Anna University, Chennai, T.N.</option><option  value='6'>Awadhesh Pratap Singh University, Rewa, M.P.</option><option  value='7'>Baba Farid University of Health Sciences, Faridkot, Punjab</option><option  value='8'>Babasaheb Bhimrao Ambedkar University, Lucknow, U.P.</option><option  value='9'>Banaras Hindu University, Varanasi, U.P.</option><option  value='10'>Bangalore University, Bangalore, Karnataka</option><option  value='11'>Barkatullah Vishwavidyalaya, Bhopal, M.P.</option><option  value='12'>Bhavnagar University, Bhavnagar, Gujarat</option><option  value='13'>Birla Institute of Technology and Science, Pilani, Rajasthan</option><option  value='14'>Birla Institute of Technology, Mesra, Ranchi, Jharkhand</option><option  value='15'>Bundelkhand University, Jhansi, U.P.</option><option  value='16'>Centre For Environmental Planning & Technology University,  Ahmedabad, Gujarat</option><option  value='201'>Chaudhary Devi Lal University, Sirsa, Haryana</option><option  value='19'>Chaudhary Sarwan Kumar Himachal Pradesh Krishi Vishwavidyalaya, Palampur, H.P.</option><option  value='17'>Ch. Charan Singh Haryana Agricultural University, Hisar, Haryana</option><option  value='18'>Ch. Charan Singh University, Meerut, U.P.</option><option  value='20'>Chhatrapati Shahuji Maharaj University, Kanpur, U.P.</option><option  value='21'>Dayalbagh Educational Institute, Agra, U.P.</option><option  value='22'>Deenbandhu Chhotu Ram University of Science & Technology, Murthal, Haryana</option><option  value='23'>Deendayal Upadhyaya Gorakhpur University, Gorakhpur, U.P.</option><option  value='24'>Devi Ahilya Vishwavidyalaya, Indore, M.P.</option><option  value='204'>Dr. APJ Abdul Kalam Technical University, Uttar Pradesh</option><option  value='26'>Dr Babasaheb Ambedkar Marathwada University, Aurangabad, Maharashtra</option><option  value='27'>Dr Babasaheb Ambedkar Open University, Ahmedabad, Gujarat</option><option  value='28'>Dr Bhim Rao Ambedkar University, Agra, U.P.</option><option  value='25'>Dr B.R. Ambedkar Open University, Hyderabad, A.P.</option><option  value='29'>Dr Harisingh Gour Vishwavidyalaya, Sagar, M.P.</option><option  value='30'>Dr Panjabrao Deshmukh Krishi Vidyapeeth, Akola, Maharashtra</option><option  value='31'>Dr Ram Manohar Lohia Avadh University, Faizabad, U.P.</option><option  value='32'>Forest Research Institute, Dehradun, Uttarakhand</option><option  value='33'>Gauhati University, Guwahati, Assam</option><option  value='34'>Gautam Buddha Technical University, Lucknow, U.P.</option><option  value='35'>Gokhale Institute of Politics and Economics, Pune, Maharashtra</option><option  value='36'>Govind Ballabh Pant University of Agriculture and Technology, Pantnagar, Uttarakhand</option><option  value='37'>Gujarat Technological University, Navarangpura, Ahmedabad, Gujarat</option><option  value='38'>Gujarat University, Ahmedabad, Gujarat</option><option  value='39'>Guru Ghasidas University, Bilaspur, Chhattisgarh</option><option  value='40'>Guru Gobind Singh Indraprastha University, Delhi.</option><option  value='42'>Gurukula Kangri Vishwavidyalaya, Haridwar, Uttarakhand</option><option  value='41'>Guru Nanak Dev University, Amritsar, Punjab</option><option  value='43'>Hemwati Nandan Bahuguna Garhwal University, Srinagar, Uttarakhand</option><option  value='44'>Himachal Pradesh University, Shimla, H.P.</option><option  value='45'>Indian Agricultural Research Institute, New Delhi</option><option  value='46'>Indian Institute of Foreign Trade, New Delhi</option><option  value='47'>Indian Institute of Information Technology, Allahabad, U.P.</option><option  value='48'>Indian Institute of Management, Ahmedabad, Gujarat</option><option  value='49'>Indian Institute of Management, Bangalore, Karnataka</option><option  value='50'>Indian Institute of Management, Indore, M.P.</option><option  value='51'>Indian Institute of Management, Kolkata, W.B.</option><option  value='52'>Indian Institute of Management, Kozhikode, Kerala</option><option  value='53'>Indian Institute of Management, Lucknow, U.P.</option><option  value='54'>Indian Institute of Science, Bangalore, Karnataka</option><option  value='203'>Indian Institute of Technology, Bhubaneshwar</option><option  value='55'>Indian Institute of Technology Bombay, Mumbai, Maharashtra</option><option  value='56'>Indian Institute of Technology Delhi, New Delhi</option><option  value='57'>Indian Institute of Technology Guwahati, Assam</option><option  value='202'>Indian Institute of Technology, Indore</option><option  value='58'>Indian Institute of Technology Kanpur, U.P.</option><option  value='59'>Indian Institute of Technology Kharagpur, W.B.</option><option  value='60'>Indian Institute of Technology Madras, Chennai, T.N.</option><option  value='61'>Indian Institute of Technology Roorkee, Roorkee, Uttarakhand</option><option  value='62'>Indian School of Mines University, Dhanbad, Jharkhand</option><option  value='63'>Indian Veterinary Research Institute, Izatnagar, U.P.</option><option  value='64'>Indira Gandhi Krishi Vishwavidyalaya, Raipur, Chhattisgarh</option><option  value='65'>Indira Gandhi National Open University, New Delhi</option><option  value='66'>Institute of Chartered Accountants of India</option><option  value='67'>Institute of Company Secretaries of India, New Delhi.</option><option  value='68'>Institute of Engineers, India</option><option  value='69'>Institute of Management Technology, Ghaziabad, U.P.</option><option  value='70'>Institute of Rural Management, Anand, Gujarat</option><option  value='71'>International Institute of Information Technology, Bangalore, Karnataka</option><option  value='72'>International Institute of Information Technology, Hyderabad, A.P.</option><option  value='73'>Jadavpur University, Kolkata, W.B.</option><option  value='74'>Jai Narain Vyas University, Jodhpur, Rajasthan.</option><option  value='75'>Jamia Hamdard, New Delhi</option><option  value='76'>Jamia Millia Islamia, New Delhi</option><option  value='77'>Jawaharlal Institute of Postgraduate Medical Education and Research, Puducherry</option><option  value='78'>Jawaharlal Nehru Technological University, Hyderabad, A.P.</option><option  value='79'>Jawaharlal Nehru University, New Delhi</option><option  value='80'>Jaypee Institute of Information Technology, Noida, U.P.</option><option  value='81'>Jiwaji University, Gwalior, M.P.</option><option  value='83'>Kakatiya University, Warangal, A.P.</option><option  value='84'>Kalinga Institute of Industrial Technology, Bhubaneshwar, Odisha</option><option  value='85'>Kannur University, Kannur, Kerala</option><option  value='87'>Karnataka State Open University, Mysore, Karnataka</option><option  value='86'>Karnatak University, Dharwad, Karnataka</option><option  value='88'>Kerala Agricultural University, Thrissur, Kerala</option><option  value='89'>King George's Medical University, Lucknow, U.P.</option><option  value='82'>K. J. Somaiya Institute of Management Studies and Research, Vidyavihar (East), Mumbai, Maharashtra</option><option  value='90'>Kumaun University, Nainital, Uttarakhand</option><option  value='91'>Kurukshetra University, Kurukshetra, Haryana</option><option  value='92'>Lalit Narayan Mithila University, Darbhanga, Bihar</option><option  value='94'>Madurai-Kamaraj University, Madurai, T.N.</option><option  value='95'>Magadh University, Bodh Gaya, Bihar</option><option  value='96'>Maharaja Ganga Singh University, Bikaner, Rajasthan</option><option  value='97'>Maharashtra University of Health Sciences, Nashik, Maharashtra</option><option  value='98'>Maharshi Dayanand Saraswati University, Ajmer, Rajasthan</option><option  value='99'>Maharshi Dayanand University, Rohtak, Haryana</option><option  value='100'>Mahatma Gandhi University, Kottayam, Kerala</option><option  value='101'>Mahatma Phule Krishi Vidyapeeth, Rahuri, Maharashtra</option><option  value='102'>Malviya National Institute of Technology, Jaipur, Rajasthan</option><option  value='103'>Management Development Institute, Gurgaon, Haryana</option><option  value='104'>Mangalore University, Mangalore, Karnataka</option><option  value='105'>Manipal Academy of Higher Education, Manipal, Karnataka</option><option  value='106'>Manipur University, Imphal, Manipur</option><option  value='107'>Manonmaniam Sundaranar University, Tirunelveli, T.N.</option><option  value='108'>Maulana Azad National Institute of Technology, Bhopal, M.P.</option><option  value='93'>M. J. P. Rohilkhand University, Bareilly, U.P.</option><option  value='109'>Mody Institute of Technology & Science, Sikar, Rajasthan</option><option  value='110'>Mohanlal Sukhadia University, Udaipur, Rajasthan</option><option  value='111'>Motilal Nehru National Institute of Technology, Allahabad, U.P.</option><option  value='113'>National Academy of Legal Studies and Research University, Hyderabad, A.P.</option><option  value='114'>National Institute of Pharmaceutical Education and Research, S.A.S. Nagar, Punjab</option><option  value='115'>National Institute of Technology, Durgapur, W.B.</option><option  value='116'>National Institute of Technology, Hamirpur, H.P.</option><option  value='117'>National Institute of Technology, Jamshedpur, Jharkhand</option><option  value='118'>National Institute of Technology, Kozhikode, Kerala</option><option  value='119'>National Institute of Technology, Kurukshetra, Haryana</option><option  value='120'>National Institute of Technology, Silchar, Assam</option><option  value='121'>National Institute of Technology, Suratkal, Karnataka</option><option  value='122'>National Institute of Technology, Tiruchirapalli, T.N.</option><option  value='123'>National Institute of Technology, Warangal, A.P.</option><option  value='124'>National Law Institute University, Bhopal, M.P.</option><option  value='125'>National Law School of India University, Bangalore, Karnataka</option><option  value='126'>National Law University, Jodhpur, Rajasthan</option><option  value='127'>Nirma University of Science & Technology, Ahmedabad, Gujarat</option><option  value='128'>North Eastern Hill University, Shillong, Meghalaya</option><option  value='112'>N.T.R. University of Health Sciences, Vijayawada, A.P.</option><option  value='129'>Osmania University, Hyderabad, A.P.</option><option  value='130'>Oxford University, U.K.</option><option  value='131'>Panjab University, Chandigarh, Punjab</option><option  value='132'>Patna University, Patna, Bihar</option><option  value='133'>PEC University of Technology, Chandigarh</option><option  value='134'>Periyar University, Salem, T.N.</option><option  value='135'>Pondicherry University, Puducherry</option><option  value='136'>Post-Graduate Institute of Medical Education and Research, Chandigarh</option><option  value='137'>Pt. Ravishankar Shukla University, Raipur, Chhattisgarh</option><option  value='138'>Punjab Agricultural University, Ludhiana, Punjab</option><option  value='139'>Punjab Technical University, Jalandhar, Punjab</option><option  value='140'>Rajasthan Agricultural University, Bikaner, Rajasthan</option><option  value='141'>Rajasthan University of Health Sciences, Jaipur</option><option  value='142'>Rajiv Gandhi Proudyogiki Vishwavidyalaya, Bhopal, M.P.</option><option  value='143'>Rajiv Gandhi University of Health Sciences Karnataka, Bangalore, Karnataka</option><option  value='144'>Ranchi University, Ranchi, Jharkhand</option><option  value='145'>Rani Durgavati Vishwavidyalaya, Jabalpur, M.P.</option><option  value='146'>Rashtrasant Tukadoji Maharaj Nagpur University, Nagpur, Maharashtra</option><option  value='147'>Sambalpur University, Sambalpur, Odisha</option><option  value='148'>Sant Gadge Baba Amravati University, Amravati, Maharashtra</option><option  value='149'>Sardar Vallabhbhai National Institute of Technology, Surat, Gujarat</option><option  value='150'>SASTRA University, Thanjavur, T.N.</option><option  value='151'>Saurashtra University, Rajkot, Gujarat</option><option  value='152'>Sher-E-Kashmir Institute of Agricultural Sciences and Technology, Jammu, J&K</option><option  value='153'>Sher-E-Kashmir University of Agricultural Sciences and Technology of Kashmir, Srinagar, J&K</option><option  value='154'>Shivaji University, Kolhapur, Maharashtra</option><option  value='155'>Shri Mata Vaishno Devi University, Jammu, J&K</option><option  value='156'>Sikkim Manipal University of Health, Medical and Technological Sciences, Gangtok, Sikkim</option><option  value='157'>South Asian University, New Delhi</option><option  value='158'>Sri Ramachandra Medical College & Research Institute, Chennai, T.N.</option><option  value='159'>Swami Ramanand Teerth Marathwada University, Nanded, Maharashtra</option><option  value='160'>Symbiosis International Educational Centre, Pune, Maharashtra</option><option  value='161'>Tamil Nadu Agricultural University, Coimbatore, T.N.</option><option  value='162'>Tamil Nadu Dr Ambedkar Law University, Chennai, T.N.</option><option  value='163'>Tamil Nadu Dr M.G.R. Medical University, Chennai, T.N.</option><option  value='164'>Tamil Nadu Veterinary & Animal Sciences University, Chennai, T.N.</option><option  value='165'>Tata Institute of Social Sciences, Mumbai, Maharashtra</option><option  value='166'>Thapar University, Patiala, Punjab</option><option  value='167'>The National University of Advanced Legal Studies, Kochi, Kerala</option><option  value='168'>Tilak Maharashtra Vidyapeeth, Pune, Maharashtra</option><option  value='169'>Tilka Manjhi Bhagalpur University, Bhagalpur, Bihar</option><option  value='170'>University of Agricultural Sciences, Bangalore, Karnataka</option><option  value='171'>University of Allahabad, Allahabad, U.P.</option><option  value='172'>University of Calcutta, Kolkata, W.B.</option><option  value='173'>University of Calicut, Kozhikode, Kerala</option><option  value='174'>University of Delhi, Delhi</option><option  value='175'>University of Hyderabad, Hyderabad, A.P.</option><option  value='176'>University of Jammu, Jammu, J&K</option><option  value='177'>University of Kashmir, Srinagar, J&K</option><option  value='178'>University of Kerala, Thiruvananthapuram, Kerala</option><option  value='179'>University of Kota, Kota, Rajasthan</option><option  value='180'>University of Lucknow, Lucknow, U.P.</option><option  value='181'>University of Madras, Chennai, T.N.</option><option  value='182'>University of Mumbai, Mumbai, Maharashtra</option><option  value='183'>University of Mysore, Mysore, Karnataka</option><option  value='184'>University of Petrolium & Energy Studies, Dehradun, Uttarakhand</option><option  value='185'>University of Pune, Pune, Maharashtra</option><option  value='186'>University of Rajasthan, Jaipur, Rajasthan</option><option  value='187'>Utkal University, Bhubaneswar, Odisha</option><option  value='189'>Vardhaman Mahaveer Open University, Kota, Rajasthan</option><option  value='188'>V. B. S. Purvanchal University, Jaunpur, U.P.</option><option  value='190'>Vellore Institute of Technology, Vellore, T.N.</option><option  value='191'>Vikram University, Ujjain, M.P.</option><option  value='192'>Vinoba Bhave University, Hazaribagh, Jharkhand</option><option  value='193'>Visva-Bharati, Santiniketan, W.B.</option><option  value='194'>Visvesvaraya National Institute of Technology, Nagpur, Maharashtra</option><option  value='195'>Visveswaraiah Technological University, Belgaum, Karnataka.</option><option  value='196'>West Bengal National University of Juridical Sciences, Kolkata, W.B.</option><option  value='197'>West Bengal University of Technology, Kolkata, W.B.</option><option  value='198'>Xavier School of Management, Jamshedpur, Jharkhand</option><option  value='199'>Yashwant Rao Chavan Maharashtra Open University, Nashik, Maharashtra</option>                                    </select>
+                                </div>
+
+                                                                <div class="col-md-6 col-sm-12 d-none" data-id="board_university_postgrad">
+                                    <label for="other_board_university_postgrad" class="form-label">Other University</label>
+                                    <input type="text" class="form-control" name="other_board_university" id="other_board_university_postgrad" value="" maxlength="100">
+                                </div>
+
+                            </div>
+                            <div class="col-12 mt-4 d-flex justify-content-center">
+                                <input type="hidden" name="form" value="postgrad" />
+                                <input type="submit" class="btn btn-success btn-save-style" name="submit" value="SAVE">
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./js/custom-validate.js"></script>
+    <script>
+        //tabs JS
+        const hideCards = document.querySelectorAll('.hide-cards');
+        const cardHeadTab = document.querySelectorAll('.icon-card-div');
+        const foreignAjaxUrl = './obc_ajax_functions.php';
+        const uid = 12400002238923;
+
+        const loopCardHeadTabs = (ele) => {
+            cardHeadTab.forEach((item, i) => {
+                item.classList.remove('card-active');
+                item.classList.add('card-disabled');
+            })
+            ele.classList.add('card-active');
+            ele.classList.remove('card-disabled');
+        }
+
+                    let showTab = 'grad';
+            let toggleEle = document.getElementById(showTab);
+            toggleTabs(toggleEle);
+        
+        function toggleTabs(e) {
+            const dataEle = e.id;
+            const cardToShow = document.querySelector(`[data-id="${dataEle}"]`);
+            hideCards.forEach((card, ind) => {
+                card.classList.add('d-none');
+            })
+            loopCardHeadTabs(e);
+            cardToShow.classList.remove('d-none');
+        }
+
+        // remove alert after 5secs
+        const alertEles = document.querySelectorAll('.alert');
+        alertEles.forEach((alert, indd) => {
+            if (alert.classList.contains('settimeout')) {
+                setInterval(() => {
+                    alert.remove();
+                }, 5000)
+            }
+        })
+
+        //get district ajax
+
+        let fetchStatus = false;
+        const controller = new AbortController();
+        const signal = controller.signal;
+
+        
+        
+        
+        
+        async function htmlContentsAsync(params) {
+            fetchStatus = true;
+            try {
+                const response = await fetch('./ajax_functions.php', params);
+                const text = await response.text();
+                return text;
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function getDistrict(ele, $eleId, $cvalue = '') {
+            const state = ele.value;
+
+            const data = {
+                'state': state,
+                'district': $cvalue,
+                'task': 'select_district_state'
+            };
+
+            const params = {
+                signal,
+                method: 'POST',
+                body: JSON.stringify(data)
+            };
+            htmlContentsAsync(params).then((returnData) => {
+                document.getElementById($eleId).innerHTML = returnData;
+            }).catch((error) => {
+                console.log(error)
+            })
+
+        }
+
+        function abortFetching() {
+            console.log('Now aborting');
+            controller.abort();
+        }
+
+        var tenthPassYear = '2019';
+
+        var interPassYear = '2021';
+
+        var gradPassYear = '';
+	
+
+        function validateForm(event, form) {
+            //control cgpa & percentage
+
+            const perIn = document.getElementById(`percentage_${form}`);
+            const scoreCgpa = document.getElementById(`score_${form}`);
+            const outOfCgpa = document.getElementById(`out_of_${form}`);
+
+            if (form == 'tenth') {
+                var checkPassYear = document.getElementById(`pass_year`);
+            } else {
+                var checkPassYear = document.getElementById(`pass_year_${form}`);
+            }
+
+            if (form == 'tenth' && ((interPassYear != '' && checkPassYear.value >= interPassYear) || (gradPassYear != '' && checkPassYear.value >= gradPassYear))) {
+                checkPassYear.focus();
+                alert("Wrong or Invalid passing year");
+                return false;
+            }
+
+            if (form == 'inter' && ((tenthPassYear != '' && checkPassYear.value <= tenthPassYear) || (gradPassYear != '' && checkPassYear.value >= gradPassYear))) {
+                checkPassYear.focus();
+                alert("Wrong or Invalid passing year");
+                return false;
+            }
+
+            if (form == 'grad' && ((tenthPassYear != '' && checkPassYear.value <= tenthPassYear) || (interPassYear != '' && checkPassYear.value <= interPassYear))) {
+                checkPassYear.focus();
+                alert("Wrong or Invalid passing year");
+                return false;
+            }
+
+            
+
+            /* if (perIn.value == '' && (scoreCgpa.value == '' || outOfCgpa.value == '')) {
+                perIn.focus();
+                alert("Either you can fill Percentage or CGPA!");
+                return false;
+            }  */
+
+            if (perIn.value != '' && (scoreCgpa.value != '' || outOfCgpa.value != '')) {
+                perIn.focus();
+                alert("Either you can fill Percentage or CGPA!");
+                return false;
+            }
+
+            if (parseFloat(scoreCgpa.value) > parseFloat(outOfCgpa.value)) {
+                scoreCgpa.focus();
+                alert("Score is not greator than Out of in CGPA!");
+                return false;
+            }
+
+            return true;
+        }
+
+
+        //other fields
+        const checkOtherEle = document.querySelectorAll('.check-other');
+        const otherField = {
+            'board_university_grad': 200,
+            'exam_passed_grad': 41,
+            'stream': 8,
+            'board_university_grad_appear': 200,
+            'exam_passed_grad_appear': 41,
+            'stream_appear': 8,
+            'board_university_postgrad': 200,
+            'exam_passed_postgrad': 41,
+        };
+
+        checkOtherEle.forEach(otherCall)
+
+        function otherCall(item, index) {
+            item.addEventListener('change', (e) => {
+                let attrId = item.id;
+                let changeValue = item.value;
+                let eleToHide = document.querySelector(`[data-id=${attrId}]`);
+
+                if (item.value == otherField[attrId]) {
+                    eleToHide.classList.remove('d-none');
+                } else {
+                    eleToHide.classList.add('d-none');
+                }
+            })
+        }
+
+        function loadToggleHtml(ele) {
+            const eleToHide = document.querySelectorAll(`[data-id=${ele.id}]`);
+            eleToHide.forEach((item, ind) => {
+                if (ele.value == '1') {
+                    item.classList.remove('d-none');
+                } else {
+                    item.classList.add('d-none');
+                }
+            })
+        }
+
+        //Data save ajax JSON
+        async function dataAsync(params) {
+            try {
+                const response = await fetch(foreignAjaxUrl, params);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        function saveForeign(type, event) {
+            const ForeignEqEle = document.getElementById(`${type}_eq`);
+            const ForeignInsTituteEle = document.getElementById(`${type}_institute`);
+            const EqTypeEle = document.getElementById(`${type}_grad`);
+          
+
+            const ForeignEq = ForeignEqEle.value;
+            const ForeignInsTitute = ForeignInsTituteEle.value;
+            const EqType = EqTypeEle.value;           
+
+            if (ForeignEq == '') {
+                alert(`${type} Qualification details is required!`);
+                ForeignEqEle.focus();
+                return false;
+            }
+
+            if (ForeignInsTitute == '') {
+                alert(`${type} Institution Name is required`);
+                ForeignInsTituteEle.focus();
+                return false;
+            }           
+
+            const spinnerId = `${type}_spinner`;
+            const contentBtnId = `${type}_content`;
+
+            const spinnerIdEle = document.getElementById(spinnerId);
+            const contentBtnIdEle = document.getElementById(contentBtnId);
+            spinnerIdEle.classList.remove('d-none')
+            contentBtnIdEle.innerText = 'Adding...';
+            event.setAttribute('disabled', true);
+
+            const data = {
+                ForeignEq,
+                ForeignInsTitute,
+                EqType,  
+                type,
+                uid,
+                'task': 'save_foreign_parents_data'
+            };
+
+            const params = {
+                method: 'POST',
+                body: JSON.stringify(data)
+            };
+            dataAsync(params).then((returnData) => {
+                    if (returnData?.code == 2) {
+                        alert(returnData?.error);
+                    } else {
+                        var tableContent = '';
+                        if (typeof returnData !== 'undefined') {
+                            returnData.map((item, ind) => {
+                                tableContent += `<tr>                                        
+                                        <td>${item.foreign_eq}</td>
+                                        <td>${item.foreign_institute}</td>                                        
+                                        <td class="text-center"><a href="./obc_annexure.php?action=delete&type=${type}&id=${item.id}"><img src="./img/icons/bin.png" style="width: 24px; height: 24px;" alt="Delete this Record?" title="Delete this Record?"/></a></td>
+                                    </tr>`
+                            })
+
+                            document.getElementById(`append_${type}`).innerHTML = tableContent;
+                            ForeignEqEle.value = ForeignInsTituteEle.value = '';
+                        }
+
+                    }
+                }).catch((error) => {
+                    console.log(error)
+                })
+                .finally(() => {
+                    spinnerIdEle.classList.add('d-none')
+                    contentBtnIdEle.innerText = 'Add More';
+                    event.removeAttribute('disabled');;
+                })
+
+        }
+
+        function showPGfields(event){
+            const textValue = event.options[event.selectedIndex].text;
+            const classToCheck = textValue.toLowerCase();
+            console.log(classToCheck)
+            const loopShowHide = document.querySelectorAll(`.pgclass`);
+            loopShowHide.forEach((item, ind) => {
+                let itemList = item.classList;
+                if(itemList.contains(classToCheck)){
+                    itemList.remove('d-none')
+                }else{
+                    itemList.add('d-none')
+                }               
+            })
+        }
+    </script>
+

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<title>मिठाई ऑर्डर सिस्टम</title>
+<style>
+    body { font-family: Arial, sans-serif; background: #fff8f0; padding: 20px; }
+    h1 { text-align: center; color: #c0392b; }
+    .order-box { max-width: 600px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 0 10px #ccc; }
+    label { font-weight: bold; }
+    select, input { width: 100%; padding: 8px; margin: 5px 0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+    th { background-color: #f39c12; color: white; }
+    button { padding: 8px 12px; background: #27ae60; color: white; border: none; cursor: pointer; border-radius: 5px; }
+    button:hover { background: #2ecc71; }
+    .remove-btn { background: #e74c3c; }
+    .remove-btn:hover { background: #c0392b; }
+</style>
+</head>
+<body>
+
+<h1>🍬 मिठाई ऑर्डर सिस्टम 🍬</h1>
+<div class="order-box">
+    <label>ग्राहक का नाम:</label>
+    <input type="text" id="customerName" placeholder="अपना नाम लिखें">
+
+    <label>मिठाई चुनें:</label>
+    <select id="itemSelect">
+        <option value="गुलाब जामुन">गुलाब जामुन - ₹300/kg</option>
+        <option value="रसगुल्ला">रसगुल्ला - ₹280/kg</option>
+        <option value="लड्डू">लड्डू - ₹320/kg</option>
+        <option value="बर्फी">बर्फी - ₹350/kg</option>
+        <option value="जलेबी">जलेबी - ₹250/kg</option>
+        <option value="राजभोग">राजभोग - ₹400/kg</option>
+    </select>
+
+    <label>मात्रा (किलो में):</label>
+    <input type="number" id="quantity" value="1" min="0.1" step="0.1">
+
+    <button onclick="addItem()">🛒 ऑर्डर में जोड़ें</button>
+    <button onclick="startVoiceOrder()">🎤 वॉयस से ऑर्डर करें</button>
+
+    <table id="orderTable">
+        <thead>
+            <tr>
+                <th>मिठाई</th>
+                <th>मात्रा (kg)</th>
+                <th>कीमत (₹)</th>
+                <th>हटाएं</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>कुल कीमत: ₹<span id="totalPrice">0</span></h2>
+
+    <h3>💳 UPI से पेमेंट करें:</h3>
+    <a id="upiLink" href="#" target="_blank">
+        <button>Pay via UPI</button>
+    </a>
+    <p id="paymentStatus">पेमेंट स्टेटस: ⏳ पेंडिंग</p>
+</div>
+
+<script>
+let prices = {
+    "गुलाब जामुन": 300,
+    "रसगुल्ला": 280,
+    "लड्डू": 320,
+    "बर्फी": 350,
+    "जलेबी": 250,
+    "राजभोग": 400
+};
+
+let totalPrice = 0;
+
+function addItem(name=null, qty=null) {
+    let itemName = name || document.getElementById("itemSelect").value;
+    let quantity = qty || parseFloat(document.getElementById("quantity").value);
+
+    if (!itemName || quantity <= 0) return;
+
+    let price = prices[itemName] * quantity;
+    totalPrice += price;
+
+    let table = document.querySelector("#orderTable tbody");
+    let row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${itemName}</td>
+        <td>${quantity}</td>
+        <td>₹${price.toFixed(2)}</td>
+        <td><button class="remove-btn" onclick="removeItem(this, ${price})">❌</button></td>
+    `;
+    table.appendChild(row);
+
+    document.getElementById("totalPrice").innerText = totalPrice.toFixed(2);
+
+    // Update UPI Link
+    let nameForUpi = document.getElementById("customerName").value || "ग्राहक";
+    let upiURL = `upi://pay?pa=abhishektiwari52@okicici&pn=${encodeURIComponent(nameForUpi)}&am=${totalPrice.toFixed(2)}&cu=INR`;
+    document.getElementById("upiLink").href = upiURL;
+
+    speak(`${quantity} किलो ${itemName} की कीमत ₹${price.toFixed(2)} है`);
+}
+
+function removeItem(btn, price) {
+    btn.parentElement.parentElement.remove();
+    totalPrice -= price;
+    document.getElementById("totalPrice").innerText = totalPrice.toFixed(2);
+}
+
+function startVoiceOrder() {
+    let recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = "hi-IN";
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        let speech = event.results[0][0].transcript;
+        console.log("Voice Input:", speech);
+
+        for (let item in prices) {
+            if (speech.includes(item)) {
+                let qtyMatch = speech.match(/(\d+(\.\d+)?)/);
+                let qty = qtyMatch ? parseFloat(qtyMatch[0]) : 1;
+                addItem(item, qty);
+                return;
+            }
+        }
+        speak("माफ़ कीजिए, यह मिठाई सूची में नहीं है");
+    };
+}
+
+function speak(text) {
+    let speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "hi-IN";
+    speech.pitch = 1.2;
+    speech.rate = 1;
+    speech.voice = speechSynthesis.getVoices().find(v => v.name.includes("Female")) || speechSynthesis.getVoices()[0];
+    speechSynthesis.speak(speech);
+}
+</script>
+
+</body>
+</html>
