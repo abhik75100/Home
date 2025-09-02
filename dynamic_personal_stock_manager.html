@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>डायनामिक कॉलम वाला पर्सनल डेटा और स्टॉक मैनेजर</title>
+
+<style>
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #f7f7f7; margin: 0; padding: 20px; }
+h1 { text-align: center; margin-bottom: 20px; }
+.container { display: flex; flex-wrap: wrap; gap: 20px; }
+.section { flex: 1 1 45%; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.section h2 { margin-top: 0; }
+
+/* Updated table style */
+table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+th, td { border: 1px solid #ccc; padding: 12px; text-align: center; }
+th { background: linear-gradient(to bottom, #e6e6e6, #d9d9d9); font-weight: bold; font-size: 18px; }
+td { background: #fafafa; height: 50px; font-size: 16px; }
+
+button { margin: 5px; padding: 6px 12px; border: none; border-radius: 6px; background: #007bff; color: white; cursor: pointer; }
+button:hover { background: #0056b3; }
+input { padding: 5px; margin: 3px; border-radius: 4px; border: 1px solid #ccc; }
+.action-btn { background: #28a745; }
+.delete-btn { background: #dc3545; }
+.add-btn { background: #17a2b8; }
+</style>
+</head>
+<body>
+
+<h1>डायनामिक पर्सनल डेटा + स्टॉक मैनेजर</h1>
+<div class="container">
+
+  <!-- Personal Data Section -->
+  <div class="section">
+    <h2>पर्सनल डेटा</h2>
+    <div>
+      <input type="text" id="pName" placeholder="नाम">
+      <input type="text" id="pContact" placeholder="मोबाइल">
+      <button class="add-btn" onclick="addPerson()">जोड़ें</button>
+      <button onclick="addPersonColumn()">कॉलम जोड़ें</button>
+      <button onclick="exportTable('personTable')">PDF</button>
+    </div>
+    <table id="personTable">
+      <thead>
+        <tr>
+          <th>नाम</th>
+          <th>मोबाइल</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- Stock Section -->
+  <div class="section">
+    <h2>स्टॉक मैनेजर</h2>
+    <div>
+      <input type="text" id="itemName" placeholder="आइटम">
+      <input type="number" id="itemQty" placeholder="मात्रा">
+      <button class="add-btn" onclick="addStock()">जोड़ें</button>
+      <button onclick="addStockColumn()">कॉलम जोड़ें</button>
+      <button onclick="exportTable('stockTable')">PDF</button>
+    </div>
+    <table id="stockTable">
+      <thead>
+        <tr>
+          <th>आइटम</th>
+          <th>मात्रा</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function addPerson() {
+  const table = document.getElementById("personTable").querySelector("tbody");
+  const name = document.getElementById("pName").value.trim();
+  const contact = document.getElementById("pContact").value.trim();
+  if (!name || !contact) return alert("नाम और मोबाइल दर्ज करें");
+  const row = table.insertRow();
+  row.insertCell(0).innerText = name;
+  row.insertCell(1).innerText = contact;
+  const actionCell = row.insertCell(2);
+  actionCell.innerHTML = '<button class="action-btn" onclick="editRow(this)">Edit</button> <button class="delete-btn" onclick="deleteRow(this)">Delete</button>';
+  document.getElementById("pName").value = "";
+  document.getElementById("pContact").value = "";
+}
+
+function addStock() {
+  const table = document.getElementById("stockTable").querySelector("tbody");
+  const item = document.getElementById("itemName").value.trim();
+  const qty = document.getElementById("itemQty").value.trim();
+  if (!item || !qty) return alert("आइटम और मात्रा दर्ज करें");
+  const row = table.insertRow();
+  row.insertCell(0).innerText = item;
+  row.insertCell(1).innerText = qty;
+  const actionCell = row.insertCell(2);
+  actionCell.innerHTML = '<button class="action-btn" onclick="editRow(this)">Edit</button> <button class="delete-btn" onclick="deleteRow(this)">Delete</button>';
+  document.getElementById("itemName").value = "";
+  document.getElementById("itemQty").value = "";
+}
+
+function editRow(btn) {
+  const row = btn.parentNode.parentNode;
+  for (let i = 0; i < row.cells.length-1; i++) {
+    const oldVal = row.cells[i].innerText;
+    row.cells[i].innerHTML = `<input type='text' value='${oldVal}'>`;
+  }
+  btn.innerText = "Save";
+  btn.onclick = function() { saveRow(this); };
+}
+
+function saveRow(btn) {
+  const row = btn.parentNode.parentNode;
+  for (let i = 0; i < row.cells.length-1; i++) {
+    const newVal = row.cells[i].querySelector('input').value;
+    row.cells[i].innerText = newVal;
+  }
+  btn.innerText = "Edit";
+  btn.onclick = function() { editRow(this); };
+}
+
+function deleteRow(btn) {
+  const row = btn.parentNode.parentNode;
+  row.parentNode.removeChild(row);
+}
+
+function addPersonColumn() {
+  const table = document.getElementById("personTable");
+  const colName = prompt("नया कॉलम नाम दर्ज करें:");
+  if (!colName) return;
+  const th = document.createElement("th");
+  th.innerText = colName;
+  table.querySelector("thead tr").insertBefore(th, table.querySelector("thead tr").lastElementChild);
+  const rows = table.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    const cell = r.insertCell(r.cells.length-1);
+    cell.innerText = "";
+  });
+}
+
+function addStockColumn() {
+  const table = document.getElementById("stockTable");
+  const colName = prompt("नया कॉलम नाम दर्ज करें:");
+  if (!colName) return;
+  const th = document.createElement("th");
+  th.innerText = colName;
+  table.querySelector("thead tr").insertBefore(th, table.querySelector("thead tr").lastElementChild);
+  const rows = table.querySelectorAll("tbody tr");
+  rows.forEach(r => {
+    const cell = r.insertCell(r.cells.length-1);
+    cell.innerText = "";
+  });
+}
+
+function exportTable(tableId) {
+  const element = document.getElementById(tableId);
+  const opt = { filename: tableId+'.pdf', margin: 0.3, html2canvas: { scale: 2 } };
+  html2pdf().from(element).set(opt).save();
+}
+</script>
+</body>
+</html>
