@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Snake Game</title>
 	<link rel="stylesheet" href="style.css">
+	
 </head>
 <body>
 	<div id="game-container">
@@ -22,5 +23,232 @@
 	    <i class="chevron right"></i></a>
 	</div>
 	<script type="text/javascript" src="game.js"></script>
+
 </body>
 </html>
+
+
+	<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</title>
+<style>
+* { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #e0e5ec; padding: 20px; margin: 0; }
+.container {  padding: 25px; border-radius: 20px;             
+            box-shadow: 8px 8px 16px #c1c1c1, -8px -8px 16px #ffffff; }
+h1 { text-align: center; margin-bottom: 25px; color: #333; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; justify-content: center; }
+button {
+  padding: 10px 18px; border: none; border-radius: 12px; cursor: pointer;
+  background: #0078d4; color: white; font-size: 14px;
+  box-shadow: 4px 4px 8px #c1c1c1, -4px -4px 8px #ffffff;
+  transition: 0.5s;
+}
+button:hover { background: #005ea0; transform: translateY(-2px); }
+.table-container { overflow-x: auto; border-radius: 12px; box-shadow: inset 4px 4px 8px #c1c1c1, inset -4px -4px 8px #ffffff; }
+table {
+  border-collapse: collapse; width: 100%; min-width: 900px;
+  background: #e0e5ec; padding: 4rem; border-radius: 25px;
+  box-shadow: 10px 10px 30px #bec3c9, -10px -10px 30px #ffffff;
+}
+th {
+  font-size: 1.3em; font-weight: bold; text-align: center; padding: 10px;
+  border-radius: 15px; background: #d4edda;
+  box-shadow: inset 3px 3px 6px #bec3c9, inset -3px -3px 6px #ffffff;
+}
+td {
+  padding: 10px; text-align: center;
+  border-radius:12px; background:#e0e5ec;
+  box-shadow:inset 3px 3px 6px #bec3c9,inset -3px -3px 6px #fff;
+  width:220px;
+}
+/* PHOTO CELL: perfectly rounded (circular) table cell */
+td.photo-td {
+  width: 140px; min-width: 140px; height: 140px; padding: 0;
+  border-radius: 50%; overflow: hidden; /* makes the cell itself circular */
+  display: flex; align-items: center; justify-content: center;
+}
+/* Image fills the rounded cell */
+td.photo-td img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 0; cursor: pointer;
+  transition: transform 0.2s;
+}
+td img:hover { transform: scale(1.02); }
+/* Placeholder inside photo cell when no image */
+.photo-placeholder { font-size: 13px; color: #555; cursor: pointer; padding: 8px; }
+
+.action-cell { white-space: nowrap; }
+.action-cell button {
+  background: #e53935; color: white; padding: 1px 2px;
+  margin: 2px; font-size: 12px; border-radius: 8px;
+}
+.action-cell button.edit { background: #43a047; }
+@media print {
+  .no-print { display: none !important; }
+  .action-cell { display: none !important; }
+}
+/* WhatsApp-style overlay (minimal: only image, name, number) */
+#profileOverlay {
+  display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center;
+}
+.profile-content {
+  background:#fff; border-radius:15px; max-width:320px; width:90%;
+  padding:20px; text-align:center; display:flex; flex-direction:column; align-items:center;
+}
+.profile-content img {
+  width:170px; height:170px; border-radius:50%; object-fit:cover;
+  margin-bottom:10px;
+}
+.profile-content h3 { margin:6px 0 2px 0; }
+.profile-content p { margin:0 0 10px; color:#555; font-size:14px; }
+.profile-content .closeBtn { background:#e53935; color:#fff; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; }
+.profile-content .closeBtn:hover { filter: brightness(0.95); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>डायनामिक कॉलम वाला पर्सनल डेटा मैनेजर</h1>
+  <div class="controls no-print">
+    <button onclick="addColumn()">नया कॉलम जोड़ें</button>
+    <button onclick="addRow()">नई पंक्ति जोड़ें</button>
+    <button id="importContactsBtn">फोन कॉन्टैक्ट जोड़ें</button>
+    <button onclick="exportAsImage()">इमेज सेव करें</button>
+    <button onclick="window.print()">प्रिंट करें</button>
+  </div>
+  <div class="table-container">
+    <table id="dataTable">
+      <thead><tr id="headerRow"></tr></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Minimal profile overlay: only image, name, number -->
+<div id="profileOverlay">
+  <div class="profile-content">
+    <img id="overlayImg" src="" alt="Profile" />
+    <h3 id="overlayName"></h3>
+    <p id="overlayContact"></p>
+    <button class="closeBtn" onclick="closeProfile()">Close</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+let columns = ["नाम", "संपर्क नंबर", "फोटो"];
+let data = [];
+
+function renderTable(){
+  const headerRow = document.getElementById('headerRow');
+  const tableBody = document.getElementById('tableBody');
+  headerRow.innerHTML = '';
+  columns.forEach(col => { const th = document.createElement('th'); th.textContent = col; headerRow.appendChild(th); });
+  const actionTh = document.createElement('th'); actionTh.textContent = "Action"; actionTh.className = 'no-print';
+  headerRow.appendChild(actionTh);
+
+  tableBody.innerHTML = '';
+  data.forEach((row,i)=>{
+    const tr=document.createElement('tr');
+    columns.forEach(col=>{
+      const td=document.createElement('td');
+      if(col==='फोटो'){
+        td.classList.add('photo-td');
+        if(row[col]){
+          const img=document.createElement('img'); img.src=row[col];
+          img.onclick=()=>showProfile(i); // single click: view minimal profile
+          img.ondblclick=()=>selectImage(i,col); // double click: replace image
+          td.appendChild(img);
+        } else {
+          const span=document.createElement('span'); span.textContent="इमेज जोड़ें"; span.className='photo-placeholder';
+          span.onclick=()=>selectImage(i,col);
+          td.appendChild(span);
+        }
+      } else {
+        td.textContent=row[col]||''; td.onclick=()=>editCell(i,col);
+      }
+      tr.appendChild(td);
+    });
+    const actionTd=document.createElement('td'); actionTd.className='action-cell no-print';
+    const editBtn=document.createElement('button'); editBtn.textContent='Edit'; editBtn.className='edit'; editBtn.onclick=()=>editRow(i);
+    const delBtn=document.createElement('button'); delBtn.textContent='Delete'; delBtn.onclick=()=>deleteRow(i);
+    actionTd.appendChild(editBtn); actionTd.appendChild(delBtn); tr.appendChild(actionTd);
+    tableBody.appendChild(tr);
+  });
+}
+
+function addColumn(){ const colName=prompt("नए कॉलम का नाम:"); if(colName){ columns.push(colName); data.forEach(r=>r[colName]=''); renderTable(); } }
+function addRow(){ const obj={}; columns.forEach(c=>obj[c]=''); data.push(obj); renderTable(); }
+function editRow(index){ columns.forEach(c=>{ const val=prompt(c+":",data[index][c]||''); if(val!==null)data[index][c]=val; }); renderTable(); }
+function editCell(index,col){ if(col==='फोटो') return; const val=prompt(col+":",data[index][col]||''); if(val!==null)data[index][col]=val; renderTable();}
+function deleteRow(index){ if(confirm("क्या आप इस पंक्ति को हटाना चाहते हैं?")){ data.splice(index,1); renderTable(); } }
+function selectImage(index,col){
+  const input=document.createElement('input'); input.type='file'; input.accept='image/*';
+  input.onchange=e=>{ const file=e.target.files[0]; if(file){ const reader=new FileReader();
+  reader.onload=ev=>{ data[index][col]=ev.target.result; renderTable(); }; reader.readAsDataURL(file); } };
+  input.click();
+}
+function exportAsImage(){
+  html2canvas(document.querySelector(".table-container"),{ignoreElements:el=>el.classList.contains('no-print')})
+  .then(canvas=>{ const link=document.createElement('a'); link.download='table.png'; link.href=canvas.toDataURL(); link.click(); });
+}
+
+// Overlay functions (minimal info only)
+function showProfile(index){
+  document.getElementById('overlayImg').src=data[index]['फोटो']||'';
+  document.getElementById('overlayName').textContent=data[index]['नाम']||'Contact';
+  document.getElementById('overlayContact').textContent=data[index]['संपर्क नंबर']||'';
+  document.getElementById('profileOverlay').style.display='flex';
+}
+function closeProfile(){ document.getElementById('profileOverlay').style.display='none'; }
+
+// Import contacts
+// Uses the Contact Picker API when available; falls back to sample contacts.
+document.getElementById('importContactsBtn').addEventListener('click', async()=>{
+  if('contacts' in navigator && 'ContactsManager' in window){
+    try{
+      const contacts = await navigator.contacts.select(['name','tel','icon'],{multiple:true});
+      contacts.forEach(c=>{
+        const obj={}; columns.forEach(col=>obj[col]='');
+        obj['नाम']=Array.isArray(c.name) ? (c.name[0]||'') : (c.name||'');
+        obj['संपर्क नंबर']=Array.isArray(c.tel) ? (c.tel[0]||'') : (c.tel||'');
+        // Handle icon Blob -> object URL if provided
+        let photo='';
+        if(c.icon && c.icon[0]){
+          const ic=c.icon[0];
+          if(typeof ic === 'string') photo = ic; else if(ic instanceof Blob) photo = URL.createObjectURL(ic);
+        }
+        obj['फोटो']=photo;
+        data.push(obj);
+      });
+      renderTable();
+      alert('कॉन्टैक्ट जोड़ दिए गए!');
+    }catch(e){
+      alert('कॉन्टैक्ट इम्पोर्ट विफल!');
+    }
+  } else {
+    // Desktop / unsupported browser fallback
+    const sampleContacts = [
+      { 'नाम':'Rahul', 'संपर्क नंबर':'9876543210', 'फोटो':'' },
+      { 'नाम':'Anita', 'संपर्क नंबर':'9123456780', 'फोटो':'' }
+    ];
+    sampleContacts.forEach(c=>{
+      const obj={}; columns.forEach(col=>obj[col]='');
+      obj['नाम']=c['नाम']; obj['संपर्क नंबर']=c['संपर्क नंबर']; obj['फोटो']=c['फोटो'];
+      data.push(obj);
+    });
+    renderTable();
+    alert('Sample contacts added!');
+  }
+});
+
+renderTable();
+</script>
+</body>
+</html>
+
+	
