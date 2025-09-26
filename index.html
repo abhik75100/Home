@@ -68,6 +68,13 @@ footer{text-align:center;padding:1.5rem;background: rgba(0,0,0,0.6);border-top:2
 
 /* Animations */
 @keyframes fillSkill{from{width:0;}to{width:var(--skill-level);}}
+ /* Select Options Style */
+  select{
+  width:100%;padding:.55rem;border-radius:12px;border:none;background:#e0e5ec;margin-bottom:10px;
+      box-shadow:inset 3px 3px 6px #bec3c9,
+      inset -3px -3px 6px #ffffff;
+      position: relative;
+  z-index: 1;}
 </style>
 </head>
 <body>
@@ -112,9 +119,20 @@ footer{text-align:center;padding:1.5rem;background: rgba(0,0,0,0.6);border-top:2
   <div class="project-grid">
     <div class="card">
       <h3>🌐 Portfolio Website</h3>
-      <div class="demo"> <a href="student form (1).html">
-        Student Application form</a>
-      </li>
+      
+<div class="col">
+  <label>Projects</label>
+  <select id="state">
+    <option value="1"><a href="student form (1).html">
+        Student Application form </a> </option>
+    <option value="2">project 2</option>
+    <option value="3">Project 3</option>
+    <option value="4">Project 4</option>
+    <option value="5">Project 5</option>
+    <option value="6">Project 6</option>
+  </select>
+</div>
+        
       </div>
       <p>A personal portfolio showcasing my work and skills.</p>
       <button class="demo">Live Demo</button>
