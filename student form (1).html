@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Student Application Form - by Abhishek</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    *{box-sizing:border-box; font-family:'Segoe UI',sans-serif}
+    body{background:#e0e5ec;padding:20px}
+    .container{
+      
+      max-width:900px;margin:auto;padding:2rem;border-radius:18px;background:#fff"";
+      box-shadow:10px 10px 30px #bec3c9,-10px -10px 30px #ffffff;
+    }
+    h1{text-align:center;margin-bottom:18px; 
+      
+    }
+    input,select,textarea{
+      width:100%;padding:.55rem;border-radius:12px;border:none;background:#e0e5ec;margin-bottom:10px;
+      box-shadow:inset 3px 3px 6px #bec3c9,
+      inset -3px -3px 6px #ffffff;
+      position: relative;
+  z-index: 1;
+    }
+    
+    /* Gradient border ke liye wrapper effect */
+input:hover,
+select:hover,
+textarea:hover {
+  border: 1px dashed transparent;
+  background-image: linear-gradient(#e0e5ec, #e0e5ec),
+    linear-gradient(to left, #ff00ff, #00ffff, #00ff00, #ffff00, #ff0000, #ff00ff);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  animation: neonGlow 7s linear infinite;
+  box-shadow: 0 0 15px #0ff, 0 0 30px #f0f, 
+  0 0 45px #ff0;
+}
+
+@keyframes neonGlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+
+    /* Hover par neon glow 
+input:hover,
+select:hover,
+textarea:hover {
+  border: 1px solid #0ff;
+  box-shadow: 0 0 10px #0ff,
+              0 0 20px #0ff,
+              0 0 40px #0ff;
+}
+*/
+
+    .flex{display:flex;gap:12px}
+    .col{flex:1}
+    label{font-weight:600;margin-bottom:4px;display:block}
+    .section{margin-bottom:18px;padding:12px;border-radius:12px;background:#f8f8f8;
+      box-shadow:3px 3px 6px #bec3c9,-3px -3px 6px #ffffff}
+    .small{font-size:.9rem;color:#333}
+    .img-preview{max-width:100px;max-height:100px;border-radius:10px;display:block;margin-top:6px}
+    .btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:12px}
+    button{padding:10px 16px;border-radius:12px;border:none;cursor:pointer;background:#28a745;color:#fff}
+    
+    button:hover{opacity:.95}
+    .btn-print{background:#007bff}
+    .btn-ws{background:#25d366}
+    .education-row{padding:10px;border-radius:10px;background:#fff;margin-bottom:8px;position:relative;border:1px solid #ddd}
+    .remove-edu{position:absolute;right:8px;top:8px;background:#e63946;border:none;color:#fff;padding:4px 8px;border-radius:6px;cursor:pointer}
+    #preview-area{display:none;width:840px;margin:auto;padding:18px;border-radius:12px;background:linear-gradient(hotpink,white);background-size:cover;background-position:center}
+    #preview-area h2{text-align:center;margin:4px 0}
+    #preview-area table{width:100%;border-collapse:collapse;margin-top:10px}
+  
+    #preview-area table, #preview-area th, #preview-area td{border:1px solid #000;padding:6px;text
+box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3),
+inset 0px 1px 1px rgba(255, 255, 255, 0.7);
+text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);}
+    .meta{display:flex;gap:12px;align-items:center}
+    .meta img{max-height:90px;border-radius:8px}
+    
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📝 Student Application Form</h1>
+
+    <!-- Header inputs -->
+    <div class="section">
+      <label contenteditable="true">Institute / Header Logo (optional)</label>
+      <input type="file" id="inst-logo" accept="image/*" onchange="previewImage(event,'inst-logo-preview')">
+      <img id="inst-logo-preview" class="img-preview" style="display:none">
+
+      <div class="flex">
+        <div class="col">
+          <label>Form Title (उदाहरण: प्रवेश फॉर्म)</label>
+          <input id="form-title" placeholder="Form Title" value="छात्र अभ्यर्थी फॉर्म">
+        </div>
+        <div class="col">
+          <label>Form Subtitle (उदा: शैक्षणिक सत्र)</label>
+          <input id="form-subtitle" placeholder="Subtitle (optional)" value="शैक्षणिक सत्र: 2025-26">
+        </div>
+      </div>
+    </div>
+    
+  <div style="display:flex;flex-direction:column;">
+    <label style="font-size:14px;margin-bottom:8px;color:#aaa;">Neon Input</label>
+    <input type="text" placeholder="Hover me for neon glow"
+      style="width:280px;
+             padding:12px 15px;
+             color:#fff;
+             outline:none;
+             transition:0.5s;
+             box-shadow:0 0 0 transparent;"
+      onmouseover="this.style.borderColor='#0ff';this.style.boxShadow='0 0 10px #0ff,0 0 20px #0ff,0 0 40px #0ff';"
+      onmouseout="this.style.borderColor='#444';this.style.boxShadow='0 0 0 transparent';">
+  </div>
+  
+    <!-- Personal details -->
+    <div class="section">
+      <h3>व्यक्तिगत जानकारी</h3>
+      <div class="flex">
+        <div class="col">
+          <label>Student Name (नाम)</label><input id="stu-name" placeholder="पूरा नाम">
+        </div>
+        <div class="col">
+          <label>Father's Name (पिता का नाम)</label><input id="father-name" placeholder="पिता का नाम">
+        </div>
+      </div>
+      <div class="flex">
+        <div class="col"><label>Mother's Name (माता का नाम)</label><input id="mother-name"></div>
+        <div class="col"><label>Date of Birth (DOB)</label><input id="dob" type="date"></div>
+      </div>
+
+      <div class="flex">
+        <div class="col"><label>Gender</label>
+          <select id="gender">
+            <option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="col"><label>Category (वर्ग)</label>
+          <select id="category"><option>General</option><option>OBC</option><option>SC</option><option>ST</option></select>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="col">
+          <label>Contact Number</label><input id="contact" type ="tel"maxlenth="10" placeholder="10-digit mobile">
+        </div>
+        <div class="col">
+          <label>Email (optional)</label>
+          <input id="email" type="email" placeholder="example@mail.com">
+        </div>
+      </div>
+
+      <div>
+        <label>Address</label><textarea id="address" rows="2" 
+        placeholder="गली, मोहल्ला, शहर"></textarea>
+      </div>
+
+      <div class="flex">
+        <div class="col"><label>Pincode</label><input id="pincode"></div>
+
+<div class="col">
+  <label>State</label>
+  <select id="state">
+    <option value="">Select State</option>
+    <option value="up">Uttar Pradesh</option>
+    <option value="mh">Maharashtra</option>
+    <option value="dl">Delhi</option>
+    <option value="mp">Madhya Pradesh</option>
+    <option value="br">Bihar</option>
+  </select>
+</div>
+</div>
+
+<div class="flex">
+  <div class="col">
+    <label>District</label>
+    <select id="district">
+      <option value="">Select District</option>
+    </select> 
+  </div>
+  <div class="col">
+    <label>Block</label>
+    <select id="block">
+      <option value="">Select Block</option>
+    </select>
+  </div>
+</div>
+
+<script>
+  // States -> Districts -> Blocks Data
+  const data = {
+    up: {
+      Lakhimpur: [
+        "Lakhimpur",
+        "Behjam",
+        "Mitauli",
+        "Pasgawan",
+        "Mohammdi",
+        "Gola Gokarannath",
+        "Bankeyganj",
+        "Bijuwa",
+        "Paliya",
+        "Nighasan",
+        "Ramiyabehar",
+        "Issanagar",
+        "Dhaurahara",
+        "Nakaha",
+        "Phoolbehar"
+      ],
+      Sitapur: [
+      "Pisawan", "Maholi", "Misrikh", "Machhrehta", "Gondlamau",
+      "Ailiya", "Hargaon", "Parsendi", "Khairabad", "Laharpur",
+      "Behta", "Reusa", "Sakran", "Biswan", "Pahala",
+      "Mahmudabad", "Rampur Mathura", "Kasmanda", "Sidhauli"
+    ],
+  Hardoi: [
+      "Ahirori", "Hariyawan", "Sursa", "Shahabad", "Bharkhani",
+      "Bharawan", "Harpalpur", "Bilgram", "Madhoganj", "Mallawan",
+      "Tadiyawan", "Todarpur", "Kothwan", "Sandila", "Behadar",
+      "Pihani", "Sandi", "Kachhauna", "Bawan"
+    ],
+      
+  Bahraich: [
+    "1", "2", "3","4",
+    "5","6","7","8","9","10"
+    ]
+      
+    },
+    mh: {
+      Mumbai: ["Andheri", "Borivali", "Dadar"],
+      Pune: ["Shivajinagar", "Hinjewadi", "Kothrud"],
+      Nagpur: ["Katol", "Umred", "Ramtek"]
+    },
+    dl: {
+      Delhi: ["Central Delhi", "South Delhi", "North Delhi"]
+    },
+    mp: {
+      Bhopal: ["Huzur", "Berasia"],
+      Indore: ["Mhow", "Depalpur"],
+      Gwalior: ["Dabra", "Bhitarwar"]
+    },
+    br: {
+      Patna: ["Barh", "Bikram", "Paliganj"],
+      Gaya: ["Atri", "Belaganj", "Bodh Gaya"]
+    }
+  };
+
+  const stateSelect = document.getElementById("state");
+  const districtSelect = document.getElementById("district");
+  const blockSelect = document.getElementById("block");
+
+  // On State Change -> Districts Update
+  stateSelect.addEventListener("change", function () {
+    const state = this.value;
+    districtSelect.innerHTML = '<option value="">Select District</option>';
+    blockSelect.innerHTML = '<option value="">Select Block</option>';
+
+    if (state && data[state]) {
+      Object.keys(data[state]).forEach(district => {
+        const option = document.createElement("option");
+        option.value = district;
+        option.textContent = district;
+        districtSelect.appendChild(option);
+      });
+    }
+  });
+
+  // On District Change -> Blocks Update
+  districtSelect.addEventListener("change", function () {
+    const state = stateSelect.value;
+    const district = this.value;
+    blockSelect.innerHTML = '<option value="">Select Block</option>';
+
+    if (state && district && data[state][district]) {
+      data[state][district].forEach(block => {
+        const option = document.createElement("option");
+        option.value = block;
+        option.textContent = block;
+        blockSelect.appendChild(option);
+      });
+    }
+  });
+</script>
+
+
+
+
+
+      <label>Student Photo (Upload)</label>
+      <input type="file" id="stu-photo" accept="image/*" onchange="previewImage(event,'stu-photo-preview')">
+      <img id="stu-photo-preview" class="img-preview" style="display:none">
+      
+       <label>Student Signature (Upload)</label>
+      <input type="file" id="stu-sign" accept="image/*" onchange="previewImage(event,'stu-sign-preview')">
+      <img id="stu-sign-preview" class="img-preview" style="display:none">
+    </div>
+
+    <!-- Education section -->
+    <div class="section">
+      <h3>शैक्षिक जानकारी (Education)</h3>
+      <div id="education-list"></div>
+      <div style="text-align:center;margin-top:8px">
+        <button onclick="addEducation()">+ नया रिकॉर्ड जोड़ें</button>
+      </div>
+      <p class="small">(हर रिकॉर्ड में: Level, Institution/Board, Roll No/Seat No, Marks/Grade, Passing Year)</p>
+    </div>
+
+    <!-- Background upload and actions -->
+    <div class="section">
+      <label>Background Image for print/export (optional)</label>
+      <input type="file" id="bg-upload" accept="image/*" onchange="setBackground(event)">
+
+      <div class="btns" style="margin-top:12px">
+        <button class="btn-print" onclick="buildPreview()">Preview तैयार करें</button>
+        <button class="btn-print" onclick="printForm()">Print</button>
+        <button onclick="downloadAsImage()">PNG सेव करें</button>
+        <button class="btn-ws" onclick="shareTextWhatsApp()">व्हाट्सएप में टेक्स्ट भेजें</button>
+      </div>
+    </div>
+
+    <p class="small">[Tip] Education rows में edit कर सकते हैं; remove बटन से हटाएँ। Print/PNG में वही दिखाई देगा जो Preview में दिख रहा है।</p>
+  </div>
+
+  <!-- Preview / Hidden printable area -->
+  
+  <div id="preview-area"></div>
+
+<script>
+
+
+
+
+
+
+
+
+
+  let eduCount = 0;
+  let bgData = null;
+
+  // initial 3 education rows (10th, 12th, Graduation)
+  window.addEventListener('load', () => {
+    addEducation('10th');
+    addEducation('12th');
+    addEducation('Graduation');
+  });
+
+  function previewImage(event, elId){
+    const file = event.target.files && event.target.files[0];
+    if(!file) return;
+    const img = document.getElementById(elId);
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+  }
+
+  function setBackground(event){
+    const f = event.target.files && event.target.files[0];
+    if(!f) { bgData = null; return; }
+    const r = new FileReader();
+    r.onload = e => bgData = e.target.result;
+    r.readAsDataURL(f);
+  }
+
+  function addEducation(levelDefault = ''){
+    eduCount++;
+    const id = `edu-${eduCount}`;
+    const container = document.createElement('div');
+    container.className = 'education-row';
+    container.id = id;
+    container.innerHTML = `
+      <button class="remove-edu" onclick="removeEducation('${id}')">हटाएँ</button>
+      <div class="flex">
+        <div class="col"><label>Level</label>
+          <select class="edu-level">
+            <option ${levelDefault==='10th'?'selected':''}>10th</option>
+            <option ${levelDefault==='12th'?'selected':''}>12th</option>
+            <option ${levelDefault==='Graduation'?'selected':''}>Graduation</option>
+            <option>Post Graduation</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="col"><label>Institution / Board</label><input class="edu-insti" placeholder="School / College / Board"></div>
+      </div>
+      <div class="flex">
+        <div class="col"><label>Roll No / Seat No</label><input class="edu-roll"></div>
+        <div class="col"><label>Marks / Grade</label><input class="edu-marks" placeholder="e.g., 450/500 or 90%"></div>
+      </div>
+      <div class="flex">
+        <div class="col"><label>Passing Year</label><input class="edu-year" placeholder="2022"></div>
+        <div class="col"><label>Remarks (optional)</label><input class="edu-remarks"></div>
+      </div>
+    `;
+    document.getElementById('education-list').appendChild(container);
+  }
+
+  function removeEducation(id){
+    const el = document.getElementById(id);
+    if(el) el.remove();
+  }
+
+  // Build printable preview HTML
+  function buildPreview(){
+    const title = document.getElementById('form-title').value || 'Application Form';
+    const subtitle = document.getElementById('form-subtitle').value || '';
+    const instLogo = document.getElementById('inst-logo-preview').src || '';
+    const stuPhoto = document.getElementById('stu-photo-preview').src || '';
+    const stuSign = document.getElementById('stu-sign-preview').src || '';
+    const name = document.getElementById('stu-name').value || '';
+    const father = document.getElementById('father-name').value || '';
+    const mother = document.getElementById('mother-name').value || '';
+    const dob = document.getElementById('dob').value || '';
+    const gender = document.getElementById('gender').value || '';
+    const category = document.getElementById('category').value || '';
+    const contact = document.getElementById('contact').value || '';
+    const email = document.getElementById('email').value || '';
+    const address = document.getElementById('address').value || '';
+    const pincode = document.getElementById('pincode').value || '';
+    const state = document.getElementById('state').value || '';
+    const district = document.getElementById('district').value || '';
+    const block = document.getElementById('block').value || '';
+
+    // Education rows
+    const eduNodes = document.querySelectorAll('#education-list .education-row');
+    let eduRowsHTML = '';
+    eduNodes.forEach((r, idx) => {
+      const level = r.querySelector('.edu-level').value || '';
+      const inst = r.querySelector('.edu-insti').value || '';
+      const roll = r.querySelector('.edu-roll').value || '';
+      const marks = r.querySelector('.edu-marks').value || '';
+      const year = r.querySelector('.edu-year').value || '';
+      const remarks = r.querySelector('.edu-remarks').value || '';
+      eduRowsHTML += `<tr>
+        <td style="width:12%">${idx+1}</td>
+        <td style="width:22%"><b>${level}</b><br><small>${inst}</small></td>
+        <td style="width:18%">${roll}</td>
+        <td style="width:18%">${marks}</td>
+        <td style="width:10%">${year}</td>
+        <td style="width:20%">${remarks}</td>
+      </tr>`;
+    });
+
+// Build HTML
+let html = `<div style="text-align:center">`;
+if(instLogo && instLogo.indexOf('http')!==0) html += `<img src="${instLogo}" style="max-height:110px;"><br>`;
+html += `<h2>${escapeHtml(title)}</h2>`;
+if(subtitle) html += `<div style="margin-bottom:6px">${escapeHtml(subtitle)}</div>`;
+html += `<hr></div>`;
+
+// Student Info (Left + Right)
+html += `<div style="display:flex;justify-content:space-between;align-items:flex-start">`;
+
+// Left Info Table
+html += `<div style="width:99%">
+  <table style="width:100%;border-collapse:collapse;border:none cursor: text;
+  border-radios:25px;
+text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
+    <tr>
+      <td style="padding:4px;width:50%"><b>Name:</b> ${escapeHtml(name)}</td>
+      <td style="padding:4px;width:50%"><b>DOB:</b> ${escapeHtml(dob)}</td>
+      
+      <td rowspan="5" style="width:26%;text-align:center;margin-left:8px">
+  ${stuPhoto && stuPhoto.indexOf('http')!==0 
+    ? `<img src="${stuPhoto}" style="max-height:170px;border:2px dashed #000;padding:2px;border-radius:12px;display:block;margin:0 auto">` 
+    : ''}
+    ${stuSign && stuSign.indexOf('http')!==0 
+    ? `<img src="${stuSign}" style="max-height:40px;border:2px dashed green;padding:2px;border-radius:12px;display:block;margin:0 auto">` 
+    : ''}
+</td>
+    </tr>
+    
+    <tr>
+      <td style="padding:4px"><b>Gender:</b> ${escapeHtml(gender)}</td>
+      <td style="padding:4px"><b>Category:</b> ${escapeHtml(category)}</td>
+    </tr>
+    <tr>
+      <td style="padding:4px"><b>Father:</b> ${escapeHtml(father)}</td>
+      <td style="padding:4px"><b>Mother:</b> ${escapeHtml(mother)}</td>
+    </tr>
+    <tr>
+      <td style="padding:4px"><b>Contact:</b> ${escapeHtml(contact)}</td>
+      <td style="padding:4px"><b>Email:</b> ${escapeHtml(email)}</td>
+    </tr>
+    <tr>
+      <td colspan="2" style="padding:4px"><b>Address:</b> ${escapeHtml(address)},  <b>Block:</b> ${escapeHtml(block)},<b>District:</b> ${escapeHtml(district)}, ${escapeHtml(state)} - ${escapeHtml(pincode)}</td>
+    </tr>
+  </table>
+</div>`;
+
+// Right Photo Section
+/*
+html += `<div style="width:26%;text-align:center;margin-left:8px">
+  ${stuPhoto && stuPhoto.indexOf('http')!==0 
+    ? `<img src="${stuPhoto}" style="max-height:170px;border:2px solid #000;padding:2px;border-radius:12px;display:block;margin:0 auto">` 
+    : ''}
+  <div style="margin-top:8px;font-size:12px">
+    <b>District:</b> ${escapeHtml(district)}<br>
+    <b>Block:</b> ${escapeHtml(block)}
+  </div>
+</div>`;   */
+
+html += `</div>`;
+
+
+    // Education table
+    html += `<h3 style="margin-top:12px">शैक्षिक विवरण</h3>`;
+    html += `<table><tr><th>#</th><th>Level / Institution</th><th>Roll No</th><th>Marks/Grade</th><th>Year</th><th>Remarks</th></tr>`;
+    html += eduRowsHTML;
+    html += `</table>`;
+
+    // Footer / signature
+    html += `<div style="margin-top:12px;display:flex;justify-content:space-between;align-items:center">
+      <div><p>Date: ${new Date().toLocaleDateString()}</p><p>Signature: __________________</p></div>
+      <div style="text-align:center"><p>Office Use Only</p><p>Verified By: ____________</p></div>
+    </div>`;
+
+    // Set preview area
+    const preview = document.getElementById('preview-area');
+    preview.innerHTML = html;
+    preview.style.background = bgData ? `url(${bgData}) center/cover` : 'linear-gradient(hotpink,white)';
+    preview.style.display = 'block';
+    // scroll to preview
+    preview.scrollIntoView({behavior:'smooth'});
+    return preview;
+  }
+
+  // Escape HTML to prevent breaking preview when user types < etc.
+  function escapeHtml(text){
+    if(!text) return '';
+    return text.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+  }
+
+  // Print
+  function printForm(){
+    const preview = buildPreview();
+    const w = window.open("","_blank","width=900,height=700");
+    w.document.write("<html><head><title>Print Form</title></head><body>");
+    w.document.write(preview.innerHTML);
+    w.document.write("</body></html>");
+    w.document.close();
+    // give browser a short time to load images, then print
+    setTimeout(()=>{ w.print(); }, 400);
+  }
+
+  // Download as PNG using html2canvas
+  function downloadAsImage(){
+    const preview = buildPreview();
+    // temporarily ensure visible for html2canvas
+    preview.style.display = 'block';
+    html2canvas(preview, {scale:3, useCORS:true}).then(canvas=>{
+      const link = document.createElement('a');
+      link.download = 'application_form.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }).catch(err=>{
+      alert('Image export failed. Try removing cross-origin images or use same-origin images.');
+      console.error(err);
+    });
+  }
+
+  // Create text summary and open WhatsApp share link
+  function shareTextWhatsApp(){
+    // build a small summary text
+    const name = document.getElementById('stu-name').value || '';
+    const contact = document.getElementById('contact').value || '';
+    const title = document.getElementById('form-title').value || 'Application Form';
+    let text = `${title}\nName: ${name}\nContact: ${contact}\n`;
+    // add education summary
+    document.querySelectorAll('#education-list .education-row').forEach((r, idx)=>{
+      const level = r.querySelector('.edu-level').value || '';
+      const inst = r.querySelector('.edu-insti').value || '';
+      const marks = r.querySelector('.edu-marks').value || '';
+      const year = r.querySelector('.edu-year').value || '';
+      text += `${idx+1}. ${level} - ${inst} - ${marks} - ${year}\n`;
+    });
+    window.open(`https://wa.me/?text=${encodeURIComponent(text)}`,'_blank');
+  }
+</script>
+</body>
+</html>
