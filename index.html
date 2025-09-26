@@ -75,6 +75,26 @@ footer{text-align:center;padding:1.5rem;background: rgba(0,0,0,0.6);border-top:2
       inset -3px -3px 6px #ffffff;
       position: relative;
   z-index: 1;}
+ .table-container { overflow-x: auto; border-radius: 12px; box-shadow: inset 4px 4px 8px #c1c1c1, inset -4px -4px 8px #ffffff;
+background-color: #161b22;
+          }
+ 
+table {
+  border-collapse: collapse; width: 100%; min-width: 900px;
+  background: #e0e5ec; padding: 4rem; border-radius: 25px;
+  box-shadow: 10px 10px 30px #bec3c9, -10px -10px 30px #ffffff;
+}
+th {
+  font-size: 1.3em; font-weight: bold; text-align: center; padding: 10px;
+  border-radius: 15px; background: #d4edda;
+  box-shadow: inset 3px 3px 6px #bec3c9, inset -3px -3px 6px #ffffff;
+}
+td {
+  padding: 10px; text-align: center;
+  border-radius:12px; background:#e0e5ec;
+  box-shadow:inset 3px 3px 6px #bec3c9,inset -3px -3px 6px #fff;
+  width:220px;
+}
 </style>
 </head>
 <body>
@@ -120,9 +140,16 @@ footer{text-align:center;padding:1.5rem;background: rgba(0,0,0,0.6);border-top:2
     <div class="card">
       <h3>🌐 Portfolio Website</h3>
       
-<details>
+      <p>A personal portfolio showcasing my work and skills.</p>
+      <button class="demo">Live Demo</button>
+      <button class="code">GitHub Code</button>
+    </div>
+   
+<details class="card">
   <summary>Projects</summary>
-  <table>
+<div class="table-container">
+  <table class="dataTable">
+   <tbody  class="tableBody">
    <tr>
     <td>
      <a href="student form (1).html">
@@ -140,13 +167,11 @@ footer{text-align:center;padding:1.5rem;background: rgba(0,0,0,0.6);border-top:2
      <a href="#"> Project 4 </a>
     </td>
    </tr>
+   </tbody>
   </table>
+</div>
 </details>
     
-      <p>A personal portfolio showcasing my work and skills.</p>
-      <button class="demo">Live Demo</button>
-      <button class="code">GitHub Code</button>
-    </div>
     <div class="card">
       <h3>📊 Data Dashboard</h3>
       <p>An interactive dashboard built with modern web technologies.</p>
