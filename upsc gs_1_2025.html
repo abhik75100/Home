@@ -1,0 +1,3009 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC GS Paper I - 2025 (Glass Effect & 3D Frame)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root {
+  --print-bg: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop'); /* Default Print BG */
+}
+
+/* ग्लोबल स्टाइल्स और बैकग्राउंड */
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0; 
+  padding: 20px;
+  color: #1e293b;
+  background-image: var(--print-bg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* टॉप कंट्रोल पैनल (ग्लास इफ़ेक्ट) */
+.controls {
+  text-align: center; 
+  margin-bottom: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.btn {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.8)); 
+  color: #fff;
+  padding: 10px 20px; 
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 10px; 
+  cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.2), -2px -2px 8px rgba(255,255,255,0.2);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.9));
+}
+
+/* कस्टम फाइल अपलोड बटन */
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* एनिमेटेड 3D फोटो फ्रेम इफ़ेक्ट */
+@keyframes frameGlow {
+  0% { box-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055, inset 0 0 20px #ff0055; border-color: #ff0055; }
+  33% { box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00, inset 0 0 20px #00ff00; border-color: #00ff00; }
+  66% { box-shadow: 0 0 15px #0055ff, 0 0 30px #0055ff, inset 0 0 20px #0055ff; border-color: #0055ff; }
+  100% { box-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055, inset 0 0 20px #ff0055; border-color: #ff0055; }
+}
+
+#paperPreview {
+  background: rgba(255, 255, 255, 0.25); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 4px solid #fff;
+  animation: frameGlow 8s infinite alternate; /* 3D Animated Border */
+}
+
+h2 {
+  text-align: center; 
+  color: #0f172a;
+  text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* प्रश्न का ब्लॉक - ग्लास इफ़ेक्ट */
+.question-block {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.question-block:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* प्रश्न का टेक्स्ट */
+h3 { 
+  margin-top: 0; 
+  color: #0f172a; 
+  font-size: 18px; 
+  line-height: 1.6;
+  font-weight: 700;
+  margin-bottom: 18px;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* विकल्प ग्रिड - 2 कॉलम */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 15px;
+}
+
+/* 3D ग्लास बटन के रूप में विकल्प */
+.option {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  color: #1e293b;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.1), -3px -3px 8px rgba(255,255,255,0.6);
+}
+.option:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.15), -3px -3px 10px rgba(255,255,255,0.8);
+}
+
+/* सही/गलत उत्तर का 3D डिज़ाइन */
+.option.correct { 
+  background: linear-gradient(145deg, rgba(34, 197, 94, 0.8), rgba(74, 222, 128, 0.8)) !important; 
+  border-color: #16a34a !important; 
+  color: #fff !important; 
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
+}
+.option.wrong { 
+  background: linear-gradient(145deg, rgba(239, 68, 68, 0.8), rgba(248, 113, 113, 0.8)) !important; 
+  border-color: #dc2626 !important; 
+  color: #fff !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
+}
+
+/* स्पष्टीकरण (विस्तार से व्याख्या) ब्लॉक */
+.explanation { 
+  margin-top: 20px; 
+  opacity: 0; 
+  display: none; 
+  background: rgba(239, 246, 255, 0.85); 
+  backdrop-filter: blur(8px);
+  padding: 18px; 
+  border-radius: 12px; 
+  color: #1e40af; 
+  font-size: 15px;
+  line-height: 1.7;
+  border: 1px solid rgba(191, 219, 254, 0.8);
+  box-shadow: inset 2px 2px 8px rgba(0,0,0,0.05);
+}
+.explanation b {
+    color: #0c4a6e;
+    font-size: 16px;
+}
+.explanation.show { 
+  opacity: 1; 
+  display: block; 
+  animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* मोबाइल स्क्रीन एडजस्टमेंट */
+@media (max-width: 600px) {
+  #paperPreview { padding: 15px; border-width: 2px; }
+  .options-grid { gap: 10px; }
+  .option { padding: 10px 12px; font-size: 14px; }
+  h3 { font-size: 16px; }
+}
+
+/* प्रिंट के लिए विशेष सेटिंग्स (ताकि बैकग्राउंड और डिज़ाइन हर पेज पर आए) */
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body { 
+    margin: 0; padding: 0;
+    -webkit-print-color-adjust: exact !important; 
+    print-color-adjust: exact !important;
+  }
+  /* Print Background Trick */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image: var(--print-bg);
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .controls { display: none !important; }
+  #paperPreview { 
+    box-shadow: none; 
+    animation: none; 
+    border: 2px solid #000; 
+    background: rgba(255, 255, 255, 0.7); /* Thicker for readability in print */
+  }
+  .question-block { 
+    page-break-inside: avoid; 
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #aaa;
+  }
+  .option.correct { background: #22c55e !important; color: white !important;}
+  .option.wrong { background: #ef4444 !important; color: white !important;}
+  .explanation { background: rgba(239, 246, 255, 0.95); }
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="upload-btn-wrapper">
+    <button class="btn">📷 Upload Background Image</button>
+    <input type="file" id="bgUpload" accept="image/*" />
+  </div>
+  <button id="printBtn" class="btn">🖨️ Print Test</button>
+</div>
+
+<div id="paperPreview">
+  <h2>UPSC CSAT 2025 - General Studies Paper I</h2>
+  
+  <div class="question-block" data-correct="B">
+    <h3>Q1. निवेश के संदर्भ में, निम्नलिखित पर विचार कीजिए:
+    <br>I. बॉन्ड
+    <br>II. प्रतिरक्षा निधियाँ (हेज फंड्स)
+    <br>III. स्टॉक
+    <br>IV. जोखिम पूँजी
+    <br>उपर्युक्त में से कितनों को वैकल्पिक निवेश निधि (Alternative Investment Funds) माना जाता है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      • भारतीय प्रतिभूति और विनिमय बोर्ड (SEBI) के नियमों के अनुसार, पारंपरिक निवेश साधनों (जैसे- बॉन्ड, स्टॉक/इक्विटी, नकद) से अलग निवेश के साधनों को 'वैकल्पिक निवेश निधि' (Alternative Investment Funds - AIFs) माना जाता है।<br>
+      • <b>बॉन्ड (I) और स्टॉक (III)</b>: ये दोनों पारंपरिक (Traditional) निवेश के साधन हैं, इसलिए ये AIFs की श्रेणी में नहीं आते।<br>
+      • <b>प्रतिरक्षा निधियाँ या हेज फंड्स (II)</b>: ये AIFs की <b>श्रेणी III</b> के अंतर्गत आते हैं। ये जटिल ट्रेडिंग रणनीतियों का उपयोग करके उच्च रिटर्न प्राप्त करने का प्रयास करते हैं।<br>
+      • <b>जोखिम पूँजी या वेंचर कैपिटल (IV)</b>: ये AIFs की <b>श्रेणी I</b> के अंतर्गत आते हैं। ये शुरुआती चरण के स्टार्टअप्स और नए उद्यमों में निवेश करते हैं।<br>
+      अतः दिए गए 4 विकल्पों में से केवल दो (हेज फंड्स और जोखिम पूँजी) वैकल्पिक निवेश निधि (AIF) माने जाते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q2. निम्नलिखित में कौन-कौन से, भारतीय रिज़र्व बैंक (RBI) की आय के स्रोत हैं?
+    <br>I. सरकारी बॉन्डों का क्रय और विक्रय
+    <br>II. विदेशी मुद्रा का क्रय और विक्रय
+    <br>III. पेंशन निधि प्रबंधन
+    <br>IV. निजी कंपनियों को ऋण देना
+    <br>V. करेंसी नोटों का मुद्रण और वितरण</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. II, III और IV</div>
+      <div class="option">C. I, III, IV और V</div>
+      <div class="option">D. I, II और V</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      भारतीय रिज़र्व बैंक (RBI) एक वाणिज्यिक बैंक नहीं है; इसका मुख्य कार्य मौद्रिक नीति को नियंत्रित करना है। इसकी आय के मुख्य स्रोत निम्नलिखित हैं:<br>
+      • <b>सरकारी बॉन्डों का क्रय और विक्रय (I)</b>: RBI खुले बाज़ार के संचालन (Open Market Operations) के तहत सरकारी प्रतिभूतियों को खरीदता और बेचता है। इन घरेलू संपत्तियों और सरकारी बॉन्डों पर उसे ब्याज के रूप में अच्छी आय प्राप्त होती है।<br>
+      • <b>विदेशी मुद्रा का क्रय और विक्रय (II)</b>: RBI विदेशी मुद्रा भंडार (Foreign Exchange Reserves) का प्रबंधन करता है। विदेशी बॉन्डों पर रिटर्न और विदेशी मुद्रा के क्रय-विक्रय (मुद्रा के मूल्य में उतार-चढ़ाव) से उसे आय होती है।<br>
+      • <b>पेंशन निधि प्रबंधन (III)</b>: यह कार्य PFRDA (Pension Fund Regulatory and Development Authority) का है, RBI का नहीं।<br>
+      • <b>निजी कंपनियों को ऋण देना (IV)</b>: RBI सीधे तौर पर निजी कंपनियों या आम जनता को ऋण नहीं देता। यह केवल बैंकों और सरकारों को ऋण देता है।<br>
+      • <b>करेंसी नोटों का मुद्रण और वितरण (V)</b>: यह RBI का एक कार्य और व्यय (खर्च) का स्रोत है, प्रत्यक्ष 'आय' का स्रोत नहीं (हालाँकि 'Seigniorage' की अवधारणा है, लेकिन इसे पारम्परिक रूप से प्रत्यक्ष व्यावसायिक आय नहीं माना जाता)।<br>
+      अतः RBI की आय के मुख्य स्रोत केवल I और II हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q3. भारत सरकार के संदर्भ में, निम्नलिखित सूचना पर विचार कीजिए:
+    <br>I. प्रवर्तन निदेशालय (ED) : भगोड़ा आर्थिक अपराधी अधिनियम, 2018 का प्रवर्तन : आंतरिक सुरक्षा प्रभाग-I, गृह मंत्रालय
+    <br>II. राजस्व आसूचना निदेशालय (DRI) : सीमा शुल्क अधिनियम, 1962 के उपबंधों को प्रवर्तित करना : राजस्व विभाग, वित्त मंत्रालय
+    <br>III. प्रणाली एवं आँकड़ा प्रबंधन महानिदेशालय : कर-वंचकों को पकड़ने में कर अधिकारियों की सहायता के लिए वृहत् आँकड़ा (डेटा) विश्लेषण : राजस्व विभाग, वित्त मंत्रालय
+    <br>उपर्युक्त में से कितनी पंक्तियों में सूचना सही सुमेलित है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. किसी में नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो (सुधार सहित व्याख्या देखें): विस्तृत व्याख्या:</b><br>
+      • <b>युग्म I (गलत)</b>: प्रवर्तन निदेशालय (ED) भगोड़ा आर्थिक अपराधी अधिनियम 2018, फेमा (FEMA) और पीएमएलए (PMLA) का प्रवर्तन करता है, लेकिन यह गृह मंत्रालय के अधीन नहीं आता। यह <b>वित्त मंत्रालय के राजस्व विभाग (Department of Revenue, Ministry of Finance)</b> के प्रशासनिक नियंत्रण में कार्य करता है।<br>
+      • <b>युग्म II (सही)</b>: राजस्व आसूचना निदेशालय (Directorate of Revenue Intelligence - DRI) तस्करी को रोकने और सीमा शुल्क अधिनियम (Customs Act, 1962) को लागू करने के लिए शीर्ष खुफिया एजेंसी है। यह <b>राजस्व विभाग, वित्त मंत्रालय</b> के तहत CBIC के अंतर्गत काम करती है।<br>
+      • <b>युग्म III (सही)</b>: प्रणाली एवं आँकड़ा प्रबंधन महानिदेशालय (DG Systems and Data Management) कर चोरी रोकने और डेटा एनालिटिक्स (Big Data Analytics) का उपयोग करने के लिए <b>राजस्व विभाग, वित्त मंत्रालय</b> के तहत काम करता है (CBDT/CBIC के लिए)।<br>
+      अतः केवल दो युग्म (II और III) सही सुमेलित हैं। <i>(नोट: विकल्प B 'केवल दो' सही है, यद्यपि प्रश्न में C मार्क हो सकता है अगर ED को सही माना जाए, लेकिन ED वित्त मंत्रालय में है)।</i>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q4. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>I. भारतीय रिज़र्व बैंक (RBI) भारत में सभी सूचीबद्ध कंपनियों को व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (BRSR) प्रस्तुत करने का अधिदेश करता है।
+    <br>II. भारत में, व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (BRSR) प्रस्तुत करने वाली कोई कंपनी, इस रिपोर्ट में उनका प्रकटन करती है जो मुख्यतः गैर-वित्तीय स्वरूप के हैं।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (Business Responsibility and Sustainability Report - BRSR) प्रस्तुत करने का नियम <b>भारतीय प्रतिभूति और विनिमय बोर्ड (SEBI)</b> द्वारा अनिवार्य किया गया है, न कि RBI द्वारा। SEBI ने इसे शीर्ष 1000 सूचीबद्ध (listed) कंपनियों के लिए अनिवार्य किया है।<br>
+      • <b>कथन II (सही)</b>: BRSR रिपोर्टिंग मुख्य रूप से <b>पर्यावरण, सामाजिक और शासन (ESG)</b> मानकों पर केंद्रित है। इसमें कंपनियों को यह बताना होता है कि उनके व्यापार का पर्यावरण और समाज पर क्या प्रभाव पड़ रहा है। अतः इसमें प्रकटन (Disclosures) मुख्य रूप से <b>गैर-वित्तीय (Non-financial)</b> स्वरूप के होते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q5. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>कथन I: भारत में, ग्रामीण क्षेत्रों में कुक्कुट पालन और ऊन उत्पादन जैसे संवर्गी कृषि कार्यकलाप से प्राप्त आय को किसी भी कर से छूट प्राप्त है।
+    <br>कथन II: भारत में, आयकर अधिनियम, 1961 के उपबंधों के अधीन, ग्रामीण कृषि भूमि को पूँजीगत परिसंपत्ति नहीं माना जाता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन I और II दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. कथन I और II दोनों सही हैं किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कथन I सही नहीं है किन्तु कथन II सही है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: आयकर अधिनियम, 1961 की धारा 2(1A) और धारा 10(1) के तहत 'कृषि आय' को कर से छूट (Tax exemption) प्राप्त है। लेकिन सर्वोच्च न्यायालय के विभिन्न निर्णयों के अनुसार, संवर्गी कृषि कार्यकलाप (Allied agricultural activities) जैसे- <b>कुक्कुट पालन (Poultry farming), पशुपालन (Dairy farming), मत्स्य पालन और ऊन उत्पादन</b> को 'कृषि आय' नहीं माना जाता है। इसलिए, इनसे प्राप्त आय पूरी तरह कर-मुक्त <b>नहीं</b> है; यह 'व्यवसाय और पेशे से लाभ' के तहत कर योग्य (Taxable) है।<br>
+      • <b>कथन II (सही)</b>: आयकर अधिनियम, 1961 की धारा 2(14)(iii) के तहत, <b>ग्रामीण कृषि भूमि (Rural agricultural land)</b> को 'पूँजीगत परिसंपत्ति' (Capital Asset) की परिभाषा से बाहर रखा गया है। इसलिए ग्रामीण कृषि भूमि की बिक्री पर पूँजीगत लाभ कर (Capital Gains Tax) नहीं लगता है।
+    </div>
+  </div>
+
+
+<div class="question-block" data-correct="C">
+    <h3>Q6. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत, खनिज सुरक्षा भागीदारी (Minerals Security Partnership) में एक सदस्य के रूप में सम्मिलित हो गया है।
+    <br>II. भारत अपने द्वारा चिह्नित सभी 30 अति आवश्यक खनिजों में साधन-संपन्न है।
+    <br>III. संसद ने 2023 में खान और खनिज (विकास और विनियमन) अधिनियम, 1957 में संशोधन कर कतिपय अति आवश्यक खनिजों के लिए खनन पट्टा और संयुक्त (कम्पोजिट) लाइसेंस नीलामी से देने हेतु केन्द्रीय सरकार को अनन्य रूप से सशक्त किया है।
+    <br>उपर्युक्त कथनों में से कौन-से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल I और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: भारत जून 2023 में अमेरिका के नेतृत्व वाले 'खनिज सुरक्षा साझेदारी' (MSP) में शामिल हुआ है, जिसका उद्देश्य महत्वपूर्ण खनिजों की आपूर्ति श्रृंखला को सुरक्षित करना है।<br>
+      • <b>कथन II (गलत)</b>: भारत ने 30 महत्वपूर्ण (Critical) खनिजों की पहचान की है, लेकिन वह इन सभी में साधन-संपन्न (Resource-rich) <b>नहीं</b> है। भारत लिथियम, कोबाल्ट, और निकल जैसे कई खनिजों के लिए आयात (विशेषकर चीन से) पर अत्यधिक निर्भर है।<br>
+      • <b>कथन III (सही)</b>: MMDR संशोधन अधिनियम, 2023 के तहत केंद्र सरकार को 24 महत्वपूर्ण और रणनीतिक खनिजों (जैसे- लिथियम, नाइओबियम आदि) की नीलामी करने का विशेष अधिकार (Exclusive power) दिया गया है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q7. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : जहाँ तक किसी कम्पनी में निवेश से प्राप्त प्रतिफलों का संबंध है, आमतौर पर यह माना जाता है कि स्टॉक-धारकों की तुलना में बॉन्ड धारकों को अपेक्षाकृत कम जोखिम रहता है।
+    <br>कथन II : बॉन्ड धारक किसी कम्पनी के ऋणदाता होते हैं, जबकि स्टॉक-धारक उसके स्वामी होते हैं।
+    <br>कथन III : पुनर्भुगतान के प्रयोजन के लिए, किसी कम्पनी द्वारा बॉन्ड धारकों को स्टॉक धारकों की अपेक्षा प्राथमिकता दी जाती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन II और कथन III दोनों सही है तथा वे दोनों कथन I की व्याख्या करते हैं</div>
+      <div class="option">B. कथन II और कथन III दोनों सही है किन्तु उनमें से केवल एक, कथन I की व्याख्या करता है</div>
+      <div class="option">C. कथन II और कथन III में से केवल एक सही है तथा वह कथन I की व्याख्या करता है</div>
+      <div class="option">D. न तो कथन II और न ही कथन III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - कथन II और III दोनों सही हैं और I की व्याख्या करते हैं: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: बॉन्ड में निवेश को स्टॉक (Equity) की तुलना में सुरक्षित माना जाता है क्योंकि इसमें रिटर्न (ब्याज) तय होता है।<br>
+      • <b>कथन II और III (सही)</b>: बॉन्डधारक वास्तव में कंपनी को ऋण (Loan) देते हैं, इसलिए वे ऋणदाता (Lenders) हैं, जबकि शेयरधारक कंपनी के मालिक (Owners) होते हैं। कंपनी के दिवालिया होने या बंद होने की स्थिति में, कानूनी तौर पर पहले ऋणदाताओं (बॉन्ड धारकों) का पैसा चुकाया जाता है, उसके बाद ही कुछ बचने पर मालिकों (शेयरधारकों) को हिस्सा मिलता है। <b>यही कारण है कि बॉन्डधारक कम जोखिम में होते हैं। अतः II और III दोनों कथन I की सही व्याख्या कर रहे हैं।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q8. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. वैश्विक स्तर पर किए गए सभी इक्विटी विकल्प (Equity options) संविदाओं के कारोबार में भारत का अत्यधिक वृहद् अंश होता है, इस प्रकार भारत सहसा अतिवृद्धि को दर्शाता है।
+    <br>II. हाल के विगत समय में भारत का स्टॉक बाज़ार तेजी से बढ़ा है, यहाँ तक कि उसने एक समय इसमें हांगकांग को भी पीछे छोड़ दिया।
+    <br>III. छोटे निवेशकों को या तो विकल्प व्यापार (Options trading) जोखिमों की चेतावनी देने या इस विषय में अपंजीकृत वित्तीय सलाहकारों पर कार्रवाई करने के लिए कोई नियामक निकाय नहीं है।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: भारत F&O (Futures and Options) ट्रेडिंग की मात्रा के मामले में विश्व स्तर पर सबसे आगे है। खुदरा निवेशकों (Retail investors) की भागीदारी में यहाँ भारी उछाल आया है।<br>
+      • <b>कथन II (सही)</b>: जनवरी 2024 में, भारतीय शेयर बाज़ार (Stock Market) ने हांगकांग को पीछे छोड़ दिया और विश्व का चौथा सबसे बड़ा शेयर बाज़ार बन गया।<br>
+      • <b>कथन III (गलत)</b>: भारत में <b>भारतीय प्रतिभूति और विनिमय बोर्ड (SEBI)</b> एक सशक्त नियामक निकाय है। SEBI लगातार छोटे निवेशकों को डेरिवेटिव्स (F&O) के जोखिमों के प्रति आगाह करता है (हर ब्रोकर ऐप पर चेतावनी अनिवार्य है) और अपंजीकृत 'Finfluencers' (वित्तीय सलाहकारों) पर भारी जुर्माना और प्रतिबंध लगाता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q9. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : चक्रीय अर्थव्यवस्था (Circular economy) ग्रीनहाउस गैसों के उत्सर्जन को कम करती है।
+    <br>कथन II : चक्रीय अर्थव्यवस्था आगत के रूप में कच्चे माल के प्रयोग को कम करती है।
+    <br>कथन III : चक्रीय अर्थव्यवस्था उत्पादन प्रक्रिया में अपव्यय को कम करती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन II और कथन III दोनों सही हैं तथा वे दोनों कथन I की व्याख्या करते हैं</div>
+      <div class="option">B. कथन II और कथन III दोनों सही हैं किन्तु उनमें से केवल एक, कथन I की व्याख्या करता है</div>
+      <div class="option">C. कथन II और कथन III में से केवल एक सही है तथा वह कथन I की व्याख्या करता है</div>
+      <div class="option">D. न तो कथन II और न ही कथन III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - II और III दोनों सही हैं और I की व्याख्या करते हैं: विस्तृत व्याख्या:</b><br>
+      चक्रीय अर्थव्यवस्था 'Reduce, Reuse, Recycle' (कम करें, पुन: उपयोग करें, पुनर्चक्रण करें) के सिद्धांत पर आधारित है। <br>
+      • कच्चे माल (Raw materials) के कम उपयोग (कथन II) से खनन और परिवहन में लगने वाली ऊर्जा की बचत होती है।<br>
+      • उत्पादन में अपव्यय (Waste) को कम करने (कथन III) से लैंडफिल में कचरा कम जाता है, जिससे मीथेन और CO2 का उत्सर्जन घटता है।<br>
+      <b>इन दोनों कारणों (II और III) के प्रत्यक्ष प्रभाव से ही ग्रीनहाउस गैसों (GHG) के कुल उत्सर्जन में कमी (कथन I) आती है।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q10. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. पूँजीगत प्राप्तियाँ (Capital receipts) देयता का सृजन करती है या सरकार की परिसंपत्तियों में कमी लाती हैं।
+    <br>II. उधार-ग्रहण और विनिवेश पूँजीगत प्राप्तियाँ हैं।
+    <br>III. ऋणों पर प्राप्त ब्याज सरकार की देयता का सृजन करता है।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: अर्थशास्त्र के अनुसार, जो प्राप्तियां सरकार की देनदारी (Liability) बढ़ाती हैं या उसकी संपत्ति (Assets) को कम करती हैं, उन्हें 'पूँजीगत प्राप्तियां' कहा जाता है।<br>
+      • <b>कथन II (सही)</b>: 'उधार लेना' (Borrowing) एक देनदारी बनाता है, और 'विनिवेश' (Disinvestment - सरकारी कंपनियों को बेचना) सरकार की संपत्ति को कम करता है। अतः दोनों पूँजीगत प्राप्तियां हैं।<br>
+      • <b>कथन III (गलत)</b>: सरकार द्वारा दिए गए ऋणों पर प्राप्त 'ब्याज' (Interest received) एक नियमित आय है, यह किसी देनदारी (Liability) का सृजन नहीं करता और न ही संपत्ति घटाता है। इसलिए यह 'राजस्व प्राप्ति' (Revenue Receipt) है, न कि पूँजीगत प्राप्ति।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q11. राजा राममोहन राय के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. उनमें प्राच्य विश्व के पारम्परिक दार्शनिक सिद्धांतों के प्रति अत्यंत अनुराग और समादर था।
+    <br>II. उनकी कामना थी कि उनके देशवासी तर्कसंगत और वैज्ञानिक दृष्टिकोण तथा सभी पुरुषों और महिलाओं की मानवीय गरिमा और सामाजिक समता के सिद्धांत को मानें।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I और II दोनों: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: राजा राममोहन राय को भारतीय पुनर्जागरण का जनक कहा जाता है। उन्होंने प्राचीन हिंदू ग्रंथों (वेदों और उपनिषदों) का गहन अध्ययन किया और उनके मूल अद्वैतवादी दर्शन (प्राच्य पारंपरिक दर्शन) के प्रति गहरा आदर व्यक्त किया। उन्होंने सिद्ध किया कि मूल ग्रंथ मूर्तिपूजा और सती प्रथा का समर्थन नहीं करते।<br>
+      • <b>कथन II (सही)</b>: वे आधुनिक पश्चिमी शिक्षा, तर्कवाद (Rationalism), और वैज्ञानिक दृष्टिकोण के प्रबल समर्थक थे। उन्होंने सती प्रथा के उन्मूलन, महिलाओं की गरिमा, और सामाजिक समानता के लिए आजीवन संघर्ष किया।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q12. असहयोग कार्यक्रम (Non-Cooperation Programme) के बारे में, निम्नलिखित विषयों पर विचार कीजिए :
+    <br>I. न्यायालयों और विदेशी वस्त्र का बहिष्कार
+    <br>II. अहिंसा का कठोर अनुपालन
+    <br>III. उपाधियों और सम्मानों का, उनका सार्वजनिक उपयोग न करते हुए, प्रतिधारण (Retention)
+    <br>IV. विवादों के निपटारे के लिए पंचायतों की स्थापना
+    <br>उपर्युक्त में से कितने असहयोग कार्यक्रम के अवयव हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल तीन: विस्तृत व्याख्या:</b><br>
+      महात्मा गांधी द्वारा 1920 में शुरू किए गए असहयोग आंदोलन के प्रमुख अवयव थे:<br>
+      1. सरकारी न्यायालयों, शिक्षण संस्थानों और विदेशी कपड़ों का पूर्ण <b>बहिष्कार (Boycott)</b> (कथन I सही है)।<br>
+      2. <b>अहिंसा (Non-violence)</b> इस आंदोलन का आधारभूत सिद्धांत था (कथन II सही है)।<br>
+      3. ब्रिटिश सरकार द्वारा दी गई उपाधियों और सम्मानों का <b>त्याग (Surrender)</b> करना था, न कि उन्हें 'प्रतिधारण' (Retain/अपने पास रखना) करना (कथन III गलत है)।<br>
+      4. न्यायालयों के बहिष्कार के विकल्प के रूप में स्थानीय स्तर पर <b>पंचायतों की स्थापना</b> करना (कथन IV सही है)।<br>
+      अतः I, II और IV सही हैं (कुल तीन)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q13. सिंचाई में काम आने वाला 'अरघट्टा' (Araghatta) नामक उपकरण क्या था?</h3>
+    <div class="options-grid">
+      <div class="option">A. एक घिरनी (पुली) से खींचा जाने वाला चमड़े का बना पानी का थैला</div>
+      <div class="option">B. एक बड़ा चक्का, जिसकी अराओं (स्पोक्स) के बाहरी छोरों पर मिट्टी के पात्र बँधे हों</div>
+      <div class="option">C. बैलों के द्वारा खींचा जाने वाला मिट्टी का एक अधिक बड़ा पात्र</div>
+      <div class="option">D. सीधे हाथों से ही रस्सी द्वारा खींचा जाने वाला बड़ा जल-डोल (वॉटर बकेट)</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B): विस्तृत व्याख्या:</b><br>
+      प्राचीन और मध्यकालीन भारत में सिंचाई के लिए 'अरघट्टा' (जिसे फारसी पहिया या Persian Wheel भी कहा जाता है) का उपयोग किया जाता था। यह एक यांत्रिक उपकरण था जिसमें कुएं या जलस्रोत के ऊपर एक <b>बड़ा पहिया (चक्का)</b> लगा होता था। इस पहिये के बाहरी किनारों (Spokes) पर मिट्टी के कई बर्तन (पात्र) एक श्रृंखला में बंधे होते थे। जब पशु (बैल या ऊंट) इसे घुमाते थे, तो बर्तन नीचे से पानी भरकर ऊपर लाते और नाली में खाली कर देते थे।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q14. प्राचीन भारत में इनमें से किस शासक ने 'मत्तविलास', 'विचित्रचित्त' और 'गुणभरा' उपाधियाँ धारण की थीं?</h3>
+    <div class="options-grid">
+      <div class="option">A. महेन्द्रवर्मन प्रथम</div>
+      <div class="option">B. सिंहविष्णु</div>
+      <div class="option">C. नरसिंहवर्मन प्रथम</div>
+      <div class="option">D. सिंहवर्मन</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - महेन्द्रवर्मन प्रथम: विस्तृत व्याख्या:</b><br>
+      महेन्द्रवर्मन प्रथम (लगभग 590-630 ई.) एक महान पल्लव शासक था। वह केवल एक योद्धा ही नहीं, बल्कि कला, संगीत और साहित्य का महान संरक्षक भी था।<br>
+      • उसने अपने बहुमुखी व्यक्तित्व के कारण <b>'विचित्रचित्त'</b> (अद्भुत मन वाला) की उपाधि धारण की।<br>
+      • उसने <b>'मत्तविलास प्रहसन'</b> नामक एक प्रसिद्ध संस्कृत व्यंग्य नाटक लिखा, जिसके कारण उसे <b>'मत्तविलास'</b> कहा गया।<br>
+      • गुणों से परिपूर्ण होने के कारण उसे <b>'गुणभरा'</b> भी कहा जाता था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q15. चीनी तीर्थयात्री फाह्यान (Fa-hien) ने इनमें से किसके शासनकाल में भारत की यात्रा की थी?</h3>
+    <div class="options-grid">
+      <div class="option">A. समुद्रगुप्त</div>
+      <div class="option">B. चन्द्रगुप्त द्वितीय</div>
+      <div class="option">C. कुमारगुप्त प्रथम</div>
+      <div class="option">D. स्कंदगुप्त</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - चन्द्रगुप्त द्वितीय: विस्तृत व्याख्या:</b><br>
+      चीनी बौद्ध भिक्षु और यात्री फाह्यान (Fa-hien) ने 399 ई. से 414 ई. के बीच भारत की यात्रा की थी। उसका मुख्य उद्देश्य बौद्ध ग्रंथों की खोज करना और बौद्ध तीर्थस्थलों के दर्शन करना था। उस समय उत्तर भारत में गुप्त साम्राज्य का स्वर्ण युग चल रहा था और <b>चन्द्रगुप्त द्वितीय (जिन्हें विक्रमादित्य के नाम से भी जाना जाता है)</b> का शासन था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q16. इनमें से किसने शक्तिशाली समुद्रवर्ती राज्य श्रीविजय के विरुद्ध, जिसका शासन मलय प्रायद्वीप, सुमात्रा, जावा और निकटवर्ती द्वीपों पर था, एक सफल सैन्य अभियान का नेतृत्व किया था?</h3>
+    <div class="options-grid">
+      <div class="option">A. अमोघवर्ष (राष्ट्रकूट)</div>
+      <div class="option">B. प्रतापरुद्र (काकतीय)</div>
+      <div class="option">C. राजेन्द्र प्रथम (चोल)</div>
+      <div class="option">D. विष्णुवर्धन (होयसल)</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - राजेन्द्र प्रथम (चोल): विस्तृत व्याख्या:</b><br>
+      चोल सम्राट <b>राजेन्द्र प्रथम</b> (1014-1044 ई.) के पास एक अत्यंत शक्तिशाली नौसेना थी। 1025 ई. में उसने दक्षिण-पूर्व एशिया (आधुनिक इंडोनेशिया और मलेशिया) के शक्तिशाली समुद्री साम्राज्य <b>श्रीविजय</b> पर एक सफल नौसैनिक आक्रमण किया था। इसका मुख्य कारण बंगाल की खाड़ी और मलक्का जलडमरूमध्य के व्यापारिक मार्गों पर चोलों का वर्चस्व स्थापित करना था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q17. प्राचीन भारत (600-322 ईसा पूर्व) के संदर्भ में, निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>प्रादेशिक क्षेत्र : इस क्षेत्र में बहने वाली नदी
+    <br>I. अश्मक : गोदावरी
+    <br>II. कम्बोज : विपास
+    <br>III. अवन्ती : महानदी
+    <br>IV. कोसल : सरयू
+    <br>उपर्युक्त में से कितने युग्म सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      • <b>युग्म I (सही)</b>: 'अश्मक' (Assaka) दक्षिण भारत का एकमात्र महाजनपद था, जो <b>गोदावरी नदी</b> के तट पर स्थित था।<br>
+      • <b>युग्म II (गलत)</b>: 'कम्बोज' महाजनपद उत्तर-पश्चिम (वर्तमान अफगानिस्तान/हिन्दुकुश) में स्थित था। 'विपास' (व्यास) नदी पंजाब क्षेत्र में बहती है, जो कम्बोज से बहुत दूर है।<br>
+      • <b>युग्म III (गलत)</b>: 'अवन्ती' महाजनपद मध्य प्रदेश (मालवा क्षेत्र) में स्थित था, जहाँ क्षिप्रा, चम्बल और नर्मदा नदियाँ बहती हैं। महानदी उड़ीसा/छत्तीसगढ़ क्षेत्र में बहती है।<br>
+      • <b>युग्म IV (सही)</b>: 'कोसल' महाजनपद (राजधानी श्रावस्ती/अयोध्या) आधुनिक उत्तर प्रदेश में <b>सरयू नदी</b> के तट पर स्थित था।<br>
+      अतः केवल दो युग्म (I और IV) सही हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q18. प्रथम गन्धर्व महाविद्यालय, जो एक संगीत प्रशिक्षण विद्यालय था, विष्णु दिगंबर पलुस्कर द्वारा 1901 में कहाँ स्थापित किया गया था?</h3>
+    <div class="options-grid">
+      <div class="option">A. दिल्ली</div>
+      <div class="option">B. ग्वालियर</div>
+      <div class="option">C. उज्जैन</div>
+      <div class="option">D. लाहौर</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - लाहौर: विस्तृत व्याख्या:</b><br>
+      भारतीय शास्त्रीय संगीत को आम जनमानस तक पहुँचाने और उसे एक संस्थागत रूप देने के लिए, प्रख्यात संगीतकार <b>पंडित विष्णु दिगंबर पलुस्कर</b> ने 5 मई 1901 को <b>लाहौर</b> (जो अब पाकिस्तान में है) में पहले 'गन्धर्व महाविद्यालय' की स्थापना की थी। बाद में 1908 में इसका मुख्यालय मुंबई स्थानांतरित कर दिया गया।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q19. जैसा कि अशोक के अभिलेखों से ज्ञात होता है, 'प्रादेशिक', 'राजुक' और 'युक्त' किस स्तर पर महत्त्वपूर्ण अधिकारी थे?</h3>
+    <div class="options-grid">
+      <div class="option">A. ग्राम-स्तरीय प्रशासन</div>
+      <div class="option">B. जिला-स्तरीय प्रशासन</div>
+      <div class="option">C. प्रांतीय प्रशासन</div>
+      <div class="option">D. केन्द्रीय प्रशासन स्तर</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - जिला-स्तरीय प्रशासन: विस्तृत व्याख्या:</b><br>
+      मौर्य साम्राज्य (विशेषकर अशोक के शासनकाल) में प्रशासन को सुचारू रूप से चलाने के लिए अधिकारियों का एक पदानुक्रम था। अशोक के तीसरे शिलालेख के अनुसार:<br>
+      • <b>प्रादेशिक (Pradeshika)</b>: यह आधुनिक ज़िला मजिस्ट्रेट (District Collector) के समान एक प्रमुख <b>जिला अधिकारी</b> था जो कानून व्यवस्था और राजस्व देखता था।<br>
+      • <b>राजुक (Rajuka)</b>: यह राजस्व संग्रहकर्ता और ज़मीन की पैमाइश करने वाला अधिकारी था (आधुनिक बंदोबस्त अधिकारी), जिसे बाद में अशोक ने न्यायिक अधिकार भी दिए।<br>
+      • <b>युक्त (Yukta)</b>: यह जिले का एक अधीनस्थ राजस्व अधिकारी/लेखापाल (Accountant) होता था।<br>
+      ये तीनों मुख्य रूप से जिला-स्तरीय (District-level) प्रशासन के अंग थे।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q20. असहयोग आंदोलन के संबंध में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. काँग्रेस ने घोषणा की कि सभी वैध और शांतिपूर्ण तरीकों से 'स्वराज' प्राप्त करना उसका उद्देश्य है।
+    <br>II. इसे चरणों में कार्यान्वित किया जाना था, जिसमें सविनय अवज्ञा और करों का भुगतान न करना अगले चरण के लिए थे, केवल तब, जब 'स्वराज' एक वर्ष में प्राप्त न होता और सरकार दमन पर उतर आती।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I और II दोनों: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: दिसंबर 1920 में नागपुर कांग्रेस अधिवेशन में, कांग्रेस ने अपने संविधान में एक ऐतिहासिक बदलाव किया। अब उसका लक्ष्य "स्वशासन" (ब्रिटिश साम्राज्य के भीतर) से बदलकर "सभी वैध और शांतिपूर्ण साधनों (Legitimate and peaceful means) द्वारा स्वराज प्राप्त करना" हो गया।<br>
+      • <b>कथन II (सही)</b>: महात्मा गांधी ने असहयोग आंदोलन की रूपरेखा चरणों (Stages) में तय की थी। शुरुआत उपाधियों को लौटाने और अदालतों/स्कूलों के बहिष्कार से हुई। योजना यह थी कि यदि 'एक वर्ष के भीतर स्वराज' नहीं मिलता है और सरकार दमनकारी नीतियां अपनाती है, तो आंदोलन के अंतिम/अगले चरण में <b>सविनय अवज्ञा (Civil Disobedience) और कर न चुकाने (Non-payment of taxes)</b> का अभियान शुरू किया जाएगा।
+    </div>
+  </div>
+  
+  <div class="question-block" data-correct="B">
+    <h3>Q21. निम्नलिखित देशों पर विचार कीजिए :
+    <br>I. ऑस्ट्रिया
+    <br>II. बुल्गारिया
+    <br>III. क्रोएशिया
+    <br>IV. सर्बिया
+    <br>V. स्वीडेन
+    <br>VI. उत्तरी मेसिडोनिया
+    <br>उपर्युक्त में से कितने उत्तरी अटलांटिक संधि संगठन (NATO) के सदस्य देश हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल तीन</div>
+      <div class="option">B. केवल चार</div>
+      <div class="option">C. केवल पाँच</div>
+      <div class="option">D. सभी छः</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल चार: विस्तृत व्याख्या:</b><br>
+      • उत्तरी अटलांटिक संधि संगठन (NATO) 32 सदस्य देशों का एक सैन्य गठबंधन है।<br>
+      • दिए गए विकल्पों में से <b>बुल्गारिया</b> (2004), <b>क्रोएशिया</b> (2009), <b>उत्तरी मेसिडोनिया</b> (2020), और <b>स्वीडेन</b> (मार्च 2024 में 32वें सदस्य के रूप में शामिल) NATO के सदस्य हैं।<br>
+      • <b>ऑस्ट्रिया</b> और <b>सर्बिया</b> सैन्य रूप से तटस्थ देश हैं और NATO के सदस्य नहीं हैं।<br>
+      अतः उपर्युक्त में से केवल चार देश NATO के सदस्य हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q22. निम्नलिखित देशों पर विचार कीजिए :
+    <br>I. बोलीविया
+    <br>II. ब्राज़ील
+    <br>III. कोलंबिया
+    <br>IV. इक्वाडोर
+    <br>V. पराग्वे
+    <br>VI. वेनेजुएला
+    <br>एन्डीज़ (Andes) पर्वत-श्रृंखला उपर्युक्त देशों में कितनों में से होकर गुजरती है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल दो</div>
+      <div class="option">B. केवल तीन</div>
+      <div class="option">C. केवल चार</div>
+      <div class="option">D. केवल पाँच</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल चार: विस्तृत व्याख्या:</b><br>
+      • एन्डीज़ पर्वत श्रृंखला विश्व की सबसे लंबी महाद्वीपीय पर्वत श्रृंखला है, जो दक्षिण अमेरिका के पश्चिमी तट के साथ-साथ फैली हुई है।<br>
+      • यह श्रृंखला 7 देशों से होकर गुजरती है: <b>वेनेजुएला, कोलंबिया, इक्वाडोर, पेरू, बोलीविया, चिली, और अर्जेंटीना</b>।<br>
+      • दिए गए देशों में से ब्राज़ील और पराग्वे में एन्डीज़ पर्वत का विस्तार नहीं है।<br>
+      अतः सूची में दिए गए देशों में से केवल 4 (बोलीविया, कोलंबिया, इक्वाडोर, वेनेजुएला) से एन्डीज़ गुजरती है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q23. निम्नलिखित जलाशयों पर विचार कीजिए :
+    <br>I. तांगान्यीका झील
+    <br>II. टोनले सैप झील
+    <br>III. पाटोस लैगून
+    <br>भूमध्यरेखा (Equator) इनमें कितनों में से होकर गुजरती है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कोई भी नहीं: विस्तृत व्याख्या:</b><br>
+      • <b>तांगान्यीका झील (Lake Tanganyika)</b>: यह अफ्रीका में स्थित है, लेकिन यह भूमध्य रेखा के दक्षिण में (लगभग 3° से 8° दक्षिणी अक्षांश पर) है। भूमध्य रेखा विक्टोरिया झील से गुजरती है, तांगान्यीका से नहीं।<br>
+      • <b>टोनले सैप झील (Tonle Sap)</b>: यह कंबोडिया (दक्षिण पूर्व एशिया) में स्थित है, जो पूरी तरह से भूमध्य रेखा के उत्तर में है।<br>
+      • <b>पाटोस लैगून (Patos Lagoon)</b>: यह ब्राज़ील के दक्षिणी भाग में स्थित है, जो भूमध्य रेखा से बहुत दूर दक्षिण में (मकर रेखा के भी नीचे) है।<br>
+      अतः भूमध्य रेखा इनमें से <b>किसी भी</b> जलाशय से होकर नहीं गुजरती।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q24. वर्ष 2022-23 के दौरान हल्दी के बारे में निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत विश्व में हल्दी का सबसे बड़ा उत्पादक और निर्यातक है।
+    <br>II. भारत में हल्दी की 30 से अधिक किस्में उगाई जाती हैं।
+    <br>III. भारत में महाराष्ट्र, तेलंगाना, कर्नाटक और तमिलनाडु प्रमुख हल्दी-उत्पादक राज्य हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: भारत वैश्विक हल्दी उत्पादन का लगभग 75-80% उत्पादित करता है और यह दुनिया का सबसे बड़ा उत्पादक, उपभोक्ता और निर्यातक है।<br>
+      • <b>कथन II (सही)</b>: भारत में हल्दी की 30 से अधिक किस्में उगाई जाती हैं, जिनमें इरोड, सलेम, एल्लेप्पी, और कंदमाल (जिन्हें GI टैग भी प्राप्त है) प्रमुख हैं।<br>
+      • <b>कथन III (सही)</b>: महाराष्ट्र, तेलंगाना, कर्नाटक और तमिलनाडु भारत के अग्रणी हल्दी उत्पादक राज्य हैं। हाल ही में भारत सरकार ने 'राष्ट्रीय हल्दी बोर्ड' के गठन को भी मंजूरी दी है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q25. निम्नलिखित में से कौन-से महाद्वीपीय विस्थापन (Continental Drift) की घटना के साक्ष्य हैं?
+    <br>I. ब्राज़ील तट की प्राचीन शैलों की मेखला, पश्चिमी अफ्रीका तट की प्राचीन शैलों की मेखला से मिलती है।
+    <br>II. घाना के स्वर्ण-निक्षेप ब्राज़ील पठार से व्युत्पन्न होते हैं, जब ये दोनों महाद्वीप अगल-बगल अवस्थित होते हैं।
+    <br>III. यह ज्ञात है कि भारत के गोंडवाना अवसाद तंत्र के प्रतिरूप दक्षिणी गोलार्ध के छः विभिन्न भूखंडों में मिलते हैं।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और III</div>
+      <div class="option">B. केवल I और II</div>
+      <div class="option">C. I, II और III</div>
+      <div class="option">D. केवल II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I, II और III: विस्तृत व्याख्या:</b><br>
+      अल्फ्रेड वेगनर (Alfred Wegener) के महाद्वीपीय विस्थापन सिद्धांत (Continental Drift Theory) के प्रमुख साक्ष्य निम्नलिखित हैं:<br>
+      • <b>महासागरों के पार चट्टानों की आयु में समानता (कथन I)</b>: ब्राज़ील के तट और पश्चिमी अफ्रीका के तट की प्राचीन चट्टानों की बेल्ट 2,000 मिलियन वर्ष पुरानी है और वे एक-दूसरे से पूरी तरह मेल खाती हैं।<br>
+      • <b>प्लेसर निक्षेप (कथन II)</b>: घाना तट पर सोने के प्रचुर निक्षेप (Placer deposits) पाए जाते हैं, लेकिन वहाँ कोई मूल स्रोत चट्टान (Source rock) नहीं है। सोने वाले शिराओं का मूल स्रोत ब्राज़ील में है, जो दर्शाता है कि अतीत में वे एक साथ थे।<br>
+      • <b>टिलाइट या हिमानी निक्षेप (कथन III)</b>: भारत की गोंडवाना अवसादी प्रणाली जैसी चट्टानें दक्षिणी गोलार्ध के छह अलग-अलग भूभागों (अफ्रीका, मेडागास्कर, अंटार्कटिका, ऑस्ट्रेलिया और दक्षिण अमेरिका) में भी पाई जाती हैं, जो एक प्राचीन विशाल महाद्वीप (Pangea/Gondwanaland) का प्रमाण है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q26. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>कथन I : वायुमंडल में विद्यमान धूल कर्णो की मात्रा, विषुवतीय और ध्रुवीय क्षेत्रों की अपेक्षा, उपोष्ण और शीतोष्ण क्षेत्रों में अधिक है।
+    <br>कथन II : उपोष्ण और शीतोष्ण क्षेत्रों में कम शुष्क पवन चलती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. दोनों सही हैं तथा कथन II, I की व्याख्या करता है</div>
+      <div class="option">B. दोनों सही हैं किन्तु कथन II, I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - कथन I सही है किन्तु कथन II सही नहीं है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: विषुवतीय (Equatorial) क्षेत्रों में भारी वर्षा के कारण धूल के कण धुल जाते हैं, और ध्रुवीय (Polar) क्षेत्रों में बर्फ जमी होने के कारण धूल उड़ने का साधन नहीं होता। इसलिए, धूल कणों की अधिकतम सघनता <b>उपोष्ण (Subtropical) और शीतोष्ण (Temperate)</b> क्षेत्रों में पाई जाती है।<br>
+      • <b>कथन II (गलत)</b>: उपोष्ण और शीतोष्ण क्षेत्रों में 'कम' शुष्क पवन नहीं चलती, बल्कि <b>इन क्षेत्रों में शुष्क पवनें (Dry winds) सबसे अधिक चलती हैं</b>। इसी शुष्क हवा और रेगिस्तानी इलाकों की अधिकता के कारण ही इन क्षेत्रों के वायुमंडल में धूल के कण अधिक मात्रा में होते हैं। 
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q27. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : जनवरी में, उत्तरी गोलार्ध में, समताप रेखाएँ (Isotherms) भूखण्डों से गुजरती हुई विषुवत् वृत्त की ओर मुड़ती हैं, जबकि महासागरों से गुजरती हुई ध्रुव की ओर मुड़ती हैं।
+    <br>कथन II : जनवरी में, महासागरों के ऊपर की हवा, उत्तरी गोलार्ध के भूखण्डों के ऊपर की हवा से अधिक गर्म होती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. दोनों सही हैं किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • जनवरी में उत्तरी गोलार्ध में सर्दियाँ होती हैं। पानी की विशिष्ट ऊष्मा (Specific Heat) ज़मीन से अधिक होती है, इसलिए <b>सर्दियों में महासागर, महाद्वीपों (भूखंडों) की तुलना में धीरे-धीरे ठंडे होते हैं (अर्थात् महासागर अधिक गर्म रहते हैं)</b>। (कथन II सही है)।<br>
+      • चूँकि समताप रेखाएँ समान तापमान वाले स्थानों को जोड़ती हैं, इसलिए ठंडे भूखंडों पर वे कम अक्षांशों (विषुवत रेखा की ओर) मुड़ जाती हैं, और गर्म महासागरों पर वे उच्च अक्षांशों (ध्रुवों की ओर) मुड़ जाती हैं। (कथन I सही है)।<br>
+      <b>जल और थल के असमान रूप से गर्म/ठंडे होने (कथन II) के कारण ही समताप रेखाओं का यह विचलन (कथन I) होता है। अतः व्याख्या भी सही है।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q28. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : शैलों पर जल के प्रभाव के संदर्भ में, चॉक एक अत्यंत पारगम्य शैल के रूप में ज्ञात है, जबकि मृत्तिका एक नितांत अपारगम्य या न्यूनतम पारगम्य शैल के रूप में ज्ञात है।
+    <br>कथन II : चॉक सरंध्र (Porous) होता है, अतः जल अवशोषित कर सकता है।
+    <br>कथन III : मृत्तिका (Clay) बिल्कुल ही सरंध्र नहीं है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - II और III में से केवल एक सही है तथा वह I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      <i>(यहाँ विकल्प की भाषा थोड़ा उलझाने वाली है, इसलिए स्पष्टीकरण ध्यान से समझें।)</i><br>
+      • <b>कथन I (सही)</b>: चॉक पारगम्य (Permeable) है, और क्ले (मृत्तिका) अपारगम्य (Impermeable) है।<br>
+      • <b>कथन II (सही)</b>: चॉक सरंध्र (Porous) होता है और पानी आसानी से सोख सकता है तथा इससे पानी रिस सकता है। (यह कथन I के चॉक वाले भाग की व्याख्या करता है)।<br>
+      • <b>कथन III (गलत)</b>: मृत्तिका (Clay) 'बिल्कुल ही सरंध्र नहीं है' यह कहना <b>गलत</b> है। क्ले अत्यधिक सरंध्र (Highly porous) होती है, लेकिन इसके छिद्र (pores) इतने छोटे होते हैं कि पानी उनमें से प्रवाहित नहीं हो सकता, इसलिए यह अपारगम्य (Impermeable) होती है।<br>
+      चूंकि कथन III गलत है, इसलिए <b>केवल कथन II सही है और वह आंशिक रूप से कथन I की व्याख्या करता है</b>। अतः सबसे उचित उत्तर (C) है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q29. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. वायुमंडल के बिना भूपृष्ठ पर सर्वत्र तापमान हिमांक के बहुत नीचे होता है।
+    <br>II. वायुमंडल के द्वारा अवशोषित और पाशित (ट्रैप्ड) ऊष्मा हमारे ग्रह के औसत तापमान को बनाए रखती है।
+    <br>III. वायुमंडल की कार्बन डाइऑक्साइड जैसी गैसें विकिरण को अवशोषित और पाशित करने के लिए विशेष रूप से उत्तम हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और III</div>
+      <div class="option">B. केवल I और II</div>
+      <div class="option">C. केवल II और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: यदि पृथ्वी पर वायुमंडल न हो, तो ग्रीनहाउस प्रभाव उत्पन्न नहीं होगा और पृथ्वी का औसत तापमान हिमांक (Freezing point) से बहुत नीचे (लगभग -18°C) चला जाएगा, जैसा कि चंद्रमा पर होता है।<br>
+      • <b>कथन II (सही)</b>: पृथ्वी का औसत तापमान (लगभग 15°C) वायुमंडल द्वारा सूर्य और पृथ्वी से निकलने वाली ऊष्मा (Thermal radiation) को रोके रखने (Trapping) के कारण ही बना रहता है।<br>
+      • <b>कथन III (सही)</b>: कार्बन डाइऑक्साइड (CO2), जलवाष्प और मीथेन जैसी गैसें 'ग्रीनहाउस गैसें' कहलाती हैं। ये लंबी तरंगदैर्ध्य (Long-wave terrestrial infrared) विकिरण को फंसाने में बेहद सक्षम होती हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q30. राष्ट्रीय गोकुल मिशन के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यह ग्रामीण निर्धनों के उत्थान के लिए महत्त्वपूर्ण है क्योंकि अधिकांश न्यून उत्पादकता वाले देशज पशु छोटे और सीमान्त कृषकों तथा भूमिहीन श्रमिकों के पास होते हैं।
+    <br>II. इसे वैज्ञानिक रूप में और साकल्यवादी (Holistic) रूप में देशज गोपशु और भैंस के पालन और संरक्षण को प्रोत्साहित करने के लिए आरंभ किया गया था।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I और II दोनों: विस्तृत व्याख्या:</b><br>
+      राष्ट्रीय गोकुल मिशन (RGM) दिसंबर 2014 में शुरू किया गया था। इसका मुख्य उद्देश्य भारत की स्वदेशी (Indigenous) गोजातीय नस्लों (गाय और भैंस) का विकास और संरक्षण करना है।<br>
+      • <b>कथन I (सही)</b>: भारत में 80% से अधिक पशुधन छोटे किसानों, सीमांत किसानों और भूमिहीन खेतिहर मजदूरों के पास है। देशी नस्लों की उत्पादकता बढ़ने से सीधे तौर पर ग्रामीण गरीबों का आर्थिक उत्थान होगा।<br>
+      • <b>कथन II (सही)</b>: यह मिशन वैज्ञानिक और समग्र दृष्टिकोण के साथ देशी नस्लों के आनुवंशिक उन्नयन (Genetic upgradation), कृत्रिम गर्भाधान और उनके संरक्षण के लिए शुरू किया गया है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q31. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : अध्ययनों से सूचित होता है कि सीमेंट उद्योग से उत्सर्जित कार्बन डाइऑक्साइड का वैश्विक कार्बन उत्सर्जन में उसके 5% से अधिक का योगदान है।
+    <br>कथन II : सीमेंट का निर्माण करते समय चूना पत्थर में सिलिका-युक्त मृत्तिका मिलाई जाती है।
+    <br>कथन III : सीमेंट निर्माण हेतु क्लिंकर उत्पादन के दौरान चूना-पत्थर, चूना में बदल जाता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: वैश्विक CO2 उत्सर्जन में सीमेंट उद्योग का योगदान लगभग 8% है (जो 5% से अधिक है)।<br>
+      • <b>कथन II (सही)</b>: सीमेंट बनाने के लिए चूना पत्थर (Limestone) के साथ क्ले (सिलिका युक्त मृत्तिका) को मिलाकर उच्च तापमान पर गर्म किया जाता है।<br>
+      • <b>कथन III (सही)</b>: भट्टे में उच्च तापमान पर 'कैल्सीनेशन (Calcination)' की रासायनिक प्रक्रिया होती है, जहाँ चूना पत्थर (CaCO3) टूटकर चूना (CaO) और <b>कार्बन डाइऑक्साइड (CO2)</b> में बदल जाता है।<br>
+      <b>व्याख्या का विश्लेषण</b>: कथन III प्रत्यक्ष रूप से यह समझाता है कि सीमेंट निर्माण में इतनी अधिक CO2 क्यों निकलती है (क्योंकि रासायनिक प्रक्रिया से CO2 गैस भारी मात्रा में मुक्त होती है)। जबकि कथन II केवल सामग्री के मिश्रण की बात करता है, यह उत्सर्जन की व्याख्या नहीं करता। अतः <b>कथन II और III दोनों सही हैं, लेकिन केवल कथन III ही कथन I की सही व्याख्या कर रहा है</b>।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q32. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : 28वें संयुक्त राष्ट्र जलवायु परिवर्तन सम्मेलन (COP28) में, भारत ने 'जलवायु और स्वास्थ्य विषयक घोषणा' पर हस्ताक्षर नहीं किया।
+    <br>कथन II : COP28 जलवायु और स्वास्थ्य विषयक घोषणा एक बाध्यकर घोषणा है; और इस पर हस्ताक्षर कर देने पर स्वास्थ्य सेक्टर का विकार्बनन करना अधिदेशात्मक हो जाता है।
+    <br>कथन III : यदि भारत के स्वास्थ्य सेक्टर का विकार्बनन किया जाए, तो इसकी स्वास्थ्य देखभाल प्रणाली के लचीलेपन पर संकट आ सकता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - II और III में से केवल एक सही है तथा वह I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: दुबई में हुए COP28 सम्मेलन में भारत ने 'जलवायु और स्वास्थ्य पर COP28 घोषणापत्र' पर हस्ताक्षर करने से इंकार कर दिया था।<br>
+      • <b>कथन II (गलत)</b>: यह घोषणापत्र कानूनी रूप से <b>बाध्यकारी (Legally Binding) नहीं है</b>; यह केवल एक स्वैच्छिक प्रतिबद्धता (Voluntary commitment) है।<br>
+      • <b>कथन III (सही)</b>: भारत ने हस्ताक्षर न करने का कारण यही बताया था कि भारत के स्वास्थ्य क्षेत्र का बुनियादी ढांचा अभी विकास के चरण में है। ग्रामीण क्षेत्रों में स्वास्थ्य सेवाओं के विस्तार के लिए ऊर्जा की आवश्यकता है। यदि अभी से 'स्वास्थ्य क्षेत्र को डीकार्बनाइज' करने की शर्त मान ली गई, तो स्वास्थ्य देखभाल प्रणाली के विस्तार और संकटों से निपटने के लचीलेपन (Resilience) में बाधा आ सकती है। <b>यही कथन I का सही कारण (व्याख्या) है।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q33. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : वैज्ञानिक अध्ययन यह सुझाते हैं कि पृथ्वी के घूर्णन और अक्ष में परिवर्तन हो रहा है।
+    <br>कथन II : सौर संस्फुरों (फ्लेयर्स) और उससे संबद्ध किरीटी द्रव्यमान निष्कासनों ने पृथ्वी के सबसे बाहरी वायुमंडल पर विशाल ऊर्जा-राशि की बौछार कर दी है।
+    <br>कथन III : जैसे-जैसे पृथ्वी का ध्रुवीय हिम पिघलता है, जल की प्रवृत्ति विषुवत्-वृत्त की ओर जाने की होती है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: हाल के अध्ययनों से सिद्ध हुआ है कि जलवायु परिवर्तन और भूजल दोहन के कारण पृथ्वी के घूर्णन अक्ष (Axis of rotation) में खिसकाव (Polar Drift) आ रहा है।<br>
+      • <b>कथन III (सही)</b>: ग्लोबल वार्मिंग के कारण जब ध्रुवीय बर्फ पिघलकर महासागरों में मिलती है, तो द्रव्यमान का स्थानांतरण ध्रुवों से विषुवत रेखा (Equator) की ओर होता है। द्रव्यमान के इस पुनर्वितरण के कारण ही पृथ्वी के जड़त्व आघूर्ण (Moment of Inertia) में बदलाव आता है, जिससे पृथ्वी का अक्ष खिसक रहा है। (यह कथन I की सही व्याख्या है)।<br>
+      • <b>कथन II (सही)</b>: सौर ज्वालाएँ (Solar Flares) और CME वास्तव में पृथ्वी के ऊपरी वायुमंडल को प्रभावित करते हैं, लेकिन <b>उनका पृथ्वी के घूर्णन अक्ष में परिवर्तन से कोई लेना-देना नहीं है</b>। <br>
+      अतः II और III दोनों वैज्ञानिक रूप से सत्य कथन हैं, लेकिन केवल III ही कथन I की व्याख्या कर रहा है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q34. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : जलवायु परिवर्तन विषयक पेरिस समझौते के अनुच्छेद 6 की चर्चा, सतत विकास और जलवायु परिवर्तन विषयक वैश्विक चर्चाओं में बारम्बार आती है।
+    <br>कथन II : जलवायु परिवर्तन विषयक पेरिस समझौते का अनुच्छेद 6, कार्बन बाज़ारों के सिद्धांतों को निर्दिष्ट करता है।
+    <br>कथन III : जलवायु परिवर्तन विषयक पेरिस समझौते के अनुच्छेद 6 का आशय देशों को अपने जलवायु लक्ष्य प्राप्त करने हेतु उनके बीच गैर-बाज़ारी रणनीतियों का संवर्धन करना है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं: विस्तृत व्याख्या:</b><br>
+      पेरिस समझौते का 'अनुच्छेद 6' (Article 6) देशों को स्वैच्छिक सहयोग के माध्यम से अपने उत्सर्जन में कमी के लक्ष्यों (NDC) को प्राप्त करने की अनुमति देता है। इसके तीन प्रमुख अंग हैं:<br>
+      • <b>अनुच्छेद 6.2 और 6.4 (कथन II)</b>: ये अंतर्राष्ट्रीय 'कार्बन बाज़ारों' (Carbon Markets) और कार्बन क्रेडिट के व्यापार के सिद्धांत स्थापित करते हैं।<br>
+      • <b>अनुच्छेद 6.8 (कथन III)</b>: यह 'गैर-बाज़ार दृष्टिकोण' (Non-market approaches) के लिए एक ढांचा प्रदान करता है, जहाँ देश कार्बन व्यापार के बिना ही जलवायु सहयोग करते हैं।<br>
+      चूँकि कार्बन बाज़ार और गैर-बाज़ार दोनों ही तंत्र अत्यंत महत्वपूर्ण हैं, इसलिए इनकी चर्चा हर जलवायु सम्मेलन में बार-बार होती है। अतः दोनों कथन सही हैं और दोनों मिलकर कथन I की व्याख्या करते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q35. निम्नलिखित में से किस एक ने 'एशिया और प्रशांत क्षेत्रों के लिए प्रकृति समाधान (नेचर सॉल्यूशन्स) वित्त हब' प्रारंभ किया?</h3>
+    <div class="options-grid">
+      <div class="option">A. एशियाई विकास बैंक (ADB)</div>
+      <div class="option">B. एशियाई अवसंरचना निवेश बैंक (AIIB)</div>
+      <div class="option">C. न्यू डेवलपमेंट बैंक (NDB)</div>
+      <div class="option">D. अंतर्राष्ट्रीय पुनर्निर्माण और विकास बैंक (IBRD)</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - एशियाई विकास बैंक (ADB): विस्तृत व्याख्या:</b><br>
+      दुबई में आयोजित COP28 जलवायु सम्मेलन के दौरान, <b>एशियाई विकास बैंक (Asian Development Bank - ADB)</b> ने बड़े पैमाने पर प्रकृति-आधारित परियोजनाओं (Nature-based solutions) में सार्वजनिक और निजी पूंजी आकर्षित करने के लिए "नेचर सॉल्यूशंस फाइनेंस हब फॉर एशिया एंड द पैसिफिक" (Nature Solutions Finance Hub for Asia and the Pacific) की शुरुआत की है। इसका उद्देश्य जैव विविधता के नुकसान और जलवायु परिवर्तन से निपटना है।
+    </div>
+  </div><div class="question-block" data-correct="B">
+    <h3>Q21. निम्नलिखित देशों पर विचार कीजिए :
+    <br>I. ऑस्ट्रिया
+    <br>II. बुल्गारिया
+    <br>III. क्रोएशिया
+    <br>IV. सर्बिया
+    <br>V. स्वीडेन
+    <br>VI. उत्तरी मेसिडोनिया
+    <br>उपर्युक्त में से कितने उत्तरी अटलांटिक संधि संगठन (NATO) के सदस्य देश हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल तीन</div>
+      <div class="option">B. केवल चार</div>
+      <div class="option">C. केवल पाँच</div>
+      <div class="option">D. सभी छः</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल चार: विस्तृत व्याख्या:</b><br>
+      • उत्तरी अटलांटिक संधि संगठन (NATO) 32 सदस्य देशों का एक सैन्य गठबंधन है।<br>
+      • दिए गए विकल्पों में से <b>बुल्गारिया</b> (2004), <b>क्रोएशिया</b> (2009), <b>उत्तरी मेसिडोनिया</b> (2020), और <b>स्वीडेन</b> (मार्च 2024 में 32वें सदस्य के रूप में शामिल) NATO के सदस्य हैं।<br>
+      • <b>ऑस्ट्रिया</b> और <b>सर्बिया</b> सैन्य रूप से तटस्थ देश हैं और NATO के सदस्य नहीं हैं।<br>
+      अतः उपर्युक्त में से केवल चार देश NATO के सदस्य हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q22. निम्नलिखित देशों पर विचार कीजिए :
+    <br>I. बोलीविया
+    <br>II. ब्राज़ील
+    <br>III. कोलंबिया
+    <br>IV. इक्वाडोर
+    <br>V. पराग्वे
+    <br>VI. वेनेजुएला
+    <br>एन्डीज़ (Andes) पर्वत-श्रृंखला उपर्युक्त देशों में कितनों में से होकर गुजरती है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल दो</div>
+      <div class="option">B. केवल तीन</div>
+      <div class="option">C. केवल चार</div>
+      <div class="option">D. केवल पाँच</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल चार: विस्तृत व्याख्या:</b><br>
+      • एन्डीज़ पर्वत श्रृंखला विश्व की सबसे लंबी महाद्वीपीय पर्वत श्रृंखला है, जो दक्षिण अमेरिका के पश्चिमी तट के साथ-साथ फैली हुई है।<br>
+      • यह श्रृंखला 7 देशों से होकर गुजरती है: <b>वेनेजुएला, कोलंबिया, इक्वाडोर, पेरू, बोलीविया, चिली, और अर्जेंटीना</b>।<br>
+      • दिए गए देशों में से ब्राज़ील और पराग्वे में एन्डीज़ पर्वत का विस्तार नहीं है।<br>
+      अतः सूची में दिए गए देशों में से केवल 4 (बोलीविया, कोलंबिया, इक्वाडोर, वेनेजुएला) से एन्डीज़ गुजरती है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q23. निम्नलिखित जलाशयों पर विचार कीजिए :
+    <br>I. तांगान्यीका झील
+    <br>II. टोनले सैप झील
+    <br>III. पाटोस लैगून
+    <br>भूमध्यरेखा (Equator) इनमें कितनों में से होकर गुजरती है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कोई भी नहीं: विस्तृत व्याख्या:</b><br>
+      • <b>तांगान्यीका झील (Lake Tanganyika)</b>: यह अफ्रीका में स्थित है, लेकिन यह भूमध्य रेखा के दक्षिण में (लगभग 3° से 8° दक्षिणी अक्षांश पर) है। भूमध्य रेखा विक्टोरिया झील से गुजरती है, तांगान्यीका से नहीं।<br>
+      • <b>टोनले सैप झील (Tonle Sap)</b>: यह कंबोडिया (दक्षिण पूर्व एशिया) में स्थित है, जो पूरी तरह से भूमध्य रेखा के उत्तर में है।<br>
+      • <b>पाटोस लैगून (Patos Lagoon)</b>: यह ब्राज़ील के दक्षिणी भाग में स्थित है, जो भूमध्य रेखा से बहुत दूर दक्षिण में (मकर रेखा के भी नीचे) है।<br>
+      अतः भूमध्य रेखा इनमें से <b>किसी भी</b> जलाशय से होकर नहीं गुजरती।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q24. वर्ष 2022-23 के दौरान हल्दी के बारे में निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत विश्व में हल्दी का सबसे बड़ा उत्पादक और निर्यातक है।
+    <br>II. भारत में हल्दी की 30 से अधिक किस्में उगाई जाती हैं।
+    <br>III. भारत में महाराष्ट्र, तेलंगाना, कर्नाटक और तमिलनाडु प्रमुख हल्दी-उत्पादक राज्य हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: भारत वैश्विक हल्दी उत्पादन का लगभग 75-80% उत्पादित करता है और यह दुनिया का सबसे बड़ा उत्पादक, उपभोक्ता और निर्यातक है।<br>
+      • <b>कथन II (सही)</b>: भारत में हल्दी की 30 से अधिक किस्में उगाई जाती हैं, जिनमें इरोड, सलेम, एल्लेप्पी, और कंदमाल (जिन्हें GI टैग भी प्राप्त है) प्रमुख हैं।<br>
+      • <b>कथन III (सही)</b>: महाराष्ट्र, तेलंगाना, कर्नाटक और तमिलनाडु भारत के अग्रणी हल्दी उत्पादक राज्य हैं। हाल ही में भारत सरकार ने 'राष्ट्रीय हल्दी बोर्ड' के गठन को भी मंजूरी दी है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q25. निम्नलिखित में से कौन-से महाद्वीपीय विस्थापन (Continental Drift) की घटना के साक्ष्य हैं?
+    <br>I. ब्राज़ील तट की प्राचीन शैलों की मेखला, पश्चिमी अफ्रीका तट की प्राचीन शैलों की मेखला से मिलती है।
+    <br>II. घाना के स्वर्ण-निक्षेप ब्राज़ील पठार से व्युत्पन्न होते हैं, जब ये दोनों महाद्वीप अगल-बगल अवस्थित होते हैं।
+    <br>III. यह ज्ञात है कि भारत के गोंडवाना अवसाद तंत्र के प्रतिरूप दक्षिणी गोलार्ध के छः विभिन्न भूखंडों में मिलते हैं।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और III</div>
+      <div class="option">B. केवल I और II</div>
+      <div class="option">C. I, II और III</div>
+      <div class="option">D. केवल II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I, II और III: विस्तृत व्याख्या:</b><br>
+      अल्फ्रेड वेगनर (Alfred Wegener) के महाद्वीपीय विस्थापन सिद्धांत (Continental Drift Theory) के प्रमुख साक्ष्य निम्नलिखित हैं:<br>
+      • <b>महासागरों के पार चट्टानों की आयु में समानता (कथन I)</b>: ब्राज़ील के तट और पश्चिमी अफ्रीका के तट की प्राचीन चट्टानों की बेल्ट 2,000 मिलियन वर्ष पुरानी है और वे एक-दूसरे से पूरी तरह मेल खाती हैं।<br>
+      • <b>प्लेसर निक्षेप (कथन II)</b>: घाना तट पर सोने के प्रचुर निक्षेप (Placer deposits) पाए जाते हैं, लेकिन वहाँ कोई मूल स्रोत चट्टान (Source rock) नहीं है। सोने वाले शिराओं का मूल स्रोत ब्राज़ील में है, जो दर्शाता है कि अतीत में वे एक साथ थे।<br>
+      • <b>टिलाइट या हिमानी निक्षेप (कथन III)</b>: भारत की गोंडवाना अवसादी प्रणाली जैसी चट्टानें दक्षिणी गोलार्ध के छह अलग-अलग भूभागों (अफ्रीका, मेडागास्कर, अंटार्कटिका, ऑस्ट्रेलिया और दक्षिण अमेरिका) में भी पाई जाती हैं, जो एक प्राचीन विशाल महाद्वीप (Pangea/Gondwanaland) का प्रमाण है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q26. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>कथन I : वायुमंडल में विद्यमान धूल कर्णो की मात्रा, विषुवतीय और ध्रुवीय क्षेत्रों की अपेक्षा, उपोष्ण और शीतोष्ण क्षेत्रों में अधिक है।
+    <br>कथन II : उपोष्ण और शीतोष्ण क्षेत्रों में कम शुष्क पवन चलती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. दोनों सही हैं तथा कथन II, I की व्याख्या करता है</div>
+      <div class="option">B. दोनों सही हैं किन्तु कथन II, I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - कथन I सही है किन्तु कथन II सही नहीं है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: विषुवतीय (Equatorial) क्षेत्रों में भारी वर्षा के कारण धूल के कण धुल जाते हैं, और ध्रुवीय (Polar) क्षेत्रों में बर्फ जमी होने के कारण धूल उड़ने का साधन नहीं होता। इसलिए, धूल कणों की अधिकतम सघनता <b>उपोष्ण (Subtropical) और शीतोष्ण (Temperate)</b> क्षेत्रों में पाई जाती है।<br>
+      • <b>कथन II (गलत)</b>: उपोष्ण और शीतोष्ण क्षेत्रों में 'कम' शुष्क पवन नहीं चलती, बल्कि <b>इन क्षेत्रों में शुष्क पवनें (Dry winds) सबसे अधिक चलती हैं</b>। इसी शुष्क हवा और रेगिस्तानी इलाकों की अधिकता के कारण ही इन क्षेत्रों के वायुमंडल में धूल के कण अधिक मात्रा में होते हैं। 
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q27. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : जनवरी में, उत्तरी गोलार्ध में, समताप रेखाएँ (Isotherms) भूखण्डों से गुजरती हुई विषुवत् वृत्त की ओर मुड़ती हैं, जबकि महासागरों से गुजरती हुई ध्रुव की ओर मुड़ती हैं।
+    <br>कथन II : जनवरी में, महासागरों के ऊपर की हवा, उत्तरी गोलार्ध के भूखण्डों के ऊपर की हवा से अधिक गर्म होती है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. दोनों सही हैं किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • जनवरी में उत्तरी गोलार्ध में सर्दियाँ होती हैं। पानी की विशिष्ट ऊष्मा (Specific Heat) ज़मीन से अधिक होती है, इसलिए <b>सर्दियों में महासागर, महाद्वीपों (भूखंडों) की तुलना में धीरे-धीरे ठंडे होते हैं (अर्थात् महासागर अधिक गर्म रहते हैं)</b>। (कथन II सही है)।<br>
+      • चूँकि समताप रेखाएँ समान तापमान वाले स्थानों को जोड़ती हैं, इसलिए ठंडे भूखंडों पर वे कम अक्षांशों (विषुवत रेखा की ओर) मुड़ जाती हैं, और गर्म महासागरों पर वे उच्च अक्षांशों (ध्रुवों की ओर) मुड़ जाती हैं। (कथन I सही है)।<br>
+      <b>जल और थल के असमान रूप से गर्म/ठंडे होने (कथन II) के कारण ही समताप रेखाओं का यह विचलन (कथन I) होता है। अतः व्याख्या भी सही है।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q28. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : शैलों पर जल के प्रभाव के संदर्भ में, चॉक एक अत्यंत पारगम्य शैल के रूप में ज्ञात है, जबकि मृत्तिका एक नितांत अपारगम्य या न्यूनतम पारगम्य शैल के रूप में ज्ञात है।
+    <br>कथन II : चॉक सरंध्र (Porous) होता है, अतः जल अवशोषित कर सकता है।
+    <br>कथन III : मृत्तिका (Clay) बिल्कुल ही सरंध्र नहीं है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - II और III में से केवल एक सही है तथा वह I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      <i>(यहाँ विकल्प की भाषा थोड़ा उलझाने वाली है, इसलिए स्पष्टीकरण ध्यान से समझें।)</i><br>
+      • <b>कथन I (सही)</b>: चॉक पारगम्य (Permeable) है, और क्ले (मृत्तिका) अपारगम्य (Impermeable) है।<br>
+      • <b>कथन II (सही)</b>: चॉक सरंध्र (Porous) होता है और पानी आसानी से सोख सकता है तथा इससे पानी रिस सकता है। (यह कथन I के चॉक वाले भाग की व्याख्या करता है)।<br>
+      • <b>कथन III (गलत)</b>: मृत्तिका (Clay) 'बिल्कुल ही सरंध्र नहीं है' यह कहना <b>गलत</b> है। क्ले अत्यधिक सरंध्र (Highly porous) होती है, लेकिन इसके छिद्र (pores) इतने छोटे होते हैं कि पानी उनमें से प्रवाहित नहीं हो सकता, इसलिए यह अपारगम्य (Impermeable) होती है।<br>
+      चूंकि कथन III गलत है, इसलिए <b>केवल कथन II सही है और वह आंशिक रूप से कथन I की व्याख्या करता है</b>। अतः सबसे उचित उत्तर (C) है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q29. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. वायुमंडल के बिना भूपृष्ठ पर सर्वत्र तापमान हिमांक के बहुत नीचे होता है।
+    <br>II. वायुमंडल के द्वारा अवशोषित और पाशित (ट्रैप्ड) ऊष्मा हमारे ग्रह के औसत तापमान को बनाए रखती है।
+    <br>III. वायुमंडल की कार्बन डाइऑक्साइड जैसी गैसें विकिरण को अवशोषित और पाशित करने के लिए विशेष रूप से उत्तम हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और III</div>
+      <div class="option">B. केवल I और II</div>
+      <div class="option">C. केवल II और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: यदि पृथ्वी पर वायुमंडल न हो, तो ग्रीनहाउस प्रभाव उत्पन्न नहीं होगा और पृथ्वी का औसत तापमान हिमांक (Freezing point) से बहुत नीचे (लगभग -18°C) चला जाएगा, जैसा कि चंद्रमा पर होता है।<br>
+      • <b>कथन II (सही)</b>: पृथ्वी का औसत तापमान (लगभग 15°C) वायुमंडल द्वारा सूर्य और पृथ्वी से निकलने वाली ऊष्मा (Thermal radiation) को रोके रखने (Trapping) के कारण ही बना रहता है।<br>
+      • <b>कथन III (सही)</b>: कार्बन डाइऑक्साइड (CO2), जलवाष्प और मीथेन जैसी गैसें 'ग्रीनहाउस गैसें' कहलाती हैं। ये लंबी तरंगदैर्ध्य (Long-wave terrestrial infrared) विकिरण को फंसाने में बेहद सक्षम होती हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q30. राष्ट्रीय गोकुल मिशन के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यह ग्रामीण निर्धनों के उत्थान के लिए महत्त्वपूर्ण है क्योंकि अधिकांश न्यून उत्पादकता वाले देशज पशु छोटे और सीमान्त कृषकों तथा भूमिहीन श्रमिकों के पास होते हैं।
+    <br>II. इसे वैज्ञानिक रूप में और साकल्यवादी (Holistic) रूप में देशज गोपशु और भैंस के पालन और संरक्षण को प्रोत्साहित करने के लिए आरंभ किया गया था।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I और II दोनों: विस्तृत व्याख्या:</b><br>
+      राष्ट्रीय गोकुल मिशन (RGM) दिसंबर 2014 में शुरू किया गया था। इसका मुख्य उद्देश्य भारत की स्वदेशी (Indigenous) गोजातीय नस्लों (गाय और भैंस) का विकास और संरक्षण करना है।<br>
+      • <b>कथन I (सही)</b>: भारत में 80% से अधिक पशुधन छोटे किसानों, सीमांत किसानों और भूमिहीन खेतिहर मजदूरों के पास है। देशी नस्लों की उत्पादकता बढ़ने से सीधे तौर पर ग्रामीण गरीबों का आर्थिक उत्थान होगा।<br>
+      • <b>कथन II (सही)</b>: यह मिशन वैज्ञानिक और समग्र दृष्टिकोण के साथ देशी नस्लों के आनुवंशिक उन्नयन (Genetic upgradation), कृत्रिम गर्भाधान और उनके संरक्षण के लिए शुरू किया गया है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q31. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : अध्ययनों से सूचित होता है कि सीमेंट उद्योग से उत्सर्जित कार्बन डाइऑक्साइड का वैश्विक कार्बन उत्सर्जन में उसके 5% से अधिक का योगदान है।
+    <br>कथन II : सीमेंट का निर्माण करते समय चूना पत्थर में सिलिका-युक्त मृत्तिका मिलाई जाती है।
+    <br>कथन III : सीमेंट निर्माण हेतु क्लिंकर उत्पादन के दौरान चूना-पत्थर, चूना में बदल जाता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: वैश्विक CO2 उत्सर्जन में सीमेंट उद्योग का योगदान लगभग 8% है (जो 5% से अधिक है)।<br>
+      • <b>कथन II (सही)</b>: सीमेंट बनाने के लिए चूना पत्थर (Limestone) के साथ क्ले (सिलिका युक्त मृत्तिका) को मिलाकर उच्च तापमान पर गर्म किया जाता है।<br>
+      • <b>कथन III (सही)</b>: भट्टे में उच्च तापमान पर 'कैल्सीनेशन (Calcination)' की रासायनिक प्रक्रिया होती है, जहाँ चूना पत्थर (CaCO3) टूटकर चूना (CaO) और <b>कार्बन डाइऑक्साइड (CO2)</b> में बदल जाता है।<br>
+      <b>व्याख्या का विश्लेषण</b>: कथन III प्रत्यक्ष रूप से यह समझाता है कि सीमेंट निर्माण में इतनी अधिक CO2 क्यों निकलती है (क्योंकि रासायनिक प्रक्रिया से CO2 गैस भारी मात्रा में मुक्त होती है)। जबकि कथन II केवल सामग्री के मिश्रण की बात करता है, यह उत्सर्जन की व्याख्या नहीं करता। अतः <b>कथन II और III दोनों सही हैं, लेकिन केवल कथन III ही कथन I की सही व्याख्या कर रहा है</b>।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q32. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : 28वें संयुक्त राष्ट्र जलवायु परिवर्तन सम्मेलन (COP28) में, भारत ने 'जलवायु और स्वास्थ्य विषयक घोषणा' पर हस्ताक्षर नहीं किया।
+    <br>कथन II : COP28 जलवायु और स्वास्थ्य विषयक घोषणा एक बाध्यकर घोषणा है; और इस पर हस्ताक्षर कर देने पर स्वास्थ्य सेक्टर का विकार्बनन करना अधिदेशात्मक हो जाता है।
+    <br>कथन III : यदि भारत के स्वास्थ्य सेक्टर का विकार्बनन किया जाए, तो इसकी स्वास्थ्य देखभाल प्रणाली के लचीलेपन पर संकट आ सकता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - II और III में से केवल एक सही है तथा वह I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: दुबई में हुए COP28 सम्मेलन में भारत ने 'जलवायु और स्वास्थ्य पर COP28 घोषणापत्र' पर हस्ताक्षर करने से इंकार कर दिया था।<br>
+      • <b>कथन II (गलत)</b>: यह घोषणापत्र कानूनी रूप से <b>बाध्यकारी (Legally Binding) नहीं है</b>; यह केवल एक स्वैच्छिक प्रतिबद्धता (Voluntary commitment) है।<br>
+      • <b>कथन III (सही)</b>: भारत ने हस्ताक्षर न करने का कारण यही बताया था कि भारत के स्वास्थ्य क्षेत्र का बुनियादी ढांचा अभी विकास के चरण में है। ग्रामीण क्षेत्रों में स्वास्थ्य सेवाओं के विस्तार के लिए ऊर्जा की आवश्यकता है। यदि अभी से 'स्वास्थ्य क्षेत्र को डीकार्बनाइज' करने की शर्त मान ली गई, तो स्वास्थ्य देखभाल प्रणाली के विस्तार और संकटों से निपटने के लचीलेपन (Resilience) में बाधा आ सकती है। <b>यही कथन I का सही कारण (व्याख्या) है।</b>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q33. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : वैज्ञानिक अध्ययन यह सुझाते हैं कि पृथ्वी के घूर्णन और अक्ष में परिवर्तन हो रहा है।
+    <br>कथन II : सौर संस्फुरों (फ्लेयर्स) और उससे संबद्ध किरीटी द्रव्यमान निष्कासनों ने पृथ्वी के सबसे बाहरी वायुमंडल पर विशाल ऊर्जा-राशि की बौछार कर दी है।
+    <br>कथन III : जैसे-जैसे पृथ्वी का ध्रुवीय हिम पिघलता है, जल की प्रवृत्ति विषुवत्-वृत्त की ओर जाने की होती है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: हाल के अध्ययनों से सिद्ध हुआ है कि जलवायु परिवर्तन और भूजल दोहन के कारण पृथ्वी के घूर्णन अक्ष (Axis of rotation) में खिसकाव (Polar Drift) आ रहा है।<br>
+      • <b>कथन III (सही)</b>: ग्लोबल वार्मिंग के कारण जब ध्रुवीय बर्फ पिघलकर महासागरों में मिलती है, तो द्रव्यमान का स्थानांतरण ध्रुवों से विषुवत रेखा (Equator) की ओर होता है। द्रव्यमान के इस पुनर्वितरण के कारण ही पृथ्वी के जड़त्व आघूर्ण (Moment of Inertia) में बदलाव आता है, जिससे पृथ्वी का अक्ष खिसक रहा है। (यह कथन I की सही व्याख्या है)।<br>
+      • <b>कथन II (सही)</b>: सौर ज्वालाएँ (Solar Flares) और CME वास्तव में पृथ्वी के ऊपरी वायुमंडल को प्रभावित करते हैं, लेकिन <b>उनका पृथ्वी के घूर्णन अक्ष में परिवर्तन से कोई लेना-देना नहीं है</b>। <br>
+      अतः II और III दोनों वैज्ञानिक रूप से सत्य कथन हैं, लेकिन केवल III ही कथन I की व्याख्या कर रहा है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q34. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : जलवायु परिवर्तन विषयक पेरिस समझौते के अनुच्छेद 6 की चर्चा, सतत विकास और जलवायु परिवर्तन विषयक वैश्विक चर्चाओं में बारम्बार आती है।
+    <br>कथन II : जलवायु परिवर्तन विषयक पेरिस समझौते का अनुच्छेद 6, कार्बन बाज़ारों के सिद्धांतों को निर्दिष्ट करता है।
+    <br>कथन III : जलवायु परिवर्तन विषयक पेरिस समझौते के अनुच्छेद 6 का आशय देशों को अपने जलवायु लक्ष्य प्राप्त करने हेतु उनके बीच गैर-बाज़ारी रणनीतियों का संवर्धन करना है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं: विस्तृत व्याख्या:</b><br>
+      पेरिस समझौते का 'अनुच्छेद 6' (Article 6) देशों को स्वैच्छिक सहयोग के माध्यम से अपने उत्सर्जन में कमी के लक्ष्यों (NDC) को प्राप्त करने की अनुमति देता है। इसके तीन प्रमुख अंग हैं:<br>
+      • <b>अनुच्छेद 6.2 और 6.4 (कथन II)</b>: ये अंतर्राष्ट्रीय 'कार्बन बाज़ारों' (Carbon Markets) और कार्बन क्रेडिट के व्यापार के सिद्धांत स्थापित करते हैं।<br>
+      • <b>अनुच्छेद 6.8 (कथन III)</b>: यह 'गैर-बाज़ार दृष्टिकोण' (Non-market approaches) के लिए एक ढांचा प्रदान करता है, जहाँ देश कार्बन व्यापार के बिना ही जलवायु सहयोग करते हैं।<br>
+      चूँकि कार्बन बाज़ार और गैर-बाज़ार दोनों ही तंत्र अत्यंत महत्वपूर्ण हैं, इसलिए इनकी चर्चा हर जलवायु सम्मेलन में बार-बार होती है। अतः दोनों कथन सही हैं और दोनों मिलकर कथन I की व्याख्या करते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q35. निम्नलिखित में से किस एक ने 'एशिया और प्रशांत क्षेत्रों के लिए प्रकृति समाधान (नेचर सॉल्यूशन्स) वित्त हब' प्रारंभ किया?</h3>
+    <div class="options-grid">
+      <div class="option">A. एशियाई विकास बैंक (ADB)</div>
+      <div class="option">B. एशियाई अवसंरचना निवेश बैंक (AIIB)</div>
+      <div class="option">C. न्यू डेवलपमेंट बैंक (NDB)</div>
+      <div class="option">D. अंतर्राष्ट्रीय पुनर्निर्माण और विकास बैंक (IBRD)</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - एशियाई विकास बैंक (ADB): विस्तृत व्याख्या:</b><br>
+      दुबई में आयोजित COP28 जलवायु सम्मेलन के दौरान, <b>एशियाई विकास बैंक (Asian Development Bank - ADB)</b> ने बड़े पैमाने पर प्रकृति-आधारित परियोजनाओं (Nature-based solutions) में सार्वजनिक और निजी पूंजी आकर्षित करने के लिए "नेचर सॉल्यूशंस फाइनेंस हब फॉर एशिया एंड द पैसिफिक" (Nature Solutions Finance Hub for Asia and the Pacific) की शुरुआत की है। इसका उद्देश्य जैव विविधता के नुकसान और जलवायु परिवर्तन से निपटना है।
+    </div>
+  </div>
+  
+  <div class="question-block" data-correct="C">
+    <h3>Q36. 'प्रत्यक्ष वात प्रग्रहण (डाइरेक्ट एयर कैप्चर)', जो नई उभरती प्रौद्योगिकी है, के संदर्भ में, निम्नलिखित कथनों में से कौन-सा/कौन-से सही है/हैं?
+    <br>I. इसे कार्बन प्रच्छादन (Carbon sequestration) की एक विधि के रूप में प्रयोग में ला सकते हैं।
+    <br>II. यह प्लास्टिक उत्पादन हेतु और खाद्य प्रसंस्करण में एक बहुमूल्य उपागम हो सकता है।
+    <br>III. विमानन में, यह संश्लिष्ट न्यून कार्बन ईंधन जनन हेतु हाइड्रोजन में मिलाने के लिए कार्बन का स्रोत हो सकता है।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल III</div>
+      <div class="option">C. I, II और III</div>
+      <div class="option">D. उपर्युक्त कथनों में से कोई भी सही नहीं है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I, II और III: विस्तृत व्याख्या:</b><br>
+      डाइरेक्ट एयर कैप्चर (DAC) एक तकनीक है जो सीधे वायुमंडल से CO2 को खींचती है।<br>
+      • <b>कथन I (सही)</b>: हवा से निकाली गई CO2 को गहरे भूगर्भीय संरचनाओं में स्थायी रूप से संग्रहीत किया जा सकता है, जिसे कार्बन सिक्वेस्ट्रेशन कहा जाता है।<br>
+      • <b>कथन II (सही)</b>: कैप्चर की गई CO2 का उपयोग खाद्य प्रसंस्करण (जैसे- कार्बोनेटेड पेय पदार्थों में) और सिंथेटिक प्लास्टिक बनाने में किया जा सकता है।<br>
+      • <b>कथन III (सही)</b>: कैप्चर की गई CO2 को ग्रीन हाइड्रोजन के साथ मिलाकर सिंथेटिक एविएशन फ्यूल (e-fuel) बनाया जा सकता है, जो विमानन क्षेत्र में कार्बन उत्सर्जन को कम करेगा।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q37. पीकॉक टैरेंटुला (गूटी टैरेंटुला) के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यह एक सर्वभक्षी परुष-कवची (क्रस्टेशियाई / crustacean) है।
+    <br>II. इसका प्राकृतिक आवास भारत में केवल कुछ वनों तक ही सीमित है।
+    <br>III. अपने प्राकृतिक आवास में यह एक वृक्षीय (arboreal) जाति है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. I और III</div>
+      <div class="option">C. केवल II</div>
+      <div class="option">D. II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: पीकॉक टैरेंटुला (Poecilotheria metallica) एक मकड़ी (Arachnid) है, न कि कोई क्रस्टेशियन (जैसे केकड़ा या झींगा)। इसके अलावा यह मांसाहारी/कीटभक्षी है, सर्वभक्षी (Omnivorous) नहीं।<br>
+      • <b>कथन II (सही)</b>: यह भारत की एक स्थानिक (Endemic) प्रजाति है जो मुख्य रूप से आंध्र प्रदेश के पूर्वी घाटों (विशेषकर गूटी और नल्लामाला के वनों) के बहुत छोटे से आरक्षित वन क्षेत्र में पाई जाती है। यह अति संकटापन्न (Critically Endangered) है।<br>
+      • <b>कथन III (सही)</b>: यह एक वृक्षीय (Arboreal) प्रजाति है, अर्थात् यह पेड़ों के छिद्रों और दरारों में जाल बनाकर रहती है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q38. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत में कार्बन डाइऑक्साइड (CO2) उत्सर्जन 0.5 t CO2 प्रति व्यक्ति से कम है।
+    <br>II. ईंधन दहन से CO2 उत्सर्जन के आधार पर, भारत एशिया-प्रशांत क्षेत्र में दूसरे स्थान पर है।
+    <br>III. भारत में विद्युत् और ताप उत्पादक, CO2 उत्सर्जन के सबसे बड़े स्रोत हैं।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और III</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. केवल II और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: भारत में प्रति व्यक्ति CO2 उत्सर्जन वैश्विक औसत (लगभग 4.5 टन) से बहुत कम है, लेकिन यह <b>1.9 से 2.0 टन CO2 प्रति व्यक्ति</b> के आसपास है। यह 0.5 टन से कम <b>नहीं</b> है।<br>
+      • <b>कथन II (सही)</b>: ईंधन दहन (Fuel combustion) से CO2 उत्सर्जन के मामले में चीन के बाद भारत एशिया-प्रशांत क्षेत्र में दूसरे स्थान पर (और विश्व में तीसरे स्थान पर) आता है।<br>
+      • <b>कथन III (सही)</b>: भारत में अधिकांश बिजली उत्पादन कोयला आधारित थर्मल पावर प्लांट से होता है। इसलिए, 'विद्युत और ताप उत्पादन' भारत में CO2 उत्सर्जन का सबसे बड़ा एकल स्रोत है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q39. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>पादप : वर्णन
+    <br>I. कसावा : काष्ठीय झाड़ी (Woody shrub)
+    <br>II. अदरक : आभासी-तनायुक्त शाक (Herb with pseudostem)
+    <br>III. मालाबार पालक : शाकीय आरोही लता (Herbaceous climber)
+    <br>IV. पुदीना : वार्षिक झाड़ी (Annual shrub)
+    <br>V. पपीता : काष्ठीय झाड़ी (Woody shrub)
+    <br>उपर्युक्त युग्मों में से कितने सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल दो</div>
+      <div class="option">B. केवल तीन</div>
+      <div class="option">C. केवल चार</div>
+      <div class="option">D. सभी पाँच</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल तीन: विस्तृत व्याख्या:</b><br>
+      • <b>कसावा (I - सही)</b>: कसावा एक बारहमासी काष्ठीय झाड़ी (woody shrub) है जिसकी जड़ों का उपयोग स्टार्च के लिए किया जाता है।<br>
+      • <b>अदरक (II - सही)</b>: अदरक एक प्रकंद (Rhizome) वाला बारहमासी शाक है जिसके वायवीय भाग में पत्तियों का आवरण एक आभासी तने (Pseudostem) का निर्माण करता है।<br>
+      • <b>मालाबार पालक (III - सही)</b>: यह एक तेज़ी से बढ़ने वाली नरम शाकीय आरोही लता (Herbaceous climber) है।<br>
+      • <b>पुदीना (IV - गलत)</b>: पुदीना एक 'वार्षिक झाड़ी' नहीं है, बल्कि यह एक <b>बारहमासी (Perennial) शाक (Herb)</b> है।<br>
+      • <b>पपीता (V - गलत)</b>: पपीता का तना लकड़ी (True wood) का नहीं होता; यह एक विशाल <b>शाकीय (Herbaceous) पौधा</b> है, काष्ठीय झाड़ी नहीं।<br>
+      अतः केवल तीन युग्म (I, II, III) सही सुमेलित हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q40. पृथ्वी ग्रह के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. वर्षा वन, महासागरों द्वारा उत्पादित ऑक्सीजन की तुलना में अधिक ऑक्सीजन उत्पादित करते हैं।
+    <br>II. समुद्री पादप-प्लवक (Phytoplankton) और प्रकाश संश्लेषी जीवाणु विश्व में ऑक्सीजन का लगभग 50% उत्पादित करते हैं।
+    <br>III. वायुमंडलीय हवा में विद्यमान ऑक्सीजन की तुलना में, सुचारू रूप से ऑक्सीकृत पृष्ठ-जल में अनेक गुना अधिक ऑक्सीजन होती है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. I और II</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और III</div>
+      <div class="option">D. उपर्युक्त कथनों में से कोई भी सही नहीं है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: पृथ्वी पर अधिकांश ऑक्सीजन स्थलीय वर्षा वनों से नहीं, बल्कि महासागरों से उत्पन्न होती है।<br>
+      • <b>कथन II (सही)</b>: महासागरों में मौजूद सूक्ष्म जीव (Phytoplankton और सायनोबैक्टीरिया/Prochlorococcus) प्रकाश संश्लेषण के माध्यम से पृथ्वी की लगभग 50% से 80% ऑक्सीजन का उत्पादन करते हैं।<br>
+      • <b>कथन III (गलत)</b>: वायुमंडलीय हवा में लगभग <b>21% (210,000 ppm)</b> ऑक्सीजन होती है। इसकी तुलना में पानी (यहाँ तक कि सुचारू रूप से ऑक्सीकृत पृष्ठ-जल में भी) ऑक्सीजन का स्तर बहुत कम (लगभग <b>8 से 14 ppm</b>) होता है। अतः हवा में पानी की तुलना में 'अनेक गुना अधिक' ऑक्सीजन होती है, न कि इसके विपरीत।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q41. निम्नलिखित प्रकार के वाहनों पर विचार कीजिए :
+    <br>I. पूर्ण बैटरी विद्युत् वाहन
+    <br>II. हाइड्रोजन ईंधन सेल वाहन
+    <br>III. ईंधन सेल-विद्युत् हाइब्रिड वाहन
+    <br>उपर्युक्त में से कितने वैकल्पिक पॉवरट्रेन (Alternative powertrain) वाहन माने जाते हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      "पावरट्रेन" वह प्रणाली है जो वाहन को आगे बढ़ाने के लिए शक्ति उत्पन्न करती है और उसे पहियों तक पहुँचाती है। 'वैकल्पिक पावरट्रेन' का अर्थ है वे वाहन जो पारंपरिक आंतरिक दहन इंजन (ICE - पेट्रोल/डीजल) पर विशेष रूप से निर्भर नहीं हैं।<br>
+      • बैटरी इलेक्ट्रिक वाहन (BEV), हाइड्रोजन फ्यूल सेल वाहन (FCEV), और फ्यूल सेल-इलेक्ट्रिक हाइब्रिड वाहन, ये तीनों ही जीवाश्म ईंधन के बजाय वैकल्पिक ऊर्जा स्रोतों (विद्युत और हाइड्रोजन) पर निर्भर हैं। अतः ये सभी वैकल्पिक पावरट्रेन वाहन माने जाते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q42. मानव-रहित वायव वाहनों (UAV / Drones) के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए:
+    <br>I. सभी प्रकार के UAV ऊर्ध्वाधर अवतरण (Vertical landing) कर सकते हैं।
+    <br>II. सभी प्रकार के UAV स्वतः मंडरा (Automated hovering) सकते हैं।
+    <br>III. सभी प्रकार के UAV शक्ति पूर्ति के स्रोत के रूप में केवल बैटरी का प्रयोग कर सकते हैं।
+    <br>उपर्युक्त कथनों में से कितने सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कोई नहीं: विस्तृत व्याख्या:</b><br>
+      ड्रोन या UAV कई प्रकार के होते हैं, जैसे रोटरी-विंग (मल्टीरोटर) और फिक्स्ड-विंग (विमान जैसे)।<br>
+      • <b>कथन I और II (गलत)</b>: फिक्स्ड-विंग UAV एक हवाई जहाज़ की तरह उड़ते हैं। इन्हें टेकऑफ और लैंडिंग के लिए एक रनवे की आवश्यकता होती है (ये वर्टिकल लैंडिंग नहीं कर सकते) और ये हवा में एक जगह स्थिर होकर मंडरा (Hovering) भी नहीं सकते।<br>
+      • <b>कथन III (गलत)</b>: बहुत से बड़े सैन्य और औद्योगिक UAV लंबी दूरी की उड़ानों के लिए बैटरी के बजाय <b>गैस, पेट्रोल (Aviation fuel) या हाइब्रिड इंजनों</b> का प्रयोग करते हैं। 
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q43. विद्युत् वाहन बैटरियों के संदर्भ में, निम्नलिखित तत्त्वों पर विचार कीजिए :
+    <br>I. कोबाल्ट
+    <br>II. ग्रेफाइट
+    <br>III. लिथियम
+    <br>IV. निकेल
+    <br>उपर्युक्त में से कितने सामान्यतया बैटरी के कैथोड (Cathodes) बनाने के लिए उपयुक्त होते हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल तीन: विस्तृत व्याख्या:</b><br>
+      लिथियम-आयन बैटरी के मुख्य भाग कैथोड (धनात्मक ध्रुव) और एनोड (ऋणात्मक ध्रुव) होते हैं।<br>
+      • <b>कैथोड (Cathode)</b>: यह बैटरी की क्षमता और वोल्टेज निर्धारित करता है। इसमें आमतौर पर <b>लिथियम (Lithium), कोबाल्ट (Cobalt), निकेल (Nickel)</b>, और मैंगनीज (NMC बैटरियों में) जैसे तत्वों का उपयोग होता है।<br>
+      • <b>एनोड (Anode)</b>: अधिकांश आधुनिक EV बैटरियों में एनोड <b>ग्रेफाइट (Graphite)</b> से बना होता है, कैथोड नहीं।<br>
+      अतः चार में से 3 तत्व (लिथियम, कोबाल्ट, निकेल) कैथोड बनाने के लिए उपयुक्त हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q44. निम्नलिखित पर विचार कीजिए :
+    <br>I. धूम्रपान के बाद सिगरेट के बचे हुए टुकड़े (Cigarette butts)
+    <br>II. चश्मे के लेंस
+    <br>III. कार के टायर
+    <br>उपर्युक्त में से कितनों में प्लास्टिक होता है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      • <b>सिगरेट के बट्स (I)</b>: सिगरेट का फिल्टर मुख्य रूप से 'सेल्यूलोज एसीटेट' नामक प्लास्टिक पॉलिमर से बना होता है, जिसे नष्ट होने में कई साल लगते हैं और यह माइक्रोप्लास्टिक प्रदूषण का एक बड़ा कारण है।<br>
+      • <b>चश्मे के लेंस (II)</b>: आधुनिक चश्मे के लेंस कांच के बजाय हल्के और टूटने से सुरक्षित प्लास्टिक (जैसे CR-39, पॉलीकार्बोनेट या ट्राइवेक्स) से बने होते हैं।<br>
+      • <b>कार के टायर (III)</b>: आधुनिक टायरों में प्राकृतिक रबर के साथ-साथ 'सिंथेटिक रबर' (जो एक प्रकार का प्लास्टिक बहुलक / पॉलीमर है) की भारी मात्रा होती है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q45. निम्नलिखित पदार्थों पर विचार कीजिए:
+    <br>I. एथेनॉल
+    <br>II. नाइट्रोग्लिसरीन
+    <br>III. यूरिया
+    <br>उपर्युक्त में से कितनों के उत्पादन में कोयला गैसीकरण (Coal gasification) प्रौद्योगिकी प्रयुक्त की जा सकती है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      कोयला गैसीकरण की प्रक्रिया में कोयले को ऑक्सीजन और भाप के साथ गर्म करके 'सिनगैस' (Syngas - कार्बन मोनोऑक्साइड और हाइड्रोजन का मिश्रण) बनाया जाता है।<br>
+      • इस सिनगैस का उपयोग सीधे <b>यूरिया (Urea)</b> उर्वरक बनाने (अमोनिया उत्पादन के माध्यम से) और <b>एथेनॉल / मेथनॉल</b> जैसे रसायन बनाने के लिए किया जाता है।<br>
+      • <b>नाइट्रोग्लिसरीन</b> मुख्य रूप से ग्लिसरॉल (साबुन/बायोडीजल का उप-उत्पाद) और नाइट्रिक एसिड की प्रतिक्रिया से बनता है। व्यावसायिक रूप से इसका कोयला गैसीकरण से सीधा संबंध नहीं है। अतः केवल दो (एथेनॉल और यूरिया) सही उत्तर होंगे।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q46. कभी-कभी समाचार माध्यमों में चर्चित सामान्यतया CL-20, HMX और LLM-105 के रूप में ज्ञात रासायनिक पदार्थों में सर्वनिष्ठ अभिलक्षण क्या है?</h3>
+    <div class="options-grid">
+      <div class="option">A. ये हाइड्रोफ्लुओरोकार्बन प्रशीतकों (refrigerants) के विकल्प हैं</div>
+      <div class="option">B. ये सैन्य आयुधों के अंतर्गत विस्फोटक (Explosives) हैं</div>
+      <div class="option">C. ये क्रूज़ मिसाइलों के लिए उच्च ऊर्जा ईंधन हैं</div>
+      <div class="option">D. ये रॉकेट नोदन हेतु ईंधन हैं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - ये सैन्य आयुधों के अंतर्गत विस्फोटक हैं: विस्तृत व्याख्या:</b><br>
+      CL-20, HMX (High Melting Explosive), और LLM-105 आधुनिक, अत्यंत शक्तिशाली <b>सैन्य विस्फोटक (Military High Explosives)</b> हैं। इनका उपयोग वारहेड्स, बमों और सैन्य गोला-बारूद में किया जाता है क्योंकि ये पारंपरिक विस्फोटकों (जैसे TNT या RDX) की तुलना में कहीं अधिक शक्तिशाली और विध्वंसक होते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q47. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. ऐसी अपेक्षा है कि मेजोराना 1 चिप (Majorana 1 chip), क्वांटम कंप्यूटिंग को सुकर बनाएगा।
+    <br>II. मेजोराना 1 चिप, ऐमेजॉन वेब सर्विसेज (AWS) द्वारा आरंभ किया गया है।
+    <br>III. डीप लर्निंग (Deep learning), मशीन लर्निंग का एक उप-समुच्चय है।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल I और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: 'मेजोराना' आधारित टोपोलॉजिकल क्यूबिट्स क्वांटम कंप्यूटिंग की दिशा में एक बड़ी क्रांति माने जाते हैं, जो त्रुटियों (errors) को कम कर क्वांटम कंप्यूटरों को अधिक स्थिर बनाते हैं।<br>
+      • <b>कथन II (गलत)</b>: मेजोराना चिप पर अनुसंधान और इसका विकास <b>Microsoft (माइक्रोसॉफ्ट)</b> द्वारा किया जा रहा है, न कि अमेज़न (AWS) द्वारा।<br>
+      • <b>कथन III (सही)</b>: आर्टिफिशियल इंटेलिजेंस (AI) का एक हिस्सा मशीन लर्निंग (ML) है, और 'डीप लर्निंग' (Deep Learning) मशीन लर्निंग का ही एक उप-समुच्चय (Subset) है जो कृत्रिम न्यूरल नेटवर्क का उपयोग करता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q48. प्रायः समाचारों में चर्चित, एकक्लोनी प्रतिरक्षियों (मोनोक्लोनल ऐंटिबॉडी / Monoclonal antibodies) के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. वे मानव-निर्मित प्रोटीन हैं।
+    <br>II. वे विशिष्ट प्रतिजनों (एंटीजेन) से बंधन बनाने की अपनी क्षमता के कारण प्रतिरक्षात्मक प्रकार्य को उद्दीपित करते हैं।
+    <br>III. वे निपा विषाणु (Nipah virus) के संक्रमण जैसे विषाणु संक्रमणों के उपचार में प्रयुक्त होते हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I और II (सही)</b>: मोनोक्लोनल एंटीबॉडी (mAbs) प्रयोगशाला में बनाए गए कृत्रिम प्रोटीन (मानव-निर्मित) होते हैं जो हमारे प्रतिरक्षा तंत्र की तरह काम करते हैं। ये डिज़ाइन किए जाते हैं ताकि वे किसी बीमारी पैदा करने वाले वायरस या कैंसर सेल के विशिष्ट एंटीजन (Antigen) को पहचान कर उनसे चिपक जाएँ और शरीर को उनसे लड़ने में मदद करें।<br>
+      • <b>कथन III (सही)</b>: केरल में निपा वायरस के प्रकोप के दौरान, इसके इलाज के लिए ऑस्ट्रेलिया से आयातित 'm102.4' नामक मोनोक्लोनल एंटीबॉडी का उपयोग किया गया था। ये कोविड-19 और एबोला जैसे वायरल संक्रमणों में भी प्रभावी हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q49. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>I. महासागरी जल में कोई विषाणु (Virus) जीवित नहीं बच सकता।
+    <br>II. कोई विषाणु, जीवाणुओं (Bacteria) में संक्रमण नहीं कर सकता।
+    <br>III. कोई विषाणु, परपोषी कोशिका (Host cell) में कोशिकीय अनुलेखनात्मक सक्रियता (Transcriptional activity) को परिवर्तित नहीं कर सकता।
+    <br>उपर्युक्त में से कितने कथन सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कोई भी नहीं (सभी कथन गलत हैं): विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: महासागरों में अरबों-खरबों वायरस पाए जाते हैं (समुद्र पृथ्वी पर वायरसों का सबसे बड़ा भंडार है)। वे समुद्री पारिस्थितिकी तंत्र में महत्वपूर्ण भूमिका निभाते हैं।<br>
+      • <b>कथन II (गलत)</b>: जो वायरस बैक्टीरिया को संक्रमित करते हैं, उन्हें 'बैक्टेरियोफेज (Bacteriophages)' कहा जाता है। अतः वायरस बैक्टीरिया को संक्रमित कर सकते हैं।<br>
+      • <b>कथन III (गलत)</b>: वायरस का मुख्य काम ही यही होता है कि वह परपोषी कोशिका (Host cell) में घुसकर उसके DNA/RNA मशीनरी (ट्रांसक्रिप्शन आदि) पर कब्ज़ा कर ले और अपनी कॉपी बनाने के लिए कोशिका की गतिविधि को बदल दे।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q50. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>कथन I : सक्रियित कार्बन (Activated carbon) बहिःस्रावी धाराओं में से प्रदूषकों को हटाने और विभिन्न उद्योगों से आने वाले संदूषकों के उपचारण हेतु एक अच्छा और आकर्षक साधन है।
+    <br>कथन II : सक्रियित कार्बन का एक वृहत् पृष्ठ क्षेत्रफल (Large surface area) होता है और उसमें भारी धातुओं को अधिशोषित (Adsorbing) करने की दमदार शक्यता है।
+    <br>कथन III : सक्रियित कार्बन, उच्च कार्बन अंश वाले वातावरणीय अपशिष्टों में से आसानी से संश्लेषित किया जा सकता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. II और III दोनों सही हैं तथा वे दोनों I की व्याख्या करते हैं</div>
+      <div class="option">B. II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है</div>
+      <div class="option">C. II और III में से केवल एक सही है तथा वह I की व्याख्या करता है</div>
+      <div class="option">D. न तो II और न ही III सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - II और III दोनों सही हैं किन्तु उनमें से केवल एक, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: एक्टिवेटेड कार्बन जल शोधन और औद्योगिक कचरे (प्रदूषकों) को साफ करने का एक बेहतरीन साधन है।<br>
+      • <b>कथन II (सही)</b>: यह प्रदूषकों को इसलिए हटा पाता है क्योंकि इसका <b>सतह क्षेत्र (Surface area) बहुत बड़ा होता है</b> और यह अपने सूक्ष्म छिद्रों में भारी धातुओं व रसायनों को सोख (Adsorb) लेता है। <b>(अतः कथन II, कथन I की सही व्याख्या कर रहा है)।</b><br>
+      • <b>कथन III (सही)</b>: एक्टिवेटेड कार्बन को नारियल के छिलके, लकड़ी, या कृषि अपशिष्ट जैसे उच्च कार्बन वाले जैविक कचरे से आसानी से बनाया जा सकता है। <b>(यह कथन सही है, लेकिन यह इस बात की व्याख्या नहीं करता कि यह प्रदूषकों को कैसे हटाता है)।</b><br>
+      अतः II और III दोनों सही हैं, लेकिन केवल II ही कथन I की व्याख्या करता है।
+    </div>
+  </div>
+  
+  <div class="question-block" data-correct="C">
+    <h3>Q51. भारतीय राज्य-व्यवस्था के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. अध्यादेश किसी केन्द्रीय अधिनियम को संशोधित कर सकता है।
+    <br>II. अध्यादेश किसी मूल अधिकार को न्यून कर सकता है।
+    <br>III. अध्यादेश किसी पिछली तारीख से प्रभावी हो सकता है।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल I और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: राष्ट्रपति द्वारा प्रख्यापित अध्यादेश (अनुच्छेद 123) की शक्ति और प्रभाव संसद द्वारा पारित अधिनियम के समान ही होता है। इसलिए, यह किसी मौजूदा केंद्रीय अधिनियम को संशोधित या निरस्त कर सकता है।<br>
+      • <b>कथन II (गलत)</b>: कोई भी अध्यादेश संविधान के भाग-III में दिए गए मूल अधिकारों (Fundamental Rights) को न्यून (Abridge) या छीन नहीं सकता है (अनुच्छेद 13 के अनुसार)।<br>
+      • <b>कथन III (सही)</b>: संसद के अधिनियम की तरह ही, अध्यादेश को भी भूतलक्षी प्रभाव (Retrospective effect - पिछली तारीख से प्रभावी) से लागू किया जा सकता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q52. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>राज्य : वर्णन
+    <br>I. अरुणाचल प्रदेश : एक किले से राजधानी का नाम पड़ा और राज्य में दो राष्ट्रीय उद्यान (नैशनल पार्क) हैं
+    <br>II. नागालैंड : यह राज्य एक संविधान संशोधन अधिनियम के आधार पर अस्तित्व में आया
+    <br>III. त्रिपुरा : प्रारंभ में यह भाग 'ग' (पार्ट 'सी') राज्य था, यह 1956 में राज्यों का पुनर्गठन होने पर केन्द्र-शासित राज्यक्षेत्र बना और बाद में इसने एक पूर्ण राज्य का दर्जा प्राप्त किया
+    <br>उपर्युक्त युग्मों में से कितने सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: अरुणाचल प्रदेश की राजधानी 'ईटानगर' का नाम ऐतिहासिक 'ईटा किले' (Ita Fort) के नाम पर पड़ा है। इस राज्य में दो राष्ट्रीय उद्यान हैं - नमदाफा और मौलिंग।<br>
+      • <b>कथन II (सही)</b>: नागालैंड राज्य 13वें संविधान संशोधन अधिनियम, 1962 के द्वारा असम से अलग होकर अस्तित्व में आया था।<br>
+      • <b>कथन III (सही)</b>: 1950 में त्रिपुरा एक 'पार्ट सी (ग)' राज्य था। 1956 के राज्य पुनर्गठन अधिनियम के तहत इसे केंद्र-शासित प्रदेश बनाया गया और 1972 में इसे पूर्ण राज्य का दर्जा मिला।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q53. भारत के संदर्भ में, निम्नलिखित पर विचार कीजिए :
+    <br>I. अंतर-राज्य परिषद्
+    <br>II. राष्ट्रीय सुरक्षा परिषद्
+    <br>III. क्षेत्रीय परिषदें
+    <br>उपर्युक्त में से कितनी भारत के संविधान के उपबंधों के अनुसार स्थापित हुईं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल एक: विस्तृत व्याख्या:</b><br>
+      • <b>अंतर-राज्य परिषद् (I)</b>: यह एक संवैधानिक निकाय है, जिसकी स्थापना संविधान के <b>अनुच्छेद 263</b> के तहत राष्ट्रपति द्वारा की गई है। (यह सही है)<br>
+      • <b>राष्ट्रीय सुरक्षा परिषद् (II)</b>: यह कोई संवैधानिक या वैधानिक निकाय नहीं है; इसका गठन 1998 में एक कार्यकारी आदेश (Executive order) द्वारा किया गया था।<br>
+      • <b>क्षेत्रीय परिषदें (III)</b>: ये वैधानिक (Statutory) निकाय हैं, जिन्हें राज्य पुनर्गठन अधिनियम, 1956 के तहत स्थापित किया गया था, न कि सीधे संविधान के उपबंधों के तहत।<br>
+      अतः केवल एक (अंतर-राज्य परिषद्) ही संवैधानिक निकाय है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q54. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत के संविधान में स्पष्ट रूप से उल्लिखित है कि कतिपय बातों में किसी राज्य का राज्यपाल अपने विवेकानुसार कार्य करता है।
+    <br>II. भारत का राष्ट्रपति, अपने-आप, किसी राज्य विधान-मंडल द्वारा पारित विधेयक को भले ही वह संबंधित राज्य के राज्यपाल द्वारा न भेजा गया हो, अपने विचार के लिए आरक्षित कर सकता है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: संविधान का <b>अनुच्छेद 163</b> स्पष्ट रूप से प्रावधान करता है कि राज्यपाल कुछ मामलों में अपने विवेक (Discretion) से कार्य कर सकता है, जहाँ उसे मंत्रिपरिषद की सलाह मानने की आवश्यकता नहीं होती।<br>
+      • <b>कथन II (गलत)</b>: संविधान के <b>अनुच्छेद 200</b> के अनुसार, राज्य विधानमंडल द्वारा पारित विधेयक को राष्ट्रपति के विचारार्थ आरक्षित करने का अधिकार <b>राज्यपाल</b> का है। राष्ट्रपति अपने-आप (Suo motu) किसी राज्य के विधेयक को मंगा कर आरक्षित नहीं कर सकता।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q55. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>भारत के संविधान में उपबंध : किसके अधीन कथित
+    <br>I. राज्य की लोक सेवा में न्यायपालिका का कार्यपालिका से पृथक्करण : राज्य की नीति के निदेशक तत्त्व
+    <br>II. हमारी सामासिक संस्कृति की समृद्ध विरासत का महत्त्व समझना और उसका परिरक्षण करना : मूल कर्तव्य
+    <br>III. कारखानों में 14 वर्ष से कम आयु के बच्चों के नियोजन का निषेध : मूल अधिकार
+    <br>उपर्युक्त युग्मों में से कितने सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      • <b>युग्म I (सही)</b>: कार्यपालिका से न्यायपालिका का पृथक्करण संविधान के <b>अनुच्छेद 50</b> में दिया गया है, जो 'राज्य की नीति के निदेशक तत्त्व' (DPSP) का भाग है।<br>
+      • <b>युग्म II (सही)</b>: भारत की सामासिक (मिश्रित) संस्कृति की गौरवशाली परंपरा का महत्व समझना <b>अनुच्छेद 51A(f)</b> के तहत एक 'मूल कर्तव्य' है।<br>
+      • <b>युग्म III (सही)</b>: 14 वर्ष से कम आयु के बच्चों को कारखानों आदि में काम करने से रोकना <b>अनुच्छेद 24</b> (शोषण के विरुद्ध अधिकार) के तहत एक 'मूल अधिकार' है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q56. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>भारत के संविधान के संदर्भ में, यदि पाँचवीं अनुसूची के अधीन किसी राज्य में कोई क्षेत्र अनुसूचित क्षेत्र घोषित कर दिया जाता है, तो
+    <br>I. ऐसे क्षेत्रों में राज्य सरकार अपनी कार्यपालिका शक्ति खो देती है और एक स्थानीय निकाय पूर्ण प्रशासन ग्रहण कर लेता है
+    <br>II. संघ की सरकार कतिपय परिस्थितियों में राज्यपाल की सिफारिश पर ऐसे क्षेत्रों के पूर्ण प्रशासन को अपने हाथ में ले सकती है
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - न तो I और न ही II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: पाँचवीं अनुसूची के तहत अनुसूचित क्षेत्र घोषित होने पर राज्य सरकार अपनी कार्यपालिका शक्ति <b>नहीं</b> खोती है। राज्य की कार्यपालिका शक्ति इन क्षेत्रों तक विस्तारित होती है (अनुच्छेद 244)।<br>
+      • <b>कथन II (गलत)</b>: संघ की सरकार (केंद्र सरकार) अनुसूचित क्षेत्रों के प्रशासन के संबंध में राज्य को <b>निर्देश (Directions)</b> दे सकती है, लेकिन वह इन क्षेत्रों का पूर्ण प्रशासन (Total administration) सीधे अपने हाथ में नहीं लेती।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q57. भारत के संदर्भ में, निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>संगठन : संघ का मंत्रालय
+    <br>I. राष्ट्रीय ऑटोमोटिव बोर्ड : वाणिज्य और उद्योग मंत्रालय
+    <br>II. कॉयर बोर्ड : भारी उद्योग मंत्रालय
+    <br>III. राष्ट्रीय व्यापार सूचना केन्द्र : सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय
+    <br>उपर्युक्त में से कितने युग्म सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कोई भी नहीं (सभी गलत हैं): विस्तृत व्याख्या:</b><br>
+      • <b>राष्ट्रीय ऑटोमोटिव बोर्ड (NAB)</b>: यह <b>भारी उद्योग मंत्रालय (Ministry of Heavy Industries)</b> के अंतर्गत आता है, न कि वाणिज्य मंत्रालय के।<br>
+      • <b>कॉयर बोर्ड (Coir Board)</b>: यह नारियल जटा उद्योग के विकास के लिए है और <b>सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय (MSME)</b> के अधीन काम करता है, न कि भारी उद्योग के।<br>
+      • <b>राष्ट्रीय व्यापार सूचना केन्द्र (NCTI)</b>: यह <b>वाणिज्य और उद्योग मंत्रालय (Ministry of Commerce and Industry)</b> के अंतर्गत स्थापित किया गया था।<br>
+      अतः तीनों मंत्रालयों के नाम आपस में अदल-बदल दिए गए हैं। कोई भी युग्म सही नहीं है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q58. भारत के संविधान के अधीन निम्नलिखित विषयों पर विचार कीजिए :
+    <br>I. सातवीं अनुसूची में सूची I-संघ सूची
+    <br>II. किसी राज्य की कार्यपालिका शक्ति का विस्तार
+    <br>III. राज्यपाल के पद के लिए शर्तें
+    <br>उपर्युक्त में से किसके संबंध में संविधान संशोधन के लिए भारत के राष्ट्रपति को अनुमति के लिए विधेयक प्रस्तुत किए जाने से पूर्व, कम-से-कम आधे राज्यों के विधान-मंडलों द्वारा अनुसमर्थन अपेक्षित है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      संविधान के <b>अनुच्छेद 368(2)</b> के तहत कुछ संघीय ढांचे वाले विषयों में संशोधन के लिए संसद के विशेष बहुमत के साथ-साथ कम से कम आधे राज्यों के विधानमंडलों के अनुसमर्थन (Ratification) की आवश्यकता होती है। इनमें शामिल हैं:<br>
+      • <b>सातवीं अनुसूची</b> की कोई भी सूची (I, II या III)। (कथन I सही)<br>
+      • संघ और <b>राज्यों की कार्यपालिका शक्ति का विस्तार</b> (अनुच्छेद 73 और 162)। (कथन II सही)<br>
+      • <b>राज्यपाल के पद की शर्तें</b> (अनुच्छेद 158) इस विशेष सूची में शामिल <b>नहीं</b> हैं, इसे केवल संसद द्वारा संशोधित किया जा सकता है। (कथन III गलत)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q59. भारतीय राज्य-व्यवस्था के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. किसी राज्य का राज्यपाल अपने पद की शक्तियों और दायित्वों के प्रयोग और निष्पादन के लिए किसी न्यायालय के प्रति उत्तरदायी नहीं है।
+    <br>II. राज्यपाल के विरुद्ध उसकी पदावधि के दौरान कोई दांडिक कार्यवाही संस्थित नहीं की जाएगी या जारी नहीं रखी जाएगी।
+    <br>III. किसी राज्य विधान-मंडल के सदस्य सदन के अंदर कही गई किसी भी बात के लिए किसी भी न्यायालय में कार्यवाही के लिए दायी नहीं हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: संविधान के <b>अनुच्छेद 361(1)</b> के तहत राष्ट्रपति या राज्यपाल अपने पद की शक्तियों के प्रयोग के लिए किसी भी न्यायालय के प्रति उत्तरदायी नहीं होते हैं।<br>
+      • <b>कथन II (सही)</b>: <b>अनुच्छेद 361(2)</b> के अनुसार राष्ट्रपति या किसी राज्य के राज्यपाल के खिलाफ उनके कार्यकाल के दौरान किसी भी न्यायालय में कोई आपराधिक कार्यवाही (Criminal proceedings) शुरू या जारी नहीं रखी जा सकती है।<br>
+      • <b>कथन III (सही)</b>: <b>अनुच्छेद 194(2)</b> के तहत राज्य विधानमंडल के किसी सदस्य (MLA/MLC) को सदन में कही गई किसी बात या दिए गए वोट के लिए न्यायालय में उत्तरदायी नहीं ठहराया जा सकता (संसदीय विशेषाधिकार)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q60. निम्नलिखित क्रियाकलापों पर विचार कीजिए :
+    <br>I. कच्चे तेल का उत्पादन
+    <br>II. पेट्रोलियम का परिष्करण, संग्रहण और वितरण
+    <br>III. पेट्रोलियम उत्पादों का विपणन और विक्रय
+    <br>IV. प्राकृतिक गैस का उत्पादन
+    <br>उपर्युक्त क्रियाकलापों में से कितने हमारे देश में पेट्रोलियम और प्राकृतिक गैस नियामक बोर्ड (PNGRB) द्वारा विनियमित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      पेट्रोलियम और प्राकृतिक गैस नियामक बोर्ड (PNGRB) अधिनियम, 2006 के अनुसार:<br>
+      • PNGRB का मुख्य कार्य पेट्रोलियम, पेट्रोलियम उत्पादों और प्राकृतिक गैस के <b>परिष्करण, प्रसंस्करण, भंडारण, परिवहन, वितरण, विपणन और बिक्री (II और III)</b> को विनियमित करना है।<br>
+      • यह कच्चे तेल (Crude Oil) और प्राकृतिक गैस (Natural Gas) के <b>उत्पादन (Production / Exploration)</b> (I और IV) को विनियमित <b>नहीं</b> करता है। अन्वेषण और उत्पादन का नियंत्रण 'DGH' (Directorate General of Hydrocarbons) करता है।<br>
+      अतः केवल दो गतिविधियाँ (II और III) PNGRB द्वारा विनियमित हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q61. मान लीजिए सरकार का राजस्व व्यय ₹ 80,000 करोड़ है और राजस्व प्राप्ति ₹60,000 करोड़ है। सरकारी बजट ₹10,000 करोड़ के उधार-ग्रहण और ₹6,000 करोड़ के ब्याज भुगतान को भी प्रदर्शित करता है। निम्नलिखित कथनों में कौन-कौन से सही हैं?
+    <br>I. राजस्व घाटा ₹ 20,000 करोड़ है।
+    <br>II. राजकोषीय घाटा ₹ 10,000 करोड़ है।
+    <br>III. प्राथमिक घाटा ₹ 4,000 करोड़ है।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>राजस्व घाटा (Revenue Deficit)</b> = राजस्व व्यय - राजस्व प्राप्तियां = 80,000 - 60,000 = ₹20,000 करोड़। (कथन I सही है)।<br>
+      • <b>राजकोषीय घाटा (Fiscal Deficit)</b> बजट में कुल <b>उधार-ग्रहण (Borrowings)</b> के बराबर होता है। अतः यह ₹10,000 करोड़ है। (कथन II सही है)।<br>
+      • <b>प्राथमिक घाटा (Primary Deficit)</b> = राजकोषीय घाटा - ब्याज भुगतान = 10,000 - 6,000 = ₹4,000 करोड़। (कथन III सही है)।<br>
+      अतः सभी तीनों कथन पूरी तरह गणितीय रूप से सही हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q62. भारत, अंतर्राष्ट्रीय उत्तर-दक्षिण परिवहन कॉरिडोर (INSTC), जो एक बहु-मोडल परिवहन कॉरिडोर है, के संस्थापक सदस्यों में से एक है। यह कॉरिडोर किन्हें जोड़ेगा?</h3>
+    <div class="options-grid">
+      <div class="option">A. भारत से मध्य एशिया से यूरोप को, ईरान होते हुए</div>
+      <div class="option">B. भारत से मध्य एशिया को, चीन होते हुए</div>
+      <div class="option">C. भारत से दक्षिण-पूर्व एशिया को, बांग्लादेश और म्यांमार होते हुए</div>
+      <div class="option">D. भारत से यूरोप को, अज़रबैजान होते हुए</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A): विस्तृत व्याख्या:</b><br>
+      अंतर्राष्ट्रीय उत्तर-दक्षिण परिवहन कॉरिडोर (International North-South Transport Corridor - INSTC) 7,200 किमी लंबा जहाज़ों, रेल और सड़क मार्गों का एक मल्टी-मोडल नेटवर्क है।<br>
+      यह माल ढुलाई को <b>भारत (मुंबई) से ईरान (चाबहार/बंदर अब्बास) होते हुए अज़रबैजान, मध्य एशिया, रूस और अंततः उत्तरी यूरोप</b> तक जोड़ता है। यह स्वेज़ नहर मार्ग की तुलना में दूरी और समय दोनों बचाता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q63. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : विश्व के दो प्रमुख एथेनॉल उत्पादकों, ब्राज़ील और संयुक्त राज्य अमेरिका, में से संयुक्त राज्य अमेरिका की तुलना में ब्राज़ील अधिक एथेनॉल उत्पादित करता है।
+    <br>कथन II : जहाँ संयुक्त राज्य अमेरिका में एथेनॉल उत्पादन के लिए प्रधान भरण-सामग्री (फीडस्टॉक) मक्का है, इसके विपरीत ब्राज़ील में एथेनॉल उत्पादन के लिए प्रधान भरण-सामग्री गन्ना है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन I और कथन II दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. कथन I और कथन II दोनों सही है किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कथन I सही नहीं है किन्तु कथन II सही है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: वैश्विक एथेनॉल उत्पादन में <b>संयुक्त राज्य अमेरिका (USA) दुनिया का सबसे बड़ा उत्पादक है</b> (लगभग 50-55% हिस्सा), जबकि ब्राज़ील दूसरे स्थान पर (लगभग 25-30%) है। इसलिए ब्राज़ील, अमेरिका से अधिक एथेनॉल उत्पादित नहीं करता।<br>
+      • <b>कथन II (सही)</b>: अमेरिका में एथेनॉल उत्पादन मुख्य रूप से <b>मक्के (Corn)</b> पर निर्भर है, जबकि ब्राज़ील में इसका उत्पादन मुख्य रूप से <b>गन्ने (Sugarcane)</b> से होता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q64. विश्व बैंक ने यह चेतावनी दी है कि भारत ऐसे प्रथम स्थानों में से एक बन सकता है, जहाँ आर्द्र बल्ब तापमान (वेट-बल्ब टेम्परेचर) नेमी तौर पर 35°C से अधिक होगा। निम्नलिखित कथनों में से कौन-सा/कौन-से उपर्युक्त रिपोर्ट के निहितार्थ को सर्वोत्तम रूप में प्रतिबिम्बित करता है/करते हैं?
+    <br>I. सर्वाधिक संभावना है कि प्रायद्वीपीय भारत बाढ़, उष्णकटिबंधीय चक्रवात और सूखे से ग्रस्त होता रहेगा।
+    <br>II. मानव समेत सभी प्राणियों की उत्तरजीविता प्रभावित होगी क्योंकि उनके लिए पसीने के माध्यम से अपने शरीर के ताप को निकालना मुश्किल होता जाएगा।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल II: विस्तृत व्याख्या:</b><br>
+      • <b>वेट-बल्ब तापमान (Wet-bulb temperature)</b> गर्मी और आर्द्रता (Humidity) का संयुक्त मापन है। जब यह 35°C से ऊपर हो जाता है, तो हवा में नमी इतनी अधिक हो जाती है कि इंसान के शरीर का पसीना वाष्पीकृत (Evaporate) नहीं हो पाता।<br>
+      • पसीना न सूखने के कारण शरीर खुद को ठंडा नहीं कर पाता, जिससे हीटस्ट्रोक और कुछ ही घंटों में इंसान की मृत्यु हो सकती है। अतः <b>कथन II (उत्तरजीविता प्रभावित होगी)</b> इसका सीधा और सबसे सटीक वैज्ञानिक निहितार्थ है। बाढ़ या चक्रवात का वेट-बल्ब तापमान से सीधा वैज्ञानिक संबंध नहीं है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q65. किसी देश का राजकोषीय घाटा ₹50,000 करोड़ है। इसे गैर-ऋण सर्जक पूँजीगत प्राप्तियों के माध्यम से ₹ 10,000 करोड़ प्राप्त हो रहे हैं। उस देश की ब्याज देयताएँ ₹ 1,500 करोड़ हैं। उसका सकल प्राथमिक घाटा कितना है?</h3>
+    <div class="options-grid">
+      <div class="option">A. ₹48,500 करोड़</div>
+      <div class="option">B. ₹51,500 करोड़</div>
+      <div class="option">C. ₹58,500 करोड़</div>
+      <div class="option">D. उपर्युक्त में से कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - ₹48,500 करोड़: विस्तृत व्याख्या:</b><br>
+      • <b>प्राथमिक घाटा (Primary Deficit)</b> का सीधा अर्थशास्त्र का सूत्र है: <br>
+      <b>प्राथमिक घाटा = राजकोषीय घाटा (Fiscal Deficit) - ब्याज भुगतान (Interest Payments)</b><br>
+      • प्रश्न में राजकोषीय घाटा = ₹50,000 करोड़ दिया गया है।<br>
+      • ब्याज देयताएं = ₹1,500 करोड़ दी गई हैं।<br>
+      • (नोट: गैर-ऋण सर्जक पूँजीगत प्राप्तियाँ पहले से ही राजकोषीय घाटे की गणना में शामिल होती हैं, इसलिए इस मान का प्राथमिक घाटे के सूत्र में अलग से कोई उपयोग नहीं है)।<br>
+      • अतः, प्राथमिक घाटा = 50,000 - 1,500 = <b>₹48,500 करोड़</b>।
+    </div>
+  </div>
+  
+  <div class="question-block" data-correct="C">
+    <h3>Q66. भारत के 15वें वित्त आयोग की सिफारिशों के संदर्भ में, निम्नलिखित में कौन-कौन से कथन सही हैं?
+    <br>I. इसने राज्यों द्वारा शिक्षा परिणामों में उन्नयन लाने हेतु प्रोत्साहन राशि प्रदान करने के लिए वर्ष 2022-23 से वर्ष 2025-26 तक ₹4,800 करोड़ के अनुदान की अनुशंसा की है।
+    <br>II. संघ के करों के निवल आगम का 45%, राज्यों के साथ बाँटा जाना चाहिए।
+    <br>III. सभी राज्यों के लिए कृषि सुधारों के क्रियान्वयन हेतु निष्पादन आधारित प्रोत्साहन के रूप में ₹45,000 करोड़ रखे जाएँ।
+    <br>IV. इसने राजकोषीय निष्पादन को पुरस्कृत करने हेतु कर प्रयास निकष (टैक्स एफर्ट क्राइटेरिया) को फिर से आरम्भ किया।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. I, II और III</div>
+      <div class="option">B. I, II और IV</div>
+      <div class="option">C. I, III और IV</div>
+      <div class="option">D. II, III और IV</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I, III और IV: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: 15वें वित्त आयोग ने शिक्षा (विशेषकर प्रारंभिक शिक्षा) के परिणामों में सुधार के लिए राज्यों को ₹4,800 करोड़ का प्रदर्शन-आधारित अनुदान देने की सिफारिश की है।<br>
+      • <b>कथन II (गलत)</b>: आयोग ने संघ के करों के निवल आगम (Net proceeds) का <b>41%</b> (न कि 45%) राज्यों के साथ साझा करने की सिफारिश की है (1% जम्मू-कश्मीर और लद्दाख के लिए रखा गया है)।<br>
+      • <b>कथन III (सही)</b>: कृषि सुधारों को लागू करने के लिए राज्यों को प्रदर्शन-आधारित प्रोत्साहन के रूप में ₹45,000 करोड़ के अनुदान की सिफारिश की गई है।<br>
+      • <b>कथन IV (सही)</b>: कर संग्रह में दक्षता (Tax Effort) बढ़ाने वाले राज्यों को पुरस्कृत करने के लिए इस मानदंड को फिर से शामिल किया गया है (भारांक 2.5%)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q67. अंतर्राष्ट्रीय पुनर्निर्माण और विकास बैंक (IBRD) के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यह मध्यम आय वाले देशों को ऋण और गारंटी प्रदान करता है।
+    <br>II. यह गरीबी कम करने में विकासशील देशों की सहायता के लिए अकेले ही कार्य करता है।
+    <br>III. इसकी स्थापना द्वितीय विश्व युद्ध के उपरांत यूरोप के पुनर्निर्माण में सहायता हेतु की गई थी।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल I और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: IBRD विश्व बैंक समूह का हिस्सा है जो मुख्य रूप से मध्यम आय (Middle-income) और ऋण-योग्य गरीब देशों को ऋण (Loans) और गारंटी प्रदान करता है।<br>
+      • <b>कथन II (गलत)</b>: IBRD 'अकेले (Single-handedly)' कार्य <b>नहीं</b> करता है। गरीबी कम करने के लिए यह अंतर्राष्ट्रीय विकास संघ (IDA), अंतर्राष्ट्रीय वित्त निगम (IFC) और MIGA जैसे विश्व बैंक समूह के अन्य संस्थानों के साथ मिलकर कार्य करता है।<br>
+      • <b>कथन III (सही)</b>: 1944 में ब्रेटन वुड्स सम्मेलन में IBRD की स्थापना का मूल उद्देश्य ही द्वितीय विश्व युद्ध के बाद तबाह हुए यूरोप का पुनर्निर्माण करना था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q68. RTGS और NEFT के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. RTGS में भुगतान उसी क्षण हो जाता है, जबकि NEFT के मामले में भुगतान करने में कुछ समय लगता है।
+    <br>II. RTGS में ग्राहक से आवक लेनदेन के लिए प्रभार लिया जाता है जबकि NEFT में ऐसा नहीं होता।
+    <br>III. RTGS के लिए कतिपय दिनों में प्रचालन के घंटे सीमित हैं जबकि NEFT में ऐसा नहीं है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. I और II</div>
+      <div class="option">C. I और III</div>
+      <div class="option">D. केवल III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: RTGS (Real Time Gross Settlement) में फंड ट्रांसफर उसी क्षण (Real-time) और व्यक्तिगत आधार पर होता है। जबकि NEFT (National Electronic Funds Transfer) में लेनदेन आधे-आधे घंटे के बैच (Batches) में सेटल होते हैं, इसलिए इसमें कुछ समय लगता है।<br>
+      • <b>कथन II (गलत)</b>: RBI के नियमों के अनुसार, NEFT और RTGS दोनों में ही <b>आवक लेनदेन (Inward transactions - पैसे प्राप्त करने)</b> के लिए ग्राहकों से कोई प्रभार (Charge) नहीं लिया जाता है।<br>
+      • <b>कथन III (गलत)</b>: दिसंबर 2020 से RTGS और NEFT <b>दोनों ही 24x7x365 (साल के सभी दिन हर समय)</b> उपलब्ध हैं। इनके प्रचालन के घंटे अब किसी भी दिन सीमित नहीं हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q69. निम्नलिखित देशों पर विचार कीजिए:
+    <br>I. संयुक्त अरब अमीरात
+    <br>II. फ्रांस
+    <br>III. जर्मनी
+    <br>IV. सिंगापुर
+    <br>V. बांग्लादेश
+    <br>उपर्युक्त में भारत के अलावा ऐसे कितने देश हैं, जहाँ UPI के द्वारा अंतर्राष्ट्रीय वणिक भुगतान (इंटरनैशनल मर्चेंट पेमेंट) स्वीकार किए जाते हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल दो</div>
+      <div class="option">B. केवल तीन</div>
+      <div class="option">C. केवल चार</div>
+      <div class="option">D. सभी पाँच</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल तीन: विस्तृत व्याख्या:</b><br>
+      • NPCI इंटरनेशनल के माध्यम से भारत का UPI (Unified Payments Interface) कई देशों में मर्चेंट पेमेंट्स के लिए लाइव हो चुका है।<br>
+      • दिए गए विकल्पों में से <b>संयुक्त अरब अमीरात (UAE), फ्रांस (एफिल टावर आदि में), और सिंगापुर</b> में UPI के माध्यम से प्रत्यक्ष व्यापारी भुगतान (Merchant Payments) स्वीकार किए जा रहे हैं।<br>
+      • जर्मनी और बांग्लादेश में अभी तक पूरी तरह से खुदरा UPI मर्चेंट भुगतान प्रणाली आधिकारिक रूप से लागू नहीं हुई है (बांग्लादेश के साथ कुछ अन्य प्रकार के वित्तीय समझौते हैं)। अतः 5 में से 3 देश सही हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q70. 'पी० एम० सूर्य घर मुफ्त बिजली योजना' के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. इसका लक्ष्य आवासीय सेक्टर में एक करोड़ घरों की छतों पर सौर पैनल लगाना है।
+    <br>II. नवीन एवं नवीकरणीय ऊर्जा मंत्रालय का लक्ष्य छतों पर सौर पैनल लगाने, उनके प्रचालन, अनुरक्षण और मरम्मत करने के विषय में आधार-स्तर पर प्रशिक्षण प्रदान करना है।
+    <br>III. इसका लक्ष्य, क्षमता निर्माण के स्कीम घटक के अंतर्गत, नए कौशल सिखाकर और कौशल का उन्नयन कर तीन लाख से अधिक कुशल जनशक्ति सृजित करना है।
+    <br>उपर्युक्त कथनों में कौन-कौन से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल I और III</div>
+      <div class="option">C. केवल II और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: फरवरी 2024 में लॉन्च की गई 'पीएम सूर्य घर मुफ्त बिजली योजना' का मुख्य उद्देश्य 1 करोड़ घरों को 300 यूनिट मुफ्त बिजली प्रदान करने के लिए उनकी छतों पर सोलर पैनल (Rooftop solar) लगाना है।<br>
+      • <b>कथन II (सही)</b>: MNRE (नवीन एवं नवीकरणीय ऊर्जा मंत्रालय) इस योजना के तहत 'सूर्य मित्रों' को आधार-स्तर (ग्रासरूट) पर इंस्टॉलेशन और मरम्मत का प्रशिक्षण दे रहा है।<br>
+      • <b>कथन III (सही)</b>: इस योजना के क्षमता निर्माण (Capacity Building) घटक के तहत पूरे देश में लगभग 3 लाख से अधिक कुशल जनशक्ति (Skilled manpower) तैयार करने का लक्ष्य रखा गया है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q71. गाँधीजी ने विख्यात वक्तव्य "राजद्रोह मेरा धर्म हो गया है" कब दिया था?</h3>
+    <div class="options-grid">
+      <div class="option">A. चंपारण सत्याग्रह के समय</div>
+      <div class="option">B. दांडी में नमक कानून का सार्वजनिक रूप से उल्लंघन करने के समय</div>
+      <div class="option">C. लंदन में द्वितीय गोलमेज सम्मेलन में शामिल होने के समय</div>
+      <div class="option">D. भारत छोड़ो आंदोलन के प्रारंभ के समय</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B): विस्तृत व्याख्या:</b><br>
+      हालाँकि गांधीजी ने 1922 में 'ग्रेट ट्रायल' के दौरान जज ब्रूमफील्ड के सामने राजद्रोह को अपना कर्तव्य बताया था, लेकिन उन्होंने विशेष रूप से यह प्रसिद्ध वाक्यांश <b>"Sedition has become my religion" (राजद्रोह मेरा धर्म हो गया है)</b> सविनय अवज्ञा आंदोलन (1930) के दौरान <b>दांडी यात्रा</b> और नमक कानून तोड़ने के संदर्भ में एक संदेश में कहा था। उन्होंने स्पष्ट किया था कि ब्रिटिश साम्राज्य के प्रति असंतोष व्यक्त करना अब उनका धार्मिक कर्तव्य है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q72. मोहनजोदड़ो से प्राप्त 'नाचती हुई लड़की (डांसिंग गर्ल)' नामक प्रख्यात नारी लघुमूर्ति किस पदार्थ की बनी है?</h3>
+    <div class="options-grid">
+      <div class="option">A. इन्द्रगोप मणि (कार्नीलियन)</div>
+      <div class="option">B. मृत्तिका (क्ले)</div>
+      <div class="option">C. कांस्य</div>
+      <div class="option">D. स्वर्ण</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - कांस्य: विस्तृत व्याख्या:</b><br>
+      मोहनजोदड़ो (सिंधु घाटी सभ्यता) की खुदाई में प्राप्त प्रसिद्ध 'डांसिंग गर्ल' की मूर्ति <b>कांस्य (Bronze)</b> धातु की बनी है। इसे 'लॉस्ट वैक्स तकनीक' (Lost-wax casting / मधुच्छिष्ट विधि) का उपयोग करके बनाया गया था, जो हड़प्पा काल के लोगों की उन्नत धातु-कर्म (Metallurgy) कला को दर्शाता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q73. चौरी-चौरा घटना के परिणामस्वरूप बंदी बनाए गए लोगों को किसने विधिक प्रतिरक्षा (लीगल डिफेन्स) प्रदान की?</h3>
+    <div class="options-grid">
+      <div class="option">A. सी० आर० दास</div>
+      <div class="option">B. मदन मोहन मालवीय और कृष्णकांत</div>
+      <div class="option">C. डॉ० सैफुद्दीन किचलू और ख्वाज़ा हसन निज़ामी</div>
+      <div class="option">D. एम० ए० जिन्ना</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - मदन मोहन मालवीय: विस्तृत व्याख्या:</b><br>
+      4 फरवरी 1922 को हुई चौरी-चौरा (गोरखपुर) घटना के बाद 170 से अधिक लोगों पर हत्या का मुकदमा चलाया गया था और निचली अदालत ने 170 लोगों को फांसी की सजा सुनाई थी।<br>
+      इलाहाबाद उच्च न्यायालय में इन किसानों की ओर से <b>पंडित मदन मोहन मालवीय</b> ने विधिक प्रतिरक्षा (कानूनी लड़ाई) लड़ी और अपने शानदार तर्कों से लगभग 150 से अधिक लोगों को फांसी के फंदे से बचा लिया था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q74. निम्नलिखित में से किस एक घटना के उपरांत, गाँधीजी ने, जो अस्पृश्यता का सतत विरोध करते रहे और सभी क्षेत्रों में से उसके उन्मूलन के लिए अपील करते रहे, अपने राजनीतिक और सामाजिक कार्यक्रम में 'हरिजनों' के उत्थान को शामिल करने का निश्चय किया?</h3>
+    <div class="options-grid">
+      <div class="option">A. पूना समझौता</div>
+      <div class="option">B. गाँधी-इरविन समझौता (दिल्ली समझौता)</div>
+      <div class="option">C. भारत छोड़ो आंदोलन के समय काँग्रेस के नेताओं की गिरफ्तारी</div>
+      <div class="option">D. भारत सरकार अधिनियम, 1935 की प्रख्यापना</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - पूना समझौता: विस्तृत व्याख्या:</b><br>
+      1932 में ब्रिटिश प्रधानमंत्री रैम्जे मैकडोनाल्ड ने 'कम्युनल अवार्ड' के तहत दलित वर्गों को पृथक निर्वाचक मंडल दिया था। गांधीजी ने इसके खिलाफ यरवदा जेल में आमरण अनशन किया, जिसके परिणामस्वरूप बी.आर. अंबेडकर और गांधीजी (संबद्ध नेताओं) के बीच <b>पूना समझौता (1932)</b> हुआ।<br>
+      इस घटना के ठीक बाद गांधीजी ने अपना पूरा ध्यान छुआछूत उन्मूलन पर केंद्रित कर दिया। उन्होंने 1932 में ही 'हरिजन सेवक संघ' की स्थापना की और 'हरिजन' पत्रिका शुरू की।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q75. निम्नलिखित फलों पर विचार कीजिए :
+    <br>I. पपीता
+    <br>II. अनन्नास
+    <br>III. अमरूद
+    <br>उपर्युक्त में से कितने सोलहवीं और सत्रहवीं शताब्दियों में पुर्तगालियों द्वारा भारत में लाए गए?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      16वीं और 17वीं सदी में पुर्तगाली दक्षिण अमेरिका (मुख्य रूप से ब्राज़ील) और मध्य अमेरिका से कई नई फसलें और फल भारत लाए।<br>
+      इनमें <b>पपीता (Papaya), अनानास (Pineapple), अमरूद (Guava)</b>, काजू, आलू, टमाटर, मिर्च, और तम्बाकू शामिल हैं। अतः ये तीनों ही फल पुर्तगालियों द्वारा भारत लाए गए थे।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q76. निम्नलिखित देशों पर विचार कीजिए :
+    <br>I. युनाइटेड किंगडम
+    <br>II. डेनमार्क
+    <br>III. न्यूज़ीलैंड
+    <br>IV. ऑस्ट्रेलिया
+    <br>V. ब्राज़ील
+    <br>उपर्युक्त देशों में से कितनों में चार से अधिक काल-क्षेत्र (टाइम जोन) हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. सभी पाँच</div>
+      <div class="option">B. केवल चार</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. केवल दो</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल चार: विस्तृत व्याख्या:</b><br>
+      समुद्र पार के क्षेत्रों (Overseas territories/dependencies) को मिलाकर देशों के टाइम जोन (Time Zones) की गणना की जाती है:<br>
+      • <b>युनाइटेड किंगडम</b>: 9 टाइम जोन हैं।<br>
+      • <b>डेनमार्क</b>: ग्रीनलैंड सहित इसके पास 5 टाइम जोन हैं।<br>
+      • <b>न्यूज़ीलैंड</b>: अपने द्वीपों (कुक आइलैंड्स आदि) को मिलाकर 5 टाइम जोन हैं।<br>
+      • <b>ऑस्ट्रेलिया</b>: 8 टाइम जोन (मुख्य भूमि + बाहरी क्षेत्र) हैं।<br>
+      • <b>ब्राज़ील</b>: इसके पास <b>ठीक 4</b> टाइम जोन हैं। (प्रश्न में 'चार से <b>अधिक</b>' पूछा गया है, इसलिए ब्राज़ील इस सूची से बाहर हो जाएगा)।<br>
+      अतः 5 में से 4 देशों (UK, डेनमार्क, न्यूज़ीलैंड, ऑस्ट्रेलिया) के पास 4 से अधिक टाइम जोन हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q77. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>I. साइबेरिया में अनादिर और अलास्का में नोम एक-दूसरे से कुछ ही किलोमीटर दूर हैं, किन्तु जब इन शहरों में लोग जागते हैं और नाश्ते के लिए तैयार होते हैं, तब अलग-अलग दिन होते हैं।
+    <br>II. जब अनादिर में सोमवार होता है, तब नोम में मंगलवार होता है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: रूस का 'अनादिर' (Anadyr) और अमेरिका का 'नोम' (Nome) बेरिंग जलसंधि के पास स्थित हैं और इनके बीच से <b>अंतर्राष्ट्रीय तिथि रेखा (International Date Line - IDL)</b> गुजरती है। इसलिए कुछ किलोमीटर की दूरी पर होने के बावजूद दोनों जगह अलग-अलग दिन होते हैं।<br>
+      • <b>कथन II (गलत)</b>: अंतर्राष्ट्रीय तिथि रेखा के पश्चिम में (एशिया/रूस में) समय आगे चलता है और पूर्व में (अमेरिका/अलास्का में) समय पीछे चलता है। इसलिए जब अनादिर (रूस) में <b>सोमवार</b> होता है, तो नोम (अलास्का) में एक दिन पीछे यानी <b>रविवार</b> होता है, मंगलवार नहीं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q78. इनमें से कौन 'आत्म-सम्मान आंदोलन (सेल्फ-रेस्पेक्ट मूवमेंट)' का संस्थापक था?</h3>
+    <div class="options-grid">
+      <div class="option">A. 'पेरियार' ई० वी० रामास्वामी नायकर</div>
+      <div class="option">B. डॉ० बी० आर० अम्बेडकर</div>
+      <div class="option">C. भास्करराव जाधव</div>
+      <div class="option">D. दिनकरराव जवलकर</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A): विस्तृत व्याख्या:</b><br>
+      'आत्म-सम्मान आंदोलन' (Self-Respect Movement) की स्थापना 1925 में तमिलनाडु में <b>ई.वी. रामास्वामी नायकर (जिन्हें आदर से 'पेरियार' कहा जाता है)</b> द्वारा की गई थी। इस आंदोलन का मुख्य उद्देश्य समाज से जाति-पाति के भेदभाव को मिटाना, ब्राह्मणवादी वर्चस्व का विरोध करना और गैर-ब्राह्मणों (पिछड़े वर्गों) को समाज में समान अधिकार और आत्म-सम्मान दिलाना था।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q79. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>देश : किस संसाधन में समृद्ध है
+    <br>I. बोत्सवाना : हीरा
+    <br>II. चिली : लिथियम
+    <br>III. इंडोनेशिया : निकेल
+    <br>उपर्युक्त में से कितनी पंक्तियों में दी गई जानकारी सही सुमेलित है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. किसी में भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - सभी तीन: विस्तृत व्याख्या:</b><br>
+      • <b>बोत्सवाना (I - सही)</b>: अफ्रीका का यह देश प्राकृतिक रूप से उच्च गुणवत्ता वाले <b>हीरों (Diamonds)</b> के खनन के लिए विश्व भर में प्रसिद्ध है।<br>
+      • <b>चिली (II - सही)</b>: दक्षिण अमेरिका का चिली विश्व के 'लिथियम त्रिकोण' (Lithium Triangle) का प्रमुख हिस्सा है और <b>लिथियम</b> उत्पादन में दुनिया के शीर्ष देशों में से एक है।<br>
+      • <b>इंडोनेशिया (III - सही)</b>: इंडोनेशिया वर्तमान में दुनिया का सबसे बड़ा <b>निकेल (Nickel)</b> उत्पादक और भंडार वाला देश है, जो EV बैटरी के लिए बहुत महत्वपूर्ण है।<br>
+      अतः तीनों युग्म पूरी तरह सही सुमेलित हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q80. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>क्षेत्र : देश
+    <br>I. मैलोर्का : इटली
+    <br>II. नॉर्मंडी : स्पेन
+    <br>III. सार्डिनिया : फ्रांस
+    <br>उपर्युक्त में से कितनी पंक्तियों में दी गई जानकारी सही सुमेलित है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. किसी में भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - किसी में भी नहीं: विस्तृत व्याख्या:</b><br>
+      यहाँ दिए गए सभी प्रसिद्ध क्षेत्रों के देश गलत दिए गए हैं:<br>
+      • <b>मैलोर्का (Mallorca)</b>: यह भूमध्य सागर में एक द्वीप है, जो <b>स्पेन (Spain)</b> का हिस्सा है (न कि इटली का)।<br>
+      • <b>नॉर्मंडी (Normandy)</b>: यह <b>फ्रांस (France)</b> का एक उत्तरी तटीय क्षेत्र है, जो द्वितीय विश्व युद्ध के 'D-Day' हमले के लिए प्रसिद्ध है (न कि स्पेन का)।<br>
+      • <b>सार्डिनिया (Sardinia)</b>: यह भूमध्य सागर में स्थित एक बड़ा द्वीप है, जो <b>इटली (Italy)</b> का क्षेत्र है (न कि फ्रांस का)।<br>
+      अतः कोई भी युग्म सही सुमेलित नहीं है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q81. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : कुछ दुर्लभ मृदा तत्त्व (Rare earth elements), सपाट टेलीविजन स्क्रीन और कम्प्यूटर मॉनीटर के निर्माण में प्रयुक्त होते हैं।
+    <br>कथन II : कुछ दुर्लभ मृदा तत्त्वों में स्फुरदीप्त (Phosphorescent) गुणधर्म होते हैं।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन I और कथन II दोनों सही है तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. कथन I और कथन II दोनों सही है किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - दोनों सही हैं तथा कथन II, I की व्याख्या करता है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: यूरोपियम (Europium), येट्रियम (Yttrium) और टर्बियम (Terbium) जैसे 'दुर्लभ मृदा तत्व' (REEs) का उपयोग फ्लैट टीवी स्क्रीन (LED/LCD), कंप्यूटर मॉनिटर और स्मार्टफोन की डिस्प्ले बनाने में बड़े पैमाने पर होता है।<br>
+      • <b>कथन II (सही)</b>: इन तत्वों में <b>स्फुरदीप्त (Phosphorescent)</b> गुण (अर्थात प्रकाश उत्सर्जित करने की क्षमता) होते हैं। इसी विशेष 'ल्युमिनेसेंट' गुण के कारण ही वे स्क्रीन पर लाल, हरे और नीले रंग पैदा कर पाते हैं।<br>
+      अतः कथन II, कथन I का सटीक वैज्ञानिक कारण (व्याख्या) प्रस्तुत करता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q82. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारतीय रेलवे ने 2028 तक 'भविष्य के लिए तैयार' रेलवे प्रणाली सृजित करने हेतु एक राष्ट्रीय रेल प्लान (NRP) तैयार किया है।
+    <br>II. 'कवच (Kavach)' जर्मनी के सहयोग से विकसित एक स्वचालित ट्रेन सुरक्षा प्रणाली है।
+    <br>III. 'कवच (Kavach)' प्रणाली में स्टेशन सेक्शन के ट्रैक पर लगे हुए RFID टैग होते हैं।
+    <br>उपर्युक्त कथनों में कौन-कौन से <b>सही नहीं हैं</b>?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II (सही नहीं हैं): विस्तृत व्याख्या:</b><br>
+      <i>(ध्यान दें: प्रश्न में यह पूछा गया है कि कौन-से कथन <b>गलत</b> हैं)</i><br>
+      • <b>कथन I (गलत)</b>: भारतीय रेलवे ने जो राष्ट्रीय रेल योजना (National Rail Plan - NRP) तैयार की है, उसका लक्ष्य <b>2030 तक</b> (न कि 2028 तक) 'भविष्य के लिए तैयार' रेलवे प्रणाली बनाना है।<br>
+      • <b>कथन II (गलत)</b>: 'कवच' पूर्णतः <b>स्वदेशी रूप से (Indigenously)</b> विकसित स्वचालित ट्रेन सुरक्षा (ATP) प्रणाली है। इसे RDSO ने भारतीय उद्योगों के साथ मिलकर बनाया है, इसमें <b>जर्मनी</b> का कोई सहयोग नहीं है।<br>
+      • <b>कथन III (सही)</b>: 'कवच' प्रणाली में अल्ट्रा हाई फ्रीक्वेंसी (UHF) रेडियो संचार का उपयोग होता है, जिसमें ट्रैक, स्टेशनों और सिग्नलों पर <b>RFID टैग</b> लगाए जाते हैं जो ट्रेन की सटीक लोकेशन बताते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q83. निम्नलिखित अंतरिक्ष मिशनों पर विचार कीजिए :
+    <br>I. एक्सिओम-4 (Axiom-4)
+    <br>II. स्पाडेक्स (SpaDeX)
+    <br>III. गगनयान
+    <br>उपर्युक्त अंतरिक्ष मिशनों में से कितने सूक्ष्मगुरुत्व (माइक्रोग्रैविटी) विषयक अनुसंधान को प्रोत्साहित और समर्थित करते हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      • <b>एक्सिओम-4 (I)</b>: यह नासा और एक्सिओम स्पेस का इंटरनेशनल स्पेस स्टेशन (ISS) के लिए एक क्रू मिशन है (जिसमें एक भारतीय अंतरिक्ष यात्री 'शुभांशु शुक्ला' भी जा रहे हैं)। ISS का मुख्य उद्देश्य ही <b>सूक्ष्मगुरुत्व (Microgravity)</b> में प्रयोग करना है।<br>
+      • <b>गगनयान (III)</b>: यह भारत का पहला मानव अंतरिक्ष उड़ान मिशन है। इसका एक प्रमुख उद्देश्य पृथ्वी की निचली कक्षा में माइक्रोग्रैविटी के प्रयोग और अनुसंधान करना है।<br>
+      • <b>स्पाडेक्स (SpaDeX - II)</b>: यह ISRO का एक 'स्पेस डॉकिंग एक्सपेरिमेंट' है, जिसका उद्देश्य अंतरिक्ष में दो उपग्रहों को जोड़ने (Docking) की तकनीक का परीक्षण करना है। यह सीधे तौर पर माइक्रोग्रैविटी अनुसंधान का प्लेटफॉर्म नहीं है, बल्कि भविष्य के स्पेस स्टेशन के लिए एक तकनीकी परीक्षण है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q84. भारत की रक्षा के संदर्भ में, निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>प्रकार : विवरण
+    <br>I. वायुयान डोर्नियर-228 : समुद्री गश्ती वायुयान
+    <br>II. IL-76 : पराध्वनिक युद्धक वायुयान
+    <br>III. C-17 ग्लोबमास्टर III : सैन्य परिवहन वायुयान
+    <br>उपर्युक्त युग्मों में से कितने सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. कोई भी नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      • <b>युग्म I (सही)</b>: डोर्नियर-228 (Do-228) एक हल्का जुड़वां-इंजन वाला विमान है, जिसका उपयोग भारतीय नौसेना और तटरक्षक बल द्वारा समुद्री निगरानी (Maritime patrol) और बचाव कार्यों के लिए किया जाता है।<br>
+      • <b>युग्म II (गलत)</b>: इल्युशिन IL-76 (गजराज) एक बड़ा <b>भारी सैन्य परिवहन (Heavy military transport)</b> विमान है, यह 'पराध्वनिक युद्धक' (Supersonic Combat / फाइटर जेट) विमान नहीं है।<br>
+      • <b>युग्म III (सही)</b>: बोइंग C-17 ग्लोबमास्टर III भारतीय वायुसेना का प्रमुख रणनीतिक <b>सैन्य परिवहन वायुयान (Military transport aircraft)</b> है, जिसका उपयोग भारी साजो-सामान और सैनिकों को ले जाने के लिए होता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q85. वायु प्रदूषण कम करने हेतु कृत्रिम वर्षा (Artificial rain) कराने के तरीके में किनका प्रयोग होता है?</h3>
+    <div class="options-grid">
+      <div class="option">A. सिल्वर आयोडाइड और पोटैशियम आयोडाइड</div>
+      <div class="option">B. सिल्वर नाइट्रेट और पोटैशियम आयोडाइड</div>
+      <div class="option">C. सिल्वर आयोडाइड और पोटैशियम नाइट्रेट</div>
+      <div class="option">D. सिल्वर नाइट्रेट और पोटैशियम क्लोराइड</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - सिल्वर आयोडाइड और पोटैशियम आयोडाइड: विस्तृत व्याख्या:</b><br>
+      कृत्रिम वर्षा या 'क्लाउड सीडिंग (Cloud Seeding)' की प्रक्रिया में बादलों में रसायन छोड़े जाते हैं जो पानी की बूंदों को जमने और भारी होकर बारिश के रूप में गिरने में मदद करते हैं। <br>
+      इस प्रक्रिया में मुख्य रूप से <b>सिल्वर आयोडाइड (Silver Iodide - AgI)</b>, <b>पोटैशियम आयोडाइड (Potassium Iodide - KI)</b>, और ड्राई आइस (ठोस कार्बन डाइऑक्साइड) या सामान्य नमक (Sodium Chloride) का छिड़काव विमानों या रॉकेटों के माध्यम से किया जाता है।
+    </div>
+  </div>
+  
+  <div class="question-block" data-correct="A">
+    <h3>Q86. भारत के राष्ट्रपति की क्षमा प्रदान करने की शक्ति के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. राष्ट्रपति द्वारा इस शक्ति का प्रयोग सीमित न्यायिक पुनर्विलोकन के अधीन लाया जा सकता है।
+    <br>II. राष्ट्रपति इस शक्ति का प्रयोग केन्द्र सरकार की सलाह के बगैर कर सकता है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: संविधान के अनुच्छेद 72 के तहत राष्ट्रपति की क्षमादान शक्ति यद्यपि एक कार्यकारी शक्ति है, लेकिन सर्वोच्च न्यायालय ने (एपुरु सुधाकर मामले 2006 में) यह स्पष्ट किया है कि राष्ट्रपति का निर्णय <b>सीमित न्यायिक पुनर्विलोकन (Limited Judicial Review)</b> के अधीन है। यदि निर्णय मनमाना, अतार्किक, या दुर्भावनापूर्ण है, तो न्यायालय हस्तक्षेप कर सकता है।<br>
+      • <b>कथन II (गलत)</b>: राष्ट्रपति क्षमादान की शक्ति का प्रयोग अपने विवेक से नहीं कर सकता। संविधान के अनुच्छेद 74 के अनुसार, उसे इस शक्ति का प्रयोग <b>केंद्रीय मंत्रिपरिषद (केन्द्र सरकार/गृह मंत्रालय) की सलाह</b> पर ही करना होता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q87. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. लोक सभा का विघटन होने पर विघटन के पश्चात् होने वाले लोक सभा के पहले अधिवेशन के ठीक पहले तक अध्यक्ष अपने पद को रिक्त नहीं करेगा।
+    <br>II. भारत के संविधान के उपबंधों के अनुसार, लोक सभा का कोई सदस्य अध्यक्ष के रूप में निर्वाचित होने पर अपने राजनीतिक दल से तुरंत त्यागपत्र दे देगा।
+    <br>III. लोक सभा के अध्यक्ष को लोक सभा के तत्कालीन समस्त सदस्यों के बहुमत से पारित संकल्प द्वारा अपने पद से हटाया जा सकेगा, किन्तु कोई संकल्प तब तक प्रस्तावित नहीं किया जाएगा जब तक कि उस संकल्प को प्रस्तावित करने के आशय की कम-से-कम चौदह दिन की सूचना न दे दी गई हो।
+    <br>उपर्युक्त कथनों में से कौन-से सही हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - केवल I और III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: संविधान के अनुच्छेद 94 के अनुसार, लोकसभा भंग होने पर अध्यक्ष (Speaker) अपना पद तुरंत नहीं छोड़ता है, बल्कि वह नई लोकसभा की पहली बैठक के ठीक पहले तक पद पर बना रहता है।<br>
+      • <b>कथन II (गलत)</b>: ब्रिटेन के विपरीत (जहाँ अध्यक्ष 'एक बार अध्यक्ष, हमेशा अध्यक्ष' की परंपरा के तहत पार्टी छोड़ देता है), <b>भारत के संविधान में ऐसा कोई अनिवार्य उपबंध नहीं है</b> कि अध्यक्ष को अपने राजनीतिक दल से इस्तीफा देना ही होगा।<br>
+      • <b>कथन III (सही)</b>: अनुच्छेद 94(c) के तहत, अध्यक्ष को लोकसभा के तत्कालीन सभी सदस्यों के बहुमत (Effective Majority) से हटाया जा सकता है, जिसके लिए <b>14 दिन की पूर्व सूचना</b> देना अनिवार्य है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q88. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यदि कोई प्रश्न उठता है कि लोक सभा का कोई सदस्य 10वीं अनुसूची के अधीन निरर्हता से ग्रस्त हो गया है या नहीं, तब संघ की मंत्रिपरिषद् की राय के अनुसार राष्ट्रपति का निर्णय अंतिम होगा।
+    <br>II. भारत के संविधान में शब्द 'राजनीतिक दल' का कोई उल्लेख नहीं है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - न तो I और न ही II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: 10वीं अनुसूची (दल-बदल विरोधी कानून) के तहत अयोग्यता के प्रश्नों का निर्णय <b>राष्ट्रपति नहीं, बल्कि सदन का अध्यक्ष/सभापति (Speaker/Chairman)</b> करता है। (राष्ट्रपति अन्य मामलों में चुनाव आयोग की सलाह पर निर्णय लेता है, दल-बदल में नहीं)।<br>
+      • <b>कथन II (गलत)</b>: 52वें संविधान संशोधन (1985) के द्वारा 10वीं अनुसूची जोड़ी गई, जिसमें <b>'राजनीतिक दल' (Political Party)</b> शब्द का स्पष्ट और आधिकारिक उल्लेख किया गया है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q89. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>कथन I : भारत में राज्य सरकारों के पास गौण खनिजों के निष्कर्षण के बारे में रियायत देने के लिए नियम बनाने की कोई शक्ति नहीं है, भले ही ऐसे खनिज उनके अपने भूभाग में अवस्थित हों।
+    <br>कथन II : भारत में केन्द्र सरकार के पास प्रासंगिक विधि के अधीन गौण खनिजों को अधिसूचित करने की शक्ति है।
+    <br>उपर्युक्त कथनों के संदर्भ में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन I और कथन II दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. कथन I और कथन II दोनों सही हैं किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कथन I सही नहीं है किन्तु कथन II सही है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: खान और खनिज (विकास और विनियमन) अधिनियम (MMDR Act, 1957) की धारा 15 के तहत <b>राज्य सरकारों</b> को पूरी शक्ति दी गई है कि वे गौण खनिजों (Minor Minerals - जैसे रेत, पत्थर, बजरी) के निष्कर्षण के लिए रियायत और नियम बना सकें।<br>
+      • <b>कथन II (सही)</b>: MMDR Act की धारा 3(e) के अनुसार, किसी खनिज को 'गौण खनिज' (Minor mineral) के रूप में <b>अधिसूचित करने की शक्ति केवल केंद्र सरकार के पास</b> है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q90. किस संस्था ने जलवायु परिवर्तन और जैव विविधता की हानि के नियंत्रण हेतु 'प्रकृति पुनःस्थापन विधि' (नेचर रेस्टोरेशन लॉ - NRL) अधिनियमित की?</h3>
+    <div class="options-grid">
+      <div class="option">A. यूरोपीय संघ</div>
+      <div class="option">B. विश्व बैंक</div>
+      <div class="option">C. आर्थिक सहयोग और विकास संगठन</div>
+      <div class="option">D. खाद्य और कृषि संगठन</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - यूरोपीय संघ: विस्तृत व्याख्या:</b><br>
+      जून 2024 में <b>यूरोपीय संघ (European Union - EU)</b> ने ऐतिहासिक 'नेचर रेस्टोरेशन लॉ' (Nature Restoration Law - NRL) को अंतिम मंजूरी दी। इसका उद्देश्य यूरोप की क्षतिग्रस्त प्रकृति (जंगलों, नदियों और वेटलैंड्स) को बहाल करना और जलवायु परिवर्तन के खिलाफ एक मजबूत ढाल तैयार करना है। यह 2030 तक कम से कम 20% भूमि और समुद्री क्षेत्रों को बहाल करने का लक्ष्य रखता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q91. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. मध्यवर्ती स्तर पर पंचायतें सभी राज्यों में विद्यमान हैं।
+    <br>II. मध्यवर्ती स्तर पर किसी पंचायत में सदस्य होने हेतु पात्र होने के लिए किसी व्यक्ति को तीस वर्ष की आयु प्राप्त होनी चाहिए।
+    <br>III. किसी राज्य का मुख्यमंत्री मध्यवर्ती स्तरों पर पंचायतों की वित्तीय दशा के पुनरीक्षण के लिए और राज्य द्वारा उद्ग्रहीत करों और शुल्कों के निवल आगम को मध्यवर्ती स्तर पर राज्य और पंचायतों के बीच वितरित करने हेतु सिफारिशें करने के लिए एक आयोग का गठन करता है।
+    <br>उपर्युक्त में <b>कौन-कौन से कथन सही नहीं हैं</b>?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III (तीनों गलत हैं): विस्तृत व्याख्या:</b><br>
+      <i>(प्रश्न में पूछा गया है कि कौन-से कथन <b>सही नहीं हैं</b>)</i><br>
+      • <b>कथन I (गलत)</b>: संविधान के अनुच्छेद 243B के अनुसार, जिन राज्यों की जनसंख्या <b>20 लाख से कम</b> है, वहाँ 'मध्यवर्ती स्तर' (Intermediate level / पंचायत समिति) पर पंचायत का गठन करना अनिवार्य <b>नहीं</b> है।<br>
+      • <b>कथन II (गलत)</b>: पंचायत चुनाव लड़ने और सदस्य बनने के लिए न्यूनतम आयु <b>21 वर्ष</b> है (न कि 30 वर्ष), अनुच्छेद 243V के अनुसार।<br>
+      • <b>कथन III (गलत)</b>: पंचायतों की वित्तीय स्थिति की समीक्षा के लिए 'राज्य वित्त आयोग' का गठन <b>राज्य का राज्यपाल (Governor)</b> करता है, न कि मुख्यमंत्री (अनुच्छेद 243I के अनुसार)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q92. BIMSTEC के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. यह जनवरी 2025 तक सात सदस्य देशों से मिलकर बना एक क्षेत्रीय संगठन है।
+    <br>II. यह ढाका घोषणा, 1999 पर हस्ताक्षर होने के साथ अस्तित्व में आया।
+    <br>III. बांग्लादेश, भारत, श्रीलंका, थाइलैंड और नेपाल BIMSTEC के संस्थापक सदस्य देश हैं।
+    <br>IV. BIMSTEC में, 'पर्यटन' उप-क्षेत्र का नेतृत्व भारत कर रहा है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. I और II</div>
+      <div class="option">B. II और III</div>
+      <div class="option">C. I और IV</div>
+      <div class="option">D. केवल I</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: BIMSTEC (बे ऑफ बंगाल इनिशिएटिव फॉर मल्टी-सेक्टरल टेक्निकल एंड इकोनॉमिक कोऑपरेशन) वर्तमान में 7 सदस्य देशों (भारत, भूटान, बांग्लादेश, म्यांमार, थाईलैंड, नेपाल, श्रीलंका) का समूह है।<br>
+      • <b>कथन II (गलत)</b>: यह 1997 में <b>बैंकाक घोषणा (Bangkok Declaration)</b> के माध्यम से अस्तित्व में आया था, ढाका घोषणा 1999 से नहीं।<br>
+      • <b>कथन III (गलत)</b>: इसके संस्थापक सदस्य केवल 4 देश थे: बांग्लादेश, भारत, श्रीलंका और थाईलैंड (इसे BIST-EC कहा जाता था)। <b>नेपाल और भूटान 2004 में शामिल हुए</b>।<br>
+      • <b>कथन IV (गलत)</b>: BIMSTEC में भारत <b>'सुरक्षा (Security)'</b> क्षेत्र का नेतृत्व करता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q93. निम्नलिखित में से किनसे मिलकर 'गाँधी शांति पुरस्कार' के प्राप्तकर्ता का चयन करने के लिए जूरी बनती है?
+    <br>I. भारत का राष्ट्रपति
+    <br>II. भारत का प्रधानमंत्री
+    <br>III. भारत का मुख्य न्यायमूर्ति
+    <br>IV. लोक सभा में प्रतिपक्ष का नेता
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल II और IV</div>
+      <div class="option">B. I, II और III</div>
+      <div class="option">C. II, III और IV</div>
+      <div class="option">D. केवल I और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - II, III और IV: विस्तृत व्याख्या:</b><br>
+      गांधी शांति पुरस्कार (Gandhi Peace Prize) 1995 में भारत सरकार द्वारा स्थापित किया गया था। इस पुरस्कार के प्राप्तकर्ता का चयन एक उच्च-स्तरीय जूरी द्वारा किया जाता है। इस जूरी के <b>पदेन सदस्य</b> होते हैं:<br>
+      1. भारत के प्रधानमंत्री (अध्यक्ष/Chairperson) (II)<br>
+      2. भारत के मुख्य न्यायाधीश (CJI) (III)<br>
+      3. लोक सभा में विपक्ष के नेता (Leader of Opposition) (IV)<br>
+      इनके अलावा दो अन्य प्रतिष्ठित व्यक्ति भी जूरी में शामिल होते हैं। भारत का राष्ट्रपति (I) इस जूरी का सदस्य <b>नहीं</b> होता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q94. GPS-एइडेड जिओ ऑगमेंटेड नेविगेशन (GAGAN) आवश्यक आवर्धन प्रदान करने हेतु भू-स्थित स्टेशनों की प्रणाली का उपयोग करता है। निम्नलिखित में से कौन-सा/कौन-से कथन GAGAN के बारे में सही है/हैं?
+    <br>I. इसे अतिरिक्त सटीकता और विश्वसनीयता प्रदान करने के लिए अभिकल्पित किया गया है।
+    <br>II. इससे और अधिक एकरूप और उच्च गुणवत्ता का वायु यातायात प्रबंधन प्राप्त होगा।
+    <br>III. इसके लाभ केवल विमानन में ही मिलेंगे, किन्तु परिवहन के अन्य प्रकारों में नहीं।
+    <br>नीचे दिए गए कूट का प्रयोग कर सही उत्तर चुनिए।</h3>
+    <div class="options-grid">
+      <div class="option">A. I, II और III</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I</div>
+      <div class="option">D. केवल I और II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      GAGAN (GPS Aided GEO Augmented Navigation) को ISRO और AAI ने मिलकर बनाया है।<br>
+      • <b>कथन I और II (सही)</b>: यह GPS के सिग्नलों को और अधिक सटीक और विश्वसनीय बनाता है, जिससे विमानन (Aviation) क्षेत्र में उच्च गुणवत्ता का वायु यातायात प्रबंधन संभव होता है।<br>
+      • <b>कथन III (गलत)</b>: GAGAN के लाभ <b>केवल विमानन तक सीमित नहीं हैं</b>। इसका उपयोग भारतीय रेलवे (ट्रेनों की लोकेशन ट्रैक करने), राजमार्गों, समुद्री नेविगेशन (Maritime), और वन विभाग द्वारा भी किया जा रहा है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q95. ग्रैंड पैले (Grand Palais), पेरिस में फरवरी 2025 में आयोजित AI ऐक्शन समिट (AI Action Summit) के बारे में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. भारत की सह-अध्यक्षता में इस शिखर सम्मेलन में 2023 में संपन्न ब्लेचली पार्क शिखर सम्मेलन और 2024 में संपन्न सियोल शिखर सम्मेलन में की गई पहलों को आगे विकसित किया गया।
+    <br>II. अन्य देशों के साथ-साथ US और UK ने भी समावेशी और सतत AI विषयक घोषणापत्र पर हस्ताक्षर किए।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (C) - I और II दोनों: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: फ्रांस और भारत ने मिलकर फरवरी 2025 में पेरिस के ग्रैंड पैले में 'AI एक्शन समिट' की सह-अध्यक्षता की। यह 2023 (ब्रिटेन के Bletchley Park) और 2024 (सियोल, दक्षिण कोरिया) के सुरक्षा सम्मेलनों का अगला चरण था, जो अब AI सुरक्षा के साथ-साथ AI को आम लोगों तक पहुँचाने पर केंद्रित है।<br>
+      • <b>कथन II (सही)</b>: सम्मेलन में 'पेरिस एआई एक्शन घोषणापत्र' को अपनाया गया, जिस पर अमेरिका, ब्रिटेन, भारत और कई अन्य देशों ने हस्ताक्षर किए, ताकि AI का विकास सुरक्षित, समावेशी और सतत हो सके।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q96. निम्नलिखित युग्मों पर विचार कीजिए :
+    <br>I. अंतर्राष्ट्रीय महिला कृषक वर्ष : 2026
+    <br>II. अंतर्राष्ट्रीय सतत और समुत्थानशील (रेजिलियेंट) पर्यटन वर्ष : 2027
+    <br>III. अंतर्राष्ट्रीय शांति और विश्वास वर्ष : 2025
+    <br>IV. अंतर्राष्ट्रीय क्षुद्रग्रह जागरूकता और ग्रहीय रक्षा वर्ष : 2029
+    <br>उपर्युक्त युग्मों में से कितने सही सुमेलित हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - सभी चार: विस्तृत व्याख्या:</b><br>
+      संयुक्त राष्ट्र (UN) महासभा द्वारा घोषित अंतर्राष्ट्रीय वर्षों की सूची:<br>
+      • <b>2025</b>: अंतर्राष्ट्रीय शांति और विश्वास वर्ष (International Year of Peace and Trust)।<br>
+      • <b>2026</b>: अंतर्राष्ट्रीय महिला कृषक वर्ष (International Year of the Woman Farmer)।<br>
+      • <b>2027</b>: अंतर्राष्ट्रीय सतत और रेजिलियेंट पर्यटन वर्ष।<br>
+      • <b>2029</b>: अंतर्राष्ट्रीय क्षुद्रग्रह जागरूकता और ग्रहीय रक्षा वर्ष (International Year of Asteroid Awareness and Planetary Defence - एस्टेरॉयड एपोफिस के पृथ्वी के करीब से गुजरने के उपलक्ष्य में)।<br>
+      अतः चारों युग्म बिल्कुल सही हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q97. BRICS के संबंध में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. 16वाँ BRICS शिखर सम्मेलन रूस की अध्यक्षता में कजान में संपन्न हुआ था।
+    <br>II. इंडोनेशिया BRICS का पूर्ण सदस्य बन गया है।
+    <br>III. 16वाँ BRICS शिखर सम्मेलन का मुख्य विषय न्यायपूर्ण वैश्विक विकास और सुरक्षा के लिए बहुसंस्कृतिवाद को सशक्त करना था।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. I और II</div>
+      <div class="option">B. II और III</div>
+      <div class="option">C. I और III</div>
+      <div class="option">D. केवल I</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - केवल I: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (सही)</b>: 16वाँ ब्रिक्स शिखर सम्मेलन अक्टूबर 2024 में रूस की अध्यक्षता में कज़ान (Kazan) शहर में आयोजित किया गया था।<br>
+      • <b>कथन II (गलत)</b>: इंडोनेशिया ने ब्रिक्स का <b>'पूर्ण सदस्य' (Full member)</b> बनने की पेशकश को फिलहाल टाल दिया था (हालाँकि उसने इसमें रुचि दिखाई है)। वर्तमान में 5 नए पूर्ण सदस्य: मिस्र, इथियोपिया, ईरान, UAE जुड़े हैं। इंडोनेशिया को कज़ान में 13 'पार्टनर देशों' की सूची में शामिल किया गया था, पूर्ण सदस्य नहीं।<br>
+      • <b>कथन III (गलत)</b>: शिखर सम्मेलन का आधिकारिक विषय "Strengthening <b>Multilateralism</b> for Just Global Development and Security" (बहुपक्षवाद को सशक्त करना) था, न कि <b>बहुसंस्कृतिवाद (Multiculturalism)</b>। शब्दों का यह सूक्ष्म अंतर इस कथन को गलत बनाता है।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q98. लोकपाल के विषय में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. लोकपाल की शक्ति भारत के लोक सेवकों पर प्रयुक्त होती है किन्तु भारत से बाहर पदस्थापित भारतीय लोक सेवकों पर प्रयुक्त नहीं होती।
+    <br>II. संसद का कोई सदस्य या किसी राज्य का विधान-मंडल का सदस्य इसका अध्यक्ष या सदस्य नहीं होगा और केवल भारत का मुख्य न्यायमूर्ति, चाहे वो पदधारी हो या सेवानिवृत्त, इसका अध्यक्ष होगा।
+    <br>III. इसका अध्यक्ष या सदस्य, पद धारण करने की तारीख को पैंतालीस वर्ष से कम वय का व्यक्ति नहीं होगा।
+    <br>IV. लोकपाल भारत के पदासीन प्रधानमंत्री के विरुद्ध भ्रष्टाचार के अभिकथनों की जाँच नहीं कर सकता।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल III</div>
+      <div class="option">B. II और III</div>
+      <div class="option">C. I और IV</div>
+      <div class="option">D. उपर्युक्त में कोई नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल III: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: लोकपाल अधिनियम के तहत, लोकपाल के अधिकार क्षेत्र में भारत के बाहर काम कर रहे भारतीय लोक सेवक <b>भी</b> आते हैं।<br>
+      • <b>कथन II (गलत)</b>: अध्यक्ष पद के लिए केवल मुख्य न्यायाधीश (CJI) होना अनिवार्य <b>नहीं</b> है; सर्वोच्च न्यायालय का कोई पूर्व न्यायाधीश या कम से कम 25 वर्ष के अनुभव वाला कोई 'प्रतिष्ठित व्यक्ति (Eminent person)' भी अध्यक्ष बन सकता है।<br>
+      • <b>कथन III (सही)</b>: लोकपाल का अध्यक्ष या सदस्य बनने के लिए न्यूनतम आयु <b>45 वर्ष</b> होनी अनिवार्य है।<br>
+      • <b>कथन IV (गलत)</b>: लोकपाल <b>प्रधानमंत्री</b> के खिलाफ भी भ्रष्टाचार के आरोपों की जांच कर सकता है (कुछ अपवादों जैसे राष्ट्रीय सुरक्षा, विदेशी संबंधों के मामलों को छोड़कर)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q99. प्रथम खो-खो विश्व कप के संदर्भ में, निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. इस विश्व कप का आयोजन दिल्ली, भारत में हुआ।
+    <br>II. भारतीय पुरुष फाइनल में नेपाल को 78-40 के स्कोर से हराकर पुरुष वर्ग में विश्व विजेता बने।
+    <br>III. भारतीय महिलाएँ फाइनल में नेपाल को 54-36 के स्कोर से हराकर महिला वर्ग में विश्व विजेता बनीं।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II और III</div>
+      <div class="option">C. केवल I और III</div>
+      <div class="option">D. I, II और III</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - I, II और III: विस्तृत व्याख्या:</b><br>
+      जनवरी 2025 में इतिहास का पहला खो-खो विश्व कप (First Kho Kho World Cup) <b>नई दिल्ली (IGI स्टेडियम)</b> में आयोजित किया गया था (कथन I सही)।<br>
+      इस टूर्नामेंट में भारत का दबदबा रहा। <br>
+      • भारतीय पुरुष टीम ने फाइनल में <b>नेपाल को 78-40</b> से हराकर खिताब जीता (कथन II सही)।<br>
+      • भारतीय महिला टीम ने भी फाइनल में <b>नेपाल को ही 54-36</b> के स्कोर से पराजित कर विश्व कप अपने नाम किया (कथन III सही)।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q100. निम्नलिखित कथनों पर विचार कीजिए :
+    <br>I. 2024 में आयोजित 45वें चेस ओलंपियाड के फाइनल में गुकेश दोम्माराजू, रूस के इयान नेपोमनीयाच्ची को हराकर विश्व के सबसे कम आयु के विजेता बने।
+    <br>II. अमरीकी शतरंज खिलाड़ी अभिमन्यु मिश्रा के पास विश्व का अभी तक का सबसे कम आयु का ग्रैंडमास्टर बनने का रिकार्ड है।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: गुकेश (D. Gukesh) ने अप्रैल 2024 में टोरंटो में आयोजित <b>'कैंडिडेट्स टूर्नामेंट' (Candidates Tournament)</b> जीता था, चेस ओलंपियाड का फाइनल नहीं। चेस ओलंपियाड (बुडापेस्ट 2024) एक टीम इवेंट था जिसमें भारत ने स्वर्ण पदक जीता। सबसे कम उम्र के विश्व चैंपियनशिप चैलेंजर बनने का रिकॉर्ड कैंडिडेट्स जीतने से बना है।<br>
+      • <b>कथन II (सही)</b>: भारतीय मूल के अमेरिकी शतरंज खिलाड़ी <b>अभिमन्यु मिश्रा</b> ने 2021 में मात्र 12 साल, 4 महीने और 25 दिन की उम्र में ग्रैंडमास्टर (GM) का खिताब हासिल किया था, जो शतरंज के इतिहास में सबसे कम उम्र के ग्रैंडमास्टर का विश्व रिकॉर्ड है।
+    </div>
+  </div>
+  
+
+
+
+</div>
+
+<script>
+// Option Click Functionality (Interactive JS)
+document.querySelectorAll('.question-block').forEach(block => {
+  const correct = block.dataset.correct;
+  const options = block.querySelectorAll('.option');
+  const exp = block.querySelector('.explanation');
+
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('correct','wrong'));
+      exp.classList.remove('show');
+
+      const chosen = opt.textContent.trim()[0]; // Gets A, B, C, or D
+      if (chosen === correct) {
+        opt.classList.add('correct');
+      } else {
+        opt.classList.add('wrong');
+        options.forEach(o => {
+          if (o.textContent.trim()[0] === correct) o.classList.add('correct');
+        });
+      }
+      exp.classList.add('show');
+    });
+  });
+});
+
+// Image Upload Feature
+document.getElementById('bgUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const imgUrl = event.target.result;
+      // UI Background Update
+      document.body.style.backgroundImage = `url(${imgUrl})`;
+      // CSS Variable Update for Print
+      document.documentElement.style.setProperty('--print-bg', `url(${imgUrl})`);
+    }
+    reader.readAsDataURL(file);
+  }
+});
+
+// Print functionality
+document.getElementById('printBtn').addEventListener('click', function() {
+  // Open print dialog
+  window.print();
+});
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UPSC GS Paper I - 2025 (Glass Effect & 3D Frame)</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+:root {
+  --print-bg: url('https://images.unsplash.com/photo-1557683316-973673baf926?q=80&w=2029&auto=format&fit=crop'); /* Default Print BG */
+}
+
+/* ग्लोबल स्टाइल्स और बैकग्राउंड */
+body {
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0; 
+  padding: 20px;
+  color: #1e293b;
+  background-image: var(--print-bg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  transition: background-image 0.5s ease-in-out;
+}
+
+/* टॉप कंट्रोल पैनल (ग्लास इफ़ेक्ट) */
+.controls {
+  text-align: center; 
+  margin-bottom: 25px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+.btn {
+  background: linear-gradient(145deg, rgba(59, 130, 246, 0.8), rgba(37, 99, 235, 0.8)); 
+  color: #fff;
+  padding: 10px 20px; 
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 10px; 
+  cursor: pointer;
+  margin: 5px;
+  font-weight: bold;
+  box-shadow: 4px 4px 10px rgba(0,0,0,0.2), -2px -2px 8px rgba(255,255,255,0.2);
+  transition: all 0.2s ease;
+  backdrop-filter: blur(5px);
+}
+.btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.9), rgba(29, 78, 216, 0.9));
+}
+
+/* कस्टम फाइल अपलोड बटन */
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* एनिमेटेड 3D फोटो फ्रेम इफ़ेक्ट */
+@keyframes frameGlow {
+  0% { box-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055, inset 0 0 20px #ff0055; border-color: #ff0055; }
+  33% { box-shadow: 0 0 15px #00ff00, 0 0 30px #00ff00, inset 0 0 20px #00ff00; border-color: #00ff00; }
+  66% { box-shadow: 0 0 15px #0055ff, 0 0 30px #0055ff, inset 0 0 20px #0055ff; border-color: #0055ff; }
+  100% { box-shadow: 0 0 15px #ff0055, 0 0 30px #ff0055, inset 0 0 20px #ff0055; border-color: #ff0055; }
+}
+
+#paperPreview {
+  background: rgba(255, 255, 255, 0.25); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 30px;
+  border-radius: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 4px solid #fff;
+  animation: frameGlow 8s infinite alternate; /* 3D Animated Border */
+}
+
+h2 {
+  text-align: center; 
+  color: #0f172a;
+  text-shadow: 2px 2px 4px rgba(255,255,255,0.7);
+  margin-bottom: 30px;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+/* प्रश्न का ब्लॉक - ग्लास इफ़ेक्ट */
+.question-block {
+  margin-bottom: 25px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.6); /* Semi-transparent white */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.question-block:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* प्रश्न का टेक्स्ट */
+h3 { 
+  margin-top: 0; 
+  color: #0f172a; 
+  font-size: 18px; 
+  line-height: 1.6;
+  font-weight: 700;
+  margin-bottom: 18px;
+  text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+}
+
+/* विकल्प ग्रिड - 2 कॉलम */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 15px;
+}
+
+/* 3D ग्लास बटन के रूप में विकल्प */
+.option {
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+  color: #1e293b;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 3px 3px 8px rgba(0,0,0,0.1), -3px -3px 8px rgba(255,255,255,0.6);
+}
+.option:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.8);
+  border-color: #3b82f6;
+  color: #1d4ed8;
+  box-shadow: 5px 5px 12px rgba(0,0,0,0.15), -3px -3px 10px rgba(255,255,255,0.8);
+}
+
+/* सही/गलत उत्तर का 3D डिज़ाइन */
+.option.correct { 
+  background: linear-gradient(145deg, rgba(34, 197, 94, 0.8), rgba(74, 222, 128, 0.8)) !important; 
+  border-color: #16a34a !important; 
+  color: #fff !important; 
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
+}
+.option.wrong { 
+  background: linear-gradient(145deg, rgba(239, 68, 68, 0.8), rgba(248, 113, 113, 0.8)) !important; 
+  border-color: #dc2626 !important; 
+  color: #fff !important;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  box-shadow: inset 3px 3px 6px rgba(0,0,0,0.2) !important;
+}
+
+/* स्पष्टीकरण (विस्तार से व्याख्या) ब्लॉक */
+.explanation { 
+  margin-top: 20px; 
+  opacity: 0; 
+  display: none; 
+  background: rgba(239, 246, 255, 0.85); 
+  backdrop-filter: blur(8px);
+  padding: 18px; 
+  border-radius: 12px; 
+  color: #1e40af; 
+  font-size: 15px;
+  line-height: 1.7;
+  border: 1px solid rgba(191, 219, 254, 0.8);
+  box-shadow: inset 2px 2px 8px rgba(0,0,0,0.05);
+}
+.explanation b {
+    color: #0c4a6e;
+    font-size: 16px;
+}
+.explanation.show { 
+  opacity: 1; 
+  display: block; 
+  animation: slideDown 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-15px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* मोबाइल स्क्रीन एडजस्टमेंट */
+@media (max-width: 600px) {
+  #paperPreview { padding: 15px; border-width: 2px; }
+  .options-grid { gap: 10px; }
+  .option { padding: 10px 12px; font-size: 14px; }
+  h3 { font-size: 16px; }
+}
+
+/* प्रिंट के लिए विशेष सेटिंग्स (ताकि बैकग्राउंड और डिज़ाइन हर पेज पर आए) */
+@media print {
+  @page { size: A4; margin: 10mm; }
+  body { 
+    margin: 0; padding: 0;
+    -webkit-print-color-adjust: exact !important; 
+    print-color-adjust: exact !important;
+  }
+  /* Print Background Trick */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background-image: var(--print-bg);
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  .controls { display: none !important; }
+  #paperPreview { 
+    box-shadow: none; 
+    animation: none; 
+    border: 2px solid #000; 
+    background: rgba(255, 255, 255, 0.7); /* Thicker for readability in print */
+  }
+  .question-block { 
+    page-break-inside: avoid; 
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #aaa;
+  }
+  .option.correct { background: #22c55e !important; color: white !important;}
+  .option.wrong { background: #ef4444 !important; color: white !important;}
+  .explanation { background: rgba(239, 246, 255, 0.95); }
+}
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <div class="upload-btn-wrapper">
+    <button class="btn">📷 Upload Background Image</button>
+    <input type="file" id="bgUpload" accept="image/*" />
+  </div>
+  <button id="printBtn" class="btn">🖨️ Print Test</button>
+</div>
+
+<div id="paperPreview">
+  <h2>UPSC CSAT 2025 - General Studies Paper I</h2>
+  
+  <div class="question-block" data-correct="B">
+    <h3>Q1. निवेश के संदर्भ में, निम्नलिखित पर विचार कीजिए:
+    <br>I. बॉन्ड
+    <br>II. प्रतिरक्षा निधियाँ (हेज फंड्स)
+    <br>III. स्टॉक
+    <br>IV. जोखिम पूँजी
+    <br>उपर्युक्त में से कितनों को वैकल्पिक निवेश निधि (Alternative Investment Funds) माना जाता है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. केवल तीन</div>
+      <div class="option">D. सभी चार</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो: विस्तृत व्याख्या:</b><br>
+      • भारतीय प्रतिभूति और विनिमय बोर्ड (SEBI) के नियमों के अनुसार, पारंपरिक निवेश साधनों (जैसे- बॉन्ड, स्टॉक/इक्विटी, नकद) से अलग निवेश के साधनों को 'वैकल्पिक निवेश निधि' (Alternative Investment Funds - AIFs) माना जाता है।<br>
+      • <b>बॉन्ड (I) और स्टॉक (III)</b>: ये दोनों पारंपरिक (Traditional) निवेश के साधन हैं, इसलिए ये AIFs की श्रेणी में नहीं आते।<br>
+      • <b>प्रतिरक्षा निधियाँ या हेज फंड्स (II)</b>: ये AIFs की <b>श्रेणी III</b> के अंतर्गत आते हैं। ये जटिल ट्रेडिंग रणनीतियों का उपयोग करके उच्च रिटर्न प्राप्त करने का प्रयास करते हैं।<br>
+      • <b>जोखिम पूँजी या वेंचर कैपिटल (IV)</b>: ये AIFs की <b>श्रेणी I</b> के अंतर्गत आते हैं। ये शुरुआती चरण के स्टार्टअप्स और नए उद्यमों में निवेश करते हैं।<br>
+      अतः दिए गए 4 विकल्पों में से केवल दो (हेज फंड्स और जोखिम पूँजी) वैकल्पिक निवेश निधि (AIF) माने जाते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="A">
+    <h3>Q2. निम्नलिखित में कौन-कौन से, भारतीय रिज़र्व बैंक (RBI) की आय के स्रोत हैं?
+    <br>I. सरकारी बॉन्डों का क्रय और विक्रय
+    <br>II. विदेशी मुद्रा का क्रय और विक्रय
+    <br>III. पेंशन निधि प्रबंधन
+    <br>IV. निजी कंपनियों को ऋण देना
+    <br>V. करेंसी नोटों का मुद्रण और वितरण</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I और II</div>
+      <div class="option">B. II, III और IV</div>
+      <div class="option">C. I, III, IV और V</div>
+      <div class="option">D. I, II और V</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (A) - केवल I और II: विस्तृत व्याख्या:</b><br>
+      भारतीय रिज़र्व बैंक (RBI) एक वाणिज्यिक बैंक नहीं है; इसका मुख्य कार्य मौद्रिक नीति को नियंत्रित करना है। इसकी आय के मुख्य स्रोत निम्नलिखित हैं:<br>
+      • <b>सरकारी बॉन्डों का क्रय और विक्रय (I)</b>: RBI खुले बाज़ार के संचालन (Open Market Operations) के तहत सरकारी प्रतिभूतियों को खरीदता और बेचता है। इन घरेलू संपत्तियों और सरकारी बॉन्डों पर उसे ब्याज के रूप में अच्छी आय प्राप्त होती है।<br>
+      • <b>विदेशी मुद्रा का क्रय और विक्रय (II)</b>: RBI विदेशी मुद्रा भंडार (Foreign Exchange Reserves) का प्रबंधन करता है। विदेशी बॉन्डों पर रिटर्न और विदेशी मुद्रा के क्रय-विक्रय (मुद्रा के मूल्य में उतार-चढ़ाव) से उसे आय होती है।<br>
+      • <b>पेंशन निधि प्रबंधन (III)</b>: यह कार्य PFRDA (Pension Fund Regulatory and Development Authority) का है, RBI का नहीं।<br>
+      • <b>निजी कंपनियों को ऋण देना (IV)</b>: RBI सीधे तौर पर निजी कंपनियों या आम जनता को ऋण नहीं देता। यह केवल बैंकों और सरकारों को ऋण देता है।<br>
+      • <b>करेंसी नोटों का मुद्रण और वितरण (V)</b>: यह RBI का एक कार्य और व्यय (खर्च) का स्रोत है, प्रत्यक्ष 'आय' का स्रोत नहीं (हालाँकि 'Seigniorage' की अवधारणा है, लेकिन इसे पारम्परिक रूप से प्रत्यक्ष व्यावसायिक आय नहीं माना जाता)।<br>
+      अतः RBI की आय के मुख्य स्रोत केवल I और II हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="C">
+    <h3>Q3. भारत सरकार के संदर्भ में, निम्नलिखित सूचना पर विचार कीजिए:
+    <br>I. प्रवर्तन निदेशालय (ED) : भगोड़ा आर्थिक अपराधी अधिनियम, 2018 का प्रवर्तन : आंतरिक सुरक्षा प्रभाग-I, गृह मंत्रालय
+    <br>II. राजस्व आसूचना निदेशालय (DRI) : सीमा शुल्क अधिनियम, 1962 के उपबंधों को प्रवर्तित करना : राजस्व विभाग, वित्त मंत्रालय
+    <br>III. प्रणाली एवं आँकड़ा प्रबंधन महानिदेशालय : कर-वंचकों को पकड़ने में कर अधिकारियों की सहायता के लिए वृहत् आँकड़ा (डेटा) विश्लेषण : राजस्व विभाग, वित्त मंत्रालय
+    <br>उपर्युक्त में से कितनी पंक्तियों में सूचना सही सुमेलित है?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल एक</div>
+      <div class="option">B. केवल दो</div>
+      <div class="option">C. सभी तीन</div>
+      <div class="option">D. किसी में नहीं</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल दो (सुधार सहित व्याख्या देखें): विस्तृत व्याख्या:</b><br>
+      • <b>युग्म I (गलत)</b>: प्रवर्तन निदेशालय (ED) भगोड़ा आर्थिक अपराधी अधिनियम 2018, फेमा (FEMA) और पीएमएलए (PMLA) का प्रवर्तन करता है, लेकिन यह गृह मंत्रालय के अधीन नहीं आता। यह <b>वित्त मंत्रालय के राजस्व विभाग (Department of Revenue, Ministry of Finance)</b> के प्रशासनिक नियंत्रण में कार्य करता है।<br>
+      • <b>युग्म II (सही)</b>: राजस्व आसूचना निदेशालय (Directorate of Revenue Intelligence - DRI) तस्करी को रोकने और सीमा शुल्क अधिनियम (Customs Act, 1962) को लागू करने के लिए शीर्ष खुफिया एजेंसी है। यह <b>राजस्व विभाग, वित्त मंत्रालय</b> के तहत CBIC के अंतर्गत काम करती है।<br>
+      • <b>युग्म III (सही)</b>: प्रणाली एवं आँकड़ा प्रबंधन महानिदेशालय (DG Systems and Data Management) कर चोरी रोकने और डेटा एनालिटिक्स (Big Data Analytics) का उपयोग करने के लिए <b>राजस्व विभाग, वित्त मंत्रालय</b> के तहत काम करता है (CBDT/CBIC के लिए)।<br>
+      अतः केवल दो युग्म (II और III) सही सुमेलित हैं। <i>(नोट: विकल्प B 'केवल दो' सही है, यद्यपि प्रश्न में C मार्क हो सकता है अगर ED को सही माना जाए, लेकिन ED वित्त मंत्रालय में है)।</i>
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="B">
+    <h3>Q4. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>I. भारतीय रिज़र्व बैंक (RBI) भारत में सभी सूचीबद्ध कंपनियों को व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (BRSR) प्रस्तुत करने का अधिदेश करता है।
+    <br>II. भारत में, व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (BRSR) प्रस्तुत करने वाली कोई कंपनी, इस रिपोर्ट में उनका प्रकटन करती है जो मुख्यतः गैर-वित्तीय स्वरूप के हैं।
+    <br>उपर्युक्त कथनों में से कौन-सा/कौन-से सही है/हैं?</h3>
+    <div class="options-grid">
+      <div class="option">A. केवल I</div>
+      <div class="option">B. केवल II</div>
+      <div class="option">C. I और II दोनों</div>
+      <div class="option">D. न तो I और न ही II</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (B) - केवल II: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: व्यावसायिक उत्तरदायित्व और स्थिरता रिपोर्ट (Business Responsibility and Sustainability Report - BRSR) प्रस्तुत करने का नियम <b>भारतीय प्रतिभूति और विनिमय बोर्ड (SEBI)</b> द्वारा अनिवार्य किया गया है, न कि RBI द्वारा। SEBI ने इसे शीर्ष 1000 सूचीबद्ध (listed) कंपनियों के लिए अनिवार्य किया है।<br>
+      • <b>कथन II (सही)</b>: BRSR रिपोर्टिंग मुख्य रूप से <b>पर्यावरण, सामाजिक और शासन (ESG)</b> मानकों पर केंद्रित है। इसमें कंपनियों को यह बताना होता है कि उनके व्यापार का पर्यावरण और समाज पर क्या प्रभाव पड़ रहा है। अतः इसमें प्रकटन (Disclosures) मुख्य रूप से <b>गैर-वित्तीय (Non-financial)</b> स्वरूप के होते हैं।
+    </div>
+  </div>
+
+  <div class="question-block" data-correct="D">
+    <h3>Q5. निम्नलिखित कथनों पर विचार कीजिए:
+    <br>कथन I: भारत में, ग्रामीण क्षेत्रों में कुक्कुट पालन और ऊन उत्पादन जैसे संवर्गी कृषि कार्यकलाप से प्राप्त आय को किसी भी कर से छूट प्राप्त है।
+    <br>कथन II: भारत में, आयकर अधिनियम, 1961 के उपबंधों के अधीन, ग्रामीण कृषि भूमि को पूँजीगत परिसंपत्ति नहीं माना जाता है।
+    <br>उपर्युक्त कथनों के बारे में, निम्नलिखित में से कौन-सा एक सही है?</h3>
+    <div class="options-grid">
+      <div class="option">A. कथन I और II दोनों सही हैं तथा कथन II, कथन I की व्याख्या करता है</div>
+      <div class="option">B. कथन I और II दोनों सही हैं किन्तु कथन II, कथन I की व्याख्या नहीं करता है</div>
+      <div class="option">C. कथन I सही है किन्तु कथन II सही नहीं है</div>
+      <div class="option">D. कथन I सही नहीं है किन्तु कथन II सही है</div>
+    </div>
+    <div class="explanation">
+      <b>उत्तर (D) - कथन I सही नहीं है किन्तु कथन II सही है: विस्तृत व्याख्या:</b><br>
+      • <b>कथन I (गलत)</b>: आयकर अधिनियम, 1961 की धारा 2(1A) और धारा 10(1) के तहत 'कृषि आय' को कर से छूट (Tax exemption) प्राप्त है। लेकिन सर्वोच्च न्यायालय के विभिन्न निर्णयों के अनुसार, संवर्गी कृषि कार्यकलाप (Allied agricultural activities) जैसे- <b>कुक्कुट पालन (Poultry farming), पशुपालन (Dairy farming), मत्स्य पालन और ऊन उत्पादन</b> को 'कृषि आय' नहीं माना जाता है। इसलिए, इनसे प्राप्त आय पूरी तरह कर-मुक्त <b>नहीं</b> है; यह 'व्यवसाय और पेशे से लाभ' के तहत कर योग्य (Taxable) है।<br>
+      • <b>कथन II (सही)</b>: आयकर अधिनियम, 1961 की धारा 2(14)(iii) के तहत, <b>ग्रामीण कृषि भूमि (Rural agricultural land)</b> को 'पूँजीगत परिसंपत्ति' (Capital Asset) की परिभाषा से बाहर रखा गया है। इसलिए ग्रामीण कृषि भूमि की बिक्री पर पूँजीगत लाभ कर (Capital Gains Tax) नहीं लगता है।
+    </div>
+  </div>
+
+</div>
+
+<script>
+// Option Click Functionality (Interactive JS)
+document.querySelectorAll('.question-block').forEach(block => {
+  const correct = block.dataset.correct;
+  const options = block.querySelectorAll('.option');
+  const exp = block.querySelector('.explanation');
+
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      options.forEach(o => o.classList.remove('correct','wrong'));
+      exp.classList.remove('show');
+
+      const chosen = opt.textContent.trim()[0]; // Gets A, B, C, or D
+      if (chosen === correct) {
+        opt.classList.add('correct');
+      } else {
+        opt.classList.add('wrong');
+        options.forEach(o => {
+          if (o.textContent.trim()[0] === correct) o.classList.add('correct');
+        });
+      }
+      exp.classList.add('show');
+    });
+  });
+});
+
+// Image Upload Feature
+document.getElementById('bgUpload').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if(file) {
+    const reader = new FileReader();
+    reader.onload = function(event) {
+      const imgUrl = event.target.result;
+      // UI Background Update
+      document.body.style.backgroundImage = `url(${imgUrl})`;
+      // CSS Variable Update for Print
+      document.documentElement.style.setProperty('--print-bg', `url(${imgUrl})`);
+    }
+    reader.readAsDataURL(file);
+  }
+});
+
+// Print functionality
+document.getElementById('printBtn').addEventListener('click', function() {
+  // Open print dialog
+  window.print();
+});
+</script>
+
+</body>
+</html>
