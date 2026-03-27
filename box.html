@@ -1,80 +1,541 @@
+
 <!DOCTYPE html>
-<html>
-
+<html lang="en" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title></title>
- <style>
-   
- 
-  div{
-  /*background:#f0f8ff;*/
-  font-size: 2em;
-  margin:auto;
-  padding:20px;
-  height:80px;
-  width:180px;
-  border-radius:15px;
-  background-image:linear-gradient(to left,
-  hotpink,pink);
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abhishek Tiwari - Portfolio & Practice Sets</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            dark: '#0f172a',
+                            light: '#1e293b',
+                            accent: '#3b82f6',
+                            gold: '#ffd700'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                        'spin-slow': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
 
-box-shadow: 1px 1px 1px aliceblue,
- 1px 2px 1px grey,
- 1px 3px 1px grey,
- 1px 4px 1px grey,
- 1px 5px 1px grey,
- 1px 6px 1px grey,
- 1px 7px 1px grey,
- 1px 8px 1px grey,
- 1px 9px 1px grey,
- 1px 10px 1px grey,
- 1px 11px 1px grey,
- 1px 12px 1px grey;
-  }
-  </style>
+        /* Glassmorphism Classes */
+        .glass-nav {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        /* Preloader */
+        #preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #0f172a; z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .loader {
+            width: 50px; height: 50px;
+            border: 5px solid rgba(59, 130, 246, 0.2);
+            border-top-color: #3b82f6; border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* Reveal Animation on Scroll */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        
+        /* Gradient Text */
+        .text-gradient {
+            background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Background animated blobs */
+        .bg-blob {
+            position: absolute; filter: blur(80px); z-index: -1; opacity: 0.4;
+        }
+    </style>
 </head>
+<body class="antialiased selection:bg-blue-500 selection:text-white relative">
 
-<body>
+    <!-- Background Decoration -->
+    <div class="bg-blob bg-blue-600 w-96 h-96 rounded-full top-0 left-0 mix-blend-screen"></div>
+    <div class="bg-blob bg-purple-600 w-96 h-96 rounded-full bottom-0 right-0 mix-blend-screen"></div>
 
-<div>
-  Abhishek Tiwari 
-</div>
+    <!-- Preloader -->
+    <div id="preloader"><div class="loader"></div></div>
 
-<table>
-  <!--This is table-->
-  <tr>
-    <!--This is Table Row-->
-    <th>
-      <!--This is table headding-->
-      Name
-    </th>
-    <th>
-      Father Name
-    </th>
-    <th>
-    Mother Name
-    </th>
-  </tr>
-  
-<tr>
-  <td>
-    <!--This is table data -->
-    Abhishek 
-  </td>
-  
-  <td>
-    Krishna Kumar 
-  </td>
-  
-  <td>
-    Rajni Devi
-  </td>
-  
-</tr>
+    <!-- Navigation -->
+    <nav class="glass-nav fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex-shrink-0 cursor-pointer" onclick="switchView('home')">
+                    <h1 class="text-2xl font-bold tracking-wider">
+                        <span class="text-blue-500">A</span>bhishek<span class="text-blue-500">.</span>
+                    </h1>
+                </div>
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <ul class="flex space-x-8 items-center">
+                        <li><a href="#hero" class="nav-link text-gray-300 hover:text-blue-400 transition" onclick="switchView('home')">Home</a></li>
+                        <li><a href="#about" class="nav-link text-gray-300 hover:text-blue-400 transition" onclick="switchView('home')">About</a></li>
+                        <li><a href="#projects" class="nav-link text-gray-300 hover:text-blue-400 transition" onclick="switchView('home')">Projects</a></li>
+                        <li>
+                            <button onclick="switchView('practice')" class="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-5 py-2 rounded-full font-medium hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all">
+                                <i class="fas fa-book-open mr-2"></i>Practice Sets
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu (Hidden by default) -->
+        <div id="mobile-menu" class="hidden md:hidden glass-nav absolute w-full border-t border-gray-700">
+            <ul class="px-2 pt-2 pb-4 space-y-1 text-center">
+                <li><a href="#hero" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md" onclick="switchView('home'); closeMobileMenu()">Home</a></li>
+                <li><a href="#about" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md" onclick="switchView('home'); closeMobileMenu()">About</a></li>
+                <li><a href="#projects" class="block px-3 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded-md" onclick="switchView('home'); closeMobileMenu()">Projects</a></li>
+                <li><button onclick="switchView('practice'); closeMobileMenu()" class="w-full mt-2 bg-blue-600 text-white px-3 py-2 rounded-md font-medium">Practice Sets</button></li>
+            </ul>
+        </div>
+    </nav>
 
-</table>
+    <!-- ========================================== -->
+    <!-- VIEW 1: HOME PAGE (PORTFOLIO) -->
+    <!-- ========================================== -->
+    <main id="view-home" class="pt-20">
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-[90vh] flex items-center justify-center py-20 px-4 relative">
+            <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
+                <div class="md:w-1/2 text-center md:text-left z-10 reveal">
+                    <p class="text-blue-400 font-semibold mb-2 tracking-wide uppercase">Welcome to my universe</p>
+                    <h2 class="text-5xl md:text-7xl font-bold mb-4 leading-tight">
+                        Hello, I'm <br>
+                        <span class="text-gradient">Abhishek Tiwari</span>
+                    </h2>
+                    <p class="text-gray-400 text-lg md:text-xl mb-8 max-w-lg mx-auto md:mx-0">
+                        Aspiring Developer | Creative Thinker | Tech Enthusiast. I build digital experiences that are fast, accessible, and visually appealing.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <a href="#projects" class="px-8 py-3 bg-blue-600 text-white font-semibold rounded-full hover:bg-blue-700 hover:shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all">Explore Work</a>
+                        <a href="#contact" class="px-8 py-3 bg-transparent border-2 border-blue-500 text-blue-400 font-semibold rounded-full hover:bg-blue-500 hover:text-white transition-all">Contact Me</a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center z-10 reveal">
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 border-2 border-dashed border-blue-500 animate-spin-slow">
+                        <img src="https://ui-avatars.com/api/?name=Abhishek+Tiwari&background=1e293b&color=3b82f6&size=512" alt="Profile" class="w-full h-full rounded-full object-cover animate-float" style="animation-direction: reverse;">
+                        <!-- Note: using ui-avatars as placeholder since local image might not load. Replace with your "Profile logo.png" -->
+                    </div>
+                </div>
+            </div>
+        </section>
 
+        <!-- About Section -->
+        <section id="about" class="py-20 px-4 bg-brand-light/30 relative">
+            <div class="max-w-6xl mx-auto reveal">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4">About <span class="text-blue-500">Me</span></h2>
+                    <div class="w-20 h-1 bg-blue-500 mx-auto rounded-full"></div>
+                </div>
+                <div class="flex flex-col md:flex-row gap-12 items-center">
+                    <div class="md:w-1/2 glass-card p-8 rounded-2xl">
+                        <h3 class="text-2xl font-semibold mb-4 text-white">My Journey</h3>
+                        <p class="text-gray-300 leading-relaxed mb-6">
+                            I am Abhishek Tiwari, passionate about building modern web projects and learning new technologies. My goal is to create innovative, user-friendly, and efficient applications that solve real-world problems.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-brand-dark p-4 rounded-lg text-center border border-gray-700">
+                                <h4 class="text-blue-400 font-bold text-2xl">10+</h4>
+                                <p class="text-sm text-gray-400">Projects Built</p>
+                            </div>
+                            <div class="bg-brand-dark p-4 rounded-lg text-center border border-gray-700">
+                                <h4 class="text-blue-400 font-bold text-2xl">24/7</h4>
+                                <p class="text-sm text-gray-400">Learning</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="md:w-1/2 w-full space-y-6">
+                        <!-- Skill HTML -->
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="font-medium">HTML & CSS</span><span class="text-blue-400">90%</span></div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill JS -->
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="font-medium">JavaScript</span><span class="text-blue-400">75%</span></div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <!-- Skill Git -->
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="font-medium">GitHub & Version Control</span><span class="text-blue-400">70%</span></div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <!-- UI/UX -->
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="font-medium">UI/UX Design</span><span class="text-blue-400">80%</span></div>
+                            <div class="w-full bg-gray-700 rounded-full h-2.5">
+                                <div class="bg-gradient-to-r from-blue-400 to-indigo-500 h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 px-4 relative">
+            <div class="max-w-6xl mx-auto reveal">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl font-bold mb-4">Featured <span class="text-blue-500">Projects</span></h2>
+                    <div class="w-20 h-1 bg-blue-500 mx-auto rounded-full mb-4"></div>
+                    <p class="text-gray-400">Some of my recent works</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group">
+                        <div class="h-48 bg-gray-800 flex items-center justify-center text-4xl text-blue-500">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Portfolio Website</h3>
+                            <p class="text-gray-400 text-sm mb-4 h-10">A personal portfolio showcasing my work, skills, and resume with a modern touch.</p>
+                            <div class="flex gap-3 mt-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">Live Demo</button>
+                                <button class="flex-1 bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white py-2 rounded-lg text-sm font-medium transition">GitHub</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2 (From old table) -->
+                    <div class="glass-card rounded-2xl overflow-hidden group">
+                        <div class="h-48 bg-gray-800 flex items-center justify-center text-4xl text-purple-500">
+                            <i class="fas fa-wpforms"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Student App Form</h3>
+                            <p class="text-gray-400 text-sm mb-4 h-10">A dynamic student registration form with validation and clean UI.</p>
+                            <div class="flex gap-3 mt-4">
+                                <a href="student form (1).html" class="flex-1 text-center bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">View Form</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3 -->
+                    <div class="glass-card rounded-2xl overflow-hidden group">
+                        <div class="h-48 bg-gray-800 flex items-center justify-center text-4xl text-pink-500">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2">Data Dashboard</h3>
+                            <p class="text-gray-400 text-sm mb-4 h-10">An interactive dashboard built with modern web technologies and charts.</p>
+                            <div class="flex gap-3 mt-4">
+                                <button class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg text-sm font-medium transition">Live Demo</button>
+                                <button class="flex-1 bg-transparent border border-blue-500 text-blue-400 hover:bg-blue-500 hover:text-white py-2 rounded-lg text-sm font-medium transition">GitHub</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 px-4 bg-brand-light/20 border-t border-gray-800 relative">
+            <div class="max-w-4xl mx-auto text-center reveal">
+                <h2 class="text-4xl font-bold mb-6">Let's <span class="text-blue-500">Connect</span></h2>
+                <p class="text-gray-400 mb-8 max-w-xl mx-auto">Feel free to reach out for collaborations, project inquiries, or just to say hi!</p>
+                
+                <div class="glass-card inline-block p-8 rounded-2xl mb-8">
+                    <p class="text-xl font-medium flex items-center justify-center gap-3">
+                        <i class="fas fa-envelope text-blue-500"></i>
+                        <a href="mailto:yourmail@example.com" class="hover:text-blue-400 transition">yourmail@example.com</a>
+                    </p>
+                </div>
+
+                <div class="flex justify-center gap-6 mt-4">
+                    <a href="YOUR_GITHUB_URL" target="_blank" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl hover:-translate-y-2 hover:text-blue-400 transition-all group">
+                        <i class="fab fa-github group-hover:scale-110 transition"></i>
+                    </a>
+                    <a href="YOUR_LINKEDIN_URL" target="_blank" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl hover:-translate-y-2 hover:text-blue-500 transition-all group">
+                        <i class="fab fa-linkedin-in group-hover:scale-110 transition"></i>
+                    </a>
+                    <a href="https://www.instagram.com/brahman_abhishek.tiwari?igsh=ejNybDNoeG51MzY=" target="_blank" class="w-12 h-12 rounded-full glass-card flex items-center justify-center text-xl hover:-translate-y-2 hover:text-pink-500 transition-all group">
+                        <i class="fab fa-instagram group-hover:scale-110 transition"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- VIEW 2: PRACTICE SETS PAGE (NEW) -->
+    <!-- ========================================== -->
+    <main id="view-practice" class="pt-24 pb-20 px-4 hidden min-h-screen">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Header for Practice Page -->
+            <div class="text-center mb-16 mt-8 reveal">
+                <span class="bg-blue-900/50 text-blue-400 px-4 py-1 rounded-full text-sm font-medium border border-blue-500/30">Free Resources</span>
+                <h2 class="text-4xl md:text-5xl font-bold mt-4 mb-4">Competitive Exam <br><span class="text-gradient">Practice Sets</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Access highly curated practice papers, mock tests, and previous year questions to boost your exam preparation.</p>
+            </div>
+
+            <!-- Categories / Exam Sections -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+                
+                <!-- Category 1: SSC -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group border-t-4 border-t-blue-500">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-500/10 rounded-full blur-xl group-hover:bg-blue-500/20 transition"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="w-14 h-14 bg-blue-900/50 rounded-xl flex items-center justify-center text-2xl text-blue-400 border border-blue-500/30">
+                            <i class="fas fa-building-columns"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold">SSC Exams</h3>
+                            <p class="text-xs text-gray-400">CGL, CHSL, MTS, GD</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-300 relative z-10">
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Math Practice Set 01</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Reasoning Mock Test</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> GK/GS Previous Year</li>
+                    </ul>
+                    <!-- अभिषेक: यहाँ अपना लिंक पेस्ट करें 'href' के अंदर -->
+                    <a href="#" class="block w-full text-center bg-blue-600 hover:bg-blue-500 text-white py-3 rounded-xl font-medium transition relative z-10 shadow-lg shadow-blue-600/20">
+                        View SSC Sets <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Category 2: Railway -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group border-t-4 border-t-purple-500">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="w-14 h-14 bg-purple-900/50 rounded-xl flex items-center justify-center text-2xl text-purple-400 border border-purple-500/30">
+                            <i class="fas fa-train"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold">Railway (RRB)</h3>
+                            <p class="text-xs text-gray-400">NTPC, Group D, ALP</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-300 relative z-10">
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> RRB NTPC Full Mock</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> General Science Special</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Current Affairs 2024</li>
+                    </ul>
+                    <!-- अभिषेक: यहाँ अपना लिंक पेस्ट करें 'href' के अंदर -->
+                    <a href="#" class="block w-full text-center bg-purple-600 hover:bg-purple-500 text-white py-3 rounded-xl font-medium transition relative z-10 shadow-lg shadow-purple-600/20">
+                        View RRB Sets <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                <!-- Category 3: UP Police / State -->
+                <div class="glass-card p-6 rounded-2xl relative overflow-hidden group border-t-4 border-t-orange-500">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-orange-500/10 rounded-full blur-xl group-hover:bg-orange-500/20 transition"></div>
+                    <div class="flex items-center gap-4 mb-6 relative z-10">
+                        <div class="w-14 h-14 bg-orange-900/50 rounded-xl flex items-center justify-center text-2xl text-orange-400 border border-orange-500/30">
+                            <i class="fas fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold">State Police</h3>
+                            <p class="text-xs text-gray-400">UP Police, Delhi Police</p>
+                        </div>
+                    </div>
+                    <ul class="space-y-3 mb-8 text-sm text-gray-300 relative z-10">
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> UP Constable Set 1</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Hindi Vyakaran Test</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-check-circle text-green-400"></i> Mental Aptitude</li>
+                    </ul>
+                    <!-- अभिषेक: यहाँ अपना लिंक पेस्ट करें 'href' के अंदर -->
+                    <a href="#" class="block w-full text-center bg-orange-600 hover:bg-orange-500 text-white py-3 rounded-xl font-medium transition relative z-10 shadow-lg shadow-orange-600/20">
+                        View Police Sets <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+
+                 <!-- Add more categories here if you want by copying the div block above -->
+            </div>
+            
+            <!-- Quick Links / All PDFs Section -->
+            <div class="mt-20 reveal">
+                <h3 class="text-2xl font-bold mb-6 border-b border-gray-700 pb-2">All PDF Downloads</h3>
+                <div class="glass-card rounded-xl overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-800/50">
+                                <th class="p-4 font-semibold text-gray-300">Test Name</th>
+                                <th class="p-4 font-semibold text-gray-300">Category</th>
+                                <th class="p-4 font-semibold text-gray-300">Language</th>
+                                <th class="p-4 font-semibold text-center text-gray-300">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-700/50">
+                            <!-- Table Row 1 -->
+                            <tr class="hover:bg-gray-800/30 transition">
+                                <td class="p-4 font-medium">SSC CGL Tier 1 Mock</td>
+                                <td class="p-4 text-gray-400">SSC</td>
+                                <td class="p-4"><span class="bg-gray-700 text-xs px-2 py-1 rounded">Bilingual</span></td>
+                                <td class="p-4 text-center">
+                                    <a href="#" class="text-blue-400 hover:text-blue-300 hover:underline"><i class="fas fa-download mr-1"></i> Download</a>
+                                </td>
+                            </tr>
+                            <!-- Table Row 2 -->
+                            <tr class="hover:bg-gray-800/30 transition">
+                                <td class="p-4 font-medium">UP Police Constable 2024</td>
+                                <td class="p-4 text-gray-400">State Police</td>
+                                <td class="p-4"><span class="bg-gray-700 text-xs px-2 py-1 rounded">Hindi</span></td>
+                                <td class="p-4 text-center">
+                                    <a href="#" class="text-blue-400 hover:text-blue-300 hover:underline"><i class="fas fa-download mr-1"></i> Download</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#0b1120] py-8 text-center border-t border-gray-800 mt-auto">
+        <p class="text-gray-500 font-medium">© 2026 Abhishek Tiwari | Built with <i class="fas fa-heart text-red-500 mx-1"></i> and Code</p>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button id="topBtn" class="fixed bottom-8 right-8 bg-blue-600 text-white w-12 h-12 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(37,99,235,0.4)] opacity-0 pointer-events-none transition-all duration-300 hover:bg-blue-500 hover:-translate-y-1 z-50">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+        // --- 1. Preloader ---
+        window.addEventListener('load', () => {
+            const preloader = document.getElementById('preloader');
+            preloader.style.opacity = '0';
+            setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            
+            // Trigger initial scroll animation
+            reveal();
+        });
+
+        // --- 2. Single Page App Logic (Switching Views) ---
+        function switchView(viewName) {
+            const viewHome = document.getElementById('view-home');
+            const viewPractice = document.getElementById('view-practice');
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (viewName === 'practice') {
+                viewHome.classList.add('hidden');
+                viewPractice.classList.remove('hidden');
+                // Brief timeout to allow display:block to apply before animating
+                setTimeout(reveal, 100); 
+            } else {
+                viewPractice.classList.add('hidden');
+                viewHome.classList.remove('hidden');
+                setTimeout(reveal, 100);
+            }
+        }
+
+        // --- 3. Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // --- 4. Scroll Reveal Animations ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                
+                // If the element is within view
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+
+        // --- 5. Back to Top Button ---
+        const topBtn = document.getElementById("topBtn");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 300) {
+                topBtn.classList.remove("opacity-0", "pointer-events-none");
+                topBtn.classList.add("opacity-100");
+            } else {
+                topBtn.classList.add("opacity-0", "pointer-events-none");
+                topBtn.classList.remove("opacity-100");
+            }
+        });
+
+        topBtn.addEventListener("click", () => {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+    </script>
 </body>
-
 </html>
