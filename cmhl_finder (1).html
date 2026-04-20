@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Master Search Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-header {
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 4px solid #3b82f6;
+        }
+        .search-bar { transition: all 0.3s ease; }
+        .search-bar:focus-within { box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        .highlight { background-color: #fef08a; font-weight: bold; border-radius: 2px; padding: 0 2px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- Header & Search Area -->
+    <div class="sticky top-0 z-50 glass-header shadow-lg p-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+                <div class="text-white">
+                    <h1 class="text-3xl font-extrabold tracking-wide"><i class="fas fa-headset mr-2 text-blue-300"></i>CMHL Smart Finder</h1>
+                    <p class="text-blue-200 text-sm mt-1">शिकायत खोजें, विभाग जानें और फॉर्मेट कॉपी करें</p>
+                </div>
+                <div class="bg-blue-900 text-blue-100 px-4 py-2 rounded-lg border border-blue-700 text-sm font-semibold">
+                    <span id="totalDepts">0</span> विभाग | <span id="totalCategories">0</span> श्रेणियां
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative search-bar max-w-3xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-xl border-2 border-transparent focus:border-blue-400 focus:ring-0 text-lg text-gray-900 shadow-inner placeholder-gray-400" 
+                    placeholder="क्या शिकायत है? कीवर्ड टाइप करें (उदा: राशन, सड़क, पेंशन, FIR...)"
+                    onkeyup="performSearch()">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden text-gray-400 hover:text-red-500">
+                    <i class="fas fa-times-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Results -->
+    <div class="max-w-6xl mx-auto mt-8 px-4">
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search-minus text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-500">कोई परिणाम नहीं मिला</h2>
+            <p class="text-gray-400 mt-2">कृपया दूसरे शब्दों का प्रयोग करें।</p>
+        </div>
+
+        <div id="resultsContainer" class="space-y-6">
+            <!-- Results will be injected here via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DATABASE: यहाँ आप अपनी सारी शिकायतें जोड़ सकते हैं
+        // ==========================================
+        const cmhlData = [
+            {
+                vibhag: "खाद्य एवं रसद विभाग",
+                icon: "fa-wheat-awn",
+                color: "bg-orange-50 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "उचित दर विक्रेता (कोटेदार) की अनियमितता / जांच / कालाबाजारी",
+                        keywords: ["ration", "kotedar", "rashan", "kalabajari", "dhoka", "galla", "chawal", "gehu"],
+                        format: "आवेदिका का नाम: \nपिता व पति का नाम: \nपता: (ग्रामीण-ग्राम / शहरी-वार्ड, मोहल्ला): \nराशन कार्ड संख्या: \nकोटेदार का नाम: \nकोटा केन्द्र: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "पात्र गृहस्थी/अन्त्योदय (नया राशन कार्ड बनवाने या यूनिट जुड़वाने की मांग)",
+                        keywords: ["naya ration card", "unit judwana", "mang", "naam judwana"],
+                        format: "[नया राशन कार्ड]\nआवेदिका का नाम: \nपिता/पति: \nपता: \nआवेदन संख्या: \nआवेदन दिनांक: \nमांग का विवरण: \n\n[यूनिट जुड़वाना]\nराशन कार्ड संख्या: \nयूनिट का नाम: \nमांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "राशन कार्ड या यूनिट कट जाने पर पुनः जुड़वाने की शिकायत",
+                        keywords: ["kat gaya", "ration card cut", "unit cut", "dobara judwana", "shikayat"],
+                        format: "आवेदिका का नाम: \nपिता/पति का नाम: \nपता: \nराशन कार्ड सं०: \nकटी हुई यूनिट का नाम (यदि हो): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "डिब्बा बन्द सामग्री पर MRP से अधिक मूल्य लेना",
+                        keywords: ["mrp", "mahanga", "zyada rate", "overcharging", "rate"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nदुकान का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "पेट्रोल पम्प पर मिलावट या घटतौली",
+                        keywords: ["petrol", "diesel", "pump", "milawat", "kam petrol", "ghattauli"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nपेट्रोल पम्प का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण (मिलावट/घटतौली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "रसोई गैस (LPG) घटतौली या आपूर्ति न होना",
+                        keywords: ["gas", "cylinder", "lpg", "agency", "kam gas", "home delivery"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nएजेंसी का नाम: \nसंचालक का नाम: \nस्थान: \nउपभोक्ता संख्या (Consumer No): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 9",
+                        title: "गेहूं / धान खरीद के सम्बन्ध में शिकायत (मंडी/क्रय केंद्र)",
+                        keywords: ["gehu kharid", "dhan kharid", "mandi", "kray kendra", "bhugtan", "payment"],
+                        format: "किसान का नाम: \nपिता का नाम: \nक्रय केंद्र/मंडी का नाम: \nसंचालक का नाम: \nस्थान: \nबैंक का नाम व खाता सं० (यदि भुगतान रुका हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "समाज कल्याण विभाग",
+                icon: "fa-hands-holding-child",
+                color: "bg-purple-50 border-purple-500 text-purple-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "वृद्धावस्था पेंशन की मांग",
+                        keywords: ["vridha", "budhapa pension", "buddha pension", "mang", "old age"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nउम्र: \nमांग का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "वृद्धावस्था पेंशन की शिकायत (नहीं आई / बन्द हो गई)",
+                        keywords: ["pension ruki", "nahi aayi", "band ho gayi", "old age pension"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nउम्र: \nशिकायत का विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "पारिवारिक लाभ योजना (मुखिया की मृत्यु पर)",
+                        keywords: ["parivarik labh", "mukhiya mrityu", "30000", "muawza"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०: \nआवेदन दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "सामूहिक विवाह योजना शिकायत",
+                        keywords: ["samuhik vivah", "shadi anudan", "kanya vivah"],
+                        format: "आवेदिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०/दिनांक: \nशादी दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "छात्रवृत्ति (SC/ST/General) एवं शुल्क प्रतिपूर्ति (फीस वापसी)",
+                        keywords: ["scholarship", "chatravriti", "fees wapsi", "sc st gen", "shulk"],
+                        format: "छात्र का नाम: \nधर्म, जाति/वर्ग: \nआवेदन सं०/दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पिछड़ा वर्ग कल्याण विभाग",
+                icon: "fa-user-graduate",
+                color: "bg-orange-100 border-orange-600 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "OBC छात्रवृत्ति एवं फीस वापसी (पूर्व दशम व दशमोत्तर)",
+                        keywords: ["obc scholarship", "obc fees wapsi", "chatravriti obc", "pichhda varg"],
+                        format: "छात्र का नाम: \nपिता का नाम: \nधर्म, जाति, वर्ग (OBC): \nआवेदन संख्या व दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नगर विकास विभाग (शहरी क्षेत्र)",
+                icon: "fa-city",
+                color: "bg-pink-50 border-pink-500 text-pink-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "कूड़ा, गंदगी एवं सफाई कर्मी सम्बन्धी (शहरी)",
+                        keywords: ["kuda", "gandagi", "safai karmi", "nagar nigam", "palika", "shahar safai"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nवार्ड नंबर व मोहल्ला: \nपार्षद/चेयरमैन का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3, 4, 5",
+                        title: "जलकर (Water Tax) सम्बन्धी",
+                        keywords: ["jal kar", "water tax", "pani bill", "house tax"],
+                        format: "आवेदक: \nपिता का नाम: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nरसीद संख्या: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6 & 7",
+                        title: "आवारा पशु / मृत पशु उठवाने सम्बन्धी (शहरी)",
+                        keywords: ["awara pashu", "mrit pashu", "mara janwar", "kutta", "gay shahar"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 8 to 11",
+                        title: "सड़क, सी०सी० रोड, नाली निर्माण, सड़क खुदाई व जल भराव",
+                        keywords: ["sadak shahar", "cc road", "jal bharav", "khudai", "gaddha", "footpath"],
+                        format: "आवेदक: \nपिता: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 12 & 13",
+                        title: "PM शहरी आवास योजना / DUDA / SUDA (मांग/किश्त न आना)",
+                        keywords: ["pm awas shahar", "duda", "suda", "shahari awas", "kist nahi aayi", "makaan"],
+                        format: "आवेदक: \nपिता/पति: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nमांग/शिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 14 & 15",
+                        title: "प्रकाश व्यवस्था (स्ट्रीट लाइट शहरी)",
+                        keywords: ["street light", "batti", "khambha", "andhera", "shahar light"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत विवरण (खराब लाइटों की संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 16, 17, 18",
+                        title: "पेयजल व्यवस्था (शहरी / झांसी-चित्रकूट मंडल)",
+                        keywords: ["peyjal shahar", "pani nahi aa raha", "pipeline", "shahar pani", "jhansi", "chitrakoot"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 19 to 22",
+                        title: "सीवर, नाला-नाली चोक या ओवर फ्लो (शहरी)",
+                        keywords: ["sewer shahar", "nala", "naali", "choke", "overflow", "shahar naali"],
+                        format: "आवेदक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 23 to 26",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (शहरी)",
+                        keywords: ["janam praman patra shahar", "mrityu praman patra", "birth certificate", "death certificate"],
+                        format: "आवेदक: \nपिता/पति: \nआवेदन सं०/दिनांक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "ग्राम विकास विभाग",
+                icon: "fa-tree",
+                color: "bg-emerald-50 border-emerald-500 text-emerald-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "निराश्रित गोवंश (आवारा पशु - गाय, सांड) ग्रामीण",
+                        keywords: ["awara pashu gaon", "govansh", "sand", "gay", "gramin pashu", "fasal kharab"],
+                        format: "आवेदक: \nपिता: \nग्राम: \nप्रधान: \nसचिव: \nस्थान: \nशिकायत विवरण (पशुओं की अनुमानित संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "PM ग्रामीण आवास योजना (मांग, किश्त रुकी, अपात्र को आवंटन)",
+                        keywords: ["pm awas gaon", "gramin awas", "kist nahi aayi", "apatra awas", "makaan gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nप्रधान: \nसचिव: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nअपात्र व्यक्ति का नाम (यदि हो): \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिया की मरम्मत",
+                        keywords: ["puliya", "gaon puliya", "marammat puliya"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "PM ग्राम सड़क योजना / तालाब खुदाई (ग्राम विकास)",
+                        keywords: ["sadak gaon", "pm gram sadak", "talab gaon", "kcc road"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6",
+                        title: "विधायक निधि / सांसद निधि के कार्य",
+                        keywords: ["vidhayak nidhi", "sansad nidhi"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "मनरेगा (मजदूरी न मिलना / फर्जी मस्टर रोल)",
+                        keywords: ["mgnrega", "manrega", "majdoori", "farzi muster roll", "job card"],
+                        format: "आवेदक: \nग्राम: \nमनरेगा जाब कार्ड सं०: \nप्रधान/सचिव: \nरोजगार सहायक का नाम: \nअपात्र व्यक्ति का नाम (यदि फर्जी हो): \nबैंक डिटेल (यदि मजदूरी रुकी हो): \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पंचायती राज विभाग",
+                icon: "fa-users",
+                color: "bg-amber-50 border-amber-500 text-amber-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "ग्रामों में सफाई व्यवस्था / सफाई कर्मचारी",
+                        keywords: ["safai gaon", "safai karmi gaon", "gandagi gaon", "naali safai gaon"],
+                        format: "आवेदक: \nग्राम: \nस्थान: \nप्रधान/सचिव: \nसफाई कर्मचारी का नाम: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (ग्रामीण)",
+                        keywords: ["birth certificate gaon", "death certificate gaon", "janam praman gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nआवेदन सं०/दिनांक: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3 & 4",
+                        title: "सामुदायिक शौचालय / स्वच्छ भारत मिशन (व्यक्तिगत शौचालय)",
+                        keywords: ["shauchalay", "toilet gaon", "samudaik shauchalay", "swachh bharat"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nआवेदन सं०/दिनांक: \nबैंक डिटेल (यदि किश्त रुकी हो): \nस्थान: \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "हैंड पम्प मरम्मत / स्ट्रीट लाइट / बन्दर पकड़वाना / ग्राम सड़क/नाली",
+                        keywords: ["handpump marammat", "street light gaon", "bandar gaon", "cc road gaon", "naali gaon"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "गृह गोपन विभाग (पुलिस)",
+                icon: "fa-shield-halved",
+                color: "bg-indigo-50 border-indigo-500 text-indigo-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "सिविल पुलिस द्वारा चालान काटना",
+                        keywords: ["challan", "police challan", "traffic"],
+                        format: "आवेदक: \nथाने का नाम: \nरसीद सं०: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "FIR दर्ज न करना / कार्यवाही न करना",
+                        keywords: ["fir darj nahi", "karyawahi nahi", "police action", "thana"],
+                        format: "पीड़ित का नाम: \nघटना स्थल का पता व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि दर्ज हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिस के विरुद्ध शिकायत / भ्रष्टाचार / दुर्व्यवहार",
+                        keywords: ["police shikayat", "rashwat police", "durvyavhar", "hirasat maut"],
+                        format: "आवेदक: \nपुलिस अधिकारी का नाम/पद: \nथाना: \nघटना स्थल: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य महत्वपूर्ण",
+                        title: "संपत्ति विवाद / गलत FIR / CBCID जांच / महिला उत्पीड़न / गुंडागर्दी",
+                        keywords: ["jameen vivad", "galat fir", "rape", "mahila utpidan", "gharelu hinsa", "mafia", "gunda tax", "marpeet"],
+                        format: "आवेदक/पीड़ित का नाम: \nघटना स्थल व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि हो): \nशिकायत का विस्तृत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "राजस्व एवं आपदा विभाग",
+                icon: "fa-map",
+                color: "bg-yellow-100 border-yellow-600 text-yellow-900",
+                categories: [
+                    {
+                        shreni: "महत्वपूर्ण",
+                        title: "आय / जाति / निवास प्रमाण पत्र",
+                        keywords: ["aay praman patra", "jati praman", "niwas praman", "income certificate"],
+                        format: "आवेदक: \nपिता: \nपता: \nआवेदन सं०/दिनांक: \nलेखपाल का नाम (यदि पता हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "भूमि विवाद",
+                        title: "ग्राम समाज जमीन (तालाब, खलिहान, बंजर) पर कब्जा / भू-माफिया",
+                        keywords: ["kabja", "talab kabja", "bhoo mafia", "gram samaj jamin", "banjar"],
+                        format: "आवेदक: \nपता/ग्राम: \nखसरा/गाटा सं०: \nकुल जमीन: \nकब्जेदार का नाम: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य",
+                        title: "आपदा राहत (फसल नुकसान) / पट्टा मांग / भूमि अधिग्रहण",
+                        keywords: ["aapda rahat", "muawza", "patta", "bhumi adhigrahan", "fasal nuksan rahat"],
+                        format: "आवेदक: \nग्राम: \nगाटा सं०: \nबैंक डिटेल (यदि मुआवजा रुका हो): \nमांग/शिकायत विवरण: "
+                    },
+                    {
+                        shreni: "योजना",
+                        title: "प्रधानमंत्री मातृ वंदना योजना",
+                        keywords: ["matru vandana", "garbhavati", "matritva"],
+                        format: "आवेदिका: \nपति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "कृषि विभाग",
+                icon: "fa-tractor",
+                color: "bg-green-50 border-green-500 text-green-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "प्रधानमंत्री किसान सम्मान निधि (PM Kisan) किश्त न आना",
+                        keywords: ["pm kisan", "samman nidhi", "kisan kist", "2000"],
+                        format: "किसान का नाम: \nपिता: \nग्राम: \nआवेदन सं०: \nगाटा/खसरा सं०: \nबैंक डिटेल: \nशिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "अन्य श्रेणियां",
+                        title: "कृषि उपकरण अनुदान / बीज-खाद लाइसेंस / फसल बीमा / खाद-बीज मांग",
+                        keywords: ["krishi upkaran", "tractor subsidy", "dbt", "khad beej", "fasal bima", "licence"],
+                        format: "किसान का नाम: \nग्राम: \nदुकान/एजेंसी/बीमा कंपनी का नाम व स्थान: \nबैंक डिटेल (DBT/बीमा के लिए): \nआवेदन/बीमा सं०: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "बाल विकास पुष्टाहार विभाग",
+                icon: "fa-child",
+                color: "bg-fuchsia-50 border-fuchsia-500 text-fuchsia-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2 & 3",
+                        title: "अनुपूरक पोषाहार वितरण / आंगनबाड़ी कार्यकत्री शिकायत / केन्द्र संचालन",
+                        keywords: ["anganwadi", "poshahar", "panjiri", "karyakatri", "kendra band", "bachhe ration"],
+                        format: "आवेदक: \nपता: \nआंगनबाड़ी कार्यकत्री का नाम: \nआंगनबाड़ी केन्द्र का नाम व स्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नमामि गंगे तथा ग्रामीण जलापूर्ति विभाग",
+                icon: "fa-faucet-drip",
+                color: "bg-cyan-50 border-cyan-500 text-cyan-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2, 3",
+                        title: "ग्रामीण हैंडपंप / पाइप पेयजल / जल निगम योजनाएं (मांग व शिकायत)",
+                        keywords: ["handpump gaon", "pipe line gaon", "nal se jal", "jal nigam", "pani ki tanki", "namami gange"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "महिला कल्याण विभाग",
+                icon: "fa-person-dress",
+                color: "bg-rose-50 border-rose-500 text-rose-900",
+                categories: [
+                    {
+                        shreni: "पेंशन",
+                        title: "विधवा / पति की मृत्यु उपरांत निराश्रित महिला पेंशन (मांग व शिकायत)",
+                        keywords: ["vidhwa pension", "nirashrit mahila pension", "pati mrityu pension", "pension ruki"],
+                        format: "आवेदिका का नाम: \nपति का नाम: \nपता: \nआवेदन सं०/दिनांक: \nबैंक, खाता सं०, शाखा: \nशिकायत विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "योजनाएं",
+                        title: "बेटी बचाओ बेटी पढाओ / सुकन्या समृद्धि / इन्द्र धनुष योजना",
+                        keywords: ["beti bachao", "sukanya", "mahila yojana"],
+                        format: "आवेदिका/बालिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०: \nबैंक/पोस्ट ऑफिस डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "अल्पसंख्यक कल्याण एवं वक्फ विभाग",
+                icon: "fa-mosque",
+                color: "bg-teal-50 border-teal-500 text-teal-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1 & 2",
+                        title: "सुन्नी / शिया वक्फ बोर्ड की सम्पत्ति से शिकायत",
+                        keywords: ["waqf", "sunni", "shia", "masjid jamin", "dargah"],
+                        format: "आवेदक: \nपता: \nसम्पत्ति स्थान (वक्फ डायरी/दरगाह नाम यदि हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी 3",
+                        title: "अल्पसंख्यक छात्रवृत्ति / शुल्क प्रतिपूर्ति (मुस्लिम, सिख, ईसाई आदि)",
+                        keywords: ["minority scholarship", "alpsankhyak chatravriti", "fees wapsi minority"],
+                        format: "छात्र का नाम: \nधर्म, जाति: \nआवेदन सं०/दिनांक: \nविद्यालय का नाम व पता: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // SYSTEM LOGIC (कोडिंग पार्ट)
+        // ==========================================
+
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Initialize counters
+        function updateCounters() {
+            document.getElementById('totalDepts').innerText = cmhlData.length;
+            let catCount = 0;
+            cmhlData.forEach(d => catCount += d.categories.length);
+            document.getElementById('totalCategories').innerText = catCount;
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+
+        function renderData(dataToRender, query = '') {
+            resultsContainer.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            dataToRender.forEach(dept => {
+                const isExpanded = query.length > 0; // Auto-expand if searching
+                
+                const deptHTML = `
+                    <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all hover:shadow-md">
+                        <div class="px-6 py-4 cursor-pointer flex justify-between items-center ${dept.color}" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center text-xl shadow-sm">
+                                    <i class="fas ${dept.icon}"></i>
+                                </div>
+                                <h2 class="text-xl font-extrabold tracking-wide">${highlightText(dept.vibhag, query)}</h2>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm font-bold bg-white/50 px-3 py-1 rounded-full">${dept.categories.length} श्रेणियां</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'block' : 'hidden'} bg-white divide-y divide-gray-100">
+                            ${dept.categories.map(cat => `
+                                <div class="p-6 hover:bg-gray-50 transition-colors relative group">
+                                    <div class="flex flex-col md:flex-row gap-4 justify-between items-start">
+                                        <div class="flex-1">
+                                            <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs font-bold rounded mb-2">${cat.shreni}</span>
+                                            <h3 class="text-lg font-bold text-gray-800 mb-1">${highlightText(cat.title, query)}</h3>
+                                            <p class="text-xs text-gray-400 font-mono mb-4"><i class="fas fa-tags mr-1"></i> Tags: ${cat.keywords.join(', ')}</p>
+                                        </div>
+                                        
+                                        <button onclick="copyFormat(this, \`${cat.format.replace(/\n/g, '\\n')}\`)" 
+                                            class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded shadow-sm flex items-center gap-2 transition-colors">
+                                            <i class="fas fa-copy"></i> Format Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 font-mono text-sm whitespace-pre-wrap text-blue-900 shadow-inner">${highlightText(cat.format, query)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', deptHTML);
+            });
+        }
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Toggle clear button
+            if(query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            if (query === '') {
+                renderData(cmhlData);
+                return;
+            }
+
+            // Filtering logic
+            const filteredData = cmhlData.map(dept => {
+                const deptMatch = dept.vibhag.toLowerCase().includes(query);
+                
+                const matchedCategories = dept.categories.filter(cat => {
+                    const titleMatch = cat.title.toLowerCase().includes(query);
+                    const formatMatch = cat.format.toLowerCase().includes(query);
+                    const keywordMatch = cat.keywords.some(kw => kw.toLowerCase().includes(query));
+                    return titleMatch || formatMatch || keywordMatch;
+                });
+
+                // If department matches, show all categories. If categories match, show only those.
+                if (deptMatch && matchedCategories.length === 0) {
+                     return { ...dept, categories: dept.categories };
+                } else if (matchedCategories.length > 0) {
+                     return { ...dept, categories: matchedCategories };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            renderData(filteredData, query);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        function copyFormat(btnElement, textToCopy) {
+            // Replace literal \n with actual newlines for clipboard
+            const formattedText = textToCopy.replace(/\\n/g, '\n');
+            
+            navigator.clipboard.writeText(formattedText).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btnElement.classList.replace('bg-blue-600', 'bg-green-600');
+                btnElement.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('bg-green-600', 'bg-blue-600');
+                    btnElement.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Copy karne me error aayi: ' + err);
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateCounters();
+            renderData(cmhlData);
+        };
+
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Master Search Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-header {
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 4px solid #3b82f6;
+        }
+        .search-bar { transition: all 0.3s ease; }
+        .search-bar:focus-within { box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        .highlight { background-color: #fef08a; font-weight: bold; border-radius: 2px; padding: 0 2px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- Header & Search Area -->
+    <div class="sticky top-0 z-50 glass-header shadow-lg p-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+                <div class="text-white">
+                    <h1 class="text-3xl font-extrabold tracking-wide"><i class="fas fa-headset mr-2 text-blue-300"></i>CMHL Smart Finder</h1>
+                    <p class="text-blue-200 text-sm mt-1">शिकायत खोजें, विभाग जानें और फॉर्मेट कॉपी करें</p>
+                </div>
+                <div class="bg-blue-900 text-blue-100 px-4 py-2 rounded-lg border border-blue-700 text-sm font-semibold">
+                    <span id="totalDepts">0</span> विभाग | <span id="totalCategories">0</span> श्रेणियां
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative search-bar max-w-3xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-xl border-2 border-transparent focus:border-blue-400 focus:ring-0 text-lg text-gray-900 shadow-inner placeholder-gray-400" 
+                    placeholder="क्या शिकायत है? कीवर्ड टाइप करें (उदा: राशन, सड़क, पेंशन, FIR...)"
+                    onkeyup="performSearch()">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden text-gray-400 hover:text-red-500">
+                    <i class="fas fa-times-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Results -->
+    <div class="max-w-6xl mx-auto mt-8 px-4">
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search-minus text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-500">कोई परिणाम नहीं मिला</h2>
+            <p class="text-gray-400 mt-2">कृपया दूसरे शब्दों का प्रयोग करें।</p>
+        </div>
+
+        <div id="resultsContainer" class="space-y-6">
+            <!-- Results will be injected here via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DATABASE: यहाँ आप अपनी सारी शिकायतें जोड़ सकते हैं
+        // ==========================================
+        const cmhlData = [
+            {
+                vibhag: "खाद्य एवं रसद विभाग",
+                icon: "fa-wheat-awn",
+                color: "bg-orange-50 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "उचित दर विक्रेता (कोटेदार) की अनियमितता / जांच / कालाबाजारी",
+                        keywords: ["ration", "kotedar", "rashan", "kalabajari", "dhoka", "galla", "chawal", "gehu"],
+                        format: "आवेदिका का नाम: \nपिता व पति का नाम: \nपता: (ग्रामीण-ग्राम / शहरी-वार्ड, मोहल्ला): \nराशन कार्ड संख्या: \nकोटेदार का नाम: \nकोटा केन्द्र: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "पात्र गृहस्थी/अन्त्योदय (नया राशन कार्ड बनवाने या यूनिट जुड़वाने की मांग)",
+                        keywords: ["naya ration card", "unit judwana", "mang", "naam judwana"],
+                        format: "[नया राशन कार्ड]\nआवेदिका का नाम: \nपिता/पति: \nपता: \nआवेदन संख्या: \nआवेदन दिनांक: \nमांग का विवरण: \n\n[यूनिट जुड़वाना]\nराशन कार्ड संख्या: \nयूनिट का नाम: \nमांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "राशन कार्ड या यूनिट कट जाने पर पुनः जुड़वाने की शिकायत",
+                        keywords: ["kat gaya", "ration card cut", "unit cut", "dobara judwana", "shikayat"],
+                        format: "आवेदिका का नाम: \nपिता/पति का नाम: \nपता: \nराशन कार्ड सं०: \nकटी हुई यूनिट का नाम (यदि हो): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "डिब्बा बन्द सामग्री पर MRP से अधिक मूल्य लेना",
+                        keywords: ["mrp", "mahanga", "zyada rate", "overcharging", "rate"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nदुकान का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "पेट्रोल पम्प पर मिलावट या घटतौली",
+                        keywords: ["petrol", "diesel", "pump", "milawat", "kam petrol", "ghattauli"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nपेट्रोल पम्प का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण (मिलावट/घटतौली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "रसोई गैस (LPG) घटतौली या आपूर्ति न होना",
+                        keywords: ["gas", "cylinder", "lpg", "agency", "kam gas", "home delivery"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nएजेंसी का नाम: \nसंचालक का नाम: \nस्थान: \nउपभोक्ता संख्या (Consumer No): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 9",
+                        title: "गेहूं / धान खरीद के सम्बन्ध में शिकायत (मंडी/क्रय केंद्र)",
+                        keywords: ["gehu kharid", "dhan kharid", "mandi", "kray kendra", "bhugtan", "payment"],
+                        format: "किसान का नाम: \nपिता का नाम: \nक्रय केंद्र/मंडी का नाम: \nसंचालक का नाम: \nस्थान: \nबैंक का नाम व खाता सं० (यदि भुगतान रुका हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "समाज कल्याण विभाग",
+                icon: "fa-hands-holding-child",
+                color: "bg-purple-50 border-purple-500 text-purple-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "वृद्धावस्था पेंशन की मांग",
+                        keywords: ["vridha", "budhapa pension", "buddha pension", "mang", "old age"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nउम्र: \nमांग का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "वृद्धावस्था पेंशन की शिकायत (नहीं आई / बन्द हो गई)",
+                        keywords: ["pension ruki", "nahi aayi", "band ho gayi", "old age pension"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nउम्र: \nशिकायत का विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "पारिवारिक लाभ योजना (मुखिया की मृत्यु पर)",
+                        keywords: ["parivarik labh", "mukhiya mrityu", "30000", "muawza"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०: \nआवेदन दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "सामूहिक विवाह योजना शिकायत",
+                        keywords: ["samuhik vivah", "shadi anudan", "kanya vivah"],
+                        format: "आवेदिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०/दिनांक: \nशादी दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "छात्रवृत्ति (SC/ST/General) एवं शुल्क प्रतिपूर्ति (फीस वापसी)",
+                        keywords: ["scholarship", "chatravriti", "fees wapsi", "sc st gen", "shulk"],
+                        format: "छात्र का नाम: \nधर्म, जाति/वर्ग: \nआवेदन सं०/दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पिछड़ा वर्ग कल्याण विभाग",
+                icon: "fa-user-graduate",
+                color: "bg-orange-100 border-orange-600 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "OBC छात्रवृत्ति एवं फीस वापसी (पूर्व दशम व दशमोत्तर)",
+                        keywords: ["obc scholarship", "obc fees wapsi", "chatravriti obc", "pichhda varg"],
+                        format: "छात्र का नाम: \nपिता का नाम: \nधर्म, जाति, वर्ग (OBC): \nआवेदन संख्या व दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नगर विकास विभाग (शहरी क्षेत्र)",
+                icon: "fa-city",
+                color: "bg-pink-50 border-pink-500 text-pink-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "कूड़ा, गंदगी एवं सफाई कर्मी सम्बन्धी (शहरी)",
+                        keywords: ["kuda", "gandagi", "safai karmi", "nagar nigam", "palika", "shahar safai"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nवार्ड नंबर व मोहल्ला: \nपार्षद/चेयरमैन का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3, 4, 5",
+                        title: "जलकर (Water Tax) सम्बन्धी",
+                        keywords: ["jal kar", "water tax", "pani bill", "house tax"],
+                        format: "आवेदक: \nपिता का नाम: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nरसीद संख्या: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6 & 7",
+                        title: "आवारा पशु / मृत पशु उठवाने सम्बन्धी (शहरी)",
+                        keywords: ["awara pashu", "mrit pashu", "mara janwar", "kutta", "gay shahar"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 8 to 11",
+                        title: "सड़क, सी०सी० रोड, नाली निर्माण, सड़क खुदाई व जल भराव",
+                        keywords: ["sadak shahar", "cc road", "jal bharav", "khudai", "gaddha", "footpath"],
+                        format: "आवेदक: \nपिता: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 12 & 13",
+                        title: "PM शहरी आवास योजना / DUDA / SUDA (मांग/किश्त न आना)",
+                        keywords: ["pm awas shahar", "duda", "suda", "shahari awas", "kist nahi aayi", "makaan"],
+                        format: "आवेदक: \nपिता/पति: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nमांग/शिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 14 & 15",
+                        title: "प्रकाश व्यवस्था (स्ट्रीट लाइट शहरी)",
+                        keywords: ["street light", "batti", "khambha", "andhera", "shahar light"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत विवरण (खराब लाइटों की संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 16, 17, 18",
+                        title: "पेयजल व्यवस्था (शहरी / झांसी-चित्रकूट मंडल)",
+                        keywords: ["peyjal shahar", "pani nahi aa raha", "pipeline", "shahar pani", "jhansi", "chitrakoot"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 19 to 22",
+                        title: "सीवर, नाला-नाली चोक या ओवर फ्लो (शहरी)",
+                        keywords: ["sewer shahar", "nala", "naali", "choke", "overflow", "shahar naali"],
+                        format: "आवेदक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 23 to 26",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (शहरी)",
+                        keywords: ["janam praman patra shahar", "mrityu praman patra", "birth certificate", "death certificate"],
+                        format: "आवेदक: \nपिता/पति: \nआवेदन सं०/दिनांक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "ग्राम विकास विभाग",
+                icon: "fa-tree",
+                color: "bg-emerald-50 border-emerald-500 text-emerald-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "निराश्रित गोवंश (आवारा पशु - गाय, सांड) ग्रामीण",
+                        keywords: ["awara pashu gaon", "govansh", "sand", "gay", "gramin pashu", "fasal kharab"],
+                        format: "आवेदक: \nपिता: \nग्राम: \nप्रधान: \nसचिव: \nस्थान: \nशिकायत विवरण (पशुओं की अनुमानित संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "PM ग्रामीण आवास योजना (मांग, किश्त रुकी, अपात्र को आवंटन)",
+                        keywords: ["pm awas gaon", "gramin awas", "kist nahi aayi", "apatra awas", "makaan gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nप्रधान: \nसचिव: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nअपात्र व्यक्ति का नाम (यदि हो): \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिया की मरम्मत",
+                        keywords: ["puliya", "gaon puliya", "marammat puliya"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "PM ग्राम सड़क योजना / तालाब खुदाई (ग्राम विकास)",
+                        keywords: ["sadak gaon", "pm gram sadak", "talab gaon", "kcc road"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6",
+                        title: "विधायक निधि / सांसद निधि के कार्य",
+                        keywords: ["vidhayak nidhi", "sansad nidhi"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "मनरेगा (मजदूरी न मिलना / फर्जी मस्टर रोल)",
+                        keywords: ["mgnrega", "manrega", "majdoori", "farzi muster roll", "job card"],
+                        format: "आवेदक: \nग्राम: \nमनरेगा जाब कार्ड सं०: \nप्रधान/सचिव: \nरोजगार सहायक का नाम: \nअपात्र व्यक्ति का नाम (यदि फर्जी हो): \nबैंक डिटेल (यदि मजदूरी रुकी हो): \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पंचायती राज विभाग",
+                icon: "fa-users",
+                color: "bg-amber-50 border-amber-500 text-amber-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "ग्रामों में सफाई व्यवस्था / सफाई कर्मचारी",
+                        keywords: ["safai gaon", "safai karmi gaon", "gandagi gaon", "naali safai gaon"],
+                        format: "आवेदक: \nग्राम: \nस्थान: \nप्रधान/सचिव: \nसफाई कर्मचारी का नाम: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (ग्रामीण)",
+                        keywords: ["birth certificate gaon", "death certificate gaon", "janam praman gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nआवेदन सं०/दिनांक: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3 & 4",
+                        title: "सामुदायिक शौचालय / स्वच्छ भारत मिशन (व्यक्तिगत शौचालय)",
+                        keywords: ["shauchalay", "toilet gaon", "samudaik shauchalay", "swachh bharat"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nआवेदन सं०/दिनांक: \nबैंक डिटेल (यदि किश्त रुकी हो): \nस्थान: \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "हैंड पम्प मरम्मत / स्ट्रीट लाइट / बन्दर पकड़वाना / ग्राम सड़क/नाली",
+                        keywords: ["handpump marammat", "street light gaon", "bandar gaon", "cc road gaon", "naali gaon"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "गृह गोपन विभाग (पुलिस)",
+                icon: "fa-shield-halved",
+                color: "bg-indigo-50 border-indigo-500 text-indigo-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "सिविल पुलिस द्वारा चालान काटना",
+                        keywords: ["challan", "police challan", "traffic"],
+                        format: "आवेदक: \nथाने का नाम: \nरसीद सं०: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "FIR दर्ज न करना / कार्यवाही न करना",
+                        keywords: ["fir darj nahi", "karyawahi nahi", "police action", "thana"],
+                        format: "पीड़ित का नाम: \nघटना स्थल का पता व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि दर्ज हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिस के विरुद्ध शिकायत / भ्रष्टाचार / दुर्व्यवहार",
+                        keywords: ["police shikayat", "rashwat police", "durvyavhar", "hirasat maut"],
+                        format: "आवेदक: \nपुलिस अधिकारी का नाम/पद: \nथाना: \nघटना स्थल: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य महत्वपूर्ण",
+                        title: "संपत्ति विवाद / गलत FIR / CBCID जांच / महिला उत्पीड़न / गुंडागर्दी",
+                        keywords: ["jameen vivad", "galat fir", "rape", "mahila utpidan", "gharelu hinsa", "mafia", "gunda tax", "marpeet"],
+                        format: "आवेदक/पीड़ित का नाम: \nघटना स्थल व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि हो): \nशिकायत का विस्तृत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "राजस्व एवं आपदा विभाग",
+                icon: "fa-map",
+                color: "bg-yellow-100 border-yellow-600 text-yellow-900",
+                categories: [
+                    {
+                        shreni: "महत्वपूर्ण",
+                        title: "आय / जाति / निवास प्रमाण पत्र",
+                        keywords: ["aay praman patra", "jati praman", "niwas praman", "income certificate"],
+                        format: "आवेदक: \nपिता: \nपता: \nआवेदन सं०/दिनांक: \nलेखपाल का नाम (यदि पता हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "भूमि विवाद",
+                        title: "ग्राम समाज जमीन (तालाब, खलिहान, बंजर) पर कब्जा / भू-माफिया",
+                        keywords: ["kabja", "talab kabja", "bhoo mafia", "gram samaj jamin", "banjar"],
+                        format: "आवेदक: \nपता/ग्राम: \nखसरा/गाटा सं०: \nकुल जमीन: \nकब्जेदार का नाम: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य",
+                        title: "आपदा राहत (फसल नुकसान) / पट्टा मांग / भूमि अधिग्रहण",
+                        keywords: ["aapda rahat", "muawza", "patta", "bhumi adhigrahan", "fasal nuksan rahat"],
+                        format: "आवेदक: \nग्राम: \nगाटा सं०: \nबैंक डिटेल (यदि मुआवजा रुका हो): \nमांग/शिकायत विवरण: "
+                    },
+                    {
+                        shreni: "योजना",
+                        title: "प्रधानमंत्री मातृ वंदना योजना",
+                        keywords: ["matru vandana", "garbhavati", "matritva"],
+                        format: "आवेदिका: \nपति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "कृषि विभाग",
+                icon: "fa-tractor",
+                color: "bg-green-50 border-green-500 text-green-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "प्रधानमंत्री किसान सम्मान निधि (PM Kisan) किश्त न आना",
+                        keywords: ["pm kisan", "samman nidhi", "kisan kist", "2000"],
+                        format: "किसान का नाम: \nपिता: \nग्राम: \nआवेदन सं०: \nगाटा/खसरा सं०: \nबैंक डिटेल: \nशिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "अन्य श्रेणियां",
+                        title: "कृषि उपकरण अनुदान / बीज-खाद लाइसेंस / फसल बीमा / खाद-बीज मांग",
+                        keywords: ["krishi upkaran", "tractor subsidy", "dbt", "khad beej", "fasal bima", "licence"],
+                        format: "किसान का नाम: \nग्राम: \nदुकान/एजेंसी/बीमा कंपनी का नाम व स्थान: \nबैंक डिटेल (DBT/बीमा के लिए): \nआवेदन/बीमा सं०: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "बाल विकास पुष्टाहार विभाग",
+                icon: "fa-child",
+                color: "bg-fuchsia-50 border-fuchsia-500 text-fuchsia-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2 & 3",
+                        title: "अनुपूरक पोषाहार वितरण / आंगनबाड़ी कार्यकत्री शिकायत / केन्द्र संचालन",
+                        keywords: ["anganwadi", "poshahar", "panjiri", "karyakatri", "kendra band", "bachhe ration"],
+                        format: "आवेदक: \nपता: \nआंगनबाड़ी कार्यकत्री का नाम: \nआंगनबाड़ी केन्द्र का नाम व स्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नमामि गंगे तथा ग्रामीण जलापूर्ति विभाग",
+                icon: "fa-faucet-drip",
+                color: "bg-cyan-50 border-cyan-500 text-cyan-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2, 3",
+                        title: "ग्रामीण हैंडपंप / पाइप पेयजल / जल निगम योजनाएं (मांग व शिकायत)",
+                        keywords: ["handpump gaon", "pipe line gaon", "nal se jal", "jal nigam", "pani ki tanki", "namami gange"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "महिला कल्याण विभाग",
+                icon: "fa-person-dress",
+                color: "bg-rose-50 border-rose-500 text-rose-900",
+                categories: [
+                    {
+                        shreni: "पेंशन",
+                        title: "विधवा / पति की मृत्यु उपरांत निराश्रित महिला पेंशन (मांग व शिकायत)",
+                        keywords: ["vidhwa pension", "nirashrit mahila pension", "pati mrityu pension", "pension ruki"],
+                        format: "आवेदिका का नाम: \nपति का नाम: \nपता: \nआवेदन सं०/दिनांक: \nबैंक, खाता सं०, शाखा: \nशिकायत विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "योजनाएं",
+                        title: "बेटी बचाओ बेटी पढाओ / सुकन्या समृद्धि / इन्द्र धनुष योजना",
+                        keywords: ["beti bachao", "sukanya", "mahila yojana"],
+                        format: "आवेदिका/बालिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०: \nबैंक/पोस्ट ऑफिस डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "अल्पसंख्यक कल्याण एवं वक्फ विभाग",
+                icon: "fa-mosque",
+                color: "bg-teal-50 border-teal-500 text-teal-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1 & 2",
+                        title: "सुन्नी / शिया वक्फ बोर्ड की सम्पत्ति से शिकायत",
+                        keywords: ["waqf", "sunni", "shia", "masjid jamin", "dargah"],
+                        format: "आवेदक: \nपता: \nसम्पत्ति स्थान (वक्फ डायरी/दरगाह नाम यदि हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी 3",
+                        title: "अल्पसंख्यक छात्रवृत्ति / शुल्क प्रतिपूर्ति (मुस्लिम, सिख, ईसाई आदि)",
+                        keywords: ["minority scholarship", "alpsankhyak chatravriti", "fees wapsi minority"],
+                        format: "छात्र का नाम: \nधर्म, जाति: \nआवेदन सं०/दिनांक: \nविद्यालय का नाम व पता: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // SYSTEM LOGIC (कोडिंग पार्ट)
+        // ==========================================
+
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Initialize counters
+        function updateCounters() {
+            document.getElementById('totalDepts').innerText = cmhlData.length;
+            let catCount = 0;
+            cmhlData.forEach(d => catCount += d.categories.length);
+            document.getElementById('totalCategories').innerText = catCount;
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+
+        function renderData(dataToRender, query = '') {
+            resultsContainer.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            dataToRender.forEach(dept => {
+                const isExpanded = query.length > 0; // Auto-expand if searching
+                
+                const deptHTML = `
+                    <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all hover:shadow-md">
+                        <div class="px-6 py-4 cursor-pointer flex justify-between items-center ${dept.color}" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center text-xl shadow-sm">
+                                    <i class="fas ${dept.icon}"></i>
+                                </div>
+                                <h2 class="text-xl font-extrabold tracking-wide">${highlightText(dept.vibhag, query)}</h2>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm font-bold bg-white/50 px-3 py-1 rounded-full">${dept.categories.length} श्रेणियां</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'block' : 'hidden'} bg-white divide-y divide-gray-100">
+                            ${dept.categories.map(cat => `
+                                <div class="p-6 hover:bg-gray-50 transition-colors relative group">
+                                    <div class="flex flex-col md:flex-row gap-4 justify-between items-start">
+                                        <div class="flex-1">
+                                            <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs font-bold rounded mb-2">${cat.shreni}</span>
+                                            <h3 class="text-lg font-bold text-gray-800 mb-1">${highlightText(cat.title, query)}</h3>
+                                            <p class="text-xs text-gray-400 font-mono mb-4"><i class="fas fa-tags mr-1"></i> Tags: ${cat.keywords.join(', ')}</p>
+                                        </div>
+                                        
+                                        <button onclick="copyFormat(this, \`${cat.format.replace(/\n/g, '\\n')}\`)" 
+                                            class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded shadow-sm flex items-center gap-2 transition-colors">
+                                            <i class="fas fa-copy"></i> Format Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 font-mono text-sm whitespace-pre-wrap text-blue-900 shadow-inner">${highlightText(cat.format, query)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', deptHTML);
+            });
+        }
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Toggle clear button
+            if(query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            if (query === '') {
+                renderData(cmhlData);
+                return;
+            }
+
+            // Filtering logic
+            const filteredData = cmhlData.map(dept => {
+                const deptMatch = dept.vibhag.toLowerCase().includes(query);
+                
+                const matchedCategories = dept.categories.filter(cat => {
+                    const titleMatch = cat.title.toLowerCase().includes(query);
+                    const formatMatch = cat.format.toLowerCase().includes(query);
+                    const keywordMatch = cat.keywords.some(kw => kw.toLowerCase().includes(query));
+                    return titleMatch || formatMatch || keywordMatch;
+                });
+
+                // If department matches, show all categories. If categories match, show only those.
+                if (deptMatch && matchedCategories.length === 0) {
+                     return { ...dept, categories: dept.categories };
+                } else if (matchedCategories.length > 0) {
+                     return { ...dept, categories: matchedCategories };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            renderData(filteredData, query);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        function copyFormat(btnElement, textToCopy) {
+            // Replace literal \n with actual newlines for clipboard
+            const formattedText = textToCopy.replace(/\\n/g, '\n');
+            
+            navigator.clipboard.writeText(formattedText).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btnElement.classList.replace('bg-blue-600', 'bg-green-600');
+                btnElement.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('bg-green-600', 'bg-blue-600');
+                    btnElement.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Copy karne me error aayi: ' + err);
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateCounters();
+            renderData(cmhlData);
+        };
+
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Master Search Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-header {
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 4px solid #3b82f6;
+        }
+        .search-bar { transition: all 0.3s ease; }
+        .search-bar:focus-within { box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        .highlight { background-color: #fef08a; font-weight: bold; border-radius: 2px; padding: 0 2px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- Header & Search Area -->
+    <div class="sticky top-0 z-50 glass-header shadow-lg p-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+                <div class="text-white">
+                    <h1 class="text-3xl font-extrabold tracking-wide"><i class="fas fa-headset mr-2 text-blue-300"></i>CMHL Smart Finder</h1>
+                    <p class="text-blue-200 text-sm mt-1">शिकायत खोजें, विभाग जानें और फॉर्मेट कॉपी करें</p>
+                </div>
+                <div class="bg-blue-900 text-blue-100 px-4 py-2 rounded-lg border border-blue-700 text-sm font-semibold">
+                    <span id="totalDepts">0</span> विभाग | <span id="totalCategories">0</span> श्रेणियां
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative search-bar max-w-3xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-xl border-2 border-transparent focus:border-blue-400 focus:ring-0 text-lg text-gray-900 shadow-inner placeholder-gray-400" 
+                    placeholder="क्या शिकायत है? कीवर्ड टाइप करें (उदा: राशन, सड़क, पेंशन, FIR...)"
+                    onkeyup="performSearch()">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden text-gray-400 hover:text-red-500">
+                    <i class="fas fa-times-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Results -->
+    <div class="max-w-6xl mx-auto mt-8 px-4">
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search-minus text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-500">कोई परिणाम नहीं मिला</h2>
+            <p class="text-gray-400 mt-2">कृपया दूसरे शब्दों का प्रयोग करें।</p>
+        </div>
+
+        <div id="resultsContainer" class="space-y-6">
+            <!-- Results will be injected here via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DATABASE: यहाँ आप अपनी सारी शिकायतें जोड़ सकते हैं
+        // ==========================================
+        const cmhlData = [
+            {
+                vibhag: "खाद्य एवं रसद विभाग",
+                icon: "fa-wheat-awn",
+                color: "bg-orange-50 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "उचित दर विक्रेता (कोटेदार) की अनियमितता / जांच / कालाबाजारी",
+                        keywords: ["ration", "kotedar", "rashan", "kalabajari", "dhoka", "galla", "chawal", "gehu"],
+                        format: "आवेदिका का नाम: \nपिता व पति का नाम: \nपता: (ग्रामीण-ग्राम / शहरी-वार्ड, मोहल्ला): \nराशन कार्ड संख्या: \nकोटेदार का नाम: \nकोटा केन्द्र: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "पात्र गृहस्थी/अन्त्योदय (नया राशन कार्ड बनवाने या यूनिट जुड़वाने की मांग)",
+                        keywords: ["naya ration card", "unit judwana", "mang", "naam judwana"],
+                        format: "[नया राशन कार्ड]\nआवेदिका का नाम: \nपिता/पति: \nपता: \nआवेदन संख्या: \nआवेदन दिनांक: \nमांग का विवरण: \n\n[यूनिट जुड़वाना]\nराशन कार्ड संख्या: \nयूनिट का नाम: \nमांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "राशन कार्ड या यूनिट कट जाने पर पुनः जुड़वाने की शिकायत",
+                        keywords: ["kat gaya", "ration card cut", "unit cut", "dobara judwana", "shikayat"],
+                        format: "आवेदिका का नाम: \nपिता/पति का नाम: \nपता: \nराशन कार्ड सं०: \nकटी हुई यूनिट का नाम (यदि हो): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "डिब्बा बन्द सामग्री पर MRP से अधिक मूल्य लेना",
+                        keywords: ["mrp", "mahanga", "zyada rate", "overcharging", "rate"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nदुकान का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "पेट्रोल पम्प पर मिलावट या घटतौली",
+                        keywords: ["petrol", "diesel", "pump", "milawat", "kam petrol", "ghattauli"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nपेट्रोल पम्प का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण (मिलावट/घटतौली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "रसोई गैस (LPG) घटतौली या आपूर्ति न होना",
+                        keywords: ["gas", "cylinder", "lpg", "agency", "kam gas", "home delivery"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nएजेंसी का नाम: \nसंचालक का नाम: \nस्थान: \nउपभोक्ता संख्या (Consumer No): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 9",
+                        title: "गेहूं / धान खरीद के सम्बन्ध में शिकायत (मंडी/क्रय केंद्र)",
+                        keywords: ["gehu kharid", "dhan kharid", "mandi", "kray kendra", "bhugtan", "payment"],
+                        format: "किसान का नाम: \nपिता का नाम: \nक्रय केंद्र/मंडी का नाम: \nसंचालक का नाम: \nस्थान: \nबैंक का नाम व खाता सं० (यदि भुगतान रुका हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "समाज कल्याण विभाग",
+                icon: "fa-hands-holding-child",
+                color: "bg-purple-50 border-purple-500 text-purple-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "वृद्धावस्था पेंशन की मांग",
+                        keywords: ["vridha", "budhapa pension", "buddha pension", "mang", "old age"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nउम्र: \nमांग का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "वृद्धावस्था पेंशन की शिकायत (नहीं आई / बन्द हो गई)",
+                        keywords: ["pension ruki", "nahi aayi", "band ho gayi", "old age pension"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nउम्र: \nशिकायत का विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "पारिवारिक लाभ योजना (मुखिया की मृत्यु पर)",
+                        keywords: ["parivarik labh", "mukhiya mrityu", "30000", "muawza"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०: \nआवेदन दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "सामूहिक विवाह योजना शिकायत",
+                        keywords: ["samuhik vivah", "shadi anudan", "kanya vivah"],
+                        format: "आवेदिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०/दिनांक: \nशादी दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "छात्रवृत्ति (SC/ST/General) एवं शुल्क प्रतिपूर्ति (फीस वापसी)",
+                        keywords: ["scholarship", "chatravriti", "fees wapsi", "sc st gen", "shulk"],
+                        format: "छात्र का नाम: \nधर्म, जाति/वर्ग: \nआवेदन सं०/दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पिछड़ा वर्ग कल्याण विभाग",
+                icon: "fa-user-graduate",
+                color: "bg-orange-100 border-orange-600 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "OBC छात्रवृत्ति एवं फीस वापसी (पूर्व दशम व दशमोत्तर)",
+                        keywords: ["obc scholarship", "obc fees wapsi", "chatravriti obc", "pichhda varg"],
+                        format: "छात्र का नाम: \nपिता का नाम: \nधर्म, जाति, वर्ग (OBC): \nआवेदन संख्या व दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नगर विकास विभाग (शहरी क्षेत्र)",
+                icon: "fa-city",
+                color: "bg-pink-50 border-pink-500 text-pink-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "कूड़ा, गंदगी एवं सफाई कर्मी सम्बन्धी (शहरी)",
+                        keywords: ["kuda", "gandagi", "safai karmi", "nagar nigam", "palika", "shahar safai"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nवार्ड नंबर व मोहल्ला: \nपार्षद/चेयरमैन का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3, 4, 5",
+                        title: "जलकर (Water Tax) सम्बन्धी",
+                        keywords: ["jal kar", "water tax", "pani bill", "house tax"],
+                        format: "आवेदक: \nपिता का नाम: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nरसीद संख्या: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6 & 7",
+                        title: "आवारा पशु / मृत पशु उठवाने सम्बन्धी (शहरी)",
+                        keywords: ["awara pashu", "mrit pashu", "mara janwar", "kutta", "gay shahar"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 8 to 11",
+                        title: "सड़क, सी०सी० रोड, नाली निर्माण, सड़क खुदाई व जल भराव",
+                        keywords: ["sadak shahar", "cc road", "jal bharav", "khudai", "gaddha", "footpath"],
+                        format: "आवेदक: \nपिता: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 12 & 13",
+                        title: "PM शहरी आवास योजना / DUDA / SUDA (मांग/किश्त न आना)",
+                        keywords: ["pm awas shahar", "duda", "suda", "shahari awas", "kist nahi aayi", "makaan"],
+                        format: "आवेदक: \nपिता/पति: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nमांग/शिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 14 & 15",
+                        title: "प्रकाश व्यवस्था (स्ट्रीट लाइट शहरी)",
+                        keywords: ["street light", "batti", "khambha", "andhera", "shahar light"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत विवरण (खराब लाइटों की संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 16, 17, 18",
+                        title: "पेयजल व्यवस्था (शहरी / झांसी-चित्रकूट मंडल)",
+                        keywords: ["peyjal shahar", "pani nahi aa raha", "pipeline", "shahar pani", "jhansi", "chitrakoot"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 19 to 22",
+                        title: "सीवर, नाला-नाली चोक या ओवर फ्लो (शहरी)",
+                        keywords: ["sewer shahar", "nala", "naali", "choke", "overflow", "shahar naali"],
+                        format: "आवेदक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 23 to 26",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (शहरी)",
+                        keywords: ["janam praman patra shahar", "mrityu praman patra", "birth certificate", "death certificate"],
+                        format: "आवेदक: \nपिता/पति: \nआवेदन सं०/दिनांक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "ग्राम विकास विभाग",
+                icon: "fa-tree",
+                color: "bg-emerald-50 border-emerald-500 text-emerald-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "निराश्रित गोवंश (आवारा पशु - गाय, सांड) ग्रामीण",
+                        keywords: ["awara pashu gaon", "govansh", "sand", "gay", "gramin pashu", "fasal kharab"],
+                        format: "आवेदक: \nपिता: \nग्राम: \nप्रधान: \nसचिव: \nस्थान: \nशिकायत विवरण (पशुओं की अनुमानित संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "PM ग्रामीण आवास योजना (मांग, किश्त रुकी, अपात्र को आवंटन)",
+                        keywords: ["pm awas gaon", "gramin awas", "kist nahi aayi", "apatra awas", "makaan gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nप्रधान: \nसचिव: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nअपात्र व्यक्ति का नाम (यदि हो): \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिया की मरम्मत",
+                        keywords: ["puliya", "gaon puliya", "marammat puliya"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "PM ग्राम सड़क योजना / तालाब खुदाई (ग्राम विकास)",
+                        keywords: ["sadak gaon", "pm gram sadak", "talab gaon", "kcc road"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6",
+                        title: "विधायक निधि / सांसद निधि के कार्य",
+                        keywords: ["vidhayak nidhi", "sansad nidhi"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "मनरेगा (मजदूरी न मिलना / फर्जी मस्टर रोल)",
+                        keywords: ["mgnrega", "manrega", "majdoori", "farzi muster roll", "job card"],
+                        format: "आवेदक: \nग्राम: \nमनरेगा जाब कार्ड सं०: \nप्रधान/सचिव: \nरोजगार सहायक का नाम: \nअपात्र व्यक्ति का नाम (यदि फर्जी हो): \nबैंक डिटेल (यदि मजदूरी रुकी हो): \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पंचायती राज विभाग",
+                icon: "fa-users",
+                color: "bg-amber-50 border-amber-500 text-amber-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "ग्रामों में सफाई व्यवस्था / सफाई कर्मचारी",
+                        keywords: ["safai gaon", "safai karmi gaon", "gandagi gaon", "naali safai gaon"],
+                        format: "आवेदक: \nग्राम: \nस्थान: \nप्रधान/सचिव: \nसफाई कर्मचारी का नाम: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (ग्रामीण)",
+                        keywords: ["birth certificate gaon", "death certificate gaon", "janam praman gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nआवेदन सं०/दिनांक: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3 & 4",
+                        title: "सामुदायिक शौचालय / स्वच्छ भारत मिशन (व्यक्तिगत शौचालय)",
+                        keywords: ["shauchalay", "toilet gaon", "samudaik shauchalay", "swachh bharat"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nआवेदन सं०/दिनांक: \nबैंक डिटेल (यदि किश्त रुकी हो): \nस्थान: \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "हैंड पम्प मरम्मत / स्ट्रीट लाइट / बन्दर पकड़वाना / ग्राम सड़क/नाली",
+                        keywords: ["handpump marammat", "street light gaon", "bandar gaon", "cc road gaon", "naali gaon"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "गृह गोपन विभाग (पुलिस)",
+                icon: "fa-shield-halved",
+                color: "bg-indigo-50 border-indigo-500 text-indigo-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "सिविल पुलिस द्वारा चालान काटना",
+                        keywords: ["challan", "police challan", "traffic"],
+                        format: "आवेदक: \nथाने का नाम: \nरसीद सं०: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "FIR दर्ज न करना / कार्यवाही न करना",
+                        keywords: ["fir darj nahi", "karyawahi nahi", "police action", "thana"],
+                        format: "पीड़ित का नाम: \nघटना स्थल का पता व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि दर्ज हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिस के विरुद्ध शिकायत / भ्रष्टाचार / दुर्व्यवहार",
+                        keywords: ["police shikayat", "rashwat police", "durvyavhar", "hirasat maut"],
+                        format: "आवेदक: \nपुलिस अधिकारी का नाम/पद: \nथाना: \nघटना स्थल: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य महत्वपूर्ण",
+                        title: "संपत्ति विवाद / गलत FIR / CBCID जांच / महिला उत्पीड़न / गुंडागर्दी",
+                        keywords: ["jameen vivad", "galat fir", "rape", "mahila utpidan", "gharelu hinsa", "mafia", "gunda tax", "marpeet"],
+                        format: "आवेदक/पीड़ित का नाम: \nघटना स्थल व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि हो): \nशिकायत का विस्तृत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "राजस्व एवं आपदा विभाग",
+                icon: "fa-map",
+                color: "bg-yellow-100 border-yellow-600 text-yellow-900",
+                categories: [
+                    {
+                        shreni: "महत्वपूर्ण",
+                        title: "आय / जाति / निवास प्रमाण पत्र",
+                        keywords: ["aay praman patra", "jati praman", "niwas praman", "income certificate"],
+                        format: "आवेदक: \nपिता: \nपता: \nआवेदन सं०/दिनांक: \nलेखपाल का नाम (यदि पता हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "भूमि विवाद",
+                        title: "ग्राम समाज जमीन (तालाब, खलिहान, बंजर) पर कब्जा / भू-माफिया",
+                        keywords: ["kabja", "talab kabja", "bhoo mafia", "gram samaj jamin", "banjar"],
+                        format: "आवेदक: \nपता/ग्राम: \nखसरा/गाटा सं०: \nकुल जमीन: \nकब्जेदार का नाम: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य",
+                        title: "आपदा राहत (फसल नुकसान) / पट्टा मांग / भूमि अधिग्रहण",
+                        keywords: ["aapda rahat", "muawza", "patta", "bhumi adhigrahan", "fasal nuksan rahat"],
+                        format: "आवेदक: \nग्राम: \nगाटा सं०: \nबैंक डिटेल (यदि मुआवजा रुका हो): \nमांग/शिकायत विवरण: "
+                    },
+                    {
+                        shreni: "योजना",
+                        title: "प्रधानमंत्री मातृ वंदना योजना",
+                        keywords: ["matru vandana", "garbhavati", "matritva"],
+                        format: "आवेदिका: \nपति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "कृषि विभाग",
+                icon: "fa-tractor",
+                color: "bg-green-50 border-green-500 text-green-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "प्रधानमंत्री किसान सम्मान निधि (PM Kisan) किश्त न आना",
+                        keywords: ["pm kisan", "samman nidhi", "kisan kist", "2000"],
+                        format: "किसान का नाम: \nपिता: \nग्राम: \nआवेदन सं०: \nगाटा/खसरा सं०: \nबैंक डिटेल: \nशिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "अन्य श्रेणियां",
+                        title: "कृषि उपकरण अनुदान / बीज-खाद लाइसेंस / फसल बीमा / खाद-बीज मांग",
+                        keywords: ["krishi upkaran", "tractor subsidy", "dbt", "khad beej", "fasal bima", "licence"],
+                        format: "किसान का नाम: \nग्राम: \nदुकान/एजेंसी/बीमा कंपनी का नाम व स्थान: \nबैंक डिटेल (DBT/बीमा के लिए): \nआवेदन/बीमा सं०: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "बाल विकास पुष्टाहार विभाग",
+                icon: "fa-child",
+                color: "bg-fuchsia-50 border-fuchsia-500 text-fuchsia-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2 & 3",
+                        title: "अनुपूरक पोषाहार वितरण / आंगनबाड़ी कार्यकत्री शिकायत / केन्द्र संचालन",
+                        keywords: ["anganwadi", "poshahar", "panjiri", "karyakatri", "kendra band", "bachhe ration"],
+                        format: "आवेदक: \nपता: \nआंगनबाड़ी कार्यकत्री का नाम: \nआंगनबाड़ी केन्द्र का नाम व स्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नमामि गंगे तथा ग्रामीण जलापूर्ति विभाग",
+                icon: "fa-faucet-drip",
+                color: "bg-cyan-50 border-cyan-500 text-cyan-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2, 3",
+                        title: "ग्रामीण हैंडपंप / पाइप पेयजल / जल निगम योजनाएं (मांग व शिकायत)",
+                        keywords: ["handpump gaon", "pipe line gaon", "nal se jal", "jal nigam", "pani ki tanki", "namami gange"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "महिला कल्याण विभाग",
+                icon: "fa-person-dress",
+                color: "bg-rose-50 border-rose-500 text-rose-900",
+                categories: [
+                    {
+                        shreni: "पेंशन",
+                        title: "विधवा / पति की मृत्यु उपरांत निराश्रित महिला पेंशन (मांग व शिकायत)",
+                        keywords: ["vidhwa pension", "nirashrit mahila pension", "pati mrityu pension", "pension ruki"],
+                        format: "आवेदिका का नाम: \nपति का नाम: \nपता: \nआवेदन सं०/दिनांक: \nबैंक, खाता सं०, शाखा: \nशिकायत विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "योजनाएं",
+                        title: "बेटी बचाओ बेटी पढाओ / सुकन्या समृद्धि / इन्द्र धनुष योजना",
+                        keywords: ["beti bachao", "sukanya", "mahila yojana"],
+                        format: "आवेदिका/बालिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०: \nबैंक/पोस्ट ऑफिस डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "अल्पसंख्यक कल्याण एवं वक्फ विभाग",
+                icon: "fa-mosque",
+                color: "bg-teal-50 border-teal-500 text-teal-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1 & 2",
+                        title: "सुन्नी / शिया वक्फ बोर्ड की सम्पत्ति से शिकायत",
+                        keywords: ["waqf", "sunni", "shia", "masjid jamin", "dargah"],
+                        format: "आवेदक: \nपता: \nसम्पत्ति स्थान (वक्फ डायरी/दरगाह नाम यदि हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी 3",
+                        title: "अल्पसंख्यक छात्रवृत्ति / शुल्क प्रतिपूर्ति (मुस्लिम, सिख, ईसाई आदि)",
+                        keywords: ["minority scholarship", "alpsankhyak chatravriti", "fees wapsi minority"],
+                        format: "छात्र का नाम: \nधर्म, जाति: \nआवेदन सं०/दिनांक: \nविद्यालय का नाम व पता: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // SYSTEM LOGIC (कोडिंग पार्ट)
+        // ==========================================
+
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Initialize counters
+        function updateCounters() {
+            document.getElementById('totalDepts').innerText = cmhlData.length;
+            let catCount = 0;
+            cmhlData.forEach(d => catCount += d.categories.length);
+            document.getElementById('totalCategories').innerText = catCount;
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+
+        function renderData(dataToRender, query = '') {
+            resultsContainer.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            dataToRender.forEach(dept => {
+                const isExpanded = query.length > 0; // Auto-expand if searching
+                
+                const deptHTML = `
+                    <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all hover:shadow-md">
+                        <div class="px-6 py-4 cursor-pointer flex justify-between items-center ${dept.color}" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center text-xl shadow-sm">
+                                    <i class="fas ${dept.icon}"></i>
+                                </div>
+                                <h2 class="text-xl font-extrabold tracking-wide">${highlightText(dept.vibhag, query)}</h2>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm font-bold bg-white/50 px-3 py-1 rounded-full">${dept.categories.length} श्रेणियां</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'block' : 'hidden'} bg-white divide-y divide-gray-100">
+                            ${dept.categories.map(cat => `
+                                <div class="p-6 hover:bg-gray-50 transition-colors relative group">
+                                    <div class="flex flex-col md:flex-row gap-4 justify-between items-start">
+                                        <div class="flex-1">
+                                            <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs font-bold rounded mb-2">${cat.shreni}</span>
+                                            <h3 class="text-lg font-bold text-gray-800 mb-1">${highlightText(cat.title, query)}</h3>
+                                            <p class="text-xs text-gray-400 font-mono mb-4"><i class="fas fa-tags mr-1"></i> Tags: ${cat.keywords.join(', ')}</p>
+                                        </div>
+                                        
+                                        <button onclick="copyFormat(this, \`${cat.format.replace(/\n/g, '\\n')}\`)" 
+                                            class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded shadow-sm flex items-center gap-2 transition-colors">
+                                            <i class="fas fa-copy"></i> Format Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 font-mono text-sm whitespace-pre-wrap text-blue-900 shadow-inner">${highlightText(cat.format, query)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', deptHTML);
+            });
+        }
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Toggle clear button
+            if(query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            if (query === '') {
+                renderData(cmhlData);
+                return;
+            }
+
+            // Filtering logic
+            const filteredData = cmhlData.map(dept => {
+                const deptMatch = dept.vibhag.toLowerCase().includes(query);
+                
+                const matchedCategories = dept.categories.filter(cat => {
+                    const titleMatch = cat.title.toLowerCase().includes(query);
+                    const formatMatch = cat.format.toLowerCase().includes(query);
+                    const keywordMatch = cat.keywords.some(kw => kw.toLowerCase().includes(query));
+                    return titleMatch || formatMatch || keywordMatch;
+                });
+
+                // If department matches, show all categories. If categories match, show only those.
+                if (deptMatch && matchedCategories.length === 0) {
+                     return { ...dept, categories: dept.categories };
+                } else if (matchedCategories.length > 0) {
+                     return { ...dept, categories: matchedCategories };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            renderData(filteredData, query);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        function copyFormat(btnElement, textToCopy) {
+            // Replace literal \n with actual newlines for clipboard
+            const formattedText = textToCopy.replace(/\\n/g, '\n');
+            
+            navigator.clipboard.writeText(formattedText).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btnElement.classList.replace('bg-blue-600', 'bg-green-600');
+                btnElement.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('bg-green-600', 'bg-blue-600');
+                    btnElement.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Copy karne me error aayi: ' + err);
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateCounters();
+            renderData(cmhlData);
+        };
+
+    </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Master Search Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f3f4f6; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-header {
+            background: rgba(30, 58, 138, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 4px solid #3b82f6;
+        }
+        .search-bar { transition: all 0.3s ease; }
+        .search-bar:focus-within { box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        .highlight { background-color: #fef08a; font-weight: bold; border-radius: 2px; padding: 0 2px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    </style>
+</head>
+<body class="text-gray-800 pb-20">
+
+    <!-- Header & Search Area -->
+    <div class="sticky top-0 z-50 glass-header shadow-lg p-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+                <div class="text-white">
+                    <h1 class="text-3xl font-extrabold tracking-wide"><i class="fas fa-headset mr-2 text-blue-300"></i>CMHL Smart Finder</h1>
+                    <p class="text-blue-200 text-sm mt-1">शिकायत खोजें, विभाग जानें और फॉर्मेट कॉपी करें</p>
+                </div>
+                <div class="bg-blue-900 text-blue-100 px-4 py-2 rounded-lg border border-blue-700 text-sm font-semibold">
+                    <span id="totalDepts">0</span> विभाग | <span id="totalCategories">0</span> श्रेणियां
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative search-bar max-w-3xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-lg"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-12 pr-4 py-4 rounded-xl border-2 border-transparent focus:border-blue-400 focus:ring-0 text-lg text-gray-900 shadow-inner placeholder-gray-400" 
+                    placeholder="क्या शिकायत है? कीवर्ड टाइप करें (उदा: राशन, सड़क, पेंशन, FIR...)"
+                    onkeyup="performSearch()">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-4 flex items-center hidden text-gray-400 hover:text-red-500">
+                    <i class="fas fa-times-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Results -->
+    <div class="max-w-6xl mx-auto mt-8 px-4">
+        <div id="noResults" class="hidden text-center py-12">
+            <i class="fas fa-search-minus text-6xl text-gray-300 mb-4"></i>
+            <h2 class="text-2xl font-bold text-gray-500">कोई परिणाम नहीं मिला</h2>
+            <p class="text-gray-400 mt-2">कृपया दूसरे शब्दों का प्रयोग करें।</p>
+        </div>
+
+        <div id="resultsContainer" class="space-y-6">
+            <!-- Results will be injected here via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DATABASE: यहाँ आप अपनी सारी शिकायतें जोड़ सकते हैं
+        // ==========================================
+        const cmhlData = [
+            {
+                vibhag: "खाद्य एवं रसद विभाग",
+                icon: "fa-wheat-awn",
+                color: "bg-orange-50 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "उचित दर विक्रेता (कोटेदार) की अनियमितता / जांच / कालाबाजारी",
+                        keywords: ["ration", "kotedar", "rashan", "kalabajari", "dhoka", "galla", "chawal", "gehu"],
+                        format: "आवेदिका का नाम: \nपिता व पति का नाम: \nपता: (ग्रामीण-ग्राम / शहरी-वार्ड, मोहल्ला): \nराशन कार्ड संख्या: \nकोटेदार का नाम: \nकोटा केन्द्र: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "पात्र गृहस्थी/अन्त्योदय (नया राशन कार्ड बनवाने या यूनिट जुड़वाने की मांग)",
+                        keywords: ["naya ration card", "unit judwana", "mang", "naam judwana"],
+                        format: "[नया राशन कार्ड]\nआवेदिका का नाम: \nपिता/पति: \nपता: \nआवेदन संख्या: \nआवेदन दिनांक: \nमांग का विवरण: \n\n[यूनिट जुड़वाना]\nराशन कार्ड संख्या: \nयूनिट का नाम: \nमांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "राशन कार्ड या यूनिट कट जाने पर पुनः जुड़वाने की शिकायत",
+                        keywords: ["kat gaya", "ration card cut", "unit cut", "dobara judwana", "shikayat"],
+                        format: "आवेदिका का नाम: \nपिता/पति का नाम: \nपता: \nराशन कार्ड सं०: \nकटी हुई यूनिट का नाम (यदि हो): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "डिब्बा बन्द सामग्री पर MRP से अधिक मूल्य लेना",
+                        keywords: ["mrp", "mahanga", "zyada rate", "overcharging", "rate"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nदुकान का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "पेट्रोल पम्प पर मिलावट या घटतौली",
+                        keywords: ["petrol", "diesel", "pump", "milawat", "kam petrol", "ghattauli"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nपेट्रोल पम्प का नाम: \nसंचालक का नाम: \nस्थान: \nशिकायत का विवरण (मिलावट/घटतौली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "रसोई गैस (LPG) घटतौली या आपूर्ति न होना",
+                        keywords: ["gas", "cylinder", "lpg", "agency", "kam gas", "home delivery"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nएजेंसी का नाम: \nसंचालक का नाम: \nस्थान: \nउपभोक्ता संख्या (Consumer No): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 9",
+                        title: "गेहूं / धान खरीद के सम्बन्ध में शिकायत (मंडी/क्रय केंद्र)",
+                        keywords: ["gehu kharid", "dhan kharid", "mandi", "kray kendra", "bhugtan", "payment"],
+                        format: "किसान का नाम: \nपिता का नाम: \nक्रय केंद्र/मंडी का नाम: \nसंचालक का नाम: \nस्थान: \nबैंक का नाम व खाता सं० (यदि भुगतान रुका हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "समाज कल्याण विभाग",
+                icon: "fa-hands-holding-child",
+                color: "bg-purple-50 border-purple-500 text-purple-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "वृद्धावस्था पेंशन की मांग",
+                        keywords: ["vridha", "budhapa pension", "buddha pension", "mang", "old age"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nउम्र: \nमांग का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "वृद्धावस्था पेंशन की शिकायत (नहीं आई / बन्द हो गई)",
+                        keywords: ["pension ruki", "nahi aayi", "band ho gayi", "old age pension"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nउम्र: \nशिकायत का विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 3",
+                        title: "पारिवारिक लाभ योजना (मुखिया की मृत्यु पर)",
+                        keywords: ["parivarik labh", "mukhiya mrityu", "30000", "muawza"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन सं०: \nआवेदन दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "सामूहिक विवाह योजना शिकायत",
+                        keywords: ["samuhik vivah", "shadi anudan", "kanya vivah"],
+                        format: "आवेदिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०/दिनांक: \nशादी दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5 & 6",
+                        title: "छात्रवृत्ति (SC/ST/General) एवं शुल्क प्रतिपूर्ति (फीस वापसी)",
+                        keywords: ["scholarship", "chatravriti", "fees wapsi", "sc st gen", "shulk"],
+                        format: "छात्र का नाम: \nधर्म, जाति/वर्ग: \nआवेदन सं०/दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पिछड़ा वर्ग कल्याण विभाग",
+                icon: "fa-user-graduate",
+                color: "bg-orange-100 border-orange-600 text-orange-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "OBC छात्रवृत्ति एवं फीस वापसी (पूर्व दशम व दशमोत्तर)",
+                        keywords: ["obc scholarship", "obc fees wapsi", "chatravriti obc", "pichhda varg"],
+                        format: "छात्र का नाम: \nपिता का नाम: \nधर्म, जाति, वर्ग (OBC): \nआवेदन संख्या व दिनांक: \nजन्म तिथि: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नगर विकास विभाग (शहरी क्षेत्र)",
+                icon: "fa-city",
+                color: "bg-pink-50 border-pink-500 text-pink-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1 & 2",
+                        title: "कूड़ा, गंदगी एवं सफाई कर्मी सम्बन्धी (शहरी)",
+                        keywords: ["kuda", "gandagi", "safai karmi", "nagar nigam", "palika", "shahar safai"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nवार्ड नंबर व मोहल्ला: \nपार्षद/चेयरमैन का नाम: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3, 4, 5",
+                        title: "जलकर (Water Tax) सम्बन्धी",
+                        keywords: ["jal kar", "water tax", "pani bill", "house tax"],
+                        format: "आवेदक: \nपिता का नाम: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nरसीद संख्या: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6 & 7",
+                        title: "आवारा पशु / मृत पशु उठवाने सम्बन्धी (शहरी)",
+                        keywords: ["awara pashu", "mrit pashu", "mara janwar", "kutta", "gay shahar"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 8 to 11",
+                        title: "सड़क, सी०सी० रोड, नाली निर्माण, सड़क खुदाई व जल भराव",
+                        keywords: ["sadak shahar", "cc road", "jal bharav", "khudai", "gaddha", "footpath"],
+                        format: "आवेदक: \nपिता: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 12 & 13",
+                        title: "PM शहरी आवास योजना / DUDA / SUDA (मांग/किश्त न आना)",
+                        keywords: ["pm awas shahar", "duda", "suda", "shahari awas", "kist nahi aayi", "makaan"],
+                        format: "आवेदक: \nपिता/पति: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nमांग/शिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "श्रेणी - 14 & 15",
+                        title: "प्रकाश व्यवस्था (स्ट्रीट लाइट शहरी)",
+                        keywords: ["street light", "batti", "khambha", "andhera", "shahar light"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत विवरण (खराब लाइटों की संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 16, 17, 18",
+                        title: "पेयजल व्यवस्था (शहरी / झांसी-चित्रकूट मंडल)",
+                        keywords: ["peyjal shahar", "pani nahi aa raha", "pipeline", "shahar pani", "jhansi", "chitrakoot"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 19 to 22",
+                        title: "सीवर, नाला-नाली चोक या ओवर फ्लो (शहरी)",
+                        keywords: ["sewer shahar", "nala", "naali", "choke", "overflow", "shahar naali"],
+                        format: "आवेदक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 23 to 26",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (शहरी)",
+                        keywords: ["janam praman patra shahar", "mrityu praman patra", "birth certificate", "death certificate"],
+                        format: "आवेदक: \nपिता/पति: \nआवेदन सं०/दिनांक: \nवार्ड व मोहल्ला: \nपार्षद/चेयरमैन: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "ग्राम विकास विभाग",
+                icon: "fa-tree",
+                color: "bg-emerald-50 border-emerald-500 text-emerald-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "निराश्रित गोवंश (आवारा पशु - गाय, सांड) ग्रामीण",
+                        keywords: ["awara pashu gaon", "govansh", "sand", "gay", "gramin pashu", "fasal kharab"],
+                        format: "आवेदक: \nपिता: \nग्राम: \nप्रधान: \nसचिव: \nस्थान: \nशिकायत विवरण (पशुओं की अनुमानित संख्या): "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "PM ग्रामीण आवास योजना (मांग, किश्त रुकी, अपात्र को आवंटन)",
+                        keywords: ["pm awas gaon", "gramin awas", "kist nahi aayi", "apatra awas", "makaan gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nप्रधान: \nसचिव: \nआवेदन सं०/दिनांक: \nबैंक, खाता, शाखा: \nअपात्र व्यक्ति का नाम (यदि हो): \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिया की मरम्मत",
+                        keywords: ["puliya", "gaon puliya", "marammat puliya"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "PM ग्राम सड़क योजना / तालाब खुदाई (ग्राम विकास)",
+                        keywords: ["sadak gaon", "pm gram sadak", "talab gaon", "kcc road"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 6",
+                        title: "विधायक निधि / सांसद निधि के कार्य",
+                        keywords: ["vidhayak nidhi", "sansad nidhi"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 7 & 8",
+                        title: "मनरेगा (मजदूरी न मिलना / फर्जी मस्टर रोल)",
+                        keywords: ["mgnrega", "manrega", "majdoori", "farzi muster roll", "job card"],
+                        format: "आवेदक: \nग्राम: \nमनरेगा जाब कार्ड सं०: \nप्रधान/सचिव: \nरोजगार सहायक का नाम: \nअपात्र व्यक्ति का नाम (यदि फर्जी हो): \nबैंक डिटेल (यदि मजदूरी रुकी हो): \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पंचायती राज विभाग",
+                icon: "fa-users",
+                color: "bg-amber-50 border-amber-500 text-amber-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "ग्रामों में सफाई व्यवस्था / सफाई कर्मचारी",
+                        keywords: ["safai gaon", "safai karmi gaon", "gandagi gaon", "naali safai gaon"],
+                        format: "आवेदक: \nग्राम: \nस्थान: \nप्रधान/सचिव: \nसफाई कर्मचारी का नाम: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2",
+                        title: "जन्म / मृत्यु प्रमाण पत्र (ग्रामीण)",
+                        keywords: ["birth certificate gaon", "death certificate gaon", "janam praman gaon"],
+                        format: "आवेदक: \nपिता/पति: \nग्राम: \nआवेदन सं०/दिनांक: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 3 & 4",
+                        title: "सामुदायिक शौचालय / स्वच्छ भारत मिशन (व्यक्तिगत शौचालय)",
+                        keywords: ["shauchalay", "toilet gaon", "samudaik shauchalay", "swachh bharat"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nआवेदन सं०/दिनांक: \nबैंक डिटेल (यदि किश्त रुकी हो): \nस्थान: \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 5",
+                        title: "हैंड पम्प मरम्मत / स्ट्रीट लाइट / बन्दर पकड़वाना / ग्राम सड़क/नाली",
+                        keywords: ["handpump marammat", "street light gaon", "bandar gaon", "cc road gaon", "naali gaon"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "गृह गोपन विभाग (पुलिस)",
+                icon: "fa-shield-halved",
+                color: "bg-indigo-50 border-indigo-500 text-indigo-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "सिविल पुलिस द्वारा चालान काटना",
+                        keywords: ["challan", "police challan", "traffic"],
+                        format: "आवेदक: \nथाने का नाम: \nरसीद सं०: \nस्थान: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 2 & 3",
+                        title: "FIR दर्ज न करना / कार्यवाही न करना",
+                        keywords: ["fir darj nahi", "karyawahi nahi", "police action", "thana"],
+                        format: "पीड़ित का नाम: \nघटना स्थल का पता व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि दर्ज हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी - 4",
+                        title: "पुलिस के विरुद्ध शिकायत / भ्रष्टाचार / दुर्व्यवहार",
+                        keywords: ["police shikayat", "rashwat police", "durvyavhar", "hirasat maut"],
+                        format: "आवेदक: \nपुलिस अधिकारी का नाम/पद: \nथाना: \nघटना स्थल: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य महत्वपूर्ण",
+                        title: "संपत्ति विवाद / गलत FIR / CBCID जांच / महिला उत्पीड़न / गुंडागर्दी",
+                        keywords: ["jameen vivad", "galat fir", "rape", "mahila utpidan", "gharelu hinsa", "mafia", "gunda tax", "marpeet"],
+                        format: "आवेदक/पीड़ित का नाम: \nघटना स्थल व थाना: \nविपक्षी का नाम: \nघटना दिनांक: \nFIR सं० (यदि हो): \nशिकायत का विस्तृत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "राजस्व एवं आपदा विभाग",
+                icon: "fa-map",
+                color: "bg-yellow-100 border-yellow-600 text-yellow-900",
+                categories: [
+                    {
+                        shreni: "महत्वपूर्ण",
+                        title: "आय / जाति / निवास प्रमाण पत्र",
+                        keywords: ["aay praman patra", "jati praman", "niwas praman", "income certificate"],
+                        format: "आवेदक: \nपिता: \nपता: \nआवेदन सं०/दिनांक: \nलेखपाल का नाम (यदि पता हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "भूमि विवाद",
+                        title: "ग्राम समाज जमीन (तालाब, खलिहान, बंजर) पर कब्जा / भू-माफिया",
+                        keywords: ["kabja", "talab kabja", "bhoo mafia", "gram samaj jamin", "banjar"],
+                        format: "आवेदक: \nपता/ग्राम: \nखसरा/गाटा सं०: \nकुल जमीन: \nकब्जेदार का नाम: \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "अन्य",
+                        title: "आपदा राहत (फसल नुकसान) / पट्टा मांग / भूमि अधिग्रहण",
+                        keywords: ["aapda rahat", "muawza", "patta", "bhumi adhigrahan", "fasal nuksan rahat"],
+                        format: "आवेदक: \nग्राम: \nगाटा सं०: \nबैंक डिटेल (यदि मुआवजा रुका हो): \nमांग/शिकायत विवरण: "
+                    },
+                    {
+                        shreni: "योजना",
+                        title: "प्रधानमंत्री मातृ वंदना योजना",
+                        keywords: ["matru vandana", "garbhavati", "matritva"],
+                        format: "आवेदिका: \nपति: \nपता: \nआवेदन सं०/दिनांक: \nबैंक डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "कृषि विभाग",
+                icon: "fa-tractor",
+                color: "bg-green-50 border-green-500 text-green-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी - 1",
+                        title: "प्रधानमंत्री किसान सम्मान निधि (PM Kisan) किश्त न आना",
+                        keywords: ["pm kisan", "samman nidhi", "kisan kist", "2000"],
+                        format: "किसान का नाम: \nपिता: \nग्राम: \nआवेदन सं०: \nगाटा/खसरा सं०: \nबैंक डिटेल: \nशिकायत विवरण (लास्ट किश्त कब मिली): "
+                    },
+                    {
+                        shreni: "अन्य श्रेणियां",
+                        title: "कृषि उपकरण अनुदान / बीज-खाद लाइसेंस / फसल बीमा / खाद-बीज मांग",
+                        keywords: ["krishi upkaran", "tractor subsidy", "dbt", "khad beej", "fasal bima", "licence"],
+                        format: "किसान का नाम: \nग्राम: \nदुकान/एजेंसी/बीमा कंपनी का नाम व स्थान: \nबैंक डिटेल (DBT/बीमा के लिए): \nआवेदन/बीमा सं०: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "बाल विकास पुष्टाहार विभाग",
+                icon: "fa-child",
+                color: "bg-fuchsia-50 border-fuchsia-500 text-fuchsia-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2 & 3",
+                        title: "अनुपूरक पोषाहार वितरण / आंगनबाड़ी कार्यकत्री शिकायत / केन्द्र संचालन",
+                        keywords: ["anganwadi", "poshahar", "panjiri", "karyakatri", "kendra band", "bachhe ration"],
+                        format: "आवेदक: \nपता: \nआंगनबाड़ी कार्यकत्री का नाम: \nआंगनबाड़ी केन्द्र का नाम व स्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नमामि गंगे तथा ग्रामीण जलापूर्ति विभाग",
+                icon: "fa-faucet-drip",
+                color: "bg-cyan-50 border-cyan-500 text-cyan-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1, 2, 3",
+                        title: "ग्रामीण हैंडपंप / पाइप पेयजल / जल निगम योजनाएं (मांग व शिकायत)",
+                        keywords: ["handpump gaon", "pipe line gaon", "nal se jal", "jal nigam", "pani ki tanki", "namami gange"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव: \nस्थान: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "महिला कल्याण विभाग",
+                icon: "fa-person-dress",
+                color: "bg-rose-50 border-rose-500 text-rose-900",
+                categories: [
+                    {
+                        shreni: "पेंशन",
+                        title: "विधवा / पति की मृत्यु उपरांत निराश्रित महिला पेंशन (मांग व शिकायत)",
+                        keywords: ["vidhwa pension", "nirashrit mahila pension", "pati mrityu pension", "pension ruki"],
+                        format: "आवेदिका का नाम: \nपति का नाम: \nपता: \nआवेदन सं०/दिनांक: \nबैंक, खाता सं०, शाखा: \nशिकायत विवरण (आखिरी पेंशन कब मिली): "
+                    },
+                    {
+                        shreni: "योजनाएं",
+                        title: "बेटी बचाओ बेटी पढाओ / सुकन्या समृद्धि / इन्द्र धनुष योजना",
+                        keywords: ["beti bachao", "sukanya", "mahila yojana"],
+                        format: "आवेदिका/बालिका का नाम: \nपिता का नाम: \nपता: \nआवेदन सं०: \nबैंक/पोस्ट ऑफिस डिटेल: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "अल्पसंख्यक कल्याण एवं वक्फ विभाग",
+                icon: "fa-mosque",
+                color: "bg-teal-50 border-teal-500 text-teal-900",
+                categories: [
+                    {
+                        shreni: "श्रेणी 1 & 2",
+                        title: "सुन्नी / शिया वक्फ बोर्ड की सम्पत्ति से शिकायत",
+                        keywords: ["waqf", "sunni", "shia", "masjid jamin", "dargah"],
+                        format: "आवेदक: \nपता: \nसम्पत्ति स्थान (वक्फ डायरी/दरगाह नाम यदि हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "श्रेणी 3",
+                        title: "अल्पसंख्यक छात्रवृत्ति / शुल्क प्रतिपूर्ति (मुस्लिम, सिख, ईसाई आदि)",
+                        keywords: ["minority scholarship", "alpsankhyak chatravriti", "fees wapsi minority"],
+                        format: "छात्र का नाम: \nधर्म, जाति: \nआवेदन सं०/दिनांक: \nविद्यालय का नाम व पता: \nशिकायत/मांग विवरण: "
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // SYSTEM LOGIC (कोडिंग पार्ट)
+        // ==========================================
+
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Initialize counters
+        function updateCounters() {
+            document.getElementById('totalDepts').innerText = cmhlData.length;
+            let catCount = 0;
+            cmhlData.forEach(d => catCount += d.categories.length);
+            document.getElementById('totalCategories').innerText = catCount;
+        }
+
+        function highlightText(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+
+        function renderData(dataToRender, query = '') {
+            resultsContainer.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            dataToRender.forEach(dept => {
+                const isExpanded = query.length > 0; // Auto-expand if searching
+                
+                const deptHTML = `
+                    <div class="rounded-xl overflow-hidden shadow-sm border border-gray-200 bg-white transition-all hover:shadow-md">
+                        <div class="px-6 py-4 cursor-pointer flex justify-between items-center ${dept.color}" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-white/50 flex items-center justify-center text-xl shadow-sm">
+                                    <i class="fas ${dept.icon}"></i>
+                                </div>
+                                <h2 class="text-xl font-extrabold tracking-wide">${highlightText(dept.vibhag, query)}</h2>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="text-sm font-bold bg-white/50 px-3 py-1 rounded-full">${dept.categories.length} श्रेणियां</span>
+                                <i class="fas fa-chevron-down transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'block' : 'hidden'} bg-white divide-y divide-gray-100">
+                            ${dept.categories.map(cat => `
+                                <div class="p-6 hover:bg-gray-50 transition-colors relative group">
+                                    <div class="flex flex-col md:flex-row gap-4 justify-between items-start">
+                                        <div class="flex-1">
+                                            <span class="inline-block px-2 py-1 bg-gray-200 text-gray-700 text-xs font-bold rounded mb-2">${cat.shreni}</span>
+                                            <h3 class="text-lg font-bold text-gray-800 mb-1">${highlightText(cat.title, query)}</h3>
+                                            <p class="text-xs text-gray-400 font-mono mb-4"><i class="fas fa-tags mr-1"></i> Tags: ${cat.keywords.join(', ')}</p>
+                                        </div>
+                                        
+                                        <button onclick="copyFormat(this, \`${cat.format.replace(/\n/g, '\\n')}\`)" 
+                                            class="shrink-0 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 rounded shadow-sm flex items-center gap-2 transition-colors">
+                                            <i class="fas fa-copy"></i> Format Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-3 p-4 bg-gray-50 rounded-lg border border-gray-200 font-mono text-sm whitespace-pre-wrap text-blue-900 shadow-inner">${highlightText(cat.format, query)}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', deptHTML);
+            });
+        }
+
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Toggle clear button
+            if(query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            if (query === '') {
+                renderData(cmhlData);
+                return;
+            }
+
+            // Filtering logic
+            const filteredData = cmhlData.map(dept => {
+                const deptMatch = dept.vibhag.toLowerCase().includes(query);
+                
+                const matchedCategories = dept.categories.filter(cat => {
+                    const titleMatch = cat.title.toLowerCase().includes(query);
+                    const formatMatch = cat.format.toLowerCase().includes(query);
+                    const keywordMatch = cat.keywords.some(kw => kw.toLowerCase().includes(query));
+                    return titleMatch || formatMatch || keywordMatch;
+                });
+
+                // If department matches, show all categories. If categories match, show only those.
+                if (deptMatch && matchedCategories.length === 0) {
+                     return { ...dept, categories: dept.categories };
+                } else if (matchedCategories.length > 0) {
+                     return { ...dept, categories: matchedCategories };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            renderData(filteredData, query);
+        }
+
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        function copyFormat(btnElement, textToCopy) {
+            // Replace literal \n with actual newlines for clipboard
+            const formattedText = textToCopy.replace(/\\n/g, '\n');
+            
+            navigator.clipboard.writeText(formattedText).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btnElement.classList.replace('bg-blue-600', 'bg-green-600');
+                btnElement.classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('bg-green-600', 'bg-blue-600');
+                    btnElement.classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Copy karne me error aayi: ' + err);
+            });
+        }
+
+        // Initialize on load
+        window.onload = () => {
+            updateCounters();
+            renderData(cmhlData);
+        };
+
+    </script>
+</body>
+</html>

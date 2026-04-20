@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Khadya Evam Rasad Vibhag</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas for saving as image -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: white;
+            }
+            #capture-area {
+                box-shadow: none !important;
+            }
+            /* Try to force background printing */
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Custom scrollbar for better look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555; 
+        }
+
+        /* Make editable area look clean */
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #3b82f6;
+            outline-offset: 4px;
+        }
+        
+        .category-title {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+    <!-- Control Panel (Hidden on Print) -->
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-medium text-gray-700 mb-1">Background Image Lagayein</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+            </div>
+            
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-medium text-gray-700 mb-1">Card Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="90" class="w-full">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save as Image
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <!-- Background Layer -->
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <!-- Editable Document Container -->
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-xl shadow-2xl transition-all duration-300" style="background-color: rgba(255, 255, 255, 0.9);">
+            
+            <div contenteditable="true" class="w-full">
+                <!-- Header -->
+                <div class="text-center mb-10 border-b-4 border-blue-800 pb-4">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-blue-900 mb-2">विभाग - 1</h1>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-700">खाद्य एवं रसद विभाग</h2>
+                    <p class="text-sm text-gray-500 mt-2 italic">(नीचे दिए गए विवरण को आप एडिट कर सकते हैं)</p>
+                </div>
+
+                <!-- Category 1 -->
+                <div class="mb-8 bg-blue-50/50 p-6 rounded-lg border border-blue-100">
+                    <h3 class="text-xl font-bold category-title mb-3 border-b-2 border-blue-200 pb-1">श्रेणी - 1</h3>
+                    <p class="font-semibold text-lg mb-4 text-gray-800">उचित दर विक्रेता के अनियमितता / जाँच / गलत जाँच / कालाबाजारी के सम्बन्ध में</p>
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-blue-800 mb-2 border-b border-gray-200 pb-1">Format →</p>
+                        <ol class="list-decimal pl-5 space-y-2 text-gray-700">
+                            <li><span class="font-semibold">आवेदिका का नाम:</span> ............................................</li>
+                            <li><span class="font-semibold">पिता व पति का नाम:</span> ............................................</li>
+                            <li><span class="font-semibold">पता:</span>
+                                <ul class="list-disc pl-5 mt-1">
+                                    <li>(ग्रामीण → ग्राम का नाम) ............................................</li>
+                                    <li>(शहरी → वार्ड नंबर, मोहल्ले का नाम) ............................................</li>
+                                </ul>
+                            </li>
+                            <li><span class="font-semibold">राशन कार्ड संख्या:</span> ............................................</li>
+                            <li><span class="font-semibold">कोटेदार का नाम:</span> ............................................</li>
+                            <li><span class="font-semibold">कोटा केन्द्र:</span> ............................................</li>
+                            <li><span class="font-semibold">शिकायत का विवरण:</span> ............................................</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="mb-8 bg-green-50/50 p-6 rounded-lg border border-green-100">
+                    <h3 class="text-xl font-bold text-green-700 mb-3 border-b-2 border-green-200 pb-1">श्रेणी - 2</h3>
+                    <p class="font-semibold text-lg mb-4 text-gray-800">पात्र गृहस्थी अथवा अन्त्योदय की मांग के विषय में। (नए राशन कार्ड की मांग)</p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded border border-gray-200">
+                            <p class="font-bold text-green-800 mb-2 border-b border-gray-200 pb-1">Option-A</p>
+                            <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                            <ol class="list-decimal pl-5 space-y-2 text-gray-700 text-sm">
+                                <li><span class="font-semibold">आवेदिका का नाम:</span> .....................</li>
+                                <li><span class="font-semibold">पिता व पति का नाम:</span> .....................</li>
+                                <li><span class="font-semibold">पता:</span> .....................</li>
+                                <li><span class="font-semibold">आवेदन संख्या:</span> .....................</li>
+                                <li><span class="font-semibold">आवेदन दिनांक:</span> .....................</li>
+                                <li><span class="font-semibold">मांग का विवरण:</span> .....................</li>
+                            </ol>
+                        </div>
+
+                        <div class="bg-white p-4 rounded border border-gray-200">
+                            <p class="font-bold text-green-800 mb-2 border-b border-gray-200 pb-1">Option-B <span class="text-sm font-normal text-gray-600">(राशन कार्ड में नए यूनिट जुड़वाने की मांग)</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                            <ul class="list-disc pl-5 space-y-2 text-gray-700 text-sm">
+                                <li><span class="font-semibold">आवेदिका का नाम:</span> .....................</li>
+                                <li><span class="font-semibold">पिता व पति का नाम:</span> .....................</li>
+                                <li><span class="font-semibold">पता:</span> .....................</li>
+                                <li><span class="font-semibold">राशन कार्ड संख्या:</span> .....................</li>
+                                <li><span class="font-semibold">यूनिट का नाम:</span> .....................</li>
+                                <li><span class="font-semibold">मांग का विवरण:</span> .....................</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="mb-8 p-6 rounded-lg border border-purple-200">
+                    <h3 class="text-xl font-bold text-purple-700 mb-3 border-b-2 border-purple-200 pb-1">श्रेणी - 3</h3>
+                    <p class="font-semibold text-lg mb-4 text-gray-800">राशन कार्ड (BPL/APL/अन्त्योदय)</p>
+                    
+                    <div class="space-y-4">
+                        <div class="bg-purple-50 p-4 rounded border border-purple-100">
+                            <p class="font-bold text-purple-800 mb-1">A-Option → <span class="font-normal text-gray-700">पुराना राशन कार्ड कट गया है पुनः वही राशन कार्ड जारी/जुड़वाने की शिकायत।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-2">Format →</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm pl-5 list-disc text-gray-700">
+                                <li>आवेदिका का नाम</li>
+                                <li>पिता या पति का नाम</li>
+                                <li>पता</li>
+                                <li>राशन कार्ड सं०</li>
+                                <li class="sm:col-span-2">शिकायत का विवरण</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-purple-50 p-4 rounded border border-purple-100">
+                            <p class="font-bold text-purple-800 mb-1">B-Option → <span class="font-normal text-gray-700">रा० कार्ड से यूनिट कट गई है पुनः वही यूनिट रा० कार्ड में जुड़वाने की शिकायत।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-2">Format →</p>
+                            <ol class="grid sm:grid-cols-2 gap-2 text-sm pl-5 list-decimal text-gray-700">
+                                <li>आवेदिका का नाम</li>
+                                <li>पिता या पति का नाम</li>
+                                <li>रा० कार्ड सं०</li>
+                                <li>यूनिट का नाम</li>
+                                <li class="sm:col-span-2">शिकायत का विवरण</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="mb-8 p-6 rounded-lg border border-gray-200 bg-gray-50">
+                    <h3 class="text-xl font-bold text-gray-700 mb-3 border-b-2 border-gray-300 pb-1">श्रेणी - 4</h3>
+                    <p class="font-semibold text-lg mb-4 text-gray-800">डिब्बा बन्द सामग्री के पैकेट पर उल्लिखित मूल्य (MRP) से अधिक मूल्य लिए जाने सम्बन्धी।</p>
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                        <ol class="grid sm:grid-cols-2 gap-3 pl-5 list-decimal text-gray-700">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>दुकान नाम</li>
+                            <li>संचालक का नाम</li>
+                            <li>दुकान का स्थान</li>
+                            <li class="sm:col-span-2">शिकायत का विवरण</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Category 5 & 6 (Petrol Pump) -->
+                <div class="mb-8 grid sm:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-lg border border-red-200 bg-red-50">
+                        <h3 class="text-xl font-bold text-red-700 mb-3 border-b-2 border-red-200 pb-1">श्रेणी - 5</h3>
+                        <p class="font-semibold text-gray-800 mb-4">पेट्रोल पम्प पर मिलावट के सन्दर्भ में</p>
+                        <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                        <ol class="pl-5 space-y-1 list-decimal text-sm text-gray-700">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>पेट्रोल पम्प का नाम</li>
+                            <li>संचालक का नाम</li>
+                            <li>स्थान</li>
+                            <li>और शिकायत का विवरण</li>
+                        </ol>
+                    </div>
+
+                    <div class="p-6 rounded-lg border border-red-200 bg-red-50">
+                        <h3 class="text-xl font-bold text-red-700 mb-3 border-b-2 border-red-200 pb-1">श्रेणी - 6</h3>
+                        <p class="font-semibold text-gray-800 mb-4">पेट्रोल पम्प पर घटतौली की शिकायत के सन्दर्भ में</p>
+                        <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                        <ol class="pl-5 space-y-1 list-decimal text-sm text-gray-700">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>पेट्रोल पम्प का नाम</li>
+                            <li>संचालक का नाम</li>
+                            <li>पे० प० स्थान (पेट्रोल पम्प स्थान)</li>
+                            <li>शिकायत का विवरण</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Category 7 & 8 (LPG) -->
+                <div class="mb-8 grid sm:grid-cols-2 gap-6">
+                    <div class="p-6 rounded-lg border border-yellow-300 bg-yellow-50">
+                        <h3 class="text-xl font-bold text-yellow-700 mb-3 border-b-2 border-yellow-200 pb-1">श्रेणी - 7</h3>
+                        <p class="font-semibold text-gray-800 mb-4">रसोई गैस LPG घटतौली की शिकायत के सन्दर्भ में</p>
+                        <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                        <ul class="pl-5 space-y-1 list-disc text-sm text-gray-700">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>एजेंसी</li>
+                            <li>संचालक</li>
+                            <li>स्थान</li>
+                            <li>उपभोक्ता संख्या</li>
+                            <li>शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-6 rounded-lg border border-yellow-300 bg-yellow-50">
+                        <h3 class="text-xl font-bold text-yellow-700 mb-3 border-b-2 border-yellow-200 pb-1">श्रेणी - 8</h3>
+                        <p class="font-semibold text-gray-800 mb-4">रसोई गैस आपूर्ति LPG की शिकायत के सम्बन्ध में</p>
+                        <p class="font-bold text-gray-600 text-sm mb-2">Format →</p>
+                        <ul class="pl-5 space-y-1 list-disc text-sm text-gray-700">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>एजेंसी का नाम</li>
+                            <li>संचालक का नाम</li>
+                            <li>स्थान</li>
+                            <li>उपभोक्ता संख्या</li>
+                            <li>शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 9 -->
+                <div class="p-6 rounded-lg border border-teal-200 bg-teal-50">
+                    <h3 class="text-xl font-bold text-teal-700 mb-3 border-b-2 border-teal-200 pb-1">श्रेणी - 9</h3>
+                    <p class="font-semibold text-lg mb-4 text-gray-800">(i) धान खरीद के सम्बन्ध में<br>(ii) गेहूँ खरीद के सम्बन्ध में (फसल P)</p>
+                    <div class="bg-white p-4 rounded border border-teal-100">
+                        <p class="font-bold text-teal-800 mb-2">Format →</p>
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <ul class="pl-5 space-y-2 list-disc text-gray-700">
+                                <li>किसान का नाम</li>
+                                <li>ग्राम का नाम</li>
+                                <li>पिता का नाम</li>
+                                <li>किसान कोड</li>
+                                <li>ग्राम कोड</li>
+                            </ul>
+                            <ul class="pl-5 space-y-2 list-disc text-gray-700">
+                                <li>क्रय केन्द्र या मण्डी का नाम</li>
+                                <li>संचालक का नाम</li>
+                                <li>क्रय केन्द्र का स्थान</li>
+                                <li>यदि भुगतान से भी सम्बंधित हो तो:<br>
+                                    <span class="pl-4">- बैंक का नाम</span><br>
+                                    <span class="pl-4">- खाता संख्या</span>
+                                </li>
+                                <li>और शिकायत का विवरण</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // 1. Handle Background Image Upload
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    captureBg.style.backgroundImage = `url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            // Element to capture (Wrapper contains background and content)
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null // Transparent background to allow custom bg to show
+            }).then(canvas => {
+                // Create image link and trigger download
+                const link = document.createElement('a');
+                link.download = 'CMHL_Complaint_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                // Reset button
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
