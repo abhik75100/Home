@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL 1076 - Important Points (Cheat Sheet)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: transparent !important; }
+            #print-bg-image {
+                display: block !important; position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                z-index: -10; object-fit: cover; opacity: 1;
+            }
+            #capture-area { box-shadow: none !important; margin: 0 !important; padding: 10px !important; }
+            .page-break-avoid { page-break-inside: avoid; break-inside: avoid; }
+            * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+
+        @media screen { #print-bg-image { display: none; } }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+
+        .glass-3d-panel {
+            background: rgba(248, 250, 252, 0.90);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(255,255,255,0.9);
+            border-left: 1px solid rgba(255,255,255,0.9);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+        }
+        .info-card:hover { transform: translateY(-2px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 font-sans pb-10">
+
+    <img id="print-bg-image" src="" alt="">
+
+    <!-- Control Panel -->
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-slate-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-slate-700 mb-1">Background Image Upload</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer">
+            </div>
+            <div class="hidden sm:block border-l border-slate-300 h-10"></div>
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-slate-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="95" class="w-full accent-blue-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-lg shadow flex items-center gap-2">
+                <i class="fas fa-print"></i> Print
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg shadow flex items-center gap-2">
+                <i class="fas fa-camera"></i> Save Image
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="capture-wrapper" class="pt-32 pb-4 px-4 min-h-screen relative">
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <div id="capture-area" class="max-w-5xl mx-auto p-6 sm:p-10 rounded-3xl glass-3d-panel transition-all duration-300">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <!-- HEADER -->
+                <div class="text-center mb-8 border-b-2 border-dashed border-slate-300 pb-6 relative">
+                    <div class="inline-block bg-red-100 text-red-600 px-4 py-1 rounded-full font-bold text-sm mb-3 border border-red-200">
+                        <i class="fas fa-star mr-1"></i> V.V. Important Points (IMP)
+                    </div>
+                    <h1 class="text-3xl sm:text-5xl font-black text-slate-800 mb-2 tracking-tight">CMHL Quick Cheat Sheet</h1>
+                    <p class="text-lg text-slate-500 font-medium">Abhishek's 1076 Training Log - डायरेक्ट विभाग मैपिंग</p>
+                </div>
+
+                <!-- SECTION 1: GENERAL & DIRECT MAPPING -->
+                <div class="mb-10 page-break-avoid">
+                    <h2 class="text-xl font-extrabold text-blue-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-bolt text-yellow-500"></i> डायरेक्ट विभाग (Direct Department Mapping)
+                    </h2>
+                    
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        
+                        <!-- Cards based on notes 1 to 16 -->
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-blue-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 1 & 2</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-headset text-blue-500 mr-1"></i> All Script & Toll Free Numbers</p>
+                            <p class="text-sm text-slate-600 mt-1">हमेशा कॉल पर सही स्क्रिप्ट और सम्बंधित टोल फ्री नंबर का उपयोग करें।</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-purple-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 3</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-graduation-cap text-purple-500 mr-1"></i> छात्रवृत्ति (Scholarship)</p>
+                            <p class="text-sm text-purple-700 font-semibold mt-1">हमेशा 'धर्म + जाति/वर्ग' पूछें।</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ समाज कल्याण / पिछड़ा वर्ग / अल्पसंख्यक (श्रेणी-4 आदि)</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-rose-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 6</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-person-cane text-rose-500 mr-1"></i> वृद्धा / विधवा पेंशन</p>
+                            <p class="text-sm text-rose-700 font-semibold mt-1">मांग + शिकायत + धनराशि</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ वृद्धा: समाज कल्याण <br>➜ विधवा: महिला कल्याण (श्रेणी-1)</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-orange-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 7 & 8</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-wheat-awn text-orange-500 mr-1"></i> राशन / कोटेदार</p>
+                            <p class="text-sm text-orange-700 font-semibold mt-1">नया कार्ड / यूनिट जोड़ना या कटना</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ खाद्य एवं रसद विभाग (श्रेणी-3 आदि)</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-yellow-600">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 11</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-map-location-dot text-yellow-600 mr-1"></i> जमीन / तालाब पर कब्ज़ा</p>
+                            <p class="text-sm text-yellow-700 font-semibold mt-1">खेती / ग्राम समाज / तालाब</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ राजस्व एवं आपदा विभाग (श्रेणी 4, 5, 6)</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-fuchsia-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 12</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-bowl-food text-fuchsia-500 mr-1"></i> अन्नपूरक पोषाहार</p>
+                            <p class="text-sm text-fuchsia-700 font-semibold mt-1">पोषाहार का वितरण (पंजीरी आदि)</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ बाल विकास पुष्टाहार</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-slate-700">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 13</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-shield-halved text-slate-700 mr-1"></i> पुलिस सम्बंधित शिकायतें</p>
+                            <p class="text-sm text-slate-700 font-semibold mt-1">FIR / पुलिस कार्यवाही</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ गृह गोपन विभाग</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-green-600">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 14</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-tractor text-green-600 mr-1"></i> PM किसान सम्मान निधि</p>
+                            <p class="text-sm text-green-700 font-semibold mt-1">किश्त न आना / शिकायत</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ कृषि विभाग</p>
+                        </div>
+
+                        <div class="info-card p-4 rounded-xl border-l-4 border-l-red-500">
+                            <p class="text-xs text-slate-500 font-bold mb-1">Point 16</p>
+                            <p class="font-bold text-slate-800"><i class="fas fa-wine-bottle text-red-500 mr-1"></i> शराब की ओवर रेटिंग</p>
+                            <p class="text-sm text-red-700 font-semibold mt-1">ठेके पर महँगी शराब मिलना</p>
+                            <p class="text-xs text-slate-600 mt-1">➜ आबकारी विभाग</p>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- SECTION 2: RURAL VS URBAN SPLIT -->
+                <div class="mb-4 page-break-avoid">
+                    <h2 class="text-xl font-extrabold text-emerald-800 mb-4 flex items-center gap-2">
+                        <i class="fas fa-code-branch text-emerald-600"></i> ग्रामीण vs शहरी (हमेशा क्षेत्र पूछें)
+                    </h2>
+                    
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <!-- Table Header -->
+                        <div class="grid grid-cols-12 bg-slate-800 text-white font-bold text-sm text-center">
+                            <div class="col-span-4 p-3 border-r border-slate-600">शिकायत का प्रकार (Topic)</div>
+                            <div class="col-span-4 p-3 border-r border-slate-600 bg-emerald-700">ग्रामीण (Rural)</div>
+                            <div class="col-span-4 p-3 bg-blue-700">शहरी (Urban)</div>
+                        </div>
+
+                        <!-- Rows -->
+                        <div class="divide-y divide-slate-100 text-sm font-medium">
+                            
+                            <!-- Awas -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-house text-slate-400"></i> 
+                                    <div>
+                                        <p class="font-bold text-slate-800">आवास (Awas)</p>
+                                        <p class="text-xs text-slate-500">(मांग + शिकायत + धनराशि)</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">
+                                    ग्राम विकास विभाग<br>(PM ग्रामीण आवास)
+                                </div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">
+                                    नगर विकास विभाग<br>(PM शहरी आवास / DUDA)
+                                </div>
+                            </div>
+
+                            <!-- Safai -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-broom text-slate-400"></i>
+                                    <p class="font-bold text-slate-800">साफ-सफाई / कूड़ा</p>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">पंचायती राज विभाग</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Street Light -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-lightbulb text-slate-400"></i>
+                                    <p class="font-bold text-slate-800">स्ट्रीट लाइट</p>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">पंचायती राज विभाग</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Drinking Water -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-faucet-drip text-slate-400"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-800">पीने का पानी / पाइप लाइन</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">नमामि गंगे ग्रामीण जल आपूर्ति (श्रेणी-3)</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Handpump -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-wrench text-slate-400"></i>
+                                    <p class="font-bold text-slate-800">हैंडपम्प की मरम्मत</p>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">पंचायती राज / नमामि गंगे</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Roads & Nali -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors bg-slate-50/50">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-road text-slate-400"></i>
+                                    <div>
+                                        <p class="font-bold text-slate-800">सड़क, खड़ंजा, CC रोड, नाला/नाली</p>
+                                        <p class="text-xs text-red-500 font-bold mt-1">(मुख्य मार्ग ➔ PWD विभाग)</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">ग्राम विकास / पंचायती राज</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Stray Animals & Monkeys -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-paw text-slate-400"></i>
+                                    <p class="font-bold text-slate-800">आवारा पशु (गाय, सांड) व बन्दर पकड़वाना</p>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">ग्राम विकास / पंचायती राज</div>
+                                <div class="col-span-4 p-3 text-blue-700 flex items-center justify-center text-center">नगर विकास विभाग</div>
+                            </div>
+
+                            <!-- Toilets -->
+                            <div class="grid grid-cols-12 hover:bg-slate-50 transition-colors">
+                                <div class="col-span-4 p-3 border-r border-slate-100 flex items-center gap-2">
+                                    <i class="fas fa-restroom text-slate-400"></i>
+                                    <p class="font-bold text-slate-800">शौचालय (मांग + शिकायत + धनराशि)</p>
+                                </div>
+                                <div class="col-span-4 p-3 border-r border-slate-100 text-emerald-700 flex items-center justify-center text-center">पंचायती राज विभाग (श्रेणी-4)</div>
+                                <div class="col-span-4 p-3 text-slate-400 flex items-center justify-center text-center italic text-xs">नगर निगम में सार्वजनिक शौचालय</div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(248, 250, 252, ${opacityValue})`;
+        });
+
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, 
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'CMHL_Important_Points_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save करने में त्रुटि आई है। कृपया दोबारा प्रयास करें।");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
