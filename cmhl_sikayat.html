@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Pro Master Search Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0fdf4; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .glass-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .search-bar { transition: all 0.3s ease; }
+        .search-bar:focus-within { box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5); transform: translateY(-2px); }
+        .highlight { background-color: #fde047; color: #b45309; font-weight: bold; border-radius: 4px; padding: 0 4px; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e2e8f0; }
+        ::-webkit-scrollbar-thumb { background: #64748b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        .dept-card { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-20">
+
+    <!-- Header & Search Area -->
+    <div class="sticky top-0 z-50 glass-header shadow-lg p-6 rounded-b-3xl">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+                <div class="text-white text-center md:text-left">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold tracking-wide drop-shadow-md">
+                        <i class="fas fa-headset mr-3 text-blue-400"></i>CMHL Smart Finder Pro
+                    </h1>
+                    <p class="text-blue-200 text-sm mt-2 font-medium bg-white/10 inline-block px-4 py-1 rounded-full">
+                        उत्तर प्रदेश CM Helpline (1076) - All Departments Database
+                    </p>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md text-white px-5 py-3 rounded-xl border border-white/20 text-sm font-bold shadow-inner flex gap-4">
+                    <div class="text-center"><span id="totalDepts" class="block text-2xl text-blue-300">0</span>विभाग</div>
+                    <div class="w-px bg-white/30"></div>
+                    <div class="text-center"><span id="totalCategories" class="block text-2xl text-green-300">0</span>श्रेणियां</div>
+                </div>
+            </div>
+
+            <!-- Search Input -->
+            <div class="relative search-bar max-w-4xl mx-auto">
+                <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                    <i class="fas fa-search text-gray-400 text-xl"></i>
+                </div>
+                <input type="text" id="searchInput" 
+                    class="block w-full pl-14 pr-12 py-4 rounded-2xl border-0 ring-4 ring-white/20 focus:ring-blue-400 text-lg text-gray-900 shadow-xl placeholder-gray-500 font-medium transition-all" 
+                    placeholder="सर्च करें (Hindi या English में) उदा: राशन, Light, FIR, Pension, सड़क..."
+                    onkeyup="performSearch()">
+                <button onclick="clearSearch()" id="clearBtn" class="absolute inset-y-0 right-0 pr-5 flex items-center hidden text-gray-400 hover:text-red-500 transition-colors">
+                    <i class="fas fa-times-circle text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Results -->
+    <div class="max-w-7xl mx-auto mt-8 px-4">
+        <div id="noResults" class="hidden text-center py-16 bg-white rounded-3xl shadow-sm border border-gray-200">
+            <i class="fas fa-search-minus text-7xl text-slate-300 mb-6"></i>
+            <h2 class="text-3xl font-bold text-slate-600">कोई परिणाम नहीं मिला / No Results Found</h2>
+            <p class="text-slate-500 mt-3 text-lg">कृपया दूसरे शब्दों का प्रयोग करें (Try using different keywords).</p>
+        </div>
+
+        <!-- Dynamic Results Container -->
+        <div id="resultsContainer" class="space-y-8">
+            <!-- Results will be injected here via JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // DATABASE: CMHL ALL DEPARTMENTS & CATEGORIES
+        // Hindi & English keywords mixed for universal search
+        // ==========================================
+        const cmhlData = [
+            {
+                vibhag: "विद्युत विभाग (UPPCL - Electricity)",
+                icon: "fa-bolt",
+                color: "bg-yellow-50 border-yellow-500 text-yellow-900",
+                categories: [
+                    {
+                        shreni: "बिल / मीटर सम्बन्धी",
+                        title: "बिजली का बिल ज़्यादा आना, मीटर खराब होना या कनेक्शन",
+                        keywords: ["electricity bill", "bijli bill", "meter kharab", "zyada bill", "connection", "light bill", "बिजली", "मीटर", "बिल"],
+                        format: "आवेदक का नाम: \nपिता का नाम: \nपता: \nअकाउंट नंबर (Account No): \nमीटर नंबर (यदि हो): \nविद्युत उपकेंद्र (Substation): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "आपूर्ति / फॉल्ट सम्बन्धी",
+                        title: "तार टूटना, ट्रांसफार्मर जलना, बिजली न आना",
+                        keywords: ["wire tuta", "transformer jala", "light nahi aa rahi", "light fault", "power cut", "बिजली नहीं", "तार", "ट्रांसफार्मर", "fault"],
+                        format: "आवेदक का नाम: \nपता / लोकेशन: \nनजदीकी लैंडमार्क (Landmark): \nखंभा नंबर (Pole No - यदि पता हो): \nविद्युत उपकेंद्र (Substation): \nशिकायत का विवरण (कितने समय से कटी है/क्या जला है): "
+                    }
+                ]
+            },
+            {
+                vibhag: "चिकित्सा, स्वास्थ्य एवं परिवार कल्याण (Health)",
+                icon: "fa-hospital",
+                color: "bg-red-50 border-red-500 text-red-900",
+                categories: [
+                    {
+                        shreni: "अस्पताल / डॉक्टर सम्बन्धी",
+                        title: "अस्पताल में डॉक्टर का न मिलना, दवा न मिलना, इलाज में लापरवाही",
+                        keywords: ["doctor nahi hai", "dawai", "hospital", "aspatal", "chikitsa", "ilaj", "medicine", "health", "अस्पताल", "डॉक्टर", "दवा", "इलाज"],
+                        format: "मरीज का नाम: \nशिकायतकर्ता का नाम व संबंध: \nअस्पताल का नाम व स्थान (CHC/PHC/District Hospital): \nडॉक्टर का नाम (यदि पता हो): \nदिनांक व समय: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "एम्बुलेंस सेवा (108 / 102)",
+                        title: "एम्बुलेंस समय पर न आना या पैसे मांगना",
+                        keywords: ["108", "102", "ambulance", "late", "paisa manga", "emergency", "एम्बुलेंस"],
+                        format: "कॉलर का नाम: \nमरीज का नाम: \nकॉल करने का समय: \nलोकेशन (जहाँ एम्बुलेंस बुलानी थी): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "खाद्य एवं रसद विभाग (Food & Ration)",
+                icon: "fa-wheat-awn",
+                color: "bg-orange-50 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "कोटेदार / कालाबाजारी",
+                        title: "उचित दर विक्रेता (कोटेदार) की अनियमितता / कम राशन देना / जांच",
+                        keywords: ["ration", "kotedar", "rashan", "kalabajari", "dhoka", "galla", "chawal", "gehu", "कम राशन", "कोटेदार", "गल्ला"],
+                        format: "आवेदक का नाम: \nपिता व पति का नाम: \nपता: (ग्रामीण-ग्राम / शहरी-वार्ड, मोहल्ला): \nराशन कार्ड संख्या: \nकोटेदार का नाम: \nकोटा केन्द्र: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "नया कार्ड / यूनिट",
+                        title: "नया राशन कार्ड बनवाने या यूनिट जुड़वाने की मांग",
+                        keywords: ["naya ration card", "unit judwana", "mang", "naam judwana", "new ration card", "नया कार्ड", "यूनिट"],
+                        format: "आवेदक का नाम: \nपिता/पति: \nपता: \nआवेदन संख्या व दिनांक (यदि अप्लाई किया है): \nराशन कार्ड संख्या (यदि यूनिट जुड़वानी है): \nमांग/शिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "पेट्रोल पम्प / गैस एजेंसी",
+                        title: "पेट्रोल पम्प पर मिलावट/घटतौली या LPG गैस एजेंसी की शिकायत",
+                        keywords: ["petrol", "diesel", "pump", "milawat", "ghattauli", "gas", "cylinder", "lpg", "agency", "पेट्रोल", "गैस", "सिलेंडर"],
+                        format: "आवेदक का नाम: \nपता: \nपेट्रोल पम्प / गैस एजेंसी का नाम: \nसंचालक का नाम: \nस्थान: \nउपभोक्ता संख्या (गैस के लिए): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "गृह गोपन विभाग (Police / Home)",
+                icon: "fa-shield-halved",
+                color: "bg-slate-100 border-slate-700 text-slate-900",
+                categories: [
+                    {
+                        shreni: "FIR दर्ज न करना",
+                        title: "पुलिस द्वारा FIR दर्ज न करना या कार्यवाही न करना",
+                        keywords: ["fir darj nahi", "karyawahi nahi", "police action", "thana", "police station", "complaint", "थाना", "पुलिस", "रिपोर्ट"],
+                        format: "पीड़ित का नाम: \nघटना स्थल का पता: \nसंबंधित थाना: \nविपक्षी का नाम: \nघटना का दिनांक व समय: \nFIR सं० (यदि दर्ज हो): \nशिकायत का पूरा विवरण: "
+                    },
+                    {
+                        shreni: "पुलिस दुर्व्यवहार / भ्रष्टाचार",
+                        title: "पुलिस अधिकारी के विरुद्ध शिकायत (رشवत, दुर्व्यवहार)",
+                        keywords: ["police shikayat", "rashwat police", "durvyavhar", "bribe", "corruption", "भ्रष्टाचार", "रिश्वत"],
+                        format: "आवेदक: \nपुलिस अधिकारी का नाम व पद: \nथाना / चौकी: \nघटना स्थल: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "महिला उत्पीड़न / अपराध",
+                        title: "घरेलू हिंसा, महिला उत्पीड़न, छेड़छाड़, गुंडागर्दी",
+                        keywords: ["rape", "mahila utpidan", "gharelu hinsa", "mafia", "gunda tax", "marpeet", "crime", "महिला", "छेड़छाड़", "मारपीट"],
+                        format: "पीड़िता/आवेदक का नाम: \nघटना स्थल व थाना: \nविपक्षी / आरोपी का नाम: \nघटना दिनांक: \nशिकायत का विस्तृत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "राजस्व एवं आपदा विभाग (Revenue / Land)",
+                icon: "fa-map",
+                color: "bg-amber-50 border-amber-600 text-amber-900",
+                categories: [
+                    {
+                        shreni: "प्रमाण पत्र",
+                        title: "आय / जाति / निवास प्रमाण पत्र न बनना या गलत बनना",
+                        keywords: ["aay praman", "jati praman", "niwas praman", "income certificate", "caste certificate", "आय", "जाति", "निवास", "तहसील"],
+                        format: "आवेदक: \nपिता: \nपता: \nआवेदन सं०: \nआवेदन दिनांक: \nलेखपाल का नाम (यदि पता हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "भूमि विवाद / कब्ज़ा",
+                        title: "ग्राम समाज की जमीन, तालाब, खलिहान पर अवैध कब्ज़ा (भू-माफिया)",
+                        keywords: ["kabja", "talab kabja", "bhoo mafia", "gram samaj jamin", "banjar", "land dispute", "कब्ज़ा", "ज़मीन", "माफिया", "लेखपाल"],
+                        format: "आवेदक का नाम: \nग्राम व तहसील: \nखसरा / गाटा सं०: \nकुल जमीन: \nअवैध कब्जेदार का नाम: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "आपदा / फसल नुकसान",
+                        title: "दैवीय आपदा (बाढ़, सूखा, आग) में फसल नुकसान का मुआवजा",
+                        keywords: ["aapda", "muawza", "fasal nuksan", "aag lagna", "badh", "sukha", "disaster", "मुआवजा", "नुकसान", "बाढ़"],
+                        format: "किसान का नाम: \nग्राम व तहसील: \nगाटा सं०: \nबैंक का नाम, खाता सं०, शाखा: \nनुकसान का प्रकार: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "लोक निर्माण विभाग (PWD - Roads)",
+                icon: "fa-road",
+                color: "bg-gray-100 border-gray-600 text-gray-900",
+                categories: [
+                    {
+                        shreni: "सड़क निर्माण / मरम्मत",
+                        title: "मुख्य मार्गों, स्टेट हाईवे या PWD की सड़कों में गड्ढे या मरम्मत",
+                        keywords: ["sadak gaddha", "pwd road", "highway", "rasta kharab", "road repair", "सड़क", "गड्ढा", "पीडबल्यूडी", "मार्ग"],
+                        format: "आवेदक का नाम: \nसड़क का नाम (कहाँ से कहाँ तक): \nब्लॉक व जनपद: \nनजदीकी लैंडमार्क: \nशिकायत का विवरण (सड़क टूटी है/गड्ढे हैं): "
+                    }
+                ]
+            },
+            {
+                vibhag: "ग्राम विकास विभाग (Rural Development)",
+                icon: "fa-tree",
+                color: "bg-emerald-50 border-emerald-600 text-emerald-900",
+                categories: [
+                    {
+                        shreni: "आवास योजना (PM Awas)",
+                        title: "PM ग्रामीण आवास योजना (मांग, किश्त रुकी, अपात्र को आवंटन)",
+                        keywords: ["pm awas gaon", "gramin awas", "kist nahi aayi", "apatra awas", "makaan gaon", "आवास", "मकान", "ग्रामीण"],
+                        format: "आवेदक: \nग्राम: \nप्रधान व सचिव का नाम: \nआवेदन सं०/दिनांक: \nबैंक डिटेल (यदि किश्त रुकी हो): \nअपात्र व्यक्ति का नाम (यदि फर्जी आवंटन हो): \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "मनरेगा (MGNREGA)",
+                        title: "मनरेगा में मजदूरी न मिलना या फर्जी मस्टर रोल",
+                        keywords: ["mgnrega", "manrega", "majdoori", "farzi muster roll", "job card", "मनरेगा", "मजदूरी", "जॉब कार्ड"],
+                        format: "आवेदक: \nग्राम: \nमनरेगा जाब कार्ड सं०: \nप्रधान/सचिव: \nरोजगार सहायक का नाम: \nबैंक डिटेल (यदि मजदूरी रुकी हो): \nशिकायत विवरण: "
+                    },
+                    {
+                        shreni: "आवारा पशु (ग्रामीण)",
+                        title: "निराश्रित गोवंश (आवारा पशु - गाय, सांड) ग्रामीण क्षेत्र",
+                        keywords: ["awara pashu gaon", "govansh", "sand", "gay", "gramin pashu", "fasal kharab", "आवारा", "पशु", "गाय", "सांड"],
+                        format: "आवेदक: \nग्राम: \nप्रधान/सचिव का नाम: \nस्थान (जहाँ पशु हैं): \nशिकायत विवरण (पशुओं की अनुमानित संख्या): "
+                    }
+                ]
+            },
+            {
+                vibhag: "पंचायती राज विभाग",
+                icon: "fa-users",
+                color: "bg-orange-100 border-orange-500 text-orange-900",
+                categories: [
+                    {
+                        shreni: "सफाई / शौचालय",
+                        title: "ग्राम में सफाई कर्मचारी का न आना या सामुदायिक शौचालय की समस्या",
+                        keywords: ["safai gaon", "safai karmi", "shauchalay", "toilet gaon", "samudaik", "सफाई", "शौचालय", "ग्राम"],
+                        format: "आवेदक: \nग्राम व ब्लॉक: \nप्रधान व सचिव का नाम: \nसफाई कर्मचारी का नाम (यदि पता हो): \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "ग्राम पंचायत विकास",
+                        title: "हैंड पम्प मरम्मत, ग्रामीण सीसी रोड, नाली या स्ट्रीट लाइट",
+                        keywords: ["handpump gaon", "street light gaon", "cc road gaon", "naali gaon", "हैंडपंप", "नाली", "स्ट्रीट लाइट"],
+                        format: "आवेदक: \nग्राम व ब्लॉक: \nप्रधान व सचिव का नाम: \nस्थान/मोहल्ला: \nशिकायत/मांग का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नगर विकास विभाग (Urban Development)",
+                icon: "fa-city",
+                color: "bg-pink-50 border-pink-500 text-pink-900",
+                categories: [
+                    {
+                        shreni: "सफाई / आवारा पशु (शहरी)",
+                        title: "नगर निगम/पालिका में कूड़ा, नाली चोक, सीवर या आवारा पशु",
+                        keywords: ["kuda shahar", "safai shahar", "sewer shahar", "naali shahar", "awara pashu shahar", "नगर निगम", "कूड़ा", "सीवर"],
+                        format: "आवेदक: \nवार्ड नंबर व मोहल्ला: \nपार्षद/चेयरमैन का नाम: \nनिकाय का नाम (नगर निगम/पालिका): \nस्थान: \nशिकायत का विवरण: "
+                    },
+                    {
+                        shreni: "आवास / लाइट / जलकर",
+                        title: "PM शहरी आवास (DUDA/SUDA), स्ट्रीट लाइट, जलकर (Water Tax)",
+                        keywords: ["pm awas shahar", "duda", "suda", "house tax", "water tax", "street light shahar", "शहरी आवास", "लाइट", "जलकर"],
+                        format: "आवेदक: \nवार्ड नं० व मोहल्ला: \nपार्षद/चेयरमैन: \nआवेदन सं० / रसीद सं०: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "समाज कल्याण विभाग",
+                icon: "fa-hands-holding-child",
+                color: "bg-purple-50 border-purple-500 text-purple-900",
+                categories: [
+                    {
+                        shreni: "पेंशन / अनुदान",
+                        title: "वृद्धावस्था पेंशन या पारिवारिक लाभ योजना (मृत्यु पर)",
+                        keywords: ["vridha pension", "budhapa pension", "old age", "parivarik labh", "mukhiya mrityu", "वृद्धावस्था", "पेंशन", "पारिवारिक लाभ"],
+                        format: "आवेदक का नाम: \nउम्र: \nपता: \nआवेदन सं०/दिनांक: \nबैंक नाम, खाता सं०, शाखा: \nशिकायत/मांग का विवरण: "
+                    },
+                    {
+                        shreni: "छात्रवृत्ति (SC/ST/Gen)",
+                        title: "समाज कल्याण द्वारा छात्रवृत्ति एवं शुल्क प्रतिपूर्ति (फीस वापसी)",
+                        keywords: ["scholarship", "chatravriti", "fees wapsi", "sc st gen", "shulk", "छात्रवृत्ति", "फीस वापसी"],
+                        format: "छात्र का नाम: \nधर्म, जाति/वर्ग: \nआवेदन सं०/दिनांक: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "पिछड़ा वर्ग / अल्पसंख्यक कल्याण (OBC & Minority)",
+                icon: "fa-user-graduate",
+                color: "bg-indigo-100 border-indigo-400 text-indigo-900",
+                categories: [
+                    {
+                        shreni: "OBC / अल्पसंख्यक छात्रवृत्ति",
+                        title: "OBC या अल्पसंख्यक छात्रवृत्ति एवं फीस वापसी",
+                        keywords: ["obc scholarship", "minority scholarship", "chatravriti obc", "muslim scholarship", "waqf", "छात्रवृत्ति", "अल्पसंख्यक", "पिछड़ा वर्ग"],
+                        format: "छात्र का नाम: \nधर्म, जाति, वर्ग: \nआवेदन संख्या व दिनांक: \nकक्षा व सत्र: \nकालेज का नाम व पता: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "कृषि विभाग (Agriculture)",
+                icon: "fa-tractor",
+                color: "bg-green-100 border-green-600 text-green-900",
+                categories: [
+                    {
+                        shreni: "PM किसान / कृषि योजना",
+                        title: "PM किसान सम्मान निधि किश्त न आना या कृषि उपकरण अनुदान",
+                        keywords: ["pm kisan", "samman nidhi", "kisan kist", "2000", "krishi upkaran", "tractor", "पी एम किसान", "सम्मान निधि", "उपकरण"],
+                        format: "किसान का नाम: \nपिता: \nग्राम व ब्लॉक: \nआवेदन/पंजीकरण सं०: \nगाटा/खसरा सं०: \nबैंक, खाता, शाखा: \nशिकायत विवरण (लास्ट किश्त कब मिली): "
+                    }
+                ]
+            },
+            {
+                vibhag: "बेसिक / माध्यमिक शिक्षा विभाग (Education)",
+                icon: "fa-book-open-reader",
+                color: "bg-blue-50 border-blue-500 text-blue-900",
+                categories: [
+                    {
+                        shreni: "स्कूल / टीचर / MDM",
+                        title: "सरकारी स्कूल में टीचर का न आना, मिड-डे मील (MDM), या अवैध फीस",
+                        keywords: ["school", "teacher absent", "mdm", "mid day meal", "khana", "fees", "education", "शिक्षा", "टीचर", "स्कूल", "मिड डे मील"],
+                        format: "शिकायतकर्ता/छात्र का नाम: \nविद्यालय का नाम व स्तर (प्राथमिक/पूर्व माध्यमिक): \nग्राम व ब्लॉक: \nअध्यापक का नाम (यदि पता हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "महिला एवं बाल विकास विभाग",
+                icon: "fa-person-breastfeeding",
+                color: "bg-rose-100 border-rose-500 text-rose-900",
+                categories: [
+                    {
+                        shreni: "विधवा पेंशन / योजनाएं",
+                        title: "निराश्रित महिला (विधवा) पेंशन, कन्या सुमंगला या अन्य योजना",
+                        keywords: ["vidhwa pension", "nirashrit mahila pension", "kanya sumangala", "beti bachao", "विधवा", "पेंशन", "सुमंगला"],
+                        format: "आवेदिका का नाम: \nपति/पिता का नाम: \nपता: \nआवेदन सं०/दिनांक: \nबैंक डिटेल: \nशिकायत/मांग विवरण: "
+                    },
+                    {
+                        shreni: "आंगनबाड़ी / पोषाहार",
+                        title: "आंगनबाड़ी केंद्र का न खुलना या पोषाहार (पंजीरी) न बटना",
+                        keywords: ["anganwadi", "poshahar", "panjiri", "karyakatri", "kendra band", "आंगनबाड़ी", "पोषाहार"],
+                        format: "आवेदक: \nपता: \nआंगनबाड़ी कार्यकत्री का नाम: \nआंगनबाड़ी केन्द्र का नाम व स्थान: \nशिकायत विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "नमामि गंगे तथा ग्रामीण जलापूर्ति (Water Supply)",
+                icon: "fa-faucet-drip",
+                color: "bg-cyan-50 border-cyan-500 text-cyan-900",
+                categories: [
+                    {
+                        shreni: "ग्रामीण पेयजल",
+                        title: "हर घर नल योजना, ग्रामीण पाइप लाइन लीकेज या पानी न आना",
+                        keywords: ["har ghar nal", "pipe line gaon", "jal nigam", "pani ki tanki", "namami gange", "पानी", "नल", "टंकी", "ग्रामीण"],
+                        format: "आवेदक: \nग्राम व ब्लॉक: \nप्रधान/सचिव: \nयोजना/टंकी का नाम (यदि हो): \nस्थान जहाँ लीकेज/समस्या है: \nशिकायत का विवरण: "
+                    }
+                ]
+            },
+            {
+                vibhag: "परिवहन निगम (UPSRTC - Transport)",
+                icon: "fa-bus",
+                color: "bg-gray-200 border-gray-500 text-gray-900",
+                categories: [
+                    {
+                        shreni: "रोडवेज़ बस / कंडक्टर",
+                        title: "सरकारी बस न रुकना, कंडक्टर द्वारा बदतमीजी या ज़्यादा किराया",
+                        keywords: ["bus", "roadways", "conductor", "driver", "kiraya", "ticket", "transport", "बस", "रोडवेज", "कंडक्टर", "किराया"],
+                        format: "यात्री का नाम: \nबस नंबर (UP...): \nकहाँ से कहाँ जा रहे थे (Route): \nदिनांक व समय: \nकंडक्टर/ड्राइवर का नाम (यदि पता हो): \nशिकायत का विवरण: "
+                    }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // SYSTEM LOGIC (कोडिंग पार्ट)
+        // ==========================================
+
+        const resultsContainer = document.getElementById('resultsContainer');
+        const noResults = document.getElementById('noResults');
+        const searchInput = document.getElementById('searchInput');
+        const clearBtn = document.getElementById('clearBtn');
+
+        // Initialize counters
+        function updateCounters() {
+            document.getElementById('totalDepts').innerText = cmhlData.length;
+            let catCount = 0;
+            cmhlData.forEach(d => catCount += d.categories.length);
+            document.getElementById('totalCategories').innerText = catCount;
+        }
+
+        // Highlight matching text
+        function highlightText(text, query) {
+            if (!query) return text;
+            // Escape special characters in query to prevent regex errors
+            const escapedQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${escapedQuery})`, 'gi');
+            return text.replace(regex, `<span class="highlight">$1</span>`);
+        }
+
+        // Render Data Function
+        function renderData(dataToRender, query = '') {
+            resultsContainer.innerHTML = '';
+            
+            if (dataToRender.length === 0) {
+                noResults.classList.remove('hidden');
+                return;
+            } else {
+                noResults.classList.add('hidden');
+            }
+
+            dataToRender.forEach(dept => {
+                // If searching, auto-expand. If just loading, keep collapsed.
+                const isExpanded = query.length > 0; 
+                
+                const deptHTML = `
+                    <div class="dept-card rounded-2xl overflow-hidden shadow-md border ${dept.color} bg-white transition-all hover:shadow-lg">
+                        <div class="px-6 py-5 cursor-pointer flex justify-between items-center bg-white/50 backdrop-blur-sm" onclick="toggleAccordion(this)">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center text-2xl shadow-sm border border-current">
+                                    <i class="fas ${dept.icon}"></i>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl sm:text-2xl font-black tracking-tight">${highlightText(dept.vibhag, query)}</h2>
+                                    <p class="text-sm font-semibold opacity-75 mt-1">${dept.categories.length} Categories</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 ml-4">
+                                <i class="fas fa-chevron-down text-xl transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-content ${isExpanded ? 'block' : 'hidden'} bg-white divide-y divide-gray-100">
+                            ${dept.categories.map(cat => `
+                                <div class="p-6 sm:p-8 hover:bg-slate-50 transition-colors relative group">
+                                    <div class="flex flex-col lg:flex-row gap-6 justify-between items-start">
+                                        <div class="flex-1 w-full">
+                                            <span class="inline-block px-3 py-1 bg-slate-800 text-white text-xs font-bold rounded-md mb-3 shadow-sm">${cat.shreni}</span>
+                                            <h3 class="text-xl font-bold text-slate-800 mb-2 leading-snug">${highlightText(cat.title, query)}</h3>
+                                            
+                                            <!-- Keywords tags -->
+                                            <div class="flex flex-wrap gap-2 mb-4">
+                                                <i class="fas fa-tags text-slate-400 mt-1"></i>
+                                                ${cat.keywords.map(kw => `
+                                                    <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded border border-slate-200">
+                                                        ${highlightText(kw, query)}
+                                                    </span>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                        
+                                        <button onclick="copyFormat(this, \`${cat.format.replace(/\n/g, '\\n')}\`)" 
+                                            class="shrink-0 w-full lg:w-auto bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white text-sm font-bold py-3 px-6 rounded-xl shadow-md flex justify-center items-center gap-2 transition-all transform hover:scale-105 active:scale-95">
+                                            <i class="fas fa-copy text-lg"></i> Format Copy
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="mt-4 p-5 bg-slate-50 rounded-xl border border-slate-200 font-medium text-slate-700 text-[15px] shadow-inner relative">
+                                        <div class="absolute top-0 left-0 w-1 h-full bg-blue-400 rounded-l-xl"></div>
+                                        <pre class="font-sans whitespace-pre-wrap leading-relaxed">${highlightText(cat.format, query)}</pre>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                resultsContainer.insertAdjacentHTML('beforeend', deptHTML);
+            });
+        }
+
+        // Toggle Accordion open/close
+        function toggleAccordion(element) {
+            const content = element.nextElementSibling;
+            const icon = element.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.classList.add('rotate-180');
+            } else {
+                content.classList.add('hidden');
+                icon.classList.remove('rotate-180');
+            }
+        }
+
+        // Search Engine Function
+        function performSearch() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            // Toggle clear button visibility
+            if(query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            if (query === '') {
+                renderData(cmhlData);
+                return;
+            }
+
+            // Filtering logic
+            const filteredData = cmhlData.map(dept => {
+                // Check if department name matches
+                const deptMatch = dept.vibhag.toLowerCase().includes(query);
+                
+                // Filter categories within the department
+                const matchedCategories = dept.categories.filter(cat => {
+                    const titleMatch = cat.title.toLowerCase().includes(query);
+                    const formatMatch = cat.format.toLowerCase().includes(query);
+                    const keywordMatch = cat.keywords.some(kw => kw.toLowerCase().includes(query));
+                    return titleMatch || formatMatch || keywordMatch;
+                });
+
+                // If department matches, show all its categories. Else, show only matched categories.
+                if (deptMatch && matchedCategories.length === 0) {
+                     return { ...dept, categories: dept.categories };
+                } else if (matchedCategories.length > 0) {
+                     return { ...dept, categories: matchedCategories };
+                }
+                return null;
+            }).filter(item => item !== null);
+
+            renderData(filteredData, query);
+        }
+
+        // Clear Search Input
+        function clearSearch() {
+            searchInput.value = '';
+            performSearch();
+            searchInput.focus();
+        }
+
+        // Copy Format to Clipboard
+        function copyFormat(btnElement, textToCopy) {
+            // Replace literal \n with actual newlines for clipboard
+            const formattedText = textToCopy.replace(/\\n/g, '\n');
+            
+            navigator.clipboard.writeText(formattedText).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = '<i class="fas fa-check-circle text-lg"></i> Copied!';
+                btnElement.classList.replace('from-blue-600', 'from-emerald-500');
+                btnElement.classList.replace('to-indigo-600', 'to-emerald-600');
+                btnElement.classList.replace('hover:from-blue-700', 'hover:from-emerald-600');
+                btnElement.classList.replace('hover:to-indigo-700', 'hover:to-emerald-700');
+                
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.classList.replace('from-emerald-500', 'from-blue-600');
+                    btnElement.classList.replace('to-emerald-600', 'to-indigo-600');
+                    btnElement.classList.replace('hover:from-emerald-600', 'hover:from-blue-700');
+                    btnElement.classList.replace('hover:to-emerald-700', 'hover:to-indigo-700');
+                }, 2000);
+            }).catch(err => {
+                alert('Copy करने में त्रुटि आई: ' + err);
+            });
+        }
+
+        // Initialize on page load
+        window.onload = () => {
+            updateCounters();
+            renderData(cmhlData);
+        };
+
+    </script>
+</body>
+</html>
