@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Namami Gange Vibhag (Abhishek)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles for multi-page background */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: transparent !important;
+            }
+            #print-bg-image {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: -10;
+                object-fit: cover;
+                opacity: 1;
+            }
+            #capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Screen only background */
+        @media screen {
+            #print-bg-image {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #06b6d4;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #0891b2, #0284c7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Enhanced Glassmorphism & 3D Border Effects */
+        .glass-3d-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 2px solid rgba(255,255,255,0.9);
+            border-left: 2px solid rgba(255,255,255,0.9);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            border-right: 2px solid rgba(0,0,0,0.1);
+            box-shadow: 10px 15px 25px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .text-3d {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2), -1px -1px 1px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body class="bg-blue-50 min-h-screen text-gray-800 font-sans">
+
+    <img id="print-bg-image" src="" alt="">
+
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-cyan-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-cyan-700 mb-1">Background Image Upload Karein</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-cyan-50 file:text-cyan-700 hover:file:bg-cyan-100 cursor-pointer">
+            </div>
+            
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-cyan-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="85" class="w-full accent-cyan-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print (All Pages)
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save as Image
+            </button>
+        </div>
+    </div>
+
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-2xl glass-3d-panel transition-all duration-300">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <div class="text-center mb-10 border-b-4 border-cyan-700 pb-6 relative">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-cyan-900 mb-2 drop-shadow-md">विभाग</h1>
+                    <h2 class="text-3xl sm:text-4xl font-black text-gray-800 text-3d tracking-wide mb-2">नमामि गंगे तथा ग्रामीण जलापूर्ति विभाग</h2>
+                    <h3 class="text-xl font-bold text-gray-600 mb-2">(केवल ग्रामीण क्षेत्र के लिए)</h3>
+                    <p class="text-sm text-cyan-800 mt-3 font-medium bg-cyan-100 inline-block px-4 py-1 rounded-full border border-cyan-200 shadow-inner">
+                        Abhishek's CMHL Training Notes 
+                    </p>
+                    <p class="text-xs text-gray-500 mt-2 italic no-print">(टेक्स्ट को एडिट करने के लिए कहीं भी क्लिक करें)</p>
+                </div>
+
+                <div class="mb-8 page-break-avoid bg-blue-50/70 p-6 rounded-xl border border-blue-200 shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-xl font-bold section-title mb-3 border-b-2 border-blue-200 pb-2">श्रेणी - 1</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">ग्रामीण क्षेत्रों में हैण्डपम्प / पेयजल सम्बन्धित शिकायत (मांग + शिकायत)</p>
+                    <div class="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-gray-200 shadow-inner">
+                        <p class="font-bold text-blue-800 mb-3 text-md">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-4 text-gray-800 font-medium list-none">
+                            <li><span class="font-bold text-gray-900">आवेदक का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">पिता का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">ग्राम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">प्रधान:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">सचिव:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">स्थान:</span> ....................................</li>
+                            <li class="sm:col-span-2"><span class="font-bold text-gray-900">शिकायत का विवरण:</span> ....................................</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-8 page-break-avoid bg-teal-50/70 p-6 rounded-xl border border-teal-200 shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-xl font-bold text-teal-700 mb-3 border-b-2 border-teal-200 pb-2 drop-shadow-sm">श्रेणी - 2</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800 bg-white/50 inline-block px-3 py-1 rounded">पूर्व से पाइप पेयजल योजना आच्छादित ग्रामीण क्षेत्रों में पाइप पेयजल व्यवस्था (मांग)</p>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-teal-100 shadow-inner">
+                        <p class="font-bold text-teal-800 mb-3 text-md">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-4 text-gray-800 font-medium list-none">
+                            <li><span class="font-bold text-gray-900">आवेदक का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">पिता का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">ग्राम का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">प्रधान:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">सचिव:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">स्थान:</span> ....................................</li>
+                            <li class="sm:col-span-2"><span class="font-bold text-gray-900">मांग का विवरण:</span> ....................................</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-cyan-50/70 p-6 rounded-xl border border-cyan-200 shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-xl font-bold text-cyan-700 mb-3 border-b-2 border-cyan-200 pb-2 drop-shadow-sm">श्रेणी - 3</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">जल निगम द्वारा निर्मित / निर्माणाधीन योजनाएं एवं रेट्रो फिटिंग <br><span class="text-cyan-800 text-sm">(पीने वाले पानी से सम्बन्धित शिकायत)</span></p>
+                    
+                    <div class="bg-white/80 backdrop-blur-sm p-5 rounded-lg border border-cyan-100 shadow-inner">
+                        <p class="font-bold text-cyan-800 mb-3 text-md">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-4 text-gray-800 font-medium list-none">
+                            <li><span class="font-bold text-gray-900">आवेदक का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">पिता का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">ग्राम का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">प्रधान का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">सचिव का नाम:</span> ....................................</li>
+                            <li><span class="font-bold text-gray-900">स्थान का नाम:</span> ....................................</li>
+                            <li class="sm:col-span-2"><span class="font-bold text-gray-900">शिकायत विवरण:</span> ....................................</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Handle Background Image Upload
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        // Initialize default opacity based on slider
+        captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacitySlider.value / 100})`;
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Namami_Gange_Vibhag_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

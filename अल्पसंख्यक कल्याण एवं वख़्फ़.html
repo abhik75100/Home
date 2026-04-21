@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Alpsankhyak Kalyan Evam Waqf Vibhag</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles for multi-page background */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: transparent !important;
+            }
+            /* Magic trick to repeat background on every printed page */
+            #print-bg-image {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: -10;
+                object-fit: cover;
+                opacity: 1;
+            }
+            #capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            /* Prevent cards from breaking awkwardly across pages */
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Screen only background */
+        @media screen {
+            #print-bg-image {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #10b981;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #047857, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+    <!-- Print Background Image -->
+    <img id="print-bg-image" src="" alt="">
+
+    <!-- Control Panel (Hidden on Print) -->
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-emerald-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-emerald-700 mb-1">Background Image Upload Karein</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+            </div>
+            
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-emerald-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="95" class="w-full accent-emerald-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print (All Pages)
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save as Image
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <!-- Screen Background Layer -->
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <!-- Editable Document Container -->
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-xl shadow-2xl transition-all duration-300" style="background-color: rgba(255, 255, 255, 0.95);">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <!-- ====== SECTION: ALPSANKHYAK KALYAN EVAM WAQF VIBHAG ====== -->
+                <div class="text-center mb-10 border-b-4 border-emerald-800 pb-4">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-emerald-900 mb-2">विभाग</h1>
+                    <h2 class="text-2xl sm:text-4xl font-bold text-gray-800">अल्पसंख्यक कल्याण एवं वक्फ विभाग</h2>
+                    <p class="text-sm text-gray-500 mt-2 italic no-print">(टेक्स्ट को एडिट करने के लिए कहीं भी क्लिक करें)</p>
+                </div>
+
+                <!-- Category 1 & 2 (Waqf Board Properties) -->
+                <div class="mb-8 page-break-avoid bg-emerald-50/60 p-6 rounded-lg border border-emerald-200">
+                    <div class="grid sm:grid-cols-2 gap-4 mb-4 border-b-2 border-emerald-200 pb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-emerald-800 mb-1">श्रेणी - 1</h3>
+                            <p class="font-bold text-lg text-gray-800">सुन्नी वक्फ बोर्ड की सम्पत्ति से सम्बन्धित शिकायत</p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-teal-800 mb-1">श्रेणी - 2</h3>
+                            <p class="font-bold text-lg text-gray-800">शिया वक्फ बोर्ड की सम्पत्ति से सम्बन्धित शिकायत</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm mt-4">
+                        <p class="font-bold text-emerald-800 mb-3 text-lg border-b border-gray-100 pb-1">Format (दोनों श्रेणियों के लिए) →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700">
+                            <li><span class="font-semibold">आवेदक का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">पिता का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">पता:</span> ...................................</li>
+                            <li><span class="font-semibold">सम्पत्ति स्थान:</span> ...................................</li>
+                            <li class="sm:col-span-2 text-sm text-emerald-700 font-semibold mt-2">
+                                *(यदि वक्फबोर्ड डायरी / दरगाह आदि का नाम हो)*
+                            </li>
+                            <li class="sm:col-span-2"><span class="font-semibold">+ शिकायत का विवरण:</span> ........................................................................</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 3 (Scholarships) -->
+                <div class="mb-6 page-break-avoid bg-cyan-50/60 p-6 rounded-lg border border-cyan-200">
+                    <h3 class="text-xl font-bold text-cyan-800 mb-2 border-b-2 border-cyan-200 pb-1">श्रेणी - 3</h3>
+                    <p class="font-bold text-xl mb-3 text-gray-800">छात्रवृत्ति शुल्क प्रतिपूर्ति शिकायत</p>
+                    
+                    <div class="flex flex-wrap gap-4 mb-4">
+                        <div class="bg-white p-3 rounded border border-cyan-100 shadow-sm flex-1 min-w-[250px]">
+                            <p class="font-bold text-cyan-900 mb-1">मांग:</p>
+                            <p class="text-gray-700 font-semibold">छात्रवृत्ति / फीस वापसी इसी में</p>
+                        </div>
+                        <div class="bg-white p-3 rounded border border-cyan-100 shadow-sm flex-1 min-w-[250px]">
+                            <p class="font-bold text-cyan-900 mb-1">धर्म:</p>
+                            <p class="text-gray-700 font-semibold">मुस्लिम, जैन, बौद्ध, पारसी, सिक्ख, ईसा, जनरल और OBC </p>
+                            <p class="text-xs text-red-500 font-bold mt-1">(नोट: )</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-cyan-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ol class="grid sm:grid-cols-2 gap-3 text-gray-700 list-decimal pl-5">
+                            <li><span class="font-semibold">छात्र का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">धर्म, जाति, वर्ग:</span> ...................................</li>
+                            <li><span class="font-semibold">पिता का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">आवेदन संख्या:</span> ...................................</li>
+                            <li><span class="font-semibold">आवेदन दिनांक:</span> ...................................</li>
+                            <li><span class="font-semibold">विद्यालय का नाम:</span> ...................................</li>
+                            <li class="sm:col-span-2"><span class="font-semibold">विद्यालय का पता:</span> ...................................</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // 1. Handle Background Image Upload (For both Screen and Print)
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    // Set for screen
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    // Set for print (img tag)
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Alpsankhyak_Kalyan_Waqf_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

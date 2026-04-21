@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Rajaswa Evam Aapda Vibhag (Abhishek)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles for multi-page background */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: transparent !important;
+            }
+            #print-bg-image {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: -10;
+                object-fit: cover;
+                opacity: 1;
+            }
+            #capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Screen only background */
+        @media screen {
+            #print-bg-image {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #eab308;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #ca8a04, #eab308);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Enhanced Glassmorphism & 3D Border Effects - Revenue/Land Theme */
+        .glass-3d-panel {
+            background: rgba(254, 252, 232, 0.85); /* yellow-50 base */
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-top: 2px solid rgba(255,255,255,0.9);
+            border-left: 2px solid rgba(255,255,255,0.9);
+            border-bottom: 2px solid rgba(0,0,0,0.15);
+            border-right: 2px solid rgba(0,0,0,0.15);
+            box-shadow: 12px 18px 30px rgba(0, 0, 0, 0.15), inset 0 0 15px rgba(255, 255, 255, 0.6);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s;
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        .text-3d {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2), -1px -1px 1px rgba(255,255,255,0.9);
+        }
+    </style>
+</head>
+<body class="bg-yellow-50 min-h-screen text-slate-800 font-sans">
+
+    <img id="print-bg-image" src="" alt="">
+
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-yellow-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-yellow-800 mb-1">Background Image Upload</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-yellow-50 file:text-yellow-700 hover:file:bg-yellow-100 cursor-pointer">
+            </div>
+            
+            <div class="hidden sm:block border-l border-slate-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-yellow-800 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="90" class="w-full accent-yellow-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-2xl glass-3d-panel transition-all duration-300">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <div class="text-center mb-10 border-b-4 border-yellow-700 pb-6 relative">
+                    <div class="inline-flex items-center justify-center gap-3 mb-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-yellow-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                        </svg>
+                        <h1 class="text-2xl sm:text-3xl font-extrabold text-yellow-900 drop-shadow-md">13 - विभाग</h1>
+                    </div>
+                    <h2 class="text-4xl sm:text-5xl font-black text-slate-800 text-3d tracking-wide mb-4">राजस्व एवं आपदा विभाग</h2>
+                    
+                    <div class="flex justify-center mt-3">
+                        <span class="bg-yellow-800 text-yellow-50 text-xs px-4 py-1.5 rounded-full border border-yellow-600 shadow-sm font-bold tracking-widest uppercase">
+                            ABHISHEK'S CMHL TRAINING NOTES
+                        </span>
+                    </div>
+                </div>
+
+                <div class="mb-8 page-break-avoid glass-card p-6 rounded-xl border-l-4 border-l-orange-500">
+                    <div class="flex items-center gap-3 mb-3 border-b border-orange-200 pb-2">
+                        <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded text-sm font-bold border border-orange-200">श्रेणी-4 (Missed/Out of order)</span>
+                        <h3 class="text-xl font-bold text-orange-800">प्रधानमंत्री मातृ वंदना योजना से सम्बन्धित शिकायत</h3>
+                    </div>
+                    <div class="bg-white/80 p-4 rounded-lg border border-orange-100 shadow-inner">
+                        <p class="font-bold text-orange-900 mb-2 text-sm">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-sm font-medium text-slate-700 list-disc pl-6">
+                            <li>आवेदिका</li>
+                            <li>पति, पता</li>
+                            <li>आवेदन सं०, आवेदन दिनांक</li>
+                            <li>बैंक, खाता सं०, शाखा</li>
+                            <li class="sm:col-span-2 font-bold text-orange-800 mt-1">+ शि० विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-6 mb-8">
+                    
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-red-600">
+                        <div class="flex flex-col gap-2 mb-4 border-b border-red-200 pb-2">
+                            <h3 class="text-lg font-bold text-red-800">श्रेणी - 1</h3>
+                            <p class="font-bold text-slate-800 text-sm">
+                                <span class="bg-red-100 px-1 rounded">1.</span> आपदा ग्राम राजस्व में आता है या चकबंदी में ?<br>
+                                <span class="bg-red-100 px-1 rounded mt-1 inline-block">2.</span> आपदा मामला न्यायालय में तो नहीं चल रहा है? <span class="text-xs text-red-700 font-semibold">(यदि हाँ तो शिकायत दर्ज नहीं होगी)</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-blue-600">
+                        <h3 class="text-lg font-bold text-blue-800 mb-2 border-b border-blue-200 pb-1">प्रमाण पत्र सम्बन्धित</h3>
+                        <ol class="font-bold text-slate-800 mb-3 text-sm list-decimal pl-4 space-y-1">
+                            <li>आय प्रमाण पत्र के सम्बन्ध में</li>
+                            <li>निवास प्रमाण पत्र के सम्बन्ध में</li>
+                            <li>जाति प्रमाण पत्र के सम्बन्ध में</li>
+                        </ol>
+                        <div class="bg-white/70 p-3 rounded-lg border border-blue-100 shadow-inner">
+                            <p class="font-bold text-blue-900 mb-1 text-sm">Format →</p>
+                            <p class="text-sm font-medium text-slate-700 leading-relaxed">
+                                आवेदक, पिता, पता, आवेदन सं०, आवेदन दिनांक, लेखपाल (यदि सम्बंधित हो), + शिकायत विवरण ।
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-purple-600 sm:col-span-2">
+                        <div class="flex items-center gap-2 mb-2 border-b border-purple-200 pb-1">
+                            <h3 class="text-lg font-bold text-purple-800">श्रेणी - 4</h3>
+                            <span class="font-bold text-slate-800">- भू माफिया का कब्जा -</span>
+                        </div>
+                        <div class="bg-white/70 p-3 rounded-lg border border-purple-100 shadow-inner">
+                            <p class="font-bold text-purple-900 mb-1 text-sm">Format →</p>
+                            <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-700 list-disc pl-5">
+                                <li>आवेदक, पिता, ग्राम</li>
+                                <li>खसरा या गाटा सं०</li>
+                                <li>कुल जमीन का रकबा</li>
+                                <li>कब्जेदार का नाम</li>
+                                <li class="w-full font-bold text-purple-800 mt-1">+ शिकायत का विवरण</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-6 mb-8">
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-l-4 border-l-green-600 flex flex-col md:flex-row gap-4">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-green-200 pb-3 md:pb-0 md:pr-4">
+                            <h3 class="text-lg font-bold text-green-800 mb-1">श्रेणी - 5</h3>
+                            <p class="font-bold text-slate-800 text-sm">ग्राम समाज की जमीन (ऊसर, बंजर, परती आदि) पर कब्जा ।</p>
+                        </div>
+                        <div class="md:w-2/3 bg-white/70 p-3 rounded-lg border border-green-100 shadow-inner">
+                            <p class="font-bold text-green-900 mb-1 text-sm">Format →</p>
+                            <p class="text-sm font-medium text-slate-700">आवेदक, पिता, पता, गाटा सं०, कुल जमीन, कब्जेदार का नाम, + शिकायत विवरण</p>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-l-4 border-l-teal-600 flex flex-col md:flex-row gap-4">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-teal-200 pb-3 md:pb-0 md:pr-4">
+                            <h3 class="text-lg font-bold text-teal-800 mb-1">श्रेणी - 6</h3>
+                            <p class="font-bold text-slate-800 text-sm">सार्वजनिक भूमि जैसे तालाब, खलिहान, शमशान, खेल का मैदान,</p>
+                        </div>
+                        <div class="md:w-2/3 bg-white/70 p-3 rounded-lg border border-teal-100 shadow-inner">
+                            <p class="font-bold text-teal-900 mb-1 text-sm">Format →</p>
+                            <p class="text-sm font-medium text-slate-700">आवेदक, पिता, पता, तालाब सं० या स्थान, कब्जेदार का नाम + शिकायत का विवरण</p>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-l-4 border-l-cyan-600 flex flex-col md:flex-row gap-4">
+                        <div class="md:w-1/3 border-b md:border-b-0 md:border-r border-cyan-200 pb-3 md:pb-0 md:pr-4">
+                            <h3 class="text-lg font-bold text-cyan-800 mb-1">श्रेणी - 7</h3>
+                            <p class="font-bold text-slate-800 text-sm">भूमि अधिग्रहण / व्यवस्थापन / हस्तांतरण / मुआबजा सम्बन्धी ।</p>
+                        </div>
+                        <div class="md:w-2/3 bg-white/70 p-3 rounded-lg border border-cyan-100 shadow-inner">
+                            <p class="font-bold text-cyan-900 mb-1 text-sm">Format →</p>
+                            <p class="text-sm font-medium text-slate-700">आवेदक, पिता, पता, गाटा सं०, कुल जमीन, बैंक, खाता सं०, शाखा + शिकायत का विवरण ।</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-6">
+                    
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-rose-600">
+                        <h3 class="text-lg font-bold text-rose-800 mb-2 border-b border-rose-200 pb-1">श्रेणी - 8</h3>
+                        <p class="font-bold text-slate-800 mb-3 text-sm">आपदा ग्रस्त घोषित करना / सहायता राशि या धन आवंटन सम्बन्धी ।</p>
+                        <div class="bg-white/70 p-3 rounded-lg border border-rose-100 shadow-inner">
+                            <p class="font-bold text-rose-900 mb-1 text-sm">Format →</p>
+                            <ul class="text-sm font-medium text-slate-700 list-disc pl-5 space-y-1">
+                                <li>आवेदक / किसान, पिता, ग्राम</li>
+                                <li>गाटा सं०, कुल जमीन</li>
+                                <li>बैंक, खाता सं०, शाखा</li>
+                                <li>+ शिकायत विवरण</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-indigo-600">
+                        <h3 class="text-lg font-bold text-indigo-800 mb-2 border-b border-indigo-200 pb-1">श्रेणी - 9</h3>
+                        <p class="font-bold text-slate-800 mb-3 text-sm">विभिन्न प्रकार के पट्टों जैसे: कृषि, आवास, मत्स्य कुम्हारी कला आदि की मांग के विषय में ।</p>
+                        <div class="bg-white/70 p-3 rounded-lg border border-indigo-100 shadow-inner">
+                            <p class="font-bold text-indigo-900 mb-1 text-sm">Format →</p>
+                            <p class="text-sm font-medium text-slate-700">आवेदक, पिता, पता, मांग का विवरण</p>
+                        </div>
+                    </div>
+
+                    <div class="page-break-avoid glass-card p-5 rounded-xl border-t-4 border-t-slate-800 sm:col-span-2">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2 border-b border-slate-300 pb-1">श्रेणी - 10</h3>
+                        <p class="font-bold text-slate-800 mb-3 text-sm">पट्टे की भूमि / तालाब पर कब्जे की शिकायत -</p>
+                        <div class="bg-white/70 p-4 rounded-lg border border-slate-200 shadow-inner">
+                            <p class="font-bold text-slate-900 mb-2 text-sm">Format →</p>
+                            <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-slate-700 list-disc pl-5">
+                                <li>आवेदक, पिता, पता</li>
+                                <li>स्थान</li>
+                                <li>कब्जेदार का नाम</li>
+                                <li class="w-full font-bold text-slate-800 mt-1">+ विवरण ।</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Handle Background Image Upload
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(254, 252, 232, ${opacityValue})`;
+        });
+
+        // Initialize default opacity based on slider
+        captureArea.style.backgroundColor = `rgba(254, 252, 232, ${opacitySlider.value / 100})`;
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Rajaswa_Aapda_Vibhag_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

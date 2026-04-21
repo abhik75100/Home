@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Nagar Vikas Vibhag (Abhishek)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles for multi-page background */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: transparent !important;
+            }
+            #print-bg-image {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: -10;
+                object-fit: cover;
+                opacity: 1;
+            }
+            #capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Screen only background */
+        @media screen {
+            #print-bg-image {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #f43f5e;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #be123c, #e11d48);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Enhanced Glassmorphism & 3D Border Effects */
+        .glass-3d-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 2px solid rgba(255,255,255,0.9);
+            border-left: 2px solid rgba(255,255,255,0.9);
+            border-bottom: 2px solid rgba(0,0,0,0.1);
+            border-right: 2px solid rgba(0,0,0,0.1);
+            box-shadow: 10px 15px 25px rgba(0, 0, 0, 0.15), inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .text-3d {
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2), -1px -1px 1px rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body class="bg-rose-50 min-h-screen text-gray-800 font-sans">
+
+    <img id="print-bg-image" src="" alt="">
+
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-rose-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-rose-700 mb-1">Background Image Upload</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 cursor-pointer">
+            </div>
+            
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-rose-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="85" class="w-full accent-rose-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save
+            </button>
+        </div>
+    </div>
+
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-2xl glass-3d-panel transition-all duration-300">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <div class="text-center mb-8 border-b-4 border-rose-700 pb-6 relative">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-rose-900 mb-1 drop-shadow-md">09 - नगर विकास विभाग (शहरी क्षेत्र)</h1>
+                    <h2 class="text-3xl sm:text-4xl font-black text-gray-800 text-3d tracking-wide mb-4">नगर विकास विभाग तथा गरीबी उन्मूलन एवं नगरीय रोजगार</h2>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 text-sm font-bold mt-4">
+                        <span class="bg-blue-100 text-blue-800 px-4 py-2 rounded-lg border border-blue-200 shadow-sm">नगर निगम → पार्षद या सभासद</span>
+                        <span class="bg-green-100 text-green-800 px-4 py-2 rounded-lg border border-green-200 shadow-sm">नगर पालिका → चेयरमैन</span>
+                        <span class="bg-purple-100 text-purple-800 px-4 py-2 rounded-lg border border-purple-200 shadow-sm">नगर पंचायत → चेयरमैन</span>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-orange-50/70 p-5 rounded-xl border border-orange-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-orange-700 mb-3 border-b-2 border-orange-200 pb-1">कूड़ा, गंदगी एवं सफाई</h3>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-3 text-sm">
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-orange-900">श्रेणी - 1:</span> नगर निगम में कूड़ा गंदगी साफ-सफाई एवं सफाई कर्मी सम्बन्धी
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-orange-900">श्रेणी - 2:</span> नगर पालिका / नगर पंचायत में कूड़ा गंदगी... सफाई कर्मी
+                        </div>
+                    </div>
+                    <div class="bg-white/80 p-4 rounded-lg border border-orange-100 shadow-inner">
+                        <p class="font-bold text-orange-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-sm font-medium text-gray-800 list-disc pl-5">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>वार्ड नंबर</li>
+                            <li>मोहल्ले का नाम</li>
+                            <li>पार्षद या चेयरमैन का नाम</li>
+                            <li>स्थान</li>
+                            <li class="sm:col-span-2">और शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-cyan-50/70 p-5 rounded-xl border border-cyan-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-cyan-700 mb-3 border-b-2 border-cyan-200 pb-1">जलकर सम्बन्धी</h3>
+                    <div class="grid sm:grid-cols-3 gap-3 mb-3 text-sm">
+                        <div class="glass-card p-2 rounded"><span class="font-bold text-cyan-900">श्रेणी - 3:</span> नगर निगम में जलकर सम्बन्धी</div>
+                        <div class="glass-card p-2 rounded"><span class="font-bold text-cyan-900">श्रेणी - 4:</span> नगर निगम में जलकर सम्बन्धी</div>
+                        <div class="glass-card p-2 rounded"><span class="font-bold text-cyan-900">श्रेणी - 5:</span> नगर पालिका / नगर पंचायत में जलकर सम्बन्धी</div>
+                    </div>
+                    <div class="bg-white/80 p-4 rounded-lg border border-cyan-100 shadow-inner">
+                        <p class="font-bold text-cyan-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-3 gap-2 text-sm font-medium text-gray-800 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता का नाम</li>
+                            <li>वार्ड नं०</li>
+                            <li>मोहल्ले का नाम</li>
+                            <li>पार्षद या चेयरमैन</li>
+                            <li>रसीद संख्या</li>
+                            <li class="sm:col-span-3">और शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid grid sm:grid-cols-2 gap-6">
+                    <div class="bg-amber-50/70 p-5 rounded-xl border border-amber-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-amber-700 mb-2 border-b border-amber-200 pb-1">श्रेणी - 6</h3>
+                        <p class="font-semibold text-gray-800 text-sm mb-3">नगर निगम में आवारा पशुओं से सम्बन्धित शिकायत</p>
+                        <div class="bg-white/80 p-3 rounded-lg border border-amber-100 shadow-inner text-sm font-medium">
+                            <p class="font-bold text-amber-800 mb-1">Format →</p>
+                            आवेदक, पिता, वार्ड नं०, मोहल्ले का नाम, पार्षद या चेयरमैन + स्थान + विवरण
+                        </div>
+                    </div>
+                    <div class="bg-amber-50/70 p-5 rounded-xl border border-amber-200 shadow-sm">
+                        <h3 class="text-lg font-bold text-amber-700 mb-2 border-b border-amber-200 pb-1">श्रेणी - 7</h3>
+                        <p class="font-semibold text-gray-800 text-sm mb-3">नगर निगम / नगर पंचायत में मृत पशु सम्बन्धी</p>
+                        <div class="bg-white/80 p-3 rounded-lg border border-amber-100 shadow-inner text-sm font-medium">
+                            <p class="font-bold text-amber-800 mb-1">Format →</p>
+                            आवेदक, पिता, वार्ड नं०, मोहल्ला, पार्षद या चेयरमैन, + स्थान, शिकायत का विवरण
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-slate-100 p-5 rounded-xl border border-slate-300 shadow-sm">
+                    <h3 class="text-xl font-bold text-slate-700 mb-3 border-b-2 border-slate-300 pb-1">सड़क, मार्ग निर्माण एवं जल भराव</h3>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-3 text-sm">
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-slate-900">श्रेणी - 8:</span> नगर निगम में सड़क / मार्ग / सी०सी० रोड / फुटपाथ आदि के निर्माण, मरम्मत सम्बन्धी
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-slate-900">श्रेणी - 9:</span> नगर पालिका, नगर पंचायत सड़क मार्ग सम्बन्धी
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-slate-900">श्रेणी - 10:</span> नगर निगम में सड़क खुदाई / जल भराव सम्बन्धी
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-slate-900">श्रेणी - 11:</span> नगर पालिका / नगर पंचायत में जल भराव सम्बन्धी
+                        </div>
+                    </div>
+                    <div class="bg-white/80 p-4 rounded-lg border border-slate-200 shadow-inner">
+                        <p class="font-bold text-slate-800 mb-2">Format (Shared) →</p>
+                        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-gray-800 list-disc pl-5">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>वार्ड नं०</li>
+                            <li>मोहल्ले का नाम / मोहल्ला</li>
+                            <li>पार्षद / चेयरमैन</li>
+                            <li>स्थान</li>
+                            <li>शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-emerald-50/70 p-5 rounded-xl border border-emerald-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-emerald-700 mb-3 border-b-2 border-emerald-200 pb-1">आवास योजना (PM Awas / DUDA / SUDA)</h3>
+                    
+                    <div class="mb-4">
+                        <span class="font-bold text-emerald-900 bg-emerald-100 px-2 py-1 rounded text-sm">श्रेणी - 12</span>
+                        <span class="font-semibold text-gray-800 ml-2">प्रधानमंत्री शहरी आवास योजना में आवास की मांग के सम्बन्ध में (मांग)</span>
+                        <div class="mt-2 bg-white/80 p-2 rounded border border-emerald-100 text-sm font-medium">
+                            <span class="text-emerald-700 font-bold">Format:</span> आवेदक, पिता/पति, वार्ड नं०, मोहल्ला, पार्षद/चेयरमैन + मांग का विवरण।
+                        </div>
+                    </div>
+
+                    <div class="border-t border-emerald-200 pt-4">
+                        <span class="font-bold text-emerald-900 bg-emerald-100 px-2 py-1 rounded text-sm">श्रेणी - 13</span>
+                        <span class="font-semibold text-gray-800 ml-2">डूडा (DUDA), सूडा (SUDA) सम्बन्धित (आवास की शिकायत)</span>
+                        
+                        <div class="grid sm:grid-cols-2 gap-4 mt-3">
+                            <div class="glass-card p-4 rounded-lg border-l-4 border-l-red-400">
+                                <p class="font-bold text-red-700 mb-2">A-Option → <span class="font-medium text-gray-700">आवेदन हो चुका है लेकिन किश्त एक भी नहीं मिली</span></p>
+                                <p class="font-bold text-sm text-gray-600 mb-1">Format →</p>
+                                <ul class="text-sm font-medium text-gray-800 list-disc pl-5">
+                                    <li>आवेदक/आवेदिका, पिता/पति</li>
+                                    <li>आवेदन सं०, आवेदन दिनांक</li>
+                                    <li>वार्ड नं०, मोहल्ला</li>
+                                    <li>पार्षद / चेयरमैन</li>
+                                    <li>शिकायत का विवरण</li>
+                                </ul>
+                            </div>
+                            <div class="glass-card p-4 rounded-lg border-l-4 border-l-green-400">
+                                <p class="font-bold text-green-700 mb-2">B-Option → <span class="font-medium text-gray-700">पहले कुछ किश्तें आ चुकी हैं लेकिन वर्तमान में आगे की आनी बन्द हो गई हैं।</span></p>
+                                <p class="font-bold text-sm text-gray-600 mb-1">Format →</p>
+                                <ul class="text-sm font-medium text-gray-800 list-disc pl-5 mb-2">
+                                    <li>आवेदक, पिता/पति, वार्ड, मोहल्ला</li>
+                                    <li>पार्षद या चेयरमैन</li>
+                                    <li>बैंक नाम, खाता सं०, शाखा</li>
+                                    <li>शिकायत का विवरण (लास्ट किश्त कब मिली)</li>
+                                </ul>
+                                <div class="bg-green-50 p-2 rounded text-xs font-bold text-green-900 border border-green-200">
+                                    धनराशि - Total = 2.50 लाख<br>
+                                    1st → 50 हजार | 2nd → 1.50 लाख | 3rd → 50 हजार
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid grid sm:grid-cols-2 gap-6">
+                    <div class="bg-yellow-50/70 p-5 rounded-xl border border-yellow-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-yellow-700 mb-3 border-b-2 border-yellow-200 pb-1">प्रकाश व्यवस्था</h3>
+                        <div class="mb-3 text-sm">
+                            <p><span class="font-bold text-yellow-900">श्रेणी - 14:</span> नगर निगम में प्रकाश की व्यवस्था।</p>
+                            <p class="mt-1"><span class="font-bold text-yellow-900">श्रेणी - 15:</span> नगर पालिका / नगर पंचायत में प्रकाश की व्यवस्था (मांग + शिकायत दोनो)</p>
+                        </div>
+                        <div class="bg-white/80 p-3 rounded-lg border border-yellow-100 shadow-inner text-sm font-medium">
+                            <p class="font-bold text-yellow-800 mb-1">Format →</p>
+                            आवेदक का नाम - पिता, वार्ड नं०, मोहल्ला, पार्षद / सभासद, स्थान, शिकायत का विवरण + <span class="font-bold text-yellow-600">(लाइट की संख्या)</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-50/70 p-5 rounded-xl border border-blue-200 shadow-sm">
+                        <h3 class="text-xl font-bold text-blue-700 mb-3 border-b-2 border-blue-200 pb-1">पेयजल व्यवस्था</h3>
+                        <div class="mb-3 text-sm">
+                            <p><span class="font-bold text-blue-900">श्रेणी - 16:</span> नगर निगम में पेयजल की व्यवस्था</p>
+                            <p class="mt-1"><span class="font-bold text-blue-900">श्रेणी - 17:</span> नगर पालिका / नगर पंचायत में पेयजल की व्यवस्था</p>
+                        </div>
+                        <div class="bg-white/80 p-3 rounded-lg border border-blue-100 shadow-inner text-sm font-medium mb-3">
+                            <p class="font-bold text-blue-800 mb-1">Format →</p>
+                            आवेदक, पिता, वार्ड नं०, मोहल्ला, पार्षद / चेयरमैन, स्थान, और शिकायत का विवरण
+                        </div>
+                        <div class="bg-indigo-50 border border-indigo-200 p-2 rounded text-xs">
+                            <p><span class="font-bold text-indigo-800">श्रेणी - 18:</span> झाँसी, चित्रकूट मण्डल में पेयजल की आपूर्ति</p>
+                            <p class="mt-1 font-medium text-gray-700">जिला- झाँसी मण्डल के जिले: झाँसी, जालौन, ललितपुर<br>
+                            चित्रकूट मण्डल के जिले: चित्रकूट, बांदा, हमीरपुर, महोबा</p>
+                            <p class="text-indigo-600 font-bold mt-1">(Format Same as Above)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6 page-break-avoid bg-stone-100/70 p-5 rounded-xl border border-stone-300 shadow-sm">
+                    <h3 class="text-xl font-bold text-stone-700 mb-3 border-b-2 border-stone-300 pb-1">सीवर एवं नाला-नाली सफाई</h3>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-3 text-sm">
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-stone-900">श्रेणी - 19:</span> नगर निगम में सीवर की सफाई / चोक / ओवर फ्लो सम्बन्धी।
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-stone-900">श्रेणी - 20:</span> नगर पालिका, नगर पंचायत में सीवर की सफाई / चोक / ओवर फ्लो...
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-stone-900">श्रेणी - 21:</span> नगर निगम में नाला-नाली की सफाई या नाला-नाली चोक अथवा ओवर फ्लो
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-stone-900">श्रेणी - 22:</span> नगर पालिका / नगर पंचायत में नाला-नाली...
+                        </div>
+                    </div>
+                    <div class="bg-white/80 p-3 rounded-lg border border-stone-200 shadow-inner text-sm font-medium">
+                        <p class="font-bold text-stone-800 mb-1">Format (Shared) →</p>
+                        आवेदक, पिता, वार्ड, पार्षद / चेयरमैन, [शिकायत विवरण]
+                    </div>
+                </div>
+
+                <div class="mb-8 page-break-avoid bg-pink-50/70 p-5 rounded-xl border border-pink-200 shadow-sm">
+                    <h3 class="text-xl font-bold text-pink-700 mb-3 border-b-2 border-pink-200 pb-1">जन्म / मृत्यु प्रमाण पत्र</h3>
+                    <div class="grid sm:grid-cols-2 gap-4 mb-3 text-sm">
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-pink-900">श्रेणी - 23:</span> नगर निगम में जन्म प्रमाण पत्र सम्बन्धी शिकायत
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-pink-900">श्रेणी - 24:</span> नगर निगम में मृत्यु प्रमाण पत्र सम्बन्धी शिकायत।
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-pink-900">श्रेणी - 25:</span> नगर पालिका / नगर पंचायत में जन्म प्र० पत्र से
+                        </div>
+                        <div class="glass-card p-3 rounded">
+                            <span class="font-bold text-pink-900">श्रेणी - 26:</span> नगर पालिका / नगर पं० में मृत्यु प्र० पत्र से
+                        </div>
+                    </div>
+                    <div class="bg-white/80 p-4 rounded-lg border border-pink-100 shadow-inner">
+                        <p class="font-bold text-pink-800 mb-2">Format →</p>
+                        <ul class="flex flex-wrap gap-x-6 gap-y-2 text-sm font-medium text-gray-800 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता / पति</li>
+                            <li>आवेदन सं०</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>वार्ड नं०</li>
+                            <li>मोहल्ले का नाम</li>
+                            <li>पार्षद या चेयरमैन</li>
+                            <li>शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Handle Background Image Upload
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        // Initialize default opacity based on slider
+        captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacitySlider.value / 100})`;
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Nagar_Vikas_Vibhag_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

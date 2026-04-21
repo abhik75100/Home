@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Gram Vikas Vibhag</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        @media print {
+            .no-print { display: none !important; }
+            body { background-color: transparent !important; }
+            #print-bg-image {
+                display: block !important;
+                position: fixed; top: 0; left: 0;
+                width: 100vw; height: 100vh;
+                z-index: -10; object-fit: cover; opacity: 1;
+            }
+            #capture-area {
+                box-shadow: none !important; margin: 0 !important; padding: 10px !important;
+            }
+            .page-break-avoid {
+                page-break-inside: avoid; break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        @media screen {
+            #print-bg-image { display: none; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 4px; }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #059669;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #065f46, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+    <!-- Print Background Image -->
+    <img id="print-bg-image" src="" alt="">
+
+    <!-- Control Panel -->
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-emerald-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-emerald-700 mb-1">Background Image Upload Karein</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100 cursor-pointer">
+            </div>
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-emerald-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="95" class="w-full accent-emerald-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save Image
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <!-- Editable Document Container -->
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-xl shadow-2xl transition-all duration-300" style="background-color: rgba(255, 255, 255, 0.95);">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <!-- ====== HEADER ====== -->
+                <div class="text-center mb-10 border-b-4 border-emerald-800 pb-4">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-emerald-900 mb-2">विभाग</h1>
+                    <h2 class="text-2xl sm:text-4xl font-bold text-gray-800">ग्राम विकास विभाग</h2>
+                    <p class="text-lg text-emerald-700 font-semibold mt-1">(ग्रामीण क्षेत्र से सम्बन्धित)</p>
+                    <p class="text-sm text-gray-500 mt-2 italic no-print">(टेक्स्ट को एडिट करने के लिए कहीं भी क्लिक करें)</p>
+                </div>
+
+                <!-- Category 1 -->
+                <div class="mb-8 page-break-avoid bg-green-50/60 p-6 rounded-lg border border-green-200">
+                    <h3 class="text-xl font-bold section-title mb-2 border-b-2 border-green-200 pb-1">श्रेणी - 1</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">निराश्रित गोवंश से सम्बन्धित शिकायत <span class="text-sm font-normal text-gray-600">(आवारा पशु - गाय, सांड, बछड़े)</span></p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-green-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>ग्राम का नाम</li>
+                            <li>प्रधान का नाम</li>
+                            <li>सचिव का नाम</li>
+                            <li>स्थान</li>
+                            <li class="sm:col-span-2 font-semibold text-green-800">शिकायत का विवरण (उनकी संख्या)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="mb-8 page-break-avoid bg-teal-50/60 p-6 rounded-lg border border-teal-200">
+                    <h3 class="text-xl font-bold text-teal-700 mb-2 border-b-2 border-teal-200 pb-1">श्रेणी - 2</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">प्रधान मंत्री ग्रामीण आवास योजना की मांग के सन्दर्भ में</p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-teal-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता/पति का नाम</li>
+                            <li>ग्राम का नाम</li>
+                            <li>प्रधान का नाम</li>
+                            <li>सचिव का नाम</li>
+                            <li>आवेदन किया है? (हाँ/ना)</li>
+                            <li>आवेदन संख्या</li>
+                            <li>आवेदन दिनांक</li>
+                            <li class="sm:col-span-2 font-semibold text-teal-800">मांग विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="mb-8 page-break-avoid bg-cyan-50/60 p-6 rounded-lg border border-cyan-200">
+                    <h3 class="text-xl font-bold text-cyan-800 mb-2 border-b-2 border-cyan-200 pb-1">श्रेणी - 3</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">प्रधान मंत्री ग्रामीण आवास योजना में अपात्र व्यक्ति को आवास आवंटन</p>
+                    
+                    <!-- Money Info Box -->
+                    <div class="bg-cyan-100/50 p-4 rounded-md mb-6 border border-cyan-300 text-sm">
+                        <div class="grid sm:grid-cols-2 gap-4">
+                            <div>
+                                <p class="font-bold text-cyan-900 border-b border-cyan-200 pb-1 mb-2">सामान्य क्षेत्र = कुल 1 लाख 20 हजार</p>
+                                <ul class="list-disc pl-5 text-cyan-800">
+                                    <li>पहली किश्त: 40 हजार</li>
+                                    <li>दूसरी किश्त: 70 हजार</li>
+                                    <li>तीसरी किश्त: 10 हजार</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-bold text-cyan-900 border-b border-cyan-200 pb-1 mb-2">नक्सली क्षेत्र = कुल 1 लाख 30 हजार</p>
+                                <ul class="list-disc pl-5 text-cyan-800">
+                                    <li>पहली किश्त: 44 हजार राशि</li>
+                                    <li>दूसरी किश्त: 76 हजार राशि</li>
+                                    <li>तीसरी किश्त: 10 हजार राशि</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <!-- Option A -->
+                        <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                            <p class="font-bold text-cyan-800 mb-2">A-Option → <span class="font-normal text-gray-700">आवास की कुछ किश्त आ चुकी है लेकिन आगे की आनी बन्द हो गई हैं।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-3 border-b border-gray-100 pb-1">Format →</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                                <li>आवेदक/आवेदिका का नाम</li>
+                                <li>पिता/पति का नाम</li>
+                                <li>ग्राम का नाम</li>
+                                <li>प्रधान का नाम</li>
+                                <li>सचिव का नाम</li>
+                                <li>बैंक नाम, खाता सं०, शाखा</li>
+                                <li class="sm:col-span-2 text-cyan-700 font-semibold mt-2">शिकायत विवरण (लास्ट किश्त कब मिली)</li>
+                            </ul>
+                        </div>
+
+                        <!-- Option B -->
+                        <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                            <p class="font-bold text-cyan-800 mb-2">B-Option → <span class="font-normal text-gray-700">अपात्र व्यक्ति को आवास का लाभ मिल जाए।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-3 border-b border-gray-100 pb-1">Format →</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                                <li>आवेदक का नाम</li>
+                                <li>पिता का नाम</li>
+                                <li>ग्राम का नाम</li>
+                                <li>प्रधान का नाम</li>
+                                <li>सचिव का नाम</li>
+                                <li>अपात्र व्यक्ति का नाम</li>
+                                <li class="sm:col-span-2 text-cyan-700 font-semibold mt-2">शिकायत का विवरण</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="mb-8 page-break-avoid bg-blue-50/60 p-6 rounded-lg border border-blue-200">
+                    <h3 class="text-xl font-bold text-blue-800 mb-2 border-b-2 border-blue-200 pb-1">श्रेणी - 4</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">पुलिया की मरम्मत के सम्बन्ध में</p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-blue-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम</li>
+                            <li>प्रधान</li>
+                            <li>सचिव का नाम</li>
+                            <li>स्थान</li>
+                            <li class="sm:col-span-2 font-semibold text-blue-800">शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 5 -->
+                <div class="mb-8 page-break-avoid bg-indigo-50/60 p-6 rounded-lg border border-indigo-200">
+                    <h3 class="text-xl font-bold text-indigo-800 mb-2 border-b-2 border-indigo-200 pb-1">श्रेणी - 5</h3>
+                    <p class="font-bold text-lg text-gray-800">प्रधानमंत्री ग्राम सड़क योजना</p>
+                    <p class="text-sm text-gray-600 mb-4 font-semibold">मरम्मत की मांग / शिकायत / निर्माण कार्य की गुणवत्ता (ग्राम विकास विभाग)</p>
+                    
+                    <div class="bg-indigo-100/50 p-3 rounded text-sm text-indigo-900 mb-4 border border-indigo-200 flex items-start gap-2">
+                        <span class="font-bold text-lg">💡</span>
+                        <p><strong>नियम:</strong> अगर 5 साल से ज्यादा समय बने हुए हो गया है तो मरम्मत <strong>PWD</strong> कराएगी। 5 साल से कम होने पर - <strong>ग्राम विकास विभाग</strong>।</p>
+                    </div>
+
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm mb-6">
+                        <p class="font-bold text-indigo-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम</li>
+                            <li>प्रधान</li>
+                            <li>सचिव का नाम</li>
+                            <li class="sm:col-span-2 font-semibold text-indigo-800">स्थान + विवरण</li>
+                        </ul>
+                    </div>
+
+                    <!-- Sub Category (Talab Safai) -->
+                    <h3 class="text-lg font-bold text-indigo-700 mb-2 border-b border-indigo-200 pb-1">अन्य श्रेणी: ग्राम के तालाब की खुदाई या सफाई (ग्राम विकास)</h3>
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-indigo-800 mb-3 text-sm border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-sm text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम</li>
+                            <li>सचिव</li>
+                            <li class="sm:col-span-2 font-semibold text-indigo-800">स्थान + शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 6 -->
+                <div class="mb-8 page-break-avoid bg-violet-50/60 p-6 rounded-lg border border-violet-200">
+                    <h3 class="text-xl font-bold text-violet-800 mb-2 border-b-2 border-violet-200 pb-1">श्रेणी - 6</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">विधायक निधि / सांसद निधि</p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-violet-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम</li>
+                            <li>प्रधान</li>
+                            <li>सचिव</li>
+                            <li class="sm:col-span-2 font-semibold text-violet-800">स्थान + शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 7 -->
+                <div class="mb-8 page-break-avoid bg-purple-50/60 p-6 rounded-lg border border-purple-200">
+                    <h3 class="text-xl font-bold text-purple-800 mb-2 border-b-2 border-purple-200 pb-1">श्रेणी - 7</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">मनरेगा में मजदूरी की शिकायत</p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-purple-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम</li>
+                            <li>मनरेगा जाब कार्ड सं०</li>
+                            <li>प्रधान</li>
+                            <li>सचिव</li>
+                            <li>रोजगार सहायक का नाम</li>
+                            <li>बैंक, खाता संख्या, शाखा</li>
+                            <li class="sm:col-span-2 font-semibold text-purple-800">शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 8 -->
+                <div class="mb-8 page-break-avoid bg-fuchsia-50/60 p-6 rounded-lg border border-fuchsia-200">
+                    <h3 class="text-xl font-bold text-fuchsia-800 mb-2 border-b-2 border-fuchsia-200 pb-1">श्रेणी - 8</h3>
+                    <p class="font-bold text-lg mb-4 text-gray-800">मनरेगा - फर्जी मस्टर रोल</p>
+                    
+                    <div class="bg-white p-5 rounded border border-gray-200 shadow-sm">
+                        <p class="font-bold text-fuchsia-800 mb-3 text-lg border-b border-gray-100 pb-1">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-3 text-gray-700 list-disc pl-5">
+                            <li>आवेदक</li>
+                            <li>पिता</li>
+                            <li>ग्राम का नाम</li>
+                            <li>प्रधान</li>
+                            <li>सचिव</li>
+                            <li>रोजगार सहायक का नाम</li>
+                            <li>अपात्र व्यक्ति का नाम</li>
+                            <li>जाब कार्ड संख्या</li>
+                            <li class="sm:col-span-2 font-semibold text-fuchsia-800">शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Footer Note -->
+                <div class="mt-10 page-break-avoid bg-yellow-50 p-6 rounded-lg border-2 border-yellow-400 shadow-sm text-center">
+                    <h4 class="text-xl font-bold text-yellow-800 mb-2 flex justify-center items-center gap-2">
+                        <span>📌</span> महत्वपूर्ण नोट
+                    </h4>
+                    <p class="text-lg text-gray-800 font-semibold">बीसी सखी (BC Sakhi) से सम्बन्धित सभी शिकायतें <strong>ग्राम विकास</strong> में ही दर्ज करते हैं।</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, 
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Gram_Vikas_Vibhag_CMHL_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me कोई error आई है. कृपया दोबारा कोशिश करें.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

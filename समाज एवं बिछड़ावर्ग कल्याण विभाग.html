@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMHL Training Guide - Samaj & Pichhda Varg Kalyan Vibhag</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html2canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        /* Print specific styles for multi-page background */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            body {
+                background-color: transparent !important;
+            }
+            /* This is the magic trick to repeat background on every printed page */
+            #print-bg-image {
+                display: block !important;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                z-index: -10;
+                object-fit: cover;
+                opacity: 1; /* You can adjust opacity for print if needed */
+            }
+            #capture-area {
+                box-shadow: none !important;
+                margin: 0 !important;
+                padding: 10px !important;
+            }
+            /* Prevent cards from breaking awkwardly across pages */
+            .page-break-avoid {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+        }
+
+        /* Screen only background */
+        @media screen {
+            #print-bg-image {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888; 
+            border-radius: 4px;
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px dashed #8b5cf6;
+            outline-offset: 4px;
+        }
+        
+        .section-title {
+            background: linear-gradient(90deg, #4c1d95, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen text-gray-800 font-sans">
+
+    <!-- Print Background Image (Hidden on screen, repeated on every page in print) -->
+    <img id="print-bg-image" src="" alt="">
+
+    <!-- Control Panel (Hidden on Print) -->
+    <div class="no-print fixed top-0 left-0 right-0 bg-white/95 backdrop-blur-sm shadow-md p-4 z-50 flex flex-wrap items-center justify-between gap-4 border-b border-purple-200">
+        <div class="flex items-center gap-4">
+            <div>
+                <label for="bgUploader" class="block text-sm font-bold text-purple-700 mb-1">Background Image Upload Karein</label>
+                <input type="file" id="bgUploader" accept="image/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer">
+            </div>
+            
+            <div class="hidden sm:block border-l border-gray-300 h-10"></div>
+            
+            <div class="w-32 sm:w-48">
+                <label for="opacitySlider" class="block text-sm font-bold text-purple-700 mb-1">Text Area Opacity</label>
+                <input type="range" id="opacitySlider" min="0" max="100" value="95" class="w-full accent-purple-600">
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <button onclick="window.print()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+                Print (All Pages)
+            </button>
+            <button id="saveBtn" onclick="saveAsImage()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded shadow transition duration-200 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Save as Image
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div id="capture-wrapper" class="pt-32 pb-12 px-4 min-h-screen relative">
+        <!-- Screen Background Layer -->
+        <div id="capture-bg" class="absolute inset-0 bg-cover bg-center bg-fixed" style="z-index: -1;"></div>
+        
+        <!-- Editable Document Container -->
+        <div id="capture-area" class="max-w-4xl mx-auto p-8 sm:p-12 rounded-xl shadow-2xl transition-all duration-300" style="background-color: rgba(255, 255, 255, 0.95);">
+            
+            <div contenteditable="true" class="w-full focus:outline-none">
+                
+                <!-- ====== SECTION 1: SAMAJ KALYAN VIBHAG ====== -->
+                <div class="text-center mb-8 border-b-4 border-purple-800 pb-4">
+                    <h1 class="text-3xl sm:text-4xl font-extrabold text-purple-900 mb-2">विभाग - 2</h1>
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800">समाज कल्याण विभाग</h2>
+                    <p class="text-sm text-gray-500 mt-2 italic no-print">(टेक्स्ट को एडिट करने के लिए कहीं भी क्लिक करें)</p>
+                </div>
+
+                <!-- Category 1 -->
+                <div class="mb-6 page-break-avoid bg-purple-50/60 p-5 rounded-lg border border-purple-100">
+                    <h3 class="text-xl font-bold section-title mb-2 border-b-2 border-purple-200 pb-1">श्रेणी - 1</h3>
+                    <p class="font-bold text-lg mb-3 text-gray-800">वृद्धावस्था पेंशन की मांग के विषय में</p>
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-purple-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-gray-700">
+                            <li><span class="font-semibold">आवेदक का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">पिता का नाम:</span> ...................................</li>
+                            <li><span class="font-semibold">पता:</span> ...................................</li>
+                            <li><span class="font-semibold">उम्र:</span> ...................................</li>
+                            <li class="sm:col-span-2"><span class="font-semibold">मांग का विवरण:</span> ...................................</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 2 -->
+                <div class="mb-6 page-break-avoid bg-blue-50/60 p-5 rounded-lg border border-blue-100">
+                    <h3 class="text-xl font-bold text-blue-700 mb-2 border-b-2 border-blue-200 pb-1">श्रेणी - 2</h3>
+                    <p class="font-bold text-lg mb-3 text-gray-800">वृद्धावस्था पेंशन (शिकायत)</p>
+                    
+                    <div class="space-y-4">
+                        <!-- Option A -->
+                        <div class="bg-white p-4 rounded border border-gray-200">
+                            <p class="font-bold text-blue-800 mb-1">A-Option → <span class="font-normal text-gray-700">आवेदन हो चुका है लेकिन पेंशन अभी तक नहीं प्राप्त हुई है।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-2">Format →</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                                <li>आवेदक का नाम</li>
+                                <li>पिता का नाम</li>
+                                <li>पता</li>
+                                <li>आवेदन सं०</li>
+                                <li>आवेदन दिनांक</li>
+                                <li>उम्र</li>
+                                <li class="sm:col-span-2">और शिकायत का विवरण</li>
+                            </ul>
+                        </div>
+
+                        <!-- Option B -->
+                        <div class="bg-white p-4 rounded border border-gray-200">
+                            <p class="font-bold text-blue-800 mb-1">B-Option → <span class="font-normal text-gray-700">पहले पेंशन आ रही थी लेकिन वर्तमान में पेंशन आनी बन्द हो गई है।</span></p>
+                            <p class="font-bold text-gray-600 text-sm mb-2 mt-2">Format →</p>
+                            <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                                <li>आवेदक का नाम</li>
+                                <li>पति/पिता का नाम</li>
+                                <li>पता</li>
+                                <li>उम्र</li>
+                                <li>बैंक का नाम</li>
+                                <li>खाता संख्या</li>
+                                <li>शाखा</li>
+                                <li class="sm:col-span-2">शिकायत का विवरण (आखिरी पेंशन कब प्राप्त हुई है)</li>
+                            </ul>
+                            <div class="mt-3 bg-yellow-50 p-2 text-xs text-yellow-800 rounded border border-yellow-200 inline-block">
+                                <span class="font-bold">नोट:</span> पेंशन आएगी तो हर तीन महीने में (उ म० = 3000)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3 -->
+                <div class="mb-6 page-break-avoid bg-green-50/60 p-5 rounded-lg border border-green-100">
+                    <h3 class="text-xl font-bold text-green-700 mb-2 border-b-2 border-green-200 pb-1">श्रेणी - 3</h3>
+                    <p class="font-bold text-lg mb-1 text-gray-800">पारिवारिक लाभ योजना (शिकायत)</p>
+                    <p class="text-sm text-gray-600 mb-3 font-semibold">- धनराशि 30 हजार मात्र (परिवार के मुखिया की मृत्यु पर एक बार)</p>
+                    
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-green-800 mb-2">Format →</p>
+                        <ol class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-decimal pl-5">
+                            <li>आवेदक का नाम</li>
+                            <li>पिता या पति का नाम</li>
+                            <li>पता</li>
+                            <li>आवेदन सं०</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>बैंक का नाम</li>
+                            <li>खाता सं०</li>
+                            <li>शाखा</li>
+                            <li class="sm:col-span-2">शिकायत का विवरण</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Category 4 -->
+                <div class="mb-6 page-break-avoid bg-pink-50/60 p-5 rounded-lg border border-pink-100">
+                    <h3 class="text-xl font-bold text-pink-700 mb-2 border-b-2 border-pink-200 pb-1">श्रेणी - 4</h3>
+                    <p class="font-bold text-lg mb-3 text-gray-800">सामूहिक विवाह से सम्बन्धित शिकायत (स० कल्याण विभाग)</p>
+                    
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-pink-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                            <li>आवेदिका का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>पता</li>
+                            <li>आवेदन सं०</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>शादी दिनांक</li>
+                            <li>बैंक का नाम</li>
+                            <li>खाता सं०</li>
+                            <li>शाखा</li>
+                            <li class="sm:col-span-2">शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Category 5 & 6 (Scholarship & Fees) -->
+                <div class="mb-10 page-break-avoid grid sm:grid-cols-2 gap-6">
+                    <div class="p-5 rounded-lg border border-indigo-200 bg-indigo-50/60">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-2 border-b-2 border-indigo-200 pb-1">श्रेणी - 5</h3>
+                        <p class="font-bold text-gray-800 mb-1">छात्रवृत्ति सम्बन्धी (स० कल्याण)</p>
+                        <p class="text-xs text-indigo-800 mb-3 font-semibold">धर्म हिन्दू, जाति/वर्ग - सामान्य, SC, ST (समाज कल्याण)</p>
+                        <p class="font-bold text-indigo-800 text-sm mb-2">Format →</p>
+                        <ul class="pl-5 space-y-1 list-disc text-sm text-gray-700">
+                            <li>छात्र का नाम</li>
+                            <li>धर्म, जाति/वर्ग</li>
+                            <li>आवेदन सं०</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>जन्म तिथी</li>
+                            <li>Class कक्षा (वर्ष)</li>
+                            <li>सत्र</li>
+                            <li>कालेज का नाम</li>
+                            <li>कालेज का जिला</li>
+                            <li>और शिकायत का विवरण</li>
+                        </ul>
+                    </div>
+
+                    <div class="p-5 rounded-lg border border-indigo-200 bg-indigo-50/60">
+                        <h3 class="text-xl font-bold text-indigo-700 mb-2 border-b-2 border-indigo-200 pb-1">श्रेणी - 6</h3>
+                        <p class="font-bold text-gray-800 mb-4">शुल्क प्रतिपूर्ति शिकायत (फीस वापसी)</p>
+                        <p class="font-bold text-indigo-800 text-sm mb-2">Format →</p>
+                        <ul class="pl-5 space-y-1 list-disc text-sm text-gray-700">
+                            <li>छात्र का नाम</li>
+                            <li>धर्म, जाति/वर्ग</li>
+                            <li>आवेदन सं०</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>जन्म तिथि</li>
+                            <li>कक्षा</li>
+                            <li>वर्ष (सत्र)</li>
+                            <li>कालेज का नाम</li>
+                            <li>कालेज का पता</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <!-- ====== SECTION 2: PICHHDA VARG KALYAN VIBHAG ====== -->
+                <div class="text-center mb-8 mt-12 border-b-4 border-orange-600 pb-4 page-break-avoid">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-orange-700 mb-2">पिछड़ा वर्ग कल्याण विभाग</h2>
+                </div>
+
+                <!-- OBC Category 1 -->
+                <div class="mb-6 page-break-avoid bg-orange-50/60 p-5 rounded-lg border border-orange-200">
+                    <h3 class="text-xl font-bold text-orange-700 mb-2 border-b-2 border-orange-200 pb-1">श्रेणी - 1</h3>
+                    <p class="font-bold text-lg mb-1 text-gray-800">अन्य पिछड़ा वर्ग (अल्पसंख्यक पिछड़े वर्ग को छोड़कर)</p>
+                    <p class="font-semibold text-md text-orange-800 mb-1">पूर्व दशम छात्रवृत्ति योजना (कक्षा-9, 10)</p>
+                    <p class="text-sm text-gray-600 mb-3 font-semibold">धर्म - हिन्दू, जाति/वर्ग - OBC</p>
+                    
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-orange-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                            <li>छात्र का नाम</li>
+                            <li>धर्म, जाति/वर्ग</li>
+                            <li>आवेदन संख्या</li>
+                            <li>आवेदन दिनांक</li>
+                            <li>जन्मतिथि</li>
+                            <li>कक्षा 9 या 10</li>
+                            <li>कालेज का नाम</li>
+                            <li>कालेज का पता</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- OBC Category 2 -->
+                <div class="mb-6 page-break-avoid bg-amber-50/60 p-5 rounded-lg border border-amber-200">
+                    <h3 class="text-xl font-bold text-amber-700 mb-2 border-b-2 border-amber-200 pb-1">श्रेणी - 2</h3>
+                    <p class="font-bold text-lg mb-1 text-gray-800">अन्य पिछड़ा वर्ग (अल्पसंख्यक पिछड़े वर्ग को छोड़कर)</p>
+                    <p class="font-semibold text-md text-amber-800 mb-1">दशमोत्तर छात्रवृत्ति योजना (कक्षा 11 से लेकर आगे सभी)</p>
+                    <p class="text-sm font-bold text-red-600 mb-1">** (फीस वापसी की शिकायत भी इसी में) **</p>
+                    <p class="text-sm text-gray-600 mb-3 font-semibold">धर्म - हिन्दू, जाति/वर्ग - OBC</p>
+                    
+                    <div class="bg-white p-4 rounded border border-gray-200">
+                        <p class="font-bold text-amber-800 mb-2">Format →</p>
+                        <ul class="grid sm:grid-cols-2 gap-2 text-sm text-gray-700 list-disc pl-5">
+                            <li>छात्र का नाम</li>
+                            <li>पिता का नाम</li>
+                            <li>छात्र का धर्म, जाति, वर्ग</li>
+                            <li>विद्यालय का नाम</li>
+                            <li>विद्यालय का पता</li>
+                            <li>आवेदन संख्या</li>
+                            <li>आवेदन दिनाँक</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // 1. Handle Background Image Upload (For both Screen and Print)
+        const bgUploader = document.getElementById('bgUploader');
+        const captureBg = document.getElementById('capture-bg');
+        const printBgImage = document.getElementById('print-bg-image');
+        
+        bgUploader.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imgUrl = e.target.result;
+                    // Set for screen
+                    captureBg.style.backgroundImage = `url('${imgUrl}')`;
+                    // Set for print (img tag)
+                    printBgImage.src = imgUrl;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 2. Handle Opacity Slider
+        const opacitySlider = document.getElementById('opacitySlider');
+        const captureArea = document.getElementById('capture-area');
+
+        opacitySlider.addEventListener('input', function(event) {
+            const opacityValue = event.target.value / 100;
+            captureArea.style.backgroundColor = `rgba(255, 255, 255, ${opacityValue})`;
+        });
+
+        // 3. Save as High Quality Image using html2canvas
+        function saveAsImage() {
+            const saveBtn = document.getElementById('saveBtn');
+            const originalText = saveBtn.innerHTML;
+            
+            // Show loading state
+            saveBtn.innerHTML = 'Saving...';
+            saveBtn.disabled = true;
+
+            const elementToCapture = document.getElementById('capture-wrapper');
+
+            html2canvas(elementToCapture, {
+                scale: 2, // High resolution
+                useCORS: true,
+                allowTaint: true,
+                backgroundColor: null 
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = 'Samaj_Kalyan_CMHL_Guide.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error saving image: ", err);
+                alert("Image save karne me koi error aayi hai. Kripya dobara koshish karein.");
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>
